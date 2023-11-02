@@ -1,0 +1,94 @@
+[
+	{
+		"id": 1,
+		"name": "Raw Material Warehouse",
+		"position": {
+			"x": -15,
+			"y": 10,
+			"z": -4.5
+		},
+		"cameraPosition": {
+			"x": -7.5,
+			"y": 5.68,
+			"z": 4.85
+		},
+		"infos": [1]
+	},
+	{
+		"id": 2,
+		"name": "Assembly Line",
+		"position": {
+			"x": -42,
+			"y": 10,
+			"z": -4.5
+		},
+		"cameraPosition": {
+			"x": -25,
+			"y": 5.68,
+			"z": 4.85
+		},
+		"infos": [11, 13]
+	},
+	{
+		"id": 3,
+		"name": "Quality Control",
+		"position": {
+			"x": -69,
+			"y": 10,
+			"z": -4.5
+		},
+		"cameraPosition": {
+			"x": -61,
+			"y": 5.68,
+			"z": 4.85
+		},
+		"infos": [8, 2, 12, 5, 7]
+	},
+
+	{
+		"id": 4,
+		"name": "IT Room",
+		"position": {
+			"x": -72,
+			"y": -1,
+			"z": 22
+		},
+		"cameraPosition": {
+			"x": -67,
+			"y": 4.63,
+			"z": 24.4
+		},
+		"infos": []
+	},
+	{
+		"id": 5,
+		"name": "Packaging Area",
+		"position": {
+			"x": -90,
+			"y": 10,
+			"z": -4.5
+		},
+		"cameraPosition": {
+			"x": -80,
+			"y": 5.68,
+			"z": 4.85
+		},
+		"infos": [6, 4]
+	},
+
+	{
+		"id": 6,
+		"name": "Final Product Warehouse",
+		"position": {
+			"x": -110,
+			"y": 10,
+			"z": -4.5
+		},
+		"cameraPosition": {
+			"x": -102,
+			"y": 5.68,
+			"z": 4.85
+		},
+		"infos": [14]
+	}
+]

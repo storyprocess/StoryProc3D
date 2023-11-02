@@ -1,0 +1,32 @@
+:root {
+    --font1: #ffffff; 
+    --bg1: #ffffff; 
+    --font2: #80C8FA; 
+    --bg2: #80C8FA; 
+    --font3: #E5F8FF; 
+    --font4: #D9D9D9; 
+    --bg4: #D9D9D9; 
+    --font5: #31497DCC; 
+    --bg5: #31497DCC; 
+    --font6: #6d6d6d; 
+    --bg6: #6d6d6d; 
+    --font7: #1F2C4580; 
+    --bg7: #1F2C4580; 
+    --font8: #1F2C45CC; 
+    --bg8: #1F2C45CC; 
+    --font9: #0B2255; 
+    --bg9: #0B2255; 
+    --font10: #0074d9; 
+    --bg10: #0074d9; 
+    --font11: #0B37A4; 
+    --bg11: #0B37A4; 
+    --font12: #000000; 
+    --bg12: #000000; 
+
+    --bg13: rgba(3, 10, 27, 0.8);
+    --bg14: rgba(5, 16, 39, 0.85);
+    --bg15: rgba(14, 26, 49, 0.70);
+    --bg16: rgba(0, 0, 0, 0.12);
+
+    --fontFamily1:'Roboto';
+  }

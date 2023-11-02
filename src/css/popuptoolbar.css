@@ -1,0 +1,144 @@
+.popuptoolbar {
+    /* height: 100%; */
+    width: 100%;
+    position: absolute;
+    /* position: fixed; */
+    /* bottom: 28%; */
+    right: 0;
+    /* width: 70%; */
+    display: flex;
+    /* justify-content: space-between; */
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background: transparent;
+    /* flex-wrap: wrap; */
+    justify-content: end;
+    gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.popuptoolbar-container{
+    width: 70%;
+    position: fixed;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+    right: 0;
+    bottom: 15%;
+}
+.popuptoolbar-button {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 1% 2%;
+    margin: 1%;
+    border: none;
+    width: 10%;
+    font-size: 0.838vw;
+    /* border-radius: 10px; */
+    color:var(--font1);
+    font-family: var(--fontFamily1);
+    
+    font-weight: 500;
+    opacity: 0.8;
+    cursor: pointer;
+
+    background: var(--bg14);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(2px);
+    /* Note: backdrop-filter has minimal browser support */
+
+    border-radius: 12px;
+}
+
+.popuptoolbar-button.selected {
+    background: var(--bg10);
+    box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(2px);
+    /* Note: backdrop-filter has minimal browser support */
+
+    border-radius: 12px;
+}
+
+.popuptoolbar-button.selected::before {
+    content: '';
+    position: absolute;
+    top: -8.5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid rgba(25, 74, 179, 0.85);;
+}
+
+.triangle {
+    position: relative;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 8px solid #007bff;
+    margin-top: -2px;
+}
+
+
+.wrapper {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.ButtonList{
+    /* width: 200px; */
+    height: 90px;
+    /* padding: 32px; */
+    /* margin-left: 16px; */
+    background: var(--bg14);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(2px);
+    border-radius: 12px;
+    /* Note: backdrop-filter has minimal browser support */
+    border-width: 3px;
+    /* border-style: solid; */
+    /* border: 2px solid #2E74CB; */
+    /* opacity: 0.6; */
+    transition: 0.3s;
+
+}
+.ButtonList:hover{
+    /* opacity: 1 */
+}
+.ButtonContainer{
+    display: flex;
+    justify-content: end;
+    width: 16%;
+    margin: 0.33%;
+  }
+
+  .popup-wrapper{
+    z-index: 3;
+  }
+
+  .popupArrow{
+    position: fixed;
+    display: block;
+    flex-wrap: wrap;
+    justify-content: end;
+    right: 5px;
+    bottom: 21%;
+  }
+  .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper{
+    background-color: #111a2c !important;
+    border: 10px solid #030711eb !important;
+    color: var(--font1) !important;
+    border-radius: 12px !important;
+    font-family: var(--fontFamily1) !important;
+    top: auto !important;
+    bottom: 120px !important;
+  }

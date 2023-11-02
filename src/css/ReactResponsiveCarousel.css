@@ -1,0 +1,18 @@
+
+.CardContainer{
+    border: 10px solid black;
+    border-radius: 10px;
+    
+}
+
+.CarouselContainer{
+    position: absolute;
+
+}
+.awssld__content{
+    height: 84% !important;
+    top: 8% !important;
+    }
+/* .awssld__content > img{
+object-fit: contain !important;
+} */

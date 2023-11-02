@@ -1,0 +1,74 @@
+{
+  "name": "storyproc",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babylonjs/core": "^6.10.0",
+    "@babylonjs/gui": "^6.10.0",
+    "@babylonjs/gui-editor": "^6.10.0",
+    "@babylonjs/inspector": "^6.10.0",
+    "@babylonjs/loaders": "^6.10.0",
+    "@babylonjs/materials": "^6.10.0",
+    "@babylonjs/serializers": "^6.10.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/base": "^5.0.0-beta.21",
+    "@mui/material": "^5.14.15",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.4.0",
+    "babylonjs-hook": "^0.1.1",
+    "framer-motion": "^10.12.16",
+    "gsap": "^3.12.2",
+    "howler": "^2.2.3",
+    "pure-react-carousel": "^1.30.1",
+    "qrcode.react": "^3.1.0",
+    "react": "^18.2.0",
+    "react-awesome-slider": "^4.1.0",
+    "react-carousel-minimal": "^1.4.1",
+    "react-caroussel": "^1.0.6",
+    "react-circular-progressbar": "^2.1.0",
+    "react-dom": "^18.2.0",
+    "react-ga": "^3.3.1",
+    "react-ga4": "^2.1.0",
+    "react-hooks-global-state": "^2.1.0",
+    "react-responsive-carousel": "^3.2.23",
+    "react-router-dom": "^6.13.0",
+    "react-scripts": "5.0.1",
+    "react-share": "^4.4.1",
+    "react-storyproc-firstlib": "^1.0.1",
+    "react-transition-group": "^4.4.5",
+    "url-exist": "^3.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.22.5",
+    "@babel/preset-react": "^7.22.15"
+  }
+}

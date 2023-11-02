@@ -1,0 +1,123 @@
+[
+	{
+		"id": 1,
+		"name": "𝒊",
+		"length": 4,
+		"textData": "5G-enabled Edge Applications",
+		"position": {
+			"x": -15.65,
+			"y": 2,
+			"z": 4.5
+		}
+	},
+	{
+		"id": 11,
+		"name": "𝒊",
+		"length": 4,
+		"textData": "Simplified Lifecycle Management",
+		"position": {
+			"x": -35,
+			"y": 2,
+			"z": 8
+		}
+	},
+	{
+		"id": 13,
+		"name": "𝒊",
+		"length": 3,
+		"textData": "Unifying IT and OT",
+		"position": {
+			"x": -39,
+			"y": 3.5,
+			"z": -2.5
+		}
+	},
+	{
+		"id": 8,
+		"name": "𝒊",
+		"length": 4,
+		"textData": "Predictive Maintenance",
+		"position": {
+			"x": -70,
+			"y": 1.6,
+			"z": 1.5
+		}
+	},
+	{
+		"id": 2,
+		"name": "𝒊",
+		"length": 3,
+		"textData": "Asset Utilization",
+		"position": {
+			"x": -64,
+			"y": 2.5,
+			"z": 7.5
+		}
+	},
+	{
+		"id": 12,
+		"name": "𝒊",
+		"length": 5,
+		"textData": "Unified, Modern Edge Architecture",
+		"position": {
+			"x": -70,
+			"y": 5,
+			"z": 14
+		}
+	},
+	{
+		"id": 5,
+		"name": "𝒊",
+		"length": 3,
+		"textData": "Edge Security",
+		"position": {
+			"x": -73,
+			"y": 3,
+			"z": 15
+		}
+	},
+	{
+		"id": 7,
+		"name": "𝒊",
+		"length": 3,
+		"textData": "Optimize Investment",
+		"position": {
+			"x": -77,
+			"y": 1,
+			"z": 16
+		}
+	},
+	{
+		"id": 6,
+		"name": "𝒊",
+		"length": 3,
+		"textData": "Digital Twin",
+		"position": {
+			"x": -87,
+			"y": 2.5,
+			"z": -1.25
+		}
+	},
+	{
+		"id": 4,
+		"name": "𝒊",
+		"length": 3,
+		"textData": "Production Quality",
+		"position": {
+			"x": -88,
+			"y": 1.8,
+			"z": 9
+		}
+	},
+	{
+		"id": 14,
+		"name": "𝒊",
+		"length": 3,
+		"textData": "Connected Worker",
+		"position": {
+			"x": -111,
+			"y": 2,
+			"z": 4.5
+		}
+	}
+]

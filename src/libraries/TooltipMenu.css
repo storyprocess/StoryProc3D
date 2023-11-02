@@ -1,0 +1,66 @@
+/* TooltipMenu.css */
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-button {
+	margin-top: 5%;
+  background-color: var(--bg10); /* Beautiful blue color */
+  color: var(--font1);
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+	background: var(--bg5);
+	padding: 9px 16px 9px 16px;
+	border-radius: 12px;
+	display: flex; /* Enable flex layout */
+  align-items: center; /* Vertically center content */
+	font-size: 0.85vw;
+}
+
+.right-arrow {
+  width: 1vw; /* Set the size of the right arrow image */
+  height: 1vw;
+  margin-left: 10px; /* Add spacing between text and arrow */
+}
+
+.tooltip-content {
+  display: block;
+  position: relative;
+  color: var(--font1);
+  width: 160px;
+	background: linear-gradient(0deg, rgba(3, 7, 17, 0.92), rgba(3, 7, 17, 0.92)), linear-gradient(41.48deg, #0F2C68 -1.61%, rgba(29, 63, 133, 0.84603) 7.93%, rgba(183, 206, 255, 0.6) 12.06%, rgba(20, 46, 100, 0.580451) 24.38%, rgba(0, 0, 0, 0) 60.34%);
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 100%; /* Position to the right of the button */
+	border: 2px solid;
+	border-image-source: linear-gradient(41.48deg, #0F2C68 -1.61%, rgba(29, 63, 133, 0.84603) 7.93%, rgba(183, 206, 255, 0.6) 12.06%, rgba(20, 46, 100, 0.580451) 24.38%, rgba(0, 0, 0, 0) 60.34%);
+	box-shadow: 0px 2px 4px 0px #00000026;
+	border-radius: 12px;
+}
+
+.tooltip-content ul {
+	margin: 7%;
+  list-style-type: none;
+  padding: 0;
+}
+
+.tooltip-content li {
+	margin: 5%;
+  padding: 10px;
+  text-align: center;
+	background: var(--bg7);
+	border: none;
+	border-radius: 5px;
+	color: var(--font2);
+	cursor: pointer;
+}
+
+.tooltip-container.active .tooltip-content {
+  display: block;
+}
