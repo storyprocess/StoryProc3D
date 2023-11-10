@@ -202,7 +202,9 @@ const Home = (props) => {
 			container.cornerRadius = 20;
 			sectionNameUI.fontSize = 12;
 			container.background = '#071122CC';
-			sectionNameUI.text = props.extraData[hotspotLabelIndex].short_label;
+			if(hotspotLabelIndex == -1) {
+				sectionNameUI.text = props.extraData[hotspotLabelIndex].short_label;
+			}
 			// sectionNameUI.text = usecase.textData;
 			sectionNameUI.color = '#FFFFFF';
 		});
