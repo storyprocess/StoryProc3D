@@ -1,4 +1,4 @@
-import ToolbarManu from "./ToolBarManu";
+// import ToolbarManu from "./ToolBarManu";
 
 import "../css/UrbanMobility.css";
 import { setGlobalState, useGlobalState } from "../state";
@@ -15,6 +15,7 @@ import { setTourState } from "../hooks/animations";
 import { useState } from "react";
 import { BaseAPI } from "../assets/assetsLocation";
 import Landscape from "./Landscape";
+import MainPage from "./MainPage";
 
 const Home = lazy(() => import("../pages/Home"));
 
@@ -192,7 +193,7 @@ console.log("count",count);
               <Routes location={location} key={location.pathname}>
                 <Route
                   path="/:toPress?/:loadID?"
-                  element={<ToolbarManu extraData={extraData} />}
+                  element={<MainPage extraData={extraData} />}
                 />
               </Routes>
             )}

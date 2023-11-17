@@ -411,15 +411,15 @@ const Home = (props) => {
 	const showSectionUIs = (scene) => {
 		const advancedTexture = scene.getTextureByName('myUI');
 
-		sections.forEach((section) => {
-			const container = advancedTexture.getControlByName(`section-${section.id}-container`);
-			container.isVisible = true;
-		});
+		// sections.forEach((section) => {
+		// 	const container = advancedTexture.getControlByName(`section-${section.id}-container`);
+		// 	container.isVisible = true;
+		// });
 
-		usecases.forEach((usecase) => {
-			const container = advancedTexture.getControlByName(`usecase-${usecase.id}-container`);
-			container.isVisible = true;
-		});
+		// usecases.forEach((usecase) => {
+		// 	const container = advancedTexture.getControlByName(`usecase-${usecase.id}-container`);
+		// 	container.isVisible = true;
+		// });
 	};
 
 	const onSceneReady = useCallback(async (s) => {
