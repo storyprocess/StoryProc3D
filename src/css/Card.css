@@ -38,7 +38,7 @@
     height: 50%;
     /* margin: 5%; */
     /* padding: 1%; */
-    background: var(--bg13);
+    background: var(--bgWhite);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(2px);
     /* Note: backdrop-filter has minimal browser support */
@@ -84,7 +84,7 @@
     /* or 156% */
 
 
-    color: var(--font2);
+    color: var(--fontToolbar);
 }
 
 .divider{
@@ -94,5 +94,5 @@
     left: 2%;
     margin-top: 3%;
 
-    background: var(--bg2);
+    background: var(--bgSeparator);
 }

@@ -30,9 +30,11 @@ import { setGlobalState, useGlobalState } from '../state';
 import { Howl, Howler } from 'howler';
 import { BaseAPI, StoryProc3D } from '../assets/assetsLocation';
 import {
-	ClientOfficeAnimation,
-	OwnOfficeAnimation2,
-	TradeshowAnimationTest
+	// ClientOfficeAnimation,
+	// OwnOfficeAnimation2,
+	// TradeshowAnimationTest,
+	Clientofficefinal,
+	Marker
 } from '../models';
 
 var loader = new SceneLoader();
@@ -58,6 +60,9 @@ const Home = (props) => {
 	const [isSectionSelected, setIsSectionSelected] = useState(false);
 	const [sectionData, setSectionData] = useState();
 	const [counter, setCounter] = useState(0);
+	const [count, setCount] = useState(0);
+	const [isWelcome, setIsWelcome] = useState(true);
+
 	/*const [titleOne, setTitleOne] = useState([
 		"Dell Edge Virtual Experience Center for Manufacturing",
 		"Dell Edge Virtual Experience Center for Manufacturing",
@@ -98,6 +103,24 @@ const Home = (props) => {
         "Assembly line workers are getting on the job...",
         "Finishing...",
 	  ]);
+	  let WelcomeData = [
+		"Do you sell enterprise solutions to cross-functional teams?",
+		"Explore this experience center as per your needs and interest",
+		"All information and stories are available via this menu. ",
+		"Hit Reset anytime to stop any running story and come back to the top level view",
+		"Select any Use case to get a complete overview of the use case",
+		"Let’s start with an overview",
+		"Remember, you can interrupt by pressing Reset anytime",
+	  ];
+	  let WelcomeData1 = [
+		"Do you sell enterprise solutions to cross-functional teams?",
+		"Explore this experience center as per your needs and interest",
+		"All information and stories are available via this menu. ",
+		"Hit Reset anytime to stop any running story and come back to the top level view",
+		"Select any Use case to get a complete overview of the use case",
+		"Let’s start with an overview",
+		"Remember, you can interrupt by pressing Reset anytime",
+	  ];
 	const handleTourStart = () => {
 		hideSectionUIs(scene);
 		hideInfoUIs(scene);
@@ -118,23 +141,22 @@ const Home = (props) => {
 		// 1 - load factory model first
 		setCounter(1)
 		setIsTitle(true) 
-		const factoryModel = await SceneLoader.ImportMeshAsync('', ClientOfficeAnimation, '', scene);
+		const factoryModel = await SceneLoader.ImportMeshAsync('', Clientofficefinal, '', scene);
 		factoryModel.meshes[0].name = 'factory-model';
 		
-		setIsLoading(false);
 		// setGlobalState('IsLoading', false);
 		// setIsTitle(true)
 		// setGlobalState("IsModelLoaded",false)
 	
 		// 2 - load guided vehicles
 		setCounter(2)
-		const guidedVehiclesModel = await SceneLoader.ImportMeshAsync('', OwnOfficeAnimation2); // moved up
-		guidedVehiclesModel.meshes[0].name = 'guided-vehicles';
+		// const guidedVehiclesModel = await SceneLoader.ImportMeshAsync('', OwnOfficeAnimation2); // moved up
+		// guidedVehiclesModel.meshes[0].name = 'guided-vehicles';
 
 		// 3 - load packing robots
 		setCounter(3)
-		const packingRobotsModel = await SceneLoader.ImportMeshAsync('', TradeshowAnimationTest);
-		packingRobotsModel.meshes[0].name = 'packing-robots';
+		// const packingRobotsModel = await SceneLoader.ImportMeshAsync('', TradeshowAnimationTest);
+		// packingRobotsModel.meshes[0].name = 'packing-robots';
 
 		// 4 - load workers
 		setCounter(4)
@@ -143,7 +165,14 @@ const Home = (props) => {
 		// ]);
 		// const seatedWorker = workersIT[0].meshes[0];
 
-		setGlobalState('IsLoading', false);
+		// setGlobalState('IsLoading', false);
+		const hotspotGlb = await SceneLoader.ImportMeshAsync('', Marker);
+		const hotspotMesh = hotspotGlb.meshes[0]
+		hotspotMesh.name = 'hotspotMesh';
+		hotspotMesh.isVisible = false;
+		hotspotMesh.billboardMode = 7;
+		setIsLoading(false);
+
 		showSectionUIs(scene);
 		setIsTitle(false);
 	};
@@ -494,19 +523,66 @@ const Home = (props) => {
 	/**
 	 * Will run on every frame render.  We are spinning the box on y-axis.
 	 */
+	useEffect(()=>{
+		if (!isLoading && !isWelcome) {
+					// setIsLoading(false);
+				setGlobalState('IsLoading', false);
+		}
+			},[isLoading,isWelcome])
 	const onRender = (scene) => {};
-
+	const handleNext = () => {
+		if(count == 5){
+			setIsWelcome(false)
+			setIsLoading(false);
+			setGlobalState('IsLoading', false);
+			setTimeout(() => {
+				document.getElementById("tour").click()
+			}, 2000);
+		}
+		setCount(count + 1);
+	  };
+	  const handlePrev = () => {
+		setCount(count - 1);
+	  };
+	  const handleSkip = () => {
+		setIsWelcome(false)
+		// setIsLoading(false);
+		// setGlobalState('IsLoading', false);
+	  };
 	return (
     <div className={styles.app__container}>
-      {isLoading && <Spinner />}
-      {isTitle &&
-        <div className={styles.hover_des_container}>
-          <div className={styles.hover_des}>
-            <div className={styles.Title_One}>{titleOne[counter]}</div>
-            <div className={styles.Title_Two}>{titleTwo[counter]}</div>
-          </div>
-        </div>
-      }
+{count >= 0 && isWelcome && (
+				<div className='Welcome-card-container' style={{zIndex: 99999999999}}>
+				 <div className="Welcome-Tour-box-title">
+                   <div className='wel-title'> {WelcomeData[count]}</div>
+                   <div className='wel-description'>{WelcomeData1[count]}</div>
+                 </div>
+                 <div>
+                   <div
+                     style={{ display: "flex", justifyContent: "space-between",cursor:'pointer' }}
+                   >
+					<div className='welcome-page'>{count+1}/6</div>
+					<div style={{display:'flex',justifyContent:'end',alignItems:'center',width:'100%',gap:'5%'}}>
+                     <div
+                       className="welcome-btn"
+					   style={{color:'#0C2055'}}
+                       onClick={() => handleSkip()}
+					   >
+                       Skip
+                     </div>
+                     <div
+                       className="welcome-next-btn"
+                       onClick={() => handleNext()}
+					   >
+                       {count == 5 ? "Start tour" : "Next"}
+						 </div>
+                     </div>
+                   </div>
+                 </div>
+				</div>
+
+            			)}
+      {(isLoading || isWelcome) && <Spinner isWelcome={isWelcome} isLoading={isLoading}/>}
 
       {uCTourId > 0 ? (
         <div className={styles.hover_des_container}>

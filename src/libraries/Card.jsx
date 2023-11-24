@@ -125,7 +125,7 @@ function Card(props) {
       >
 				<div
 					id="panel-container"
-					style={{ transition: transitionValue, transform: transformValue }}
+					style={{ transition: transitionValue, transform: transformValue,boxShadow:"-30px 30px 35px -10px #00000066" }}
 				>
 					<div
 						className={`card ${

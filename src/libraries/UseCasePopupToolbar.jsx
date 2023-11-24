@@ -24,7 +24,8 @@ const UseCasePopupToolbar = (props) => {
   const [showUC, setShowUC] = useGlobalState("showUC");
   const [startUC, setStartUC] = useState(false);
   const [useCaseID, setUseCaseID] = useState(null);
-  const [modelUseCaseId, setModelUseCaseId] = useGlobalState("modelUseCaseId");
+  const [HoverUseCaseId, setModelUseCaseId] = useGlobalState("HoverUseCaseId");
+  const [HoverLabel, setHoverLabel] = useGlobalState("HoverLabel");
 
   const [fetched, setFetched] = useGlobalState("fetched");
   const [isButtonContainer, setIsButtonContainer] =
@@ -39,13 +40,14 @@ const UseCasePopupToolbar = (props) => {
   const [contentOverflow, setContentOverflow] = useState(false);
 
   useEffect(() => {
-    if (modelUseCaseId) {
-      handleUseCaseButtonClick(modelUseCaseId);
+    if (HoverUseCaseId) {
+      console.log("HoverUseCaseId",HoverUseCaseId);
+      handleUseCaseButtonClick(HoverUseCaseId);
     }
-  }, [modelUseCaseId]);
+  }, [HoverUseCaseId]);
+
 
 	useEffect(() => {
-		// console.log(loadID);
     if (loadID != null) {
       handleUseCaseButtonClick(loadID);
     }
@@ -91,7 +93,7 @@ const UseCasePopupToolbar = (props) => {
     }
     return filteredArr;
   }, [currentPage]);
-
+console.log("useCaseSectionData",useCaseSectionData);
   return (
     <div className="wrapper popup-wrapper">
       {startUC && (
@@ -106,6 +108,7 @@ const UseCasePopupToolbar = (props) => {
         <div className="popuptoolbar-container" style={{right:currentPage >= 1 || useCaseSectionData?.length == 12 && contentOverflow  ? '45px' : '0px'}}>
         <Menu
         id="fade-menu"
+        className="popup-container"
         MenuListProps={{
           'aria-labelledby': 'fade-button',
         }}
@@ -117,7 +120,7 @@ const UseCasePopupToolbar = (props) => {
           {useCaseSectionData &&
             useCaseSectionData.map((element) => {
               return isButtonContainer ? (
-                <MenuItem  onClick={()=>{props.handleClose();handleUseCaseButtonClick(element.use_case_id)}}>{element.short_label}</MenuItem>
+                <MenuItem  onClick={()=>{props.handleMenuItemClick();handleUseCaseButtonClick(element.use_case_id)}}>{element.short_label}</MenuItem>
 
                 // <UseCasePopupToolbarButton
                 //   key={element.use_case_id}
@@ -134,7 +137,6 @@ const UseCasePopupToolbar = (props) => {
               );
             })}
         </Menu>
-
         </div>
           <div className="popupArrow">
           {currentPage >= 1 && <div

@@ -12,7 +12,7 @@ import ucData from "./ucData";
 import Close from "../assets/Close.png";
 import Button from "./Button";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
-import { BaseAPI, StoryProc3D, assetsLocation } from "../assets/assetsLocation";
+import { BaseAPI, SourceDb, assetsLocation } from "../assets/assetsLocation";
 import ReactAwesomeCarousel from "./ReactAwesomeCarousel";
 
 function UseCase(props) {
@@ -44,7 +44,7 @@ function UseCase(props) {
 
   const fetchStepData = async (ucid) => {
     // fetch config files
-    const apiurl = `${BaseAPI}use_case_stories/${String(ucid)}?db=${StoryProc3D}`;
+    const apiurl = `${BaseAPI}use_case_stories/${String(ucid)}?db=${SourceDb}`;
     const response = await fetch(apiurl);
     if (!response.ok) {
       throw new Error("Data could not be fetched.");
@@ -131,7 +131,7 @@ function UseCase(props) {
 
   useEffect(() => {
     const src_url =
-      `${assetsLocation}${StoryProc3D}/audio/uc` +
+      `${assetsLocation}${SourceDb}/audio/uc` +
       String(props.useCaseID) +
       "/";
       if (stepData) {
@@ -194,14 +194,15 @@ function UseCase(props) {
             (stepData && stepData[String(currentStep)][0]?.step_type == "PS")
           ) {
             console.log("setSolutionGraphicsData",solutionGraphicsData);
-            if(solutionGraphicsData){
-              switch(carousel) {
-                case "1":
-                  document.getElementsByClassName("control-prev")[0].click();
-                  case "2":
-                    document.getElementsByClassName("awssld__controls__arrow-left")[0].click();
-                  }
-            }
+            console.log("carousel",carousel);
+            // if(solutionGraphicsData){
+            //   switch(carousel) {
+            //     case "1":
+            //       document.getElementsByClassName("control-prev")[0].click();
+            //       case "2":
+            //         document.getElementsByClassName("awssld__controls__arrow-left")[0].click();
+            //       }
+            // }
           }
     }
   }, [currentStep,audioClipList, solutionGraphicsData]);
@@ -232,12 +233,12 @@ function UseCase(props) {
         ) {
           setGlobalState("IsAutoPlay", true);
         }
-        switch(carousel) {
-          case "1":
-            document.getElementsByClassName("control-next")[0].click();
-            case "2":
-              document.getElementsByClassName("awssld__controls__arrow-right")[0].click();
-            }
+        // switch(carousel) {
+        //   case "1":
+        //     document.getElementsByClassName("control-next")[0].click();
+        //     case "2":
+        //       document.getElementsByClassName("awssld__controls__arrow-right")[0].click();
+        //     }
       }
       idx++;
       playClip(idx);
@@ -351,7 +352,7 @@ function UseCase(props) {
       }
 			
 		if(currentStep == 1) {
-			const src_url = `${assetsLocation}${StoryProc3D}/audio/uc`+String(props.useCaseID) +"/10.mp3";
+			const src_url = `${assetsLocation}${SourceDb}/audio/uc`+String(props.useCaseID) +"/10.mp3";
 			let updatedAudioVO1=[...audioVO1];
 			try{
 				audioVO1[props.useCaseID-1].unload();
@@ -412,7 +413,7 @@ function UseCase(props) {
     setGlobalState("playBgMusic", true);
     props.setStartUC(false);
     setGlobalState("useCase", 0);
-    setGlobalState("modelUseCaseId", 0);
+    setGlobalState("HoverUseCaseId", 0);
   };
   const onClose = () => {
     props.setStartUC(false);
@@ -420,7 +421,7 @@ function UseCase(props) {
     setShowCTA(false);
     setGlobalState("IsHomeButtonClick",true);
     setGlobalState("useCase", 0);
-    setGlobalState("modelUseCaseId", 0);
+    setGlobalState("HoverUseCaseId", 0);
     // stopTour()
   };
 
@@ -444,7 +445,7 @@ function UseCase(props) {
             <div className="cat-app">
               {stepData && <div className="box-wrap">
                 <div className="box-buttons-group">
-                  <svg
+                  {/* <svg
                     onClick={goToPrevious}
                     width="30"
                     height="30"
@@ -472,15 +473,29 @@ function UseCase(props) {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
-                  </svg>
-                  <svg
-                    onClick={goToNext}
+                  </svg> */}
+                  <svg onClick={goToPrevious} className="leftSvg" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="30" height="30" rx="15" transform="matrix(-1 0 0 1 30 0)" fill="#1033A4" fill-opacity="0.4"/>
+<rect x="-0.5" y="0.5" width="29" height="29" rx="14.5" transform="matrix(-1 0 0 1 29 0)" stroke="white" stroke-opacity="0.4"/>
+<path d="M13.6004 11.8L10.4004 15L13.6004 18.2" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18.6004 11.8L15.4004 15L18.6004 18.2" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+                  <svg onClick={goToNext} className="blink" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="30" height="30" rx="15" fill="#1033A4" fill-opacity="0.4"/>
+<rect x="0.5" y="0.5" width="29" height="29" rx="14.5" stroke="white" stroke-opacity="0.4"/>
+<path d="M16.3996 11.8L19.5996 15L16.3996 18.2" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M11.3996 11.8L14.5996 15L11.3996 18.2" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+                  {/* <svg
+                    
                     width="30"
                     height="30"
                     viewBox="0 0 30 30"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="blink"
+                    
                   >
                     <rect width="30" height="30" rx="8" fill="#192B4E" />
                     <path
@@ -495,7 +510,7 @@ function UseCase(props) {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
-                  </svg>
+                  </svg> */}
                 </div>
                 <SwitchTransition mode={"out-in"}>
                   <CSSTransition

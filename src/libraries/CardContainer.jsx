@@ -28,6 +28,7 @@ function CardContainer(props) {
   }, [currentPage, props.sectionData]);
 
 	const handleUcClick = ((id) => {
+    console.log("calllllllllllllllllllllllll");
 		if(selectedCard == id) {
 			setSelectedCard(null);
 			setGlobalState("mapped_use_case",null);
@@ -105,7 +106,7 @@ function CardContainer(props) {
       <div className="pagination-button">
         {currentPage >= 1 && (
           <div
-            className="page-up"
+            className="page-up blink"
             onClick={() => {
               setCurrentPage((index) => index - 1);
               setIsHoverUp(false);
@@ -123,7 +124,7 @@ function CardContainer(props) {
         )}
         {data?.length == 6 && contentOverflow && (
           <div
-            className="page-down"
+            className="page-down blink"
             onClick={() => {
               setCurrentPage((index) => index + 1);
               setIsHoverDown(false);

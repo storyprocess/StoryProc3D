@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "../css/ReactResponsiveCarousel.css";
 import { useGlobalState } from "../state";
-import { StoryProc3D, assetsLocation } from "../assets/assetsLocation";
-
+import { SourceDb, assetsLocation } from "../assets/assetsLocation";
+import FullScreenIcon from "../assets/full-screen-icon-11806.png"
+import Tree from "../assets/tree-736885_1920.jpg"
 const Card = ({ item, index }) => {
   const [applicationDB, setApplicationDB] = useGlobalState("ApplicationDB");
 
@@ -43,9 +44,25 @@ const Card = ({ item, index }) => {
 
 const ReactResponsiveCarousel = ({ solutionGraphicsData }) => {
   const [isAutoPlay, setIsAutoPlay] = useGlobalState("IsAutoPlay");
+  const [applicationDB, setApplicationDB] = useGlobalState("ApplicationDB");
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [imagePosition, setImagePosition] = useState(0);
+  const handleFullScreen=()=>{
+    console.log("callllllllllll");
+  }
+  document.onkeydown = function(evt) {
+    console.log();
+    if(evt.keyCode == 27){
+      setIsFullScreen(false)
+    }
+}
 // console.log("solutionGraphicsData",solutionGraphicsData);
   return (
+    <>
+      {/* {isFullScreen && <img className="full-screen-img" src={Tree}/>} */}
+      {isFullScreen && <img className="full-screen-img" src={`${assetsLocation}${applicationDB}/graphics/${solutionGraphicsData[imagePosition].graphic}`}/>}
     <div className="CarouselContainer">
+      <div className="full-screen" onClick={()=>setIsFullScreen(true)}><img width={"20px"} height={"20px"} src={FullScreenIcon}/></div>
       <Carousel
         width="auto"
         dynamicHeight={false}
@@ -59,6 +76,7 @@ const ReactResponsiveCarousel = ({ solutionGraphicsData }) => {
         showThumbs={false}
         showStatus={false}
         selectedItem={0}
+        onChange={(e)=>setImagePosition(e)}
       >
         {solutionGraphicsData &&
           solutionGraphicsData.map((item, index) => {
@@ -68,6 +86,7 @@ const ReactResponsiveCarousel = ({ solutionGraphicsData }) => {
 })}
       </Carousel>
     </div>
+    </>
   );
 };
 export default ReactResponsiveCarousel;

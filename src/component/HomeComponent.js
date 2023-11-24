@@ -133,11 +133,11 @@ console.log("count",count);
             animate={{ opacity: 1 }}
             transition={{ duration: 2 }}
           >
-            <div className="blur-ell1 manu-blur"></div>
+            {/* <div className="blur-ell1 manu-blur"></div>
             <div className="blur-ell3"></div>
             <div className="blur-ell4"></div>
-            <div className="blur-rect"></div>
-            {count >= 0 && isWelcome && !IsLoading &&(
+            <div className="blur-rect"></div> */}
+            {/* {count >= 0 && isWelcome && !IsLoading &&(
               <div className="Welcome-card" style={{ zIndex: 999 }}>
                 <div className="Tour-box-title">
                   {WelcomeData[count]} <br/>
@@ -169,7 +169,7 @@ console.log("count",count);
                 </div>
 				<input type="checkbox" value={"Never show this again"} onChange={(e)=>{}}/><label>Never show this again</label>
               </div>
-            )}
+            )} */}
             {/* <button
 							className="mf-nav-button"
 							onClick={() => {
@@ -184,7 +184,7 @@ console.log("count",count);
 							<img width={'20px'} height={"20px"} src={homeIcon}></img>
 							{navbuttontext}
 						</button> */}
-            <h1 className="um-head">StoryProc</h1>
+            {/* <h1 className="um-head">StoryProc</h1> */}
             {/* <p className="um-sub">Streamline traffic, enforce regulations, and optimize transportation systems.</p> */}
 
             {IsLoading ? (

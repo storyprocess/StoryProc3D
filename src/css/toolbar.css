@@ -1,16 +1,15 @@
-.toolbar {
+/* .toolbar {
     position: fixed;
     bottom: 0;
     right: 0%;
     width: 60%;
     height: 10%;
     display: flex;
-    /* justify-content: space-between; */
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     background: transparent;
-}
+} */
 .urban-toolbar{
     bottom: 4.5% !important;
     width: 65% !important;
@@ -43,12 +42,12 @@
     font-size: 1.042vw;
     /* border-radius: 10px; */
     font-family: var(--fontFamily1);
-    color:var(--font1);
+    color:var(--fontWhite);
     font-weight: 500;
     opacity: 0.8;
     cursor: pointer;
 
-    background: var(--bg14);
+    background: var(--bgWhite);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
     
 
@@ -59,11 +58,11 @@
 }
 
 .toolbar-button.selected {
-    background: var(--bg11);
+    background: var(--bgDark);
     box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(2px);
     /* Note: backdrop-filter has minimal browser support */
-
+    opacity: 1;
     border-radius: 12px;
 }
 
@@ -73,9 +72,10 @@
     top: -8.5px;
     left: 50%;
     transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 10px solid rgba(25, 74, 179, 0.85);;
+    border-bottom: 10px solid rgba(25, 74, 179, 0.85);
 }
 
 .triangle {

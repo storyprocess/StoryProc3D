@@ -8,7 +8,7 @@
 .left-container{
     position: fixed;
     width: 100%;
-    top: 15%;
+    top: 25%;
     left: 5%;
     max-width: 50%;
 }
@@ -17,7 +17,7 @@
     width: 100%;
     height: 15%;
     text-align: left;
-    color: var(--font1);
+    color: var(--fontWhite);
     font-weight: 300;
     font-size: 0.8vw;
     font-family: var(--fontFamily1);
@@ -29,7 +29,7 @@
     padding: 3%;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    background: var(--bg13);
+    background: var(--bgWhite);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(2px);
 
@@ -40,7 +40,7 @@
     width: 100%;
     height: 85%;
     text-align: left;
-    background: var(--bg11);
+    background: var(--bgDark);
     padding: 3%;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -49,7 +49,7 @@
     justify-content: flex-start;
     overflow: scroll;
     margin-bottom: 5%;
-    background: var(--bg13);
+    background: var(--bgWhite);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(2px);
 }
@@ -63,7 +63,7 @@
     font-weight: 700;
     font-size: 1vw;
     font-family: var(--fontFamily1);
-    color: var(--font2);
+    color: var(--fontToolbar);
     margin-bottom: 1%;
 
 }
@@ -72,7 +72,7 @@
     font-weight: 400;
     font-size: 0.8vw;
     font-family: var(--fontFamily1);
-    color:var(--font1);
+    color:var(--fontWhite);
     margin-bottom: 4%;
     
 }
@@ -88,9 +88,9 @@
 
 .App {
     text-align: center;
-    color: var(--font1);
+    color: var(--fontWhite);
     padding: 10px;
-    background: var(--bg1);
+    background: var(--bgWhite);
     /* z-index: 1; */
     position: absolute;
     width:  -webkit-fill-available;
@@ -111,10 +111,11 @@
     padding: 31px 32px 53px 32px;
     /* max-width: 500px; */
     width: 30%;
-    background: var(--bg13);
+    background: var(--bgMedium);
+    opacity: 0.8;
     text-align: left;
     font-family: var(--fontFamily1);
-    box-shadow: 10px 10px 54px -6px rgba(0,0,0,1);
+    box-shadow: -30px 20px 28px -10px #00000066 !important;
     position: fixed;
     top: 10%;
     right: 10%;
@@ -131,7 +132,8 @@
     padding: 15px;
     /* max-width: 500px; */
     width: 45%;
-    background: var(--bg13);
+    background: var(--bgMedium);
+    opacity: 0.8;
     text-align: left;
     font-family: var(--fontFamily1);
     box-shadow: 10px 10px 54px -6px rgba(0,0,0,1);
@@ -139,26 +141,79 @@
     bottom: 13%;
   }
   .Welcome-card {
-      --angle: 0deg;
-      /* border: 3px solid; */
-    /* border-image: linear-gradient(var(--angle),rgba(15, 44, 104, 1),rgba(29, 63, 133, 0.846),
-    rgba(183, 206, 255, 0.6),
-    rgba(20, 46, 100, 0.5805),
-    rgba(0, 0, 0, 0)) 1;
-      transform: perspective(75em) rotateY(-1deg);
-      animation: 4s rotate linear infinite; */
-    padding: 15px;
-    /* max-width: 500px; */
-    width: 40%;
-    background: var(--bg13);
-    text-align: left;
-    font-family: var(--fontFamily1);
-    box-shadow: 10px 10px 54px -6px rgba(0,0,0,1);
-    position: absolute;
-    top: 40%;
-    left:30%;
-  }
-  
+    --angle: 0deg;
+    /* border: 3px solid; */
+  /* border-image: linear-gradient(var(--angle),rgba(15, 44, 104, 1),rgba(29, 63, 133, 0.846),
+  rgba(183, 206, 255, 0.6),
+  rgba(20, 46, 100, 0.5805),
+  rgba(0, 0, 0, 0)) 1;
+    transform: perspective(75em) rotateY(-1deg);
+    animation: 4s rotate linear infinite; */
+  padding: 15px;
+  /* max-width: 500px; */
+  width: 40%;
+  background: var(--bgWhite);
+  text-align: left;
+  font-family: var(--fontFamily1);
+  box-shadow: 10px 10px 54px -6px rgba(0,0,0,1);
+  position: absolute;
+  top: 40%;
+  left:30%;
+}
+  .Welcome-card-container {
+    --angle: 0deg;
+  padding: 2% 1.5%;
+  /* padding: 32px 15px 24px 24px; */
+  width: 25%;
+  /* height: 19%; */
+  /* width: 366px; */
+  background: var(--bgWhite);
+  text-align: left;
+  font-family: var(--fontFamily1);
+  box-shadow: 10px 10px 54px -6px rgba(0,0,0,1);
+  position: absolute;
+  top: 40%;
+  left:38%;
+  border-radius: 12px;
+}
+.Welcome-card-container::before {
+  content: '';
+  position: absolute;
+  bottom: -14px;
+  left: 3%;
+  /* transform: translateX(-455%); */
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 15px solid rgb(255, 255, 255);
+}
+.welcome-next-btn{
+  background: var(--bgDark);
+  padding: 3%;
+  border-radius: 6px;
+  /* width: 20%; */
+  /* margin-right: 10%; */
+  /* margin-left: 10%; */
+  font-size: 1vw;
+}
+.welcome-btn{
+  font-size: 1vw;
+}
+.welcome-page{
+  color: var(--bgLight);
+}
+.wel-title{
+font-size: 1.3vw;
+font-family: var(--fontFamily1);
+font-weight: 500;
+margin-bottom: 3%;
+}
+.wel-description{
+  font-size: 0.9vw;
+  font-family: var(--fontFamily1);
+  font-weight: 400;
+  margin-bottom: 5%;
+
+}
   @keyframes rotate {
       to {
           --angle: 360deg;
@@ -177,23 +232,29 @@
     justify-content: end;
     margin-right: 1px;
     font-size: 0.833vw;
-    gap: 4px;
+    gap: 6px;
     align-items: center;
   }
   
   .leftSvg {
-    width: 10%;
-    height: 10%;
+    width: 8%;
+    height: 8%;
   }
   
   .box-title {
-    color: var(--font1);
+    color: var(--fontWhite);
     font-size: 1.667vw;
     font-weight: 500;
     margin-bottom: 38px;
   }
+  .Welcome-Tour-box-title {
+    color: var(--bgMedium);
+    font-size: 1.4vw;
+    font-weight: 500;
+    margin-bottom: 15px;
+  }
   .Tour-box-title {
-    color: var(--font1);
+    color: var(--fontWhite);
     font-size: 1.4vw;
     font-weight: 500;
     margin-bottom: 15px;
@@ -201,7 +262,7 @@
 
 
   .value-box-title {
-    color: var(--font1);
+    color: var(--fontWhite);
     font-size: 1.667vw;
     font-weight: 500;
     margin-top: 5%;
@@ -209,7 +270,7 @@
   }
   
   .value-line{
-    background: var(--bg8);
+    background: var(--bgMedium);
     margin-top: 5%;
     border: 1px solid rgba(48, 61, 87, 1);
   }
@@ -233,23 +294,23 @@
     padding: 15px;
     font-size: 0.938vw;
     border-radius: 6px;
-    background: var(--bg15);
+    background: var(--bgDark);
   }
   .box-content>div {
     padding: 24px;
     font-size: 0.938vw;
     border-radius: 6px;
-    background: var(--bg15);
+    background: var(--bgDark);
   }
   
   .content-title {
-    color: var(--font2);
+    color: var(--fontWhite);
     font-weight: 700;
     margin-bottom: 12px;
   }
   
   .content-description {
-    color: var(--font3);
+    color: var(--fontLight);
   }
   
   .box-content::-webkit-scrollbar {
@@ -282,9 +343,11 @@
     width: 25%;
     border-radius: 12px;
     border: 2px;
-    background: linear-gradient(0deg, rgba(3, 10, 27, 0.85), rgba(3, 10, 27, 0.85)),
+    background: var(--bgMedium);
+    opacity: 0.8;
+    /* background: linear-gradient(0deg, rgba(3, 10, 27, 0.85), rgba(3, 10, 27, 0.85)),
     linear-gradient(40.07deg, #0F2C68 -3.97%, rgba(29, 63, 133, 0.84603) 5.79%, rgba(183, 206, 255, 0.6) 10.01%, rgba(20, 46, 100, 0.580451) 22.62%, rgba(0, 0, 0, 0) 59.42%);
-    ;
+    ; */
     padding: 2% 1.5% 2% 1.5%;
     position: fixed;
     left: 36%;
@@ -296,14 +359,14 @@
 width: 96%;
 height: 68px;
 border-radius: 6px;
-background: var(--bg8);
+background: var(--bgDark);
 font-family: var(--fontFamily1);
 font-size: 0.8999999999999999vw;
 font-weight: 700;
 line-height: 23px;
 letter-spacing: 0em;
 text-align: left;
-color: var(--font1);
+color: var(--fontWhite);
 margin: 6px;
 padding-left: 24px;
 border-radius: 6px;
@@ -322,7 +385,7 @@ border: 0px;
   height: 100%;
 }
 .CTA-Title{
-  color: var(--font1);
+  color: var(--fontWhite);
   font-size: 1.667vw;
   font-weight: 500;
   display: flex;
@@ -331,15 +394,24 @@ border: 0px;
 }
 
 .blink {
-  width: 10%;
-  height: 10%;
+  width: 8%;
+  height: 8%;
   animation: crescendo 1s alternate infinite ease-in;
 }
+/* .highlight {
+  width: 8%;
+  height: 8%;
+  animation: highlighter 1s alternate infinite ease-in;
+} */
 
 @keyframes crescendo {
-  0%   {transform: scale(.8);}
+  0%   {transform: scale(1);}
   100% {transform: scale(1.2);}
 }
+/* @keyframes highlighter {
+  0%   {transform: font-size(1);}
+  100% {transform: font-size(1.2);}
+} */
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -354,5 +426,5 @@ border: 0px;
 ::-webkit-scrollbar-thumb {
   -webkit-border-radius: 10px;
   border-radius: 10px;
-  background: var(--bg6); 
+  background: var(--bgWhite); 
 }

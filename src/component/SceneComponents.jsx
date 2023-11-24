@@ -40,18 +40,18 @@ const SceneComponent = ({
 			0,
 			1,
 			10,
-			new Vector3(-64, 2.5, 7.5),
+			new Vector3(-70, 10, 0),
 			scene
 		);
-		arcRotateCamera.minZ = 0.1;
-		arcRotateCamera.alpha = 1.55;
-		arcRotateCamera.beta = 0.95;
-		arcRotateCamera.radius = 120;
+		arcRotateCamera.minZ = 0;
+		arcRotateCamera.alpha = 1.57;
+		arcRotateCamera.beta = 0.8;
+		arcRotateCamera.radius = 70;
 
 		// set limnitations for camera
-		arcRotateCamera.upperBetaLimit = 1.5;
-		arcRotateCamera.lowerRadiusLimit = 10;
-		arcRotateCamera.upperRadiusLimit = 100;
+		arcRotateCamera.upperBetaLimit = 1.2;
+		arcRotateCamera.lowerRadiusLimit = 40;
+		arcRotateCamera.upperRadiusLimit = 70;
 		arcRotateCamera.lowerAlphaLimit = arcRotateCamera.alpha;
 		arcRotateCamera.upperAlphaLimit = arcRotateCamera.alpha;
 
@@ -102,9 +102,9 @@ const SceneComponent = ({
 		);
 		scene.environmentTexture = reflectionTexture;
 
-		var layer = new Layer('', backgroundImage, scene, true);
+		// var layer = new Layer('', backgroundImage, scene, true);
 
-		layer.isBackground = true;
+		// layer.isBackground = true;
 
 		// This creates a light, aiming 0,1,0 - to the sky (non-mesh)
 		const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene);

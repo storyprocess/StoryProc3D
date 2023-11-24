@@ -18,7 +18,6 @@ const ToolbarButton = ({
     
     handleButtonClick(buttonId, buttonName);
   };
-
   return (
     <>
       {MainMenuIsButtons ? (
@@ -27,13 +26,14 @@ const ToolbarButton = ({
             selectedButton === buttonId ? "selected" : ""
           }`}
           onClick={(e)=>{handleClick();handleMenuClick(e)}}
-          id={id}
+          id={buttonId}
           disabled={isDisable}
+          // style={{boxShadow:"rgba(0, 0, 0, 0.4) 0px 25px 20px 0px"}}
         >
           {children}
         </button>
       ) : (
-        <button
+       <> <button
           className={`plain-toolbar-button ${
             selectedButton === buttonId ? "plain-button-selected" : ""
           }`}
@@ -41,11 +41,12 @@ const ToolbarButton = ({
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
           onClick={(e)=>{handleClick();handleMenuClick(e)}}
-          id={id}
+          id={buttonId}
           disabled={isDisable}
         >
           {children}
         </button>
+</>
       )}
     </>
   );

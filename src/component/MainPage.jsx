@@ -421,8 +421,8 @@ console.log("data",data);
     <div>
       {/* { dimBg && <img id="pattern" className='bg-front' src={bgpattern} preload="auto"></img>} */}
       <div
-        style={{ justifyContent: MainMenuIsButtons ? "center" : "end" }}
-        className="toolbar"
+        // style={{ justifyContent: MainMenuIsButtons ? "center" : "end" }}
+        className={`${MainMenuIsButtons ? "toolbar" : "plain-toolbar"} `}
       >
         <ToolbarButton // Guided Tour button
           buttonId="btnBusinessNeeds" //1
@@ -438,7 +438,7 @@ console.log("data",data);
         >
           Business Needs
         </ToolbarButton>
-
+        {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
         <ToolbarButton // DVS button
           buttonId="btnGuidingPrinciples" //3
           active={"btnGuidingPrinciples" === selectedButton}
@@ -453,7 +453,7 @@ console.log("data",data);
         >
           Guiding Principles
         </ToolbarButton>
-
+        {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
         <ToolbarButton // Outcomes button
           buttonId="btnSalesChallenges" //2
           active={"btnSalesChallenges" === selectedButton}
@@ -468,7 +468,7 @@ console.log("data",data);
         >
           Sales Challenges
         </ToolbarButton>
-
+        {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
         <ToolbarButton // Building Blocks button
           buttonId="btnStoryProcSolutions" //7
           active={"btnStoryProcSolutions" === selectedButton}
@@ -485,7 +485,7 @@ console.log("data",data);
         >
           StoryProc Solutions
         </ToolbarButton>
-
+        {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
         <ToolbarButton // Guided Tour button
           buttonId="btnUseCasesEnabled" //8
           selectedButton={selectedButton}
@@ -505,7 +505,7 @@ console.log("data",data);
         >
           Use Cases Enabled
         </ToolbarButton>
-
+        {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
         <ToolbarButton
           forwardRef={buttonRef}
           buttonId="tour"
@@ -518,7 +518,7 @@ console.log("data",data);
         >
           Immersive Overview
         </ToolbarButton>
-
+        {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
         <ToolbarButton
           forwardRef={buttonRef}
           buttonId="reset"

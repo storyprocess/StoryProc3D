@@ -1,8 +1,9 @@
 import React, { useMemo, useEffect, useRef, useState } from "react";
 import "../css/cardcontainer.css";
-import rightArrow from '../assets/chevron-right-double.png'
-import { BaseAPI, StoryProc3D } from "../assets/assetsLocation";
+import rightArrow from '../assets/Icon (1).png'
+import { BaseAPI, SourceDb } from "../assets/assetsLocation";
 import { setGlobalState } from "../state";
+import { Fade, Menu, MenuItem } from "@mui/material";
 
 const contentArr = [
   {
@@ -56,6 +57,7 @@ function CardMapped(props) {
   const [transformValue, setTransformValue] = useState();
   const [linkedData, setLinkedData] = useState(null);
   const panelValue = useRef();
+  const [anchorEl, setAnchorEl] = useState(null);
 
   let mouseX, mouseY;
   let transformAmount = 20;
@@ -116,7 +118,7 @@ function CardMapped(props) {
   };
 
 	const fetchData = async () => {
-		const address = `${BaseAPI}element_linkages?db=${StoryProc3D}&element_id=${props.id}`;
+		const address = `${BaseAPI}element_linkages?db=${SourceDb}&element_id=${props.id}`;
 		const response = await fetch(address); //fetch section data files for specific config id
 		const data = await response.json();
 		setLinkedData(data);
@@ -134,7 +136,18 @@ function CardMapped(props) {
 			setIsOpen(false);
 		}
 	}, [props.selectedCard, linkedData]);
-
+  const open = anchorEl;
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+    // setSelectedButton("selectedButton")
+  };
+  const handleMenuItemClick = () => {
+    setAnchorEl(null);
+    // setSelectedButton("selectedButton")
+  };
   return (
     <div id="container" className="big-container">
       <div
@@ -143,10 +156,11 @@ function CardMapped(props) {
         // onMouseMove={(e) => transformPanel(e)}
         // onMouseEnter={() => handleMouseEnter()}
         // onMouseLeave={() => handleMouseLeave()}
+        // style={{boxShadow:props.index == 0 ? "-30px 30px 35px -10px #00000066" : ""}}
       >
 				<div
 					id="panel-container"
-					style={{ transition: transitionValue, transform: transformValue }}
+					style={{ transition: transitionValue, transform: transformValue,boxShadow:"-30px 30px 35px -10px #00000066" }}
 				>
 					<div
 						className={`card big-card ${
@@ -158,18 +172,36 @@ function CardMapped(props) {
 						<p className="card-content">{props.content}</p>
 
 						<div className="tooltip-container">
-							<button onClick={toggleTooltip} className="tooltip-button">
+							<button onClick={(event)=>{{toggleTooltip();handleClick(event)}}} className="tooltip-button">
 								Achieved through <img src={rightArrow} alt="Right Arrow" className="right-arrow" />
 							</button>
 						</div>
 						{isOpen && linkedData && (
-							<div className="tooltip-content" >
-								<ul>
-									{linkedData.element_linkages.map((element, index) => (
-										<li onClick={() => {setGlobalState("modelUseCaseId",element.linked_id); toggleTooltip();}}>{element.short_label}</li>
-									))}
-								</ul>
-							</div>
+                      <Menu
+                      id="fade-menu"
+                      MenuListProps={{
+                        'aria-labelledby': 'fade-button',
+                      }}
+                      className="card-mapped-container"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      TransitionComponent={Fade}
+                    >
+                        {linkedData &&
+                          linkedData.element_linkages.map((element) => {
+                            return (
+                              <MenuItem  onClick={() => {handleMenuItemClick();setGlobalState("HoverUseCaseId",element.linked_id); toggleTooltip();}}>{element.short_label}</MenuItem>
+                            )
+                          })}
+                      </Menu>
+							// <div className="tooltip-content" >
+							// 	<ul>
+							// 		{linkedData.element_linkages.map((element, index) => (
+							// 			<li onClick={() => {setGlobalState("HoverUseCaseId",element.linked_id); toggleTooltip();}}>{element.short_label}</li>
+							// 		))}
+							// 	</ul>
+							// </div>
 						)}
 					</div>
 				</div>

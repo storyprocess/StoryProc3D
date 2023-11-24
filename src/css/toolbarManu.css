@@ -2,17 +2,60 @@
     position: fixed;
     bottom: 0;
     right: 0%;
-    width: 75%;
-    height: 12%;
+    width: 70%;
+    height: 11%;
     display: flex;
-    /* justify-content: space-between; */
+    justify-content: center;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     background: transparent;
     z-index: 3;
 }
+.reset-toolbar{
+    left:1%;
+    width:10%;
+    height:10%;
+    margin-bottom:0.5%;
+}
+.plain-toolbar{
+    position: fixed;
+    bottom: 0;
+    right: 0%;
+    width: 100%;
+    height: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background: var(--bgMedium);
+    z-index: 3;
+    padding-right: 2%;
+}
 
+.plain-reset-toolbar{
+    z-index: 4;
+    position: fixed;
+    bottom: 0;
+    height: 8%;
+    display: flex;
+    align-items: center;
+    padding: 0% 1%;
+    /* width: 100%; */
+}
+.plain-reset-toolbar:hover{
+    width: 100%;
+} 
+.plain-divider{
+    position: relative;
+    width: 0.15%;
+    height: 50%;
+    z-index: 3;
+    margin: 0px 0.3%;
+    background: var(--bgLight);
+}
 .bg-front {
     position: fixed;
     top: 0;
@@ -33,19 +76,19 @@
     flex-grow: 1;
     align-items: center;
     justify-content: center;
-    padding: 1% 2%;
-    margin: 1%;
+    padding: 1% 3%;
+    margin: 1% 0.4%;
     border: none;
     width: 12%;
-    font-size: 1.042vw;
+    font-size: 0.97vw;
     /* border-radius: 10px; */
     font-family: var(--fontFamily1);
-    color:var(--font1);
-    font-weight: 500;
-    opacity: 0.8;
+    color:var(--fontWhite);
+    font-weight: 100;
+    opacity: 0.85;
     cursor: pointer;
 
-    background: var(--bg14);
+    background: var(--bgMedium);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
     
 
@@ -56,19 +99,26 @@
 }
 .plain-toolbar-button{
     background: transparent;
-    color: var(--font1);
+    color: var(--fontWhite);
     border: none;
     cursor: pointer;
-    height: 0px;
+    font-size: 16px;
+    font-family: var(--fontFamily1);
 }
 .plain-toolbar-button:hover{
-    color: var(--font2);
+    color: var(--fontWhite);
+    background: var(--bgDark);
+    padding: 1%;
+    border-radius: 8px;
 }
 .plain-button-selected{
-    color: var(--font2);
+    color: var(--fontWhite);
+    background: var(--bgDark);
+    padding: 1%;
+    border-radius: 8px;
 }
 .toolbar-button.selected {
-    background: var(--bg11);
+    background: var(--bgDark);
     box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(2px);
     /* Note: backdrop-filter has minimal browser support */
@@ -95,4 +145,68 @@
     border-right: 5px solid transparent;
     border-bottom: 8px solid #007bff;
     margin-top: -2px;
+}
+.hot-spot-subMenu{
+    width: 17%;
+    /* height: 13%; */
+    z-index: 9;
+    cursor: pointer;
+    position: absolute;
+    background-color: var(--bgMedium);
+    opacity: 0.8;
+    border-radius: 8px;
+    padding: 1%;
+}
+.hover-label-text{
+    color: var(--fontWhite);
+    font-family: var(--fontFamily1);
+    font-weight: 500;
+    font-size: 1vw;
+    text-align: left;
+}
+.hot-spot-Hover{
+    /* width: 286px; */
+    /* height: 124px; */
+    z-index: 9;
+    cursor: pointer;
+    position: absolute;
+    background-color: var(--bgMedium);
+    opacity: 0.8;
+    padding: 5%;
+    color: var(--fontWhite);
+    font-family: var(--fontFamily1);
+    font-size: 1.2vw;
+    border-radius: 8px;
+}
+.button-group{
+    padding-left: 5%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 15px;
+}
+.zoom-in{
+    font-size: 0.9vw;
+    font-weight: 400;
+    font-family: var(--fontFamily1);
+}
+
+.hot-spot-subMenu::before {
+    content: '';
+    position: absolute;
+    bottom: -14px;
+    left: 3%;
+    /* transform: translateX(-455%); */
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid rgb(12, 31, 85);
+}
+.learn-more{
+    background: var(--bgDark);
+    border-radius: 6px;
+    font-size: 0.9vw;
+    font-weight: 400;
+    font-family: var(--fontFamily1);
+    padding: 3% 3%;
+    width: 30%;
 }

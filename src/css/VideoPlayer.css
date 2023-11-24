@@ -17,7 +17,7 @@
     left: 29.167%;
     top: 34.44%;
 
-    background: var(--bg12);
+    background: var(--bgShadow);
     opacity: 0.7;
     filter: blur(38px);
     border-radius: 12px;

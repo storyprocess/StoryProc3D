@@ -55,7 +55,7 @@ const DataCard = ({ data, onClose, handlePreButton, handleNexButton }) => {
   }
   return (
     <div className="rectangle">
-      <div className="LeftArrow">
+      <div className="LeftArrow blink">
 			{numGraphics > 1 && carousel == "1" ?
         <img
           onMouseEnter={() => setIsHoverLeft(true)}
@@ -96,7 +96,7 @@ const DataCard = ({ data, onClose, handlePreButton, handleNexButton }) => {
            : ''}
         </div>
       </div>
-      <div className="RightArrow" style={{marginRight:'10%'}}>
+      <div className="RightArrow blink" style={{marginRight:'10%'}}>
 				{numGraphics > 1 && carousel == "1" ?
         <img
           onMouseEnter={() => setIsHoverRight(true)}

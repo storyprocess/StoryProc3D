@@ -25,6 +25,7 @@ function MenuDispensor(props) {
               sectionData={props.sectionData}
               anchorEl = {props.anchorEl}
 							handleClose = {props.handleClose}
+							handleMenuItemClick = {props.handleMenuItemClick}
 							open = {props.open}
             />
           ) : (
@@ -34,6 +35,7 @@ function MenuDispensor(props) {
 							buttonId = {props.buttonId}
 							anchorEl = {props.anchorEl}
 							handleClose = {props.handleClose}
+							handleMenuItemClick = {props.handleMenuItemClick}
 							open = {props.open}
             />
           )}

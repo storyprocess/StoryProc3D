@@ -5,17 +5,20 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  background: var(--bg16);
+  background: var(--bgWhite);
   margin: 0;
   top: 0;
   left: 0;
   overflow: hidden;
 }
+.backgroung-blur{
+  filter: blur(3px);
+}
 .Loaded {
   position: absolute;
   height: 100%;
   width: 100%;
-  background: var(--bg16);
+  background: var(--bgWhite);
   margin: 0;
   overflow: hidden;
 }
@@ -78,7 +81,7 @@
   left: 0px;
   top: 0px;
 
-  background: var(--bg13);
+  background: var(--bgWhite);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(2px);
 }
@@ -116,7 +119,7 @@
   left: -15.198%;
   top: 67.22%;
 
-  background: var(--bg9);
+  background: var(--bgMedium);
   filter: blur(114px);
 }
 
@@ -131,7 +134,7 @@
   left: -12.865%;
   top: 67.22%;
 
-  background: var(--bg14);
+  background: var(--bgMedium);
   filter: blur(114px);
 }
 
@@ -146,7 +149,7 @@ height: 51.48%;
 left: -9.22%;
 top: 60.55%;
 
-background: var(--bg14);
+background: var(--bgMedium);
 filter: blur(114px);
 }
 
@@ -168,7 +171,7 @@ line-height: 5vh;
 letter-spacing: -0.06em;
 text-transform: uppercase;
 
-color: var(--font1);
+color: var(--fontWhite);
 z-index: 3;
 }
 
@@ -191,7 +194,7 @@ line-height: 2.222vh;
 
 /* or 150% */
 
-color: var(--font1);
+color: var(--fontWhite);
 }
 
 .nav-button {
@@ -199,16 +202,16 @@ color: var(--font1);
 
   position: absolute;
 
-  width: 10.73%;
+  /* width: 10.73%; */
   height: 4%;
   
   left: 4.167%;
   top: 80%;
 
-  background: var(--bg13);
+  background: var(--bgLight);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(2px);
-  padding: 0;
+  padding: 7px 12px;
   border: none;
 
   /* < Edge City • Digital Cities */
@@ -219,18 +222,31 @@ color: var(--font1);
   font-style: normal;
   font-weight: 500;
   font-size: 0.833vw;
-  color:var(--font1);
+  color:var(--fontWhite);
   opacity: 0.8;
   cursor: pointer;
   z-index: 3;
 }
+.pulse{
+
+  position: absolute;
+  width: 10em;
+  height: 4em;
+  top: 50%;
+  left: 50%;
+  background-color: var(--bgWhite);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: pulse 2.6s ease infinite;
+}
 .mf-nav-button {
+  overflow: hidden;
   /* Rectangle 9 */
-  animation-name: backgroundColorPalette;
-	animation-duration: 5s;
-	animation-iteration-count: infinite;
-	animation-direction: alternate;
-	animation-timing-function: linear; 
+  /* animation-name: backgroundColorPalette; */
+	/* animation-duration: 5s; */
+	/* animation-iteration-count: infinite; */
+	/* animation-direction: alternate; */
+	/* animation-timing-function: linear;  */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -243,7 +259,7 @@ color: var(--font1);
   left: 4.167%;
   top: 80%;
 
-  background: #0b0e21;
+  background: var(--bgDark);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(2px);
   padding: 0;
@@ -257,13 +273,30 @@ color: var(--font1);
   font-style: normal;
   font-weight: 500;
   font-size: 0.833vw;
-  color:var(--font1);
+  color:var(--fontWhite);
   opacity: 0.8;
   cursor: pointer;
   z-index: 3;
 }
 
-@keyframes backgroundColorPalette {
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.1);
+    opacity: 0;
+}
+10% {
+    opacity: 1;
+}
+90% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+}
+100% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+}
+}
+/* @keyframes backgroundColorPalette {
 	0% {
 		background: #0b0e21;
 	}
@@ -279,7 +312,7 @@ color: var(--font1);
 	100% {
 		background: #101c52;
 	}
-}
+} */
 
 .menu-button {
   box-sizing: border-box;
@@ -290,7 +323,7 @@ color: var(--font1);
   /* left: 682px = 35.52%; offset -> 16px+width(223px) =  12.448%*/
   top: 84.44%;
 
-  background: var(--bg14);
+  background: var(--bgWhite);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
 
   padding: 0;
@@ -303,7 +336,7 @@ color: var(--font1);
   /* Note: backdrop-filter has minimal browser support */
   border-radius: 12px;
 
-  color: var(--font1);
+  color: var(--fontWhite);
   text-align: center;
   font-family: var(--fontFamily1);
   font-weight: 500;
@@ -313,7 +346,7 @@ color: var(--font1);
 
 .active {
   opacity: 1;
-  background: var(--bg10);
+  background: var(--bgDark);
   box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(2px);
 
@@ -330,7 +363,7 @@ color: var(--font1);
   left: 53.5%;
   top: 84%;
 
-  background: var(--bg10);
+  background: var(--bgDark);
   border-radius: 1px;
   transform: rotate(-45deg);
 }
@@ -365,7 +398,7 @@ color: var(--font1);
   left: 29.167%;
   top: 34.44%;
 
-  background: var(--bg12);
+  background: var(--bgShadow);
   opacity: 0.7;
   filter: blur(38px);
   border-radius: 12px;
@@ -424,15 +457,36 @@ color: var(--font1);
   left: 0;
   overflow: hidden;
 }
+.enter-factory{
+  height: 133px;
+  width: 315px;
+  right: 9px;
+  position: absolute;
+  bottom: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  z-index: 9;
+  font-size: 20px;
+  font-family: var(--fontFamily1);
+  color:var(--fontWhite);
+  font-weight: 300;
+  opacity: 0.85;
+  cursor: pointer;
+  border-radius: 12px;
+  /* padding: 10px 20px; */
 
-#lock{ display:none; }
+  background: var(--bgMedium);
+}
+#lock{ display:none; z-index: 0; }
 @media screen and (orientation: portrait) {
 #lock{ display:block; z-index: 1000;}
 .App{ display:none !important;}
 .wrapper{ display:none; }
 }
 @media screen and (orientation: landscape) {
-#lock{ display:none; }
+#lock{ display:none;z-index: 0; }
 .App{ display:block; }
 .wrapper{ display:block; }
 }

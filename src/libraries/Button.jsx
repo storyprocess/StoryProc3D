@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BaseAPI, StoryProc3D } from "../assets/assetsLocation";
+import { BaseAPI, SourceDb } from "../assets/assetsLocation";
 
 const Button = ({ id }) => {
   const [title, setTitle] = useState();
@@ -10,7 +10,7 @@ const Button = ({ id }) => {
 
   const fatchPartnerSolutionGraphicsData = async (id) => {
     try {
-      const baseAPIUrl = `${BaseAPI}solution_details/${id}?db=${StoryProc3D}`;
+      const baseAPIUrl = `${BaseAPI}solution_details/${id}?db=${SourceDb}`;
       const address = baseAPIUrl; //address for fetching sectiondata
       const response = await fetch(address); //fetch section data files for specific config id
       const responseData = await response.json();

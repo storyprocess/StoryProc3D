@@ -22,7 +22,7 @@ const PopupToolbar = (props) => {
   const [showUC, setShowUC] = useGlobalState("showUC");
   const [startUC, setStartUC] = useState(false);
   const [useCaseID, setUseCaseID] = useState(null);
-  const [modelUseCaseId, setModelUseCaseId] = useGlobalState("modelUseCaseId");
+  const [HoverUseCaseId, setModelUseCaseId] = useGlobalState("HoverUseCaseId");
 
   const [fetched, setFetched] = useGlobalState("fetched");
   const [isButtonContainer, setIsButtonContainer] =
@@ -91,11 +91,13 @@ const PopupToolbar = (props) => {
     return new Promise( res => setTimeout(res, delay) );
 	}
   const handleButtonClick = async (buttonId) => {
+    if (props.buttonId == "button3" || props.buttonId == "button5") {
+      setGlobalState("IsBackgroundBlur", true);
+    }
 		// if(props.buttonType === "D")
 		// {window.history.pushState("", "", "/manufacturing/solutions/" + buttonId);}
 		// else if(props.buttonType === "P")
 		// {window.history.pushState("", "", "/manufacturing/partners/" + buttonId);}
-		await timeout(500);
 		if (selectedButton === buttonId) {
       setSelectedButton(null);
       setShowDataCard(false);
@@ -107,7 +109,6 @@ const PopupToolbar = (props) => {
       setSelectedButton(buttonId);
 			const obj = solutionsData.find((element) => element.id === buttonId);
       setDataObject(obj);
-			console.log(dataObject);
       if (!showUC) {
         setShowDataCard(true);
       } else {
@@ -132,6 +133,7 @@ const PopupToolbar = (props) => {
         {/* <div className="popuptoolbar-container tooltip-content"> */}
         <Menu
         id="fade-menu"
+        className="popup-container"
         MenuListProps={{
           'aria-labelledby': 'fade-button',
         }}
@@ -144,7 +146,9 @@ const PopupToolbar = (props) => {
             props.sectionData.map((element) => {
               return (
         
-        <MenuItem  onClick={()=>{props.handleClose();handleButtonClick(element.id)}}>{element.short_label}</MenuItem>
+								<MenuItem  onClick={()=>{props.handleMenuItemClick();handleButtonClick(element.id)}}>
+									{element.short_label}
+								</MenuItem>
                 // <PopupToolbarButton
                 //   buttonType={props.buttonType}
                 //   key={element.id}
@@ -157,7 +161,7 @@ const PopupToolbar = (props) => {
             
               );
             })}
-        </Menu>
+      </Menu>
 
           {showDataCard && (
             <DataCard
