@@ -81,30 +81,7 @@ const MainPage = (props) => {
     ["use_case_stories", "btnUseCasesEnabled"]
   ]);
 
-  //   selectedButton == "btnBusinessNeeds"
-  //   ? "Business Impact"
-  //   : selectedButton == "btnUseCasesEnabled"
-  //   ? "Use Cases Enabled"
-  //   : selectedButton == "btnSalesChallenges"
-  //   ? "Sales Challenges"
-  //   : selectedButton == "btnGuidingPrinciples"
-  //   ? "StoryProc Solutions"
-  //   : selectedButton == "btnGuidingPrinciples"
-  //   ? "Guiding Principles"
-  //   : "UC",
-  // selectedButton == "btnBusinessNeeds"
-  //   ? "4"
-  //   : selectedButton == "btnUseCasesEnabled"
-  //   ? "8"
-  //   : selectedButton == "btnSalesChallenges"
-  //   ? "2"
-  //   : selectedButton == "btnGuidingPrinciples"
-  //   ? "3"
-  //   : selectedButton == "btnGuidingPrinciples"
-  //   ? "7"
-  //   : "UC"
   // Set screen to initial state
-
   const resetScreen = () => {
     setGlobalState("IsBackgroundBlur", false);
     setTourState(false);
@@ -152,12 +129,6 @@ const MainPage = (props) => {
     }
   }, [toPress]);
 
-  // useEffect(() => {
-  //   if (HoverUseCaseId) {
-  //     handleUseCaseButtonClick("btnUseCasesEnabled");
-  //     setGlobalState("IsButtonContainer", false);
-  //   }
-  // }, [HoverUseCaseId]);
   const handlePlayStory =()=>{
     handleUseCaseButtonClick("button8");
     setGlobalState("IsButtonContainer", false);
@@ -235,7 +206,6 @@ const MainPage = (props) => {
         const data = await response.json();
         extraData[id - 1].push(data);
         if (id === 8) {
-          console.log(data.use_case_list);
           setGlobalState("use_case_list", data);
         }
       } catch (error) {
@@ -244,9 +214,6 @@ const MainPage = (props) => {
     }
   }
 
-  useEffect(() => {
-    setExtraData(props.extraData);
-  }, [props.extraData]);
 
   async function fetchAudio() {
     let Vosound;
@@ -271,14 +238,10 @@ const MainPage = (props) => {
     }
     setGlobalState("audioVO1", audioClips);
     setGlobalState("audioPathVO1", audio_Paths);
-
-    // for(var id = 1; id <= 14; id++) {
-    // 	console.log(audioClips[id-1]);
-    // }
-    // Howler.stop();
   }
 
   useEffect(() => {
+    fetchData();
     fetchAudio();
   }, []);
 
@@ -299,117 +262,15 @@ const MainPage = (props) => {
     }
     Howler.stop();
     setUI_Element("");
-    // if (selectedButton === "btnUseCasesEnabled") {
-    //   fetchAudio();
-    // }
     if (selectedButton === buttonId) {
       // if same button clicked again, reset screen
       resetScreen();
       return;
     }
-    if (buttonId == "btnBusinessNeeds" || buttonId == "btnGuidingPrinciples" || buttonId == "btnSalesChallenges" || buttonId == "btnUseCasesEnabled" || buttonId == "btnStoryProcSolutions") {
-      setGlobalState("IsBackgroundBlur", true);
-    }else{
-    setGlobalState("IsBackgroundBlur", false);
-    }
-    if (buttonId !== "btnUseCasesEnabled") {
-      setGlobalState("useCase", 0);
-      setGlobalState("HoverUseCaseId", 0);
-    }
 
-    if (buttonId !== "tour") {
-      setGlobalState("IsTourOpen", false);
-    }
+    setShowCardContainer(true);
+    setDimBg(true);
 
-    try {
-      // Fetch data from API
-      let baseAPIUrl;
-      let address;
-      let id = 0;
-      if (buttonId === "btnBusinessNeeds") {
-        id = 1;
-        baseAPIUrl = `${BaseAPI}section/`;
-        address = `${baseAPIUrl + 1}?db=${ApplicationDB}`;
-      } else if (buttonId === "btnSalesChallenges") {
-        id = 2;
-        baseAPIUrl = `${BaseAPI}section/`;
-        address = `${baseAPIUrl + 2}?db=${ApplicationDB}`;
-      } else if (buttonId === "btnGuidingPrinciples") {
-        id = 4;
-        baseAPIUrl = `${BaseAPI}section/`;
-        address = `${baseAPIUrl + 4}?db=${ApplicationDB}`;
-      } else if (buttonId === "btnStoryProcSolutions") {
-        id = 7;
-        baseAPIUrl = `${BaseAPI}solutions`;
-        address = `${baseAPIUrl}?db=${ApplicationDB}`;
-      } else {
-        id = 8;
-        baseAPIUrl = `${BaseAPI}use_case_list/`;
-        address = `${baseAPIUrl}?db=${ApplicationDB}`;
-      }
-
-      // if (buttonId === "btnUseCasesEnabled") {
-      //   baseAPIUrl = `${BaseAPI}use_case_list/`;
-      //   address = `${baseAPIUrl}?db=${ApplicationDB}`; //address for fetching sectiondata
-      // }
-      // else if (buttonId === "btnStoryProcSolutions") {
-      //   baseAPIUrl = `${BaseAPI}solutions`;
-      //   address = `${baseAPIUrl}?db=${ApplicationDB}`; //address for fetching sectiondata
-      // }
-      //  else {
-      //   baseAPIUrl = `${BaseAPI}section/`;
-      //   address = `${baseAPIUrl + id}?db=${ApplicationDB}`; //address for fetching sectiondata
-      // }
-      // CHANGES HERE
-
-      if (extraData[id - 1].length == 0) {
-        const response = await fetch(address); //fetch section data files for specific config id
-        const data = await response.json();
-        extraData[id - 1].push(data);
-      }
-      const data = extraData[id - 1][0];
-      // Assign UI Element to display data
-      // if (buttonId === "btnStoryProcSolutions") {
-      //   setButtonType("D");
-      //   setGlobalState("showUC", false);
-      // }
-      // if (buttonId === "btnUseCasesEnabled") {
-      //   setButtonType("Use_case");
-      //   setGlobalState("HoverUseCaseId", 0);
-      //   setGlobalState("IsButtonContainer", true);
-      // }
-
-      // if (
-      //   buttonId === "btnStoryProcSolutions" ||
-      //   buttonId === "btnUseCasesEnabled"
-      // ) {
-      //   setUI_Element("popuptoolbar");
-      // } else {
-      //   setUI_Element("cards");
-      // }
-console.log("data",data);
-      if (buttonId === "btnUseCasesEnabled") {
-        setSectionData(data.use_case_list);
-      } else if (buttonId === "btnStoryProcSolutions") {
-        let dataUsed = [];
-        data.Solutions.map((item) => {
-          if (buttonId === "btnStoryProcSolutions" && item.soln_type == "D") {
-            dataUsed.push(item);
-          }
-        });
-        setSectionData(dataUsed);
-      }else {
-        setSectionData(data.SectionData);
-      }
-
-      setShowCardContainer(true);
-      setDimBg(true);
-      // if (buttonId === "btnUseCasesEnabled") {
-      //   setShowUC(true);
-      // }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
     return;
   };
 
@@ -428,20 +289,6 @@ console.log("data",data);
     Howler.stop();
     document.getElementById("close-btn").click();
   };
-  // Get usecases data from API
-
-  // Dimming Background on opening any component
-
-  // useEffect(() => {
-  //     if (dimBg){
-  //         document.getElementById("bgvideo").style.setProperty('filter', 'brightness(35%)');
-  //     }
-  //     else{
-  //         document.getElementById("bgvideo").style.setProperty('filter', 'brightness(100%)');
-  //     }
-  // }, [dimBg]);
-
-  // return all buttons
 
   return (
     <div>
@@ -466,7 +313,13 @@ console.log("data",data);
           active={"btnBusinessNeeds" === selectedButton}
           buttonName="Business Needs"
           handleButtonClick={(buttonId,buttonName) => {
-            handleButtonClick(buttonId,buttonName);
+            handleButtonClick(buttonId);
+            setGlobalState("IsBackgroundBlur", true);
+            setGlobalState("useCase", 0);
+            setGlobalState("HoverUseCaseId", 0);
+            setGlobalState("IsTourOpen", false);
+            setSectionData(extraData[0][0].SectionData);
+
             setUI_Element("");
             setUI_Element("cards");
           }}
@@ -476,12 +329,20 @@ console.log("data",data);
         </ToolbarButton>
         {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
         <ToolbarButton // DVS button
-          buttonId="btnGuidingPrinciples" //3
+          buttonId="btnGuidingPrinciples" //4
           active={"btnGuidingPrinciples" === selectedButton}
           selectedButton={selectedButton}
           buttonName="Guiding Principles"
           handleButtonClick={(buttonId,buttonName) => {
-            handleButtonClick(buttonId,buttonName);
+            handleButtonClick(buttonId);
+            setGlobalState("IsBackgroundBlur", true);
+            setGlobalState("useCase", 0);
+            setGlobalState("HoverUseCaseId", 0);
+            setGlobalState("IsTourOpen", false);
+            console.log(extraData[3][0]);
+            console.log(extraData[3][0].SectionData);
+            setSectionData(extraData[3][0].SectionData);
+
             setUI_Element("");
             setUI_Element("cards");
           }}
@@ -496,8 +357,13 @@ console.log("data",data);
           selectedButton={selectedButton}
           buttonName="Sales Challenges"
           handleButtonClick={(buttonId,buttonName) => {
-            handleButtonClick(buttonId,buttonName);
-            setUI_Element("");
+            handleButtonClick(buttonId);            
+            setGlobalState("IsBackgroundBlur", true);
+            setGlobalState("useCase", 0);
+            setGlobalState("HoverUseCaseId", 0);
+            setGlobalState("IsTourOpen", false);
+            setSectionData(extraData[1][0].SectionData);
+
             setUI_Element("cards");
           }}
           handleMenuClick={() => {}}
@@ -511,10 +377,15 @@ console.log("data",data);
           selectedButton={selectedButton}
           buttonName="StoryProc Solutions"
           handleButtonClick={(buttonId,buttonName) => {
-            handleButtonClick(buttonId,buttonName);
+            handleButtonClick(buttonId);
+            setGlobalState("IsBackgroundBlur", true);
+            setGlobalState("useCase", 0);
+            setGlobalState("HoverUseCaseId", 0);
+            setGlobalState("IsTourOpen", false);
+            setSectionData(extraData[6][0].Solutions);
+
             setButtonType("D");
             setGlobalState("showUC", false);
-            setUI_Element("");
             setUI_Element("popuptoolbar");
           }}
           handleMenuClick={handleClick}
@@ -522,15 +393,18 @@ console.log("data",data);
           StoryProc Solutions
         </ToolbarButton>
         {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
-        <ToolbarButton // Guided Tour button
+        <ToolbarButton // Use Case Story Button
           buttonId="btnUseCasesEnabled" //8
           selectedButton={selectedButton}
           active={"btnUseCasesEnabled" === selectedButton}
           buttonName="Use Cases Enabled"
           handleButtonClick={(buttonId,buttonName) => {
             fetchAudio();
-            handleButtonClick(buttonId,buttonName);
-            setUI_Element("");
+            handleButtonClick(buttonId);            
+            setGlobalState("IsBackgroundBlur", false);
+            setGlobalState("IsTourOpen", false);
+            setSectionData(extraData[7][0].use_case_list);
+
             setUI_Element("popuptoolbar");
             setButtonType("Use_case");
             setGlobalState("HoverUseCaseId", 0);

@@ -558,8 +558,8 @@ const Home = (props) => {
 			cnt.width = '30px';
 			cnt.height = '30px';
 			cnt.cornerRadius = 30;
-
-			cnt.children[0].fontSize = 12;
+			if(cnt.children.length > 0)
+				cnt.children[0].fontSize = 12;
 		});
 
 
