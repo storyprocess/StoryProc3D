@@ -94,16 +94,7 @@
 	cursor: pointer;
 }
 
-.welcome_dell_logo{
-	width: 40%;
-	max-width: 50%;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 15%;
-}
+
 
 .loadingTitle{
 position: absolute;

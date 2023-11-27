@@ -64,17 +64,7 @@ const PopupToolbar = (props) => {
 			// 	setSolutionsData(responseData.Solutions);
 			// }
       setSolutionsData(props.sectionData);
-      // let dell = [];
-      // let partner = [];
-      // props.sectionData.map((item) => {
-      //   if (item.soln_type == "D") {
-      //     dell.push(item);
-      //   } else {
-      //     partner.push(item);
-      //   }
-      // });
-      // setSolutionsDell(dell);
-      // setSolutionsDataPartner(partner);
+
     } catch (error) {
       console.error("Error fetching data:", error);
     }

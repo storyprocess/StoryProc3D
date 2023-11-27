@@ -15,14 +15,14 @@
     left: 0;
     top: 0;
 
-    background: var(--bgMedium);
+    background: var(--bgTopNavbar);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(2px);
     z-index: 3;
-    opacity: 0.9;
+    opacity: var(--TopNavbarOpacity);
 }
 
-.dell {
+.company-logo {
     position: absolute;
     width: 9.4%;
     aspect-ratio: 8.1764705882352941176470588235294;

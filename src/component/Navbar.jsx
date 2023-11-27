@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../css/Navbar.css';
-import dell from '../assets/dellLogo.png';
+import companyLogo from '../assets/companyLogo.png';
 import intel from '../assets/intelLogo.png';
 import linkedin from '../assets/linLogo.png';
 import tweet from '../assets/twtLogo.png';
@@ -83,35 +83,17 @@ if (isTourOpen) {
 
 } 
 
-  const handleTwitterClick = () => {
-    const text = encodeURIComponent('Predefined text for the Twitter tweet');
-    const url = `https://twitter.com/intent/tweet?text=${text}`;
-    window.open(url, '_blank', 'width=600,height=400');
-  };
 
-  const handleLinkedInClick = () => {
-    const encodedUrl = encodeURIComponent('http://dell-edge-test.s3-website.ap-south-1.amazonaws.com/');
-    const encodedTitle = encodeURIComponent('Predefined heading for the LinkedIn post');
-    const encodedSummary = encodeURIComponent('This is a summary of my article.');
-  
-    const linkedInUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}&summary=${encodedSummary}`;
-  
-    window.open(linkedInUrl, '_blank','width=600,height=400');
-
-  };
   return (
     <div className='wrapper'>
         <div className='navbar'></div>
-        <img className='dell' src={dell}></img>
-        <div className='divider1'></div>
-        <img className='intel' src={intel}></img>
-        <img className='twt withclick' src={tweet} onClick={handleTwitterClick}></img>
-        <img className='lin withclick' src={linkedin} onClick={handleLinkedInClick}></img>
-        <div className='divider2'></div>
+        <img className='company-logo' src={companyLogo}></img>
+        {/* <div className='divider1'></div> */}
+        {/* <img className='intel' src={intel}></img> */}
         {/* {ApplicationDB == "M" ?<img style={{left:'82.84%'}} id="homeButton" className='mute withclick' src={homeIcon} onClick={()=>handleHome()}></img>:''} */}
-        <img style={{left:'82.84%'}} id="homeButton" className='mute withclick' src={homeIcon} onClick={()=>handleHome()}></img>
-         <img  style={{left:'84.71%'}} id="playPauseButton" className='mute withclick' src={!playAndPause ?  audioPlayIcon :  isTourOpen ? UcaudioPlayIcon : audioPauseIcon} onClick={playPause}></img>
-        <img id="muteButton" className='mute withclick' src={muted ?  audioMutedIcon : audioPlayingIcon} onClick={muteUnmute}></img>
+        {/* <img style={{left:'82.84%'}} id="homeButton" className='mute withclick' src={homeIcon} onClick={()=>handleHome()}></img> */}
+         <img  style={{left:'91.15%'}} id="playPauseButton" className='mute withclick' src={!playAndPause ?  audioPlayIcon :  isTourOpen ? UcaudioPlayIcon : audioPauseIcon} onClick={playPause}></img>
+        <img style={{left:"93.02%"}} id="muteButton" className='mute withclick' src={muted ?  audioMutedIcon : audioPlayingIcon} onClick={muteUnmute}></img>
         {/* <img id="playButton" className='playPause withclick' src={playIcon} onClick={playPauseMusic}></img> */}
     </div>
   );

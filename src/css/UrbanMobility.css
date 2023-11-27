@@ -458,17 +458,17 @@ color: var(--fontWhite);
   overflow: hidden;
 }
 .enter-factory{
-  height: 133px;
-  width: 315px;
+  height: 15.33%;
+  width: 18.125%;
   right: 9px;
   position: absolute;
   bottom: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 40px;
+  gap: 10%;
   z-index: 9;
-  font-size: 20px;
+  font-size: 1.042vw;
   font-family: var(--fontFamily1);
   color:var(--fontWhite);
   font-weight: 300;

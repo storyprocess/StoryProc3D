@@ -111,10 +111,9 @@
     padding: 31px 32px 53px 32px;
     /* max-width: 500px; */
     width: 30%;
-    background: var(--bgMedium);
-    opacity: 0.8;
+    background: var(--bgUcStory);
+    opacity: var(--UcStoryOpacity);
     text-align: left;
-    font-family: var(--fontFamily1);
     box-shadow: -30px 20px 28px -10px #00000066 !important;
     position: fixed;
     top: 10%;
@@ -167,7 +166,7 @@
   width: 25%;
   /* height: 19%; */
   /* width: 366px; */
-  background: var(--bgWhite);
+  background: var(--bgOnboardingCard);
   text-align: left;
   font-family: var(--fontFamily1);
   box-shadow: 10px 10px 54px -6px rgba(0,0,0,1);
@@ -187,7 +186,7 @@
   border-top: 15px solid rgb(255, 255, 255);
 }
 .welcome-next-btn{
-  background: var(--bgDark);
+  background: var(--bgOnboardingCardHighlightedButton);
   padding: 3%;
   border-radius: 6px;
   /* width: 20%; */
@@ -199,17 +198,19 @@
   font-size: 1vw;
 }
 .welcome-page{
-  color: var(--bgLight);
+  color: var(--OnboardingCardNumberingFontColor);
 }
 .wel-title{
-font-size: 1.3vw;
-font-family: var(--fontFamily1);
+font-size: var(--OnboardingCardFontSize);
+font-family: var(--OnboardingCardFontFamily);
+color: var(--OnboardingCardFontColor);
 font-weight: 500;
 margin-bottom: 3%;
 }
 .wel-description{
-  font-size: 0.9vw;
-  font-family: var(--fontFamily1);
+  font-size: var(--OnboardingCardContentFontSize);
+  font-family: var(--OnboardingCardContentFontFamily);
+  color: var(--OnboardingCardContentFontColor);
   font-weight: 400;
   margin-bottom: 5%;
 
@@ -242,13 +243,14 @@ margin-bottom: 3%;
   }
   
   .box-title {
-    color: var(--fontWhite);
-    font-size: 1.667vw;
+    color: var(--UcStoryFontColor);
+    font-size: var(--UcStoryFontSize);
+    font-family: var(--UcStoryFontFamily);
     font-weight: 500;
     margin-bottom: 38px;
   }
   .Welcome-Tour-box-title {
-    color: var(--bgMedium);
+    color: var(--OnboardingCardFontColor);
     font-size: 1.4vw;
     font-weight: 500;
     margin-bottom: 15px;
@@ -300,17 +302,21 @@ margin-bottom: 3%;
     padding: 24px;
     font-size: 0.938vw;
     border-radius: 6px;
-    background: var(--bgDark);
+    background: var(--bgUcStoryBlocks);
   }
   
   .content-title {
-    color: var(--fontWhite);
+    font-family: var(--UcStoryBlocksFontFamily);
+    color: var(--UcStoryFontColor);
+    font-size: var(--UcStoryBlocksFontSize);
     font-weight: 700;
     margin-bottom: 12px;
   }
   
   .content-description {
-    color: var(--fontLight);
+    color: var(--UcStoryFontColor);
+    font-size: var(--UcStoryBlocksContentFontSize);
+    font-family: var(--UcStoryBlocksContentFontFamily);
   }
   
   .box-content::-webkit-scrollbar {

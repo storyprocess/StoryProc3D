@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/Spinner.module.css";
-import dellLogo from "../assets/DellTech_Logo_Prm_Wht_rgb.png";
 // import BGLogo from "../assets/background.png";
 import BGLogo from "../assets/Screenshot_34.png";
 import { CircularProgressbar } from "react-circular-progressbar";
@@ -83,7 +82,6 @@ const Spinner = ({isWelcome}) => {
         <div>{titleOne[count]}</div>
         <div className={styles.titleTwo}>{titleTwo[count]}</div>
       </div> */}
-     {/* {isModelLoaded ? <img className={styles.welcome_dell_logo} width={"45%"} src={dellLogo} /> : ''} */}
     {isWelcome == false ?   <div
         className={styles.progressbar}
         style={{ width: "4%", height: "4%" }}

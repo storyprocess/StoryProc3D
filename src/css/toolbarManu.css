@@ -54,7 +54,7 @@
     height: 50%;
     z-index: 3;
     /* margin: 0px 0.3%; */
-    background: var(--bgLight);
+    background: var(--BottomToolbarSeparator);
 }
 .bg-front {
     position: fixed;
@@ -80,15 +80,15 @@
     margin: 1% 0.4%;
     border: none;
     width: 12%;
-    font-size: 0.97vw;
+    font-size: var(--BottomToolbarFontSize);
     /* border-radius: 10px; */
-    font-family: var(--fontFamily1);
-    color:var(--fontWhite);
+    font-family: var(--BottomToolbarFontFamily);
+    color:var(--BottomToolbarFontColor);
     font-weight: 100;
-    opacity: 0.85;
+    opacity: var(--BottomToolbarOpacity);
     cursor: pointer;
 
-    background: var(--bgMedium);
+    background: var(--bgBottomToolbar);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
     
 
@@ -103,11 +103,15 @@
     border: none;
     cursor: pointer;
     font-size: 1vw;
+    /* font-size: 16px; */
     font-family: var(--fontFamily1);
+    /* margin: 0px 0.3%; */
+    /* padding: 0.5%; */
 }
 .plain-toolbar-button:hover{
     color: var(--fontWhite);
-    /* background: var(--bgDark);
+    /* background: var(--bgDark); */
+    /* margin: 0px 0.3%;
     padding: 1%; */
     border-radius: 8px;
 }
@@ -119,7 +123,7 @@
     border-radius: 8px;
 }
 .toolbar-button.selected {
-    background: var(--bgDark);
+    background: var(--bgBottomToolbarHighlightedButton);
     box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(2px);
     /* Note: backdrop-filter has minimal browser support */
@@ -153,16 +157,16 @@
     z-index: 9;
     cursor: pointer;
     position: absolute;
-    background-color: var(--bgMedium);
-    opacity: 0.8;
+    background-color: var(--bgHotspotHover);
+    opacity: var(--HotspotHoverOpacity);
     border-radius: 8px;
     padding: 1%;
 }
 .hover-label-text{
-    color: var(--fontWhite);
-    font-family: var(--fontFamily1);
+    color: var(--HotspotHoverFontColor);
+    font-family: var(--HotspotHoverFontFamily);
     font-weight: 500;
-    font-size: 1vw;
+    font-size: var(--HotspotHoverFontSize);
     text-align: left;
 }
 .hot-spot-Hover{
@@ -189,7 +193,7 @@
 .zoom-in{
     font-size: 0.9vw;
     font-weight: 400;
-    font-family: var(--fontFamily1);
+    font-family: var(--HotspotHoverFontFamily);
 }
 
 .hot-spot-subMenu::before {
@@ -207,7 +211,7 @@
     border-radius: 6px;
     font-size: 0.9vw;
     font-weight: 400;
-    font-family: var(--fontFamily1);
+    font-family: var(--HotspotHoverFontFamily);
     padding: 3% 3%;
     width: 30%;
 }

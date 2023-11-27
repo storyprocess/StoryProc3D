@@ -16,13 +16,13 @@
   /* flex: 1; */
   height: 85%;
   width: 30%;
-  background: var(--bgMedium);
-  opacity: 0.8;
+  background: var(--bgCarousel);
+  opacity: var(--CarouselOpacity);
   box-shadow: -50px 0px 28px -30px #00000066 !important;
   backdrop-filter: blur(2px);
 
-  color: var(--fontWhite);
-  font-family: var(--fontFamily1), sans-serif;
+  color: var(--CarouselFontColor);
+  font-family: var(--CarouselFontFamily);
   text-align: left;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
@@ -48,12 +48,13 @@
 
 .heading {
   position: absolute;
-  font-size: 1.8vw;
+  font-size: var(--CarouselFontSize);
+  font-family: var(--CarouselFontFamily);
   font-weight: 500;
   /* margin: 0; */
   left: 8%;
   top: 3%;
-  color: var(--fontWhite);
+  color: var(--CarouselFontColor);
   padding-right: 8%;
 }
 
@@ -71,7 +72,8 @@
 .content {
   position: absolute;
   left: 8%;
-  font-size: 1vw;
+  font-family: var(--CarouselContentFontFamily);
+  font-size: var(--CarouselContentFontSize);
   top: 25%;
   width: 80%;
 }

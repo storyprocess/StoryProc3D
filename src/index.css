@@ -12,4 +12,85 @@
   --bgLight: #4A148C;
 
   --fontFamily1:'Montserrat';
+  --fontFamilyRobotoMedium:'Roboto Medium';
+  --fontFamilyRobotoBold:'Roboto Bold';
+
+  --opacityOpaque:1;
+  --opacityHigh:0.9;
+  --opacityLow:0.85;
+  --opacityVeryLow:0.4;
+
+  --bgBottomToolbar: var(--bgMedium);
+  --BottomToolbarOpacity: var(--opacityHigh);
+  --BottomToolbarFontFamily: var(--fontFamilyRobotoMedium);
+  --BottomToolbarFontSize: 0.938vw;
+  --BottomToolbarFontColor: var(--fontWhite);
+  --bgBottomToolbarHighlightedButton: var(--bgDark);
+  --BottomToolbarSeparator: var(--bgSeparator);
+
+  --bgTopNavbar: var(--bgMedium);
+  --TopNavbarOpacity: var(--opacityHigh);
+
+  --bgCards: var(--bgMedium);
+  --CardsOpacity: var(--opacityLow);
+  --CardsFontFamily: var(--fontFamilyRobotoMedium);
+  --CardsFontSize: 1.354vw;
+  --CardsFontColor: var(--fontWhite);
+  
+  --CardsContentFontFamily: var(--fontFamily1);
+  --CardsContentFontSize: 0.938vw;
+  
+  --bgAchievedThroughButton: var(--bgLight);
+  --AchievedThroughButtonOpacity: var(--opacityHigh);
+  --AchievedThroughButtonFontFamily: var(--fontFamily1);
+  --AchievedThroughButtonFontSize: 0.938vw;
+  --AchievedThroughButtonFontColor: var(--fontWhite);
+  
+  --bgCarousel: var(--bgMedium);
+  --CarouselOpacity: var(--opacityLow);
+  --CarouselFontFamily: var(--fontFamilyRobotoMedium);
+  --CarouselFontSize: 1.354vw;
+  --CarouselFontColor: var(--fontWhite);
+
+  --CarouselContentFontFamily: var(--fontFamily1);
+  --CarouselContentFontSize: 0.938vw;
+
+  --bgHamburgerMenuList: var(--bgMedium);
+  --HamburgerMenuListOpacity: var(--opacityLow);
+  --HamburgerMenuListFontFamily: var(--fontFamily1);
+  --HamburgerMenuListFontSize: 0.833vw;
+  --HamburgerMenuListFontColor: var(--fontWhite);
+  
+  --bgHamburgerMenuListHover: var(--bgDark);
+  
+  --bgHotspotHover: var(--bgMedium);
+  --HotspotHoverOpacity: var(--opacityLow);
+  --HotspotHoverFontFamily: var(--fontFamilyRobotoMedium);
+  --HotspotHoverFontSize: 1.042vw;
+  --HotspotHoverFontColor: var(--fontWhite);
+  
+  --bgOnboardingCard: var(--bgWhite);
+  --OnboardingCardOpacity: var(--opacityOpaque);
+  --OnboardingCardFontFamily: var(--fontFamilyRobotoMedium);
+  --OnboardingCardFontSize: 0.938vw;
+  --OnboardingCardFontColor: var(--bgMedium);
+
+  --OnboardingCardContentFontFamily: var(--fontFamily1);
+  --OnboardingCardContentFontSize: 0.729vw;
+  --OnboardingCardContentFontColor: var(--bgMedium);
+  --OnboardingCardNumberingFontColor: var(--bgLight);
+  --bgOnboardingCardHighlightedButton: var(--bgLight);
+
+  --bgUcStory: var(--bgMedium);
+  --UcStoryOpacity: var(--opacityLow);
+  --UcStoryFontFamily: var(--fontFamilyRobotoMedium);
+  --UcStoryFontSize: 1.667vw;
+  --UcStoryFontColor: var(--fontWhite);
+
+  --bgUcStoryBlocks: var(--bgDark);
+  --UcStoryBlocksFontFamily: var(--fontFamilyRobotoBold);
+  --UcStoryBlocksFontSize: 0.938vw;
+
+  --UcStoryBlocksContentFontFamily: var(--fontFamily1);
+  --UcStoryBlocksContentFontSize: 0.833vw;
 }

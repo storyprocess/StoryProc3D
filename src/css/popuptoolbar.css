@@ -134,14 +134,14 @@
     bottom: 21%;
   }
   .popup-container .MuiPaper-elevation{
-    background-color: var(--bgMedium) !important;
-    color: var(--fontWhite) !important;
+    background-color: var(--bgHamburgerMenuList) !important;
+    color: var(--HamburgerMenuListFontColor) !important;
     border-radius: 12px !important;
-    font-family: var(--fontFamily1) !important;
-    font-size: 0.97vw !important;
+    font-family: var(--HamburgerMenuListFontFamily) !important;
+    font-size: var(--HamburgerMenuListFontSize) !important;
     top: auto !important;
     bottom: 11% !important;
-    opacity: 0.8 !important;
+    opacity: var(--HamburgerMenuListOpacity) !important;
     padding: 0px 8px !important;
     box-shadow: -30px 20px 28px -10px #00000066 !important;
   }
@@ -149,5 +149,5 @@
     padding: 11px 12px !important;
   }
   .MuiButtonBase-root:hover{
-    background-color: var(--bgDark) !important;
+    background-color: var(--bgHamburgerMenuListHover) !important;
   }
