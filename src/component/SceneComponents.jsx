@@ -16,6 +16,7 @@ import {
 import backgroundImage from '../assets/background.png';
 
 import styles from '../styles/SceneComponent.module.css';
+import { useGlobalState } from '../state';
 
 SceneLoaderFlags.ShowLoadingScreen = false;
 
@@ -44,7 +45,7 @@ const SceneComponent = ({
 			scene
 		);
 		arcRotateCamera.minZ = 0;
-		arcRotateCamera.alpha = 1.57;
+		arcRotateCamera.alpha = 1.57 ;
 		arcRotateCamera.beta = 0.8;
 		arcRotateCamera.radius = 70;
 
@@ -61,6 +62,7 @@ const SceneComponent = ({
 
 		arcRotateCamera.inputs.addMouseWheel();
 		arcRotateCamera.inputs.addPointers();
+		arcRotateCamera.wheelPrecision = 20;
 		// arcRotateCamera.inputs.addKeyboard();
 		arcRotateCamera.inputs.attached.pointers.attachControl(canvas, false);
 		// Set panning axis
@@ -92,6 +94,10 @@ const SceneComponent = ({
 		// camera.attachControl(canvas, true);
 		arcRotateCamera.storeState() 
 		arcRotateCamera.attachControl(canvas, true);
+
+		const movingCamera = new FreeCamera('camera-3', new Vector3(0,0,0), scene);
+		movingCamera.position.copyFrom(arcRotateCamera.position);
+		movingCamera.setTarget(arcRotateCamera.target.clone());
 	};
 
 	const createLights = (scene) => {
@@ -110,7 +116,7 @@ const SceneComponent = ({
 		const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene);
 
 		// Default intensity is 1. Let's dim the light a small amount
-		light.intensity = 0.75;
+		light.intensity = 1;
 	};
 
 	// set up basic engine and scene
@@ -136,6 +142,19 @@ const SceneComponent = ({
 
 		engine.runRenderLoop(() => {
 			if (typeof onRender === 'function') onRender(scene);
+
+			for(var id = 0; id < 30; id++) {
+				if(scene.getMeshByName(`usecase-${id}-fake-mesh`) != null && scene.activeCamera != null) {
+					var distance = Vector3.Distance(scene.getMeshByName(`usecase-${id}-fake-mesh`).position, scene.activeCamera.position);
+					var scalingFactor = 0.01 * distance;
+					scene.getMeshByName(`usecase-${id}-fake-mesh`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
+				}
+				if(scene.getMeshByName(`usecase-${id}-container`) != null && scene.activeCamera != null) {
+					var distance = Vector3.Distance(scene.getMeshByName(`usecase-${id}-container`).position, scene.activeCamera.position);
+					var scalingFactor = 0.01 * distance;
+					scene.getMeshByName(`usecase-${id}-container`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
+				}
+			}
 			scene.render();
 		});
 
@@ -155,6 +174,24 @@ const SceneComponent = ({
 			}
 		};
 	}, [antialias, engineOptions, adaptToDeviceRatio, sceneOptions, onRender, onSceneReady]);
+
+// 	let zoomCounter = 0;
+
+// 	function handleMouseWheel(event) {
+//     if (event.deltaY > 0) {
+//         zoomCounter++;
+//         if (zoomCounter === 3) {
+//               const arc = scene.getCameraByName('camera-2');
+// 							arc.position.z +=1 ;
+//         }
+//     } else {
+// 			const arc = scene.getCameraByName('camera-2');
+// 			arc.position.z +=1 ;
+//     }
+// 	}
+// // Add an event listener to listen for mouse wheel events
+// document.addEventListener('wheel', handleMouseWheel);
+
 
 	return <canvas ref={reactCanvas} {...rest} id={styles.renderCanvas} />;
 };

@@ -12,7 +12,7 @@ import ucData from "./ucData";
 import Close from "../assets/Close.png";
 import Button from "./Button";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
-import { BaseAPI, SourceDb, assetsLocation } from "../assets/assetsLocation";
+import { BaseAPI, ApplicationDB, assetsLocation, carouselType } from "../assets/assetsLocation";
 import ReactAwesomeCarousel from "./ReactAwesomeCarousel";
 
 function UseCase(props) {
@@ -32,7 +32,6 @@ function UseCase(props) {
 	const [audioVO1, setAudioVO1] = useGlobalState("audioVO1");
   const [audioPathVO1, setAudioPathVO1] = useGlobalState("audioPathVO1");
   const [firstVOPlayed, setFirstVOPlayed] = useState(false);
-  let carousel = "1"
 
   // EXAMPLE LINKS
 
@@ -44,7 +43,7 @@ function UseCase(props) {
 
   const fetchStepData = async (ucid) => {
     // fetch config files
-    const apiurl = `${BaseAPI}use_case_stories/${String(ucid)}?db=${SourceDb}`;
+    const apiurl = `${BaseAPI}use_case_stories/${String(ucid)}?db=${ApplicationDB}`;
     const response = await fetch(apiurl);
     if (!response.ok) {
       throw new Error("Data could not be fetched.");
@@ -131,7 +130,7 @@ function UseCase(props) {
 
   useEffect(() => {
     const src_url =
-      `${assetsLocation}${SourceDb}/audio/uc` +
+      `${assetsLocation}${ApplicationDB}/audio/uc` +
       String(props.useCaseID) +
       "/";
       if (stepData) {
@@ -194,9 +193,8 @@ function UseCase(props) {
             (stepData && stepData[String(currentStep)][0]?.step_type == "PS")
           ) {
             console.log("setSolutionGraphicsData",solutionGraphicsData);
-            console.log("carousel",carousel);
             // if(solutionGraphicsData){
-            //   switch(carousel) {
+            //   switch(carouselType) {
             //     case "1":
             //       document.getElementsByClassName("control-prev")[0].click();
             //       case "2":
@@ -233,7 +231,7 @@ function UseCase(props) {
         ) {
           setGlobalState("IsAutoPlay", true);
         }
-        // switch(carousel) {
+        // switch(carouselType) {
         //   case "1":
         //     document.getElementsByClassName("control-next")[0].click();
         //     case "2":
@@ -352,7 +350,7 @@ function UseCase(props) {
       }
 			
 		if(currentStep == 1) {
-			const src_url = `${assetsLocation}${SourceDb}/audio/uc`+String(props.useCaseID) +"/10.mp3";
+			const src_url = `${assetsLocation}${ApplicationDB}/audio/uc`+String(props.useCaseID) +"/10.mp3";
 			let updatedAudioVO1=[...audioVO1];
 			try{
 				audioVO1[props.useCaseID-1].unload();
@@ -426,7 +424,7 @@ function UseCase(props) {
   };
 
   const DynamicCarousel=()=>{
-    switch(carousel) {
+    switch(carouselType) {
       case "1":
         return <ReactResponsiveCarousel
         solutionGraphicsData={solutionGraphicsData}
@@ -525,7 +523,7 @@ function UseCase(props) {
                     }}
                     classNames="fade"
                   >
-                    <div style={{height:"80%"}}  ref={nodeRef}>
+                    <div style={{maxHeight:'500px',overflowY:'auto'}}  ref={nodeRef}>
                       <div className="box-title">
                         {stepData &&
                           stepData[String(currentStep)]?.[0]?.short_label}

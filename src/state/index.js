@@ -1,6 +1,7 @@
 import { createGlobalState } from 'react-hooks-global-state';
 
 const { setGlobalState, useGlobalState } = createGlobalState({
+    scene : null,
     showTour: false,
     selectedButton: null,
     dimBg: false,
@@ -13,7 +14,8 @@ const { setGlobalState, useGlobalState } = createGlobalState({
     IsAutoPlay:false,
     IsTourOpen:false,
     IsModelOpen:false,
-    modelUseCaseId:0,
+    HoverUseCaseId:0,
+    HoverLabel:"",
     UCTourId:0,
     MfToEdgeCity:true,
     UmToDigitalCity:true,
@@ -28,6 +30,10 @@ const { setGlobalState, useGlobalState } = createGlobalState({
 		audioPathVO1: [],
 		use_case_list: [],
 		mapped_use_case: null,
+    IsBackgroundBlur: false,
+    clientXPosition1:-20,
+    clientYPosition1:-20,
+    currentZoomedSection:0,
 });
 
 export {setGlobalState, useGlobalState};

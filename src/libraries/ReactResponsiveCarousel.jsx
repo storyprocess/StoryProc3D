@@ -3,7 +3,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "../css/ReactResponsiveCarousel.css";
 import { useGlobalState } from "../state";
-import { SourceDb, assetsLocation } from "../assets/assetsLocation";
+import { ApplicationDB, assetsLocation } from "../assets/assetsLocation";
 import FullScreenIcon from "../assets/full-screen-icon-11806.png"
 import Tree from "../assets/tree-736885_1920.jpg"
 const Card = ({ item, index }) => {

@@ -1,15 +1,15 @@
 :root {
   --fontWhite: #ffffff; 
-  --fontToolbar: #333333; 
+  --fontToolbar: #162221; 
   --fontLight: #ffffff; 
-  --fontBlack: #000000; 
+  --fontBlack:#000000; 
   
   --bgWhite: #ffffff; 
-  --bgSeparator: #333333; 
+  --bgSeparator: #162221; 
   --bgShadow: #000000; 
-  --bgMedium: #FF6F61;
-  --bgDark: #9966CC;
-  --bgLight: #A8D050;
+  --bgMedium: #7E6AD2;
+  --bgDark:#FF6F61;
+  --bgLight: #4A148C;
 
-  --fontFamily1:'Calibri';
+  --fontFamily1:'Montserrat';
 }

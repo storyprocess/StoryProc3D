@@ -99,7 +99,7 @@
   }
   
   .box-wrap {
-    height: 60%;
+    /* height: 60%; */
       --angle: 0deg;
       border: 3px solid;
     border-image: linear-gradient(var(--angle),rgba(15, 44, 104, 1),rgba(29, 63, 133, 0.846),

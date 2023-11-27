@@ -33,7 +33,6 @@
 } */
 .card-divider {
   border: none;
-  border-top: 1px solid #80C8FA;
   width: 10%;
   color: var(--fontWhite);
   padding-top: 0.25%;

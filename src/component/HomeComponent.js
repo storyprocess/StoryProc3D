@@ -9,13 +9,16 @@ import verticalLine from "../assets/Group 27.png";
 import React, { Suspense, lazy, useEffect } from "react";
 import Spinner from "./Spinner";
 import { Howl, Howler } from "howler";
-import { StoryProc3D, assetsLocation } from "../assets/assetsLocation";
+import { ApplicationDB, assetsLocation } from "../assets/assetsLocation";
 import homeIcon from "../assets/Home button.png";
 import { setTourState } from "../hooks/animations";
 import { useState } from "react";
 import { BaseAPI } from "../assets/assetsLocation";
 import Landscape from "./Landscape";
 import MainPage from "./MainPage";
+import ManufacturingBG from "../assets/Manufacturing BG.mp4";
+import EnterFactory from "../assets/Start icon.png";
+
 
 const Home = lazy(() => import("../pages/Home"));
 
@@ -24,23 +27,15 @@ function HomeComponent() {
   const navbuttontext = "Reset";
   const [useCase, setUseCase] = useGlobalState("useCase");
   const [IsLoading, setIsLoading] = useGlobalState("IsLoading");
-  const [extraData, setExtraData] = useState([
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-  ]);
+  const [extraData, setExtraData] = useState([[],[], [], [], [], [], [], [], [], [], [], ]);
   const [count, setCount] = useState(0);
   const [isWelcome, setIsWelcome] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
   const [fetched, setFetched] = useState(false);
+  const [fetchedd, setFetchedd] = useState(false);
+  // const [UmToManufacturing, setUmToManufacturing] = useGlobalState("UmToManufacturing");
+  const [IsBackgroundBlur, setIsBackgroundBlur] = useGlobalState("IsBackgroundBlur");
+	const [scene, setScene] = useGlobalState("scene");
 
   let WelcomeData = [
     "Do you sell enterprise solutions to cross-functional teams?",
@@ -53,7 +48,7 @@ function HomeComponent() {
   ];
   let navigate = useNavigate();
   useEffect(() => {
-    setGlobalState("ApplicationDB", StoryProc3D);
+    setGlobalState("ApplicationDB", ApplicationDB);
   }, []);
 
   async function fetchData() {
@@ -62,13 +57,13 @@ function HomeComponent() {
       var address;
       if (id === 8) {
         baseAPIUrl = `${BaseAPI}use_case_list/`;
-        address = `${baseAPIUrl}?db=${StoryProc3D}`; //address for fetching sectiondata
+        address = `${baseAPIUrl}?db=${ApplicationDB}`; //address for fetching sectiondata
       } else if (id === 5 || id === 3) {
         baseAPIUrl = `${BaseAPI}solutions`;
-        address = `${baseAPIUrl}?db=${StoryProc3D}`; //address for fetching sectiondata
+        address = `${baseAPIUrl}?db=${ApplicationDB}`; //address for fetching sectiondata
       } else {
         baseAPIUrl = `${BaseAPI}section/`;
-        address = `${baseAPIUrl + id}?db=${StoryProc3D}`; //address for fetching sectiondata
+        address = `${baseAPIUrl + id}?db=${ApplicationDB}`; //address for fetching sectiondata
       }
       // CHANGES HERE
       try {
@@ -89,27 +84,78 @@ function HomeComponent() {
   useEffect(() => {
     fetchData();
   }, []);
-  const handleNext = () => {
-	if(count == 5){
-		setIsWelcome(false)
+  const showHotspots = (show) => {
+		if(!scene) return;
+		if(scene.getMeshByName(`hotspotMesh`) != null) {
+			scene.getMeshByName(`hotspotMesh`).setEnabled(false);
+		}
+		const texture = scene.getTextureByName('myUI');
+		for(var i = 0; i <= 30; i++) {
+			const currMesh = scene.getMeshByName(`usecase-${i}-fake-mesh`);
+			const currContainer = texture.getControlByName(`usecase-${i}-container`);
+			if(!currMesh || !currContainer) continue;
+			currMesh.setEnabled(show);
+			currContainer.isVisible = show;
+		}
 	}
-    setCount(count + 1);
-  };
-  const handlePrev = () => {
-    setCount(count - 1);
-  };
-  const handleSkip = () => {
-	setIsWelcome(false)
-  };
-console.log("count",count);
+
+const resetCamera = () => {
+  if(!scene) return;
+  const arcRotateCamera = scene.getCameraByName('camera-2');
+  arcRotateCamera.minZ = 0;
+  arcRotateCamera.alpha = 1.57;
+  arcRotateCamera.beta = 0.8;
+  arcRotateCamera.radius = 70;
+
+  // set limnitations for camera
+  arcRotateCamera.upperBetaLimit = 1.57;
+  arcRotateCamera.lowerRadiusLimit = 10;
+  arcRotateCamera.upperRadiusLimit = 100;
+  arcRotateCamera.lowerAlphaLimit = arcRotateCamera.alpha;
+  arcRotateCamera.upperAlphaLimit = arcRotateCamera.alpha;
+
+  // set panning
+  // Enable panning
+  // make panning axis to model axis (x,z)
+
+  arcRotateCamera.inputs.addMouseWheel();
+  arcRotateCamera.inputs.addPointers();
+  arcRotateCamera.wheelPrecision = 20;
+
+  // Set panning options
+  arcRotateCamera.panningSensibility = 170; // Adjust the panning speed as needed
+  // set limits for panning
+  arcRotateCamera.panningDistanceLimit = 80;
+  arcRotateCamera.allowUpsideDown = false;
+  // arcRotateCamera._panningMouseButton = 0;
+
+  // Disable pinch zoom
+  arcRotateCamera.pinchDeltaPercentage = 0;
+
+  // Disable double-click zoom
+  arcRotateCamera.useInputToRestoreState = false;
+  // This attaches the camera to the canvas
+  scene.activeCamera = arcRotateCamera;
+
+  arcRotateCamera.storeState();
+}
   if (fetched) {
     return (
       <>
         <Landscape />
         <div className="App">
-          <div className="wrapper home-wrapper">
+        {/* {UmToManufacturing && <div className='wrapper' style={{zIndex:fetched ? 1 :9}}>
+            <video onEnded={()=>setFetchedd(true)} autoPlay="autoplay" preload="auto" className="bg" style={{filter:'none'}} src={ManufacturingBG} muted playsInline></video>
+            </div>}
+            {fetchedd && <div onClick={()=>{setFetched(true);setFetchedd(false)}} className="enter-factory">
+				<img src={EnterFactory}/>
+				<div >
+				Enter Factory
+				</div>
+				</div>} */}
+          <div className={`wrapper home-wrapper ${IsBackgroundBlur ? "backgroung-blur" : ""}`}>
             <Suspense fallback={<Spinner />}>
-              <Home extraData={extraData[7][0].use_case_list} />
+              <Home extraData={extraData[7][0].use_case_list} showHotspots={showHotspots}/>
             </Suspense>
             {useCase !== 0 ? (
               <video
@@ -117,7 +163,7 @@ console.log("count",count);
                 autoPlay="autoplay"
                 preload="auto"
                 className="bg manufacturing-bg-video"
-                src={`${assetsLocation}${StoryProc3D}/graphics/${useCase}.mp4`}
+                src={`${assetsLocation}${ApplicationDB}/graphics/${useCase}.mp4`}
                 muted
                 loop
                 playsInline
@@ -193,7 +239,7 @@ console.log("count",count);
               <Routes location={location} key={location.pathname}>
                 <Route
                   path="/:toPress?/:loadID?"
-                  element={<MainPage extraData={extraData} />}
+                  element={<MainPage extraData={extraData} showHotspots={showHotspots} resetCamera={resetCamera}/>}
                 />
               </Routes>
             )}

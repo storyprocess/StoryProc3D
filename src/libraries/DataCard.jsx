@@ -7,7 +7,7 @@ import RightArrowHover from "../assets/Group 117.png";
 import RightArrow from "../assets/Group 107.png";
 import { QRCodeCanvas } from "qrcode.react";
 import { useGlobalState } from "../state";
-import { BaseAPI} from "../assets/assetsLocation";
+import { BaseAPI, carouselType} from "../assets/assetsLocation";
 import ReactAwesomeCarousel from "./ReactAwesomeCarousel";
 
 const DataCard = ({ data, onClose, handlePreButton, handleNexButton }) => {
@@ -40,9 +40,8 @@ const DataCard = ({ data, onClose, handlePreButton, handleNexButton }) => {
       console.error("Error fetching data:", error);
     }
   };
-  let carousel = "1"
   const DynamicCarousel=()=>{
-    switch(carousel) {
+    switch(carouselType) {
       case "1":
         return <ReactResponsiveCarousel
         solutionGraphicsData={solutionGraphicsData}
@@ -56,7 +55,7 @@ const DataCard = ({ data, onClose, handlePreButton, handleNexButton }) => {
   return (
     <div className="rectangle">
       <div className="LeftArrow blink">
-			{numGraphics > 1 && carousel == "1" ?
+			{numGraphics > 1 && carouselType == "1" ?
         <img
           onMouseEnter={() => setIsHoverLeft(true)}
           onMouseLeave={() => setIsHoverLeft(false)}
@@ -97,7 +96,7 @@ const DataCard = ({ data, onClose, handlePreButton, handleNexButton }) => {
         </div>
       </div>
       <div className="RightArrow blink" style={{marginRight:'10%'}}>
-				{numGraphics > 1 && carousel == "1" ?
+				{numGraphics > 1 && carouselType == "1" ?
         <img
           onMouseEnter={() => setIsHoverRight(true)}
           onMouseLeave={() => setIsHoverRight(false)}

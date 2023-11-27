@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect, useRef, useState } from "react";
 import "../css/cardcontainer.css";
 import rightArrow from '../assets/Icon (1).png'
-import { BaseAPI, SourceDb } from "../assets/assetsLocation";
+import { BaseAPI, ApplicationDB } from "../assets/assetsLocation";
 import { setGlobalState } from "../state";
 import { Fade, Menu, MenuItem } from "@mui/material";
 
@@ -118,7 +118,7 @@ function CardMapped(props) {
   };
 
 	const fetchData = async () => {
-		const address = `${BaseAPI}element_linkages?db=${SourceDb}&element_id=${props.id}`;
+		const address = `${BaseAPI}element_linkages?db=${ApplicationDB}&element_id=${props.id}`;
 		const response = await fetch(address); //fetch section data files for specific config id
 		const data = await response.json();
 		setLinkedData(data);
@@ -173,7 +173,7 @@ function CardMapped(props) {
 
 						<div className="tooltip-container">
 							<button onClick={(event)=>{{toggleTooltip();handleClick(event)}}} className="tooltip-button">
-								Achieved through <img src={rightArrow} alt="Right Arrow" className="right-arrow" />
+              {`Achieved through >`} 
 							</button>
 						</div>
 						{isOpen && linkedData && (

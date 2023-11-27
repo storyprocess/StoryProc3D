@@ -4,7 +4,7 @@ import withAutoplay from 'react-awesome-slider/dist/autoplay';
 import "react-awesome-slider/dist/styles.css";
 import "../css/ReactResponsiveCarousel.css";
 import { useGlobalState } from "../state";
-import { SourceDb, assetsLocation } from "../assets/assetsLocation";
+import { ApplicationDB, assetsLocation } from "../assets/assetsLocation";
 
 
 const ReactAwesomeCarousel = ({ solutionGraphicsData }) => {

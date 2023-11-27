@@ -11,7 +11,7 @@ import "../css/toolbarManu.css";
 import {
   BaseAPI,
   MainMenuIsButtons,
-  StoryProc3D,
+  ApplicationDB,
   assetsLocation,
 } from "../assets/assetsLocation";
 import { setTourState } from "../hooks/animations";
@@ -46,8 +46,13 @@ const MainPage = (props) => {
   const [buttonType, setButtonType] = useState("");
 
   const [showUC, setShowUC] = useGlobalState("showUC");
+  
+  const [isResetClick, setIsResetClick] = useState(false);
 
-  const [modelUseCaseId, setModelUseCaseId] = useGlobalState("modelUseCaseId");
+  const [HoverUseCaseId, setModelUseCaseId] = useGlobalState("HoverUseCaseId");
+  const [HoverLabel, setHoverLabel] = useGlobalState("HoverLabel");
+  const [clientXPosition1, setClientXPosition1] = useGlobalState("clientXPosition1");
+  const [clientYPosition1, setClientYPosition1] = useGlobalState("clientYPosition1");
   const [isTourOpen, setIsTourOpen] = useGlobalState("IsTourOpen");
   const [isHomeButtonClick, setIsHomeButtonClick] =
     useGlobalState("IsHomeButtonClick");
@@ -62,11 +67,18 @@ const MainPage = (props) => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+    setSelectedButton("selectedButton")
+  };
+  const handleMenuItemClick = () => {
+    setAnchorEl(null);
+    // setSelectedButton("selectedButton")
   };
   const links = new Map([
-    ["use_case_stories", "btnUseCasesEnabled"],
-    ["outcomes", "btnBusinessNeeds"],
+    ["needs", "btnBusinessNeeds"],
+    ["principles", "btnGuidingPrinciples"],
+    ["challenges", "btnSalesChallenges"],
     ["solutions", "btnStoryProcSolutions"],
+    ["use_case_stories", "btnUseCasesEnabled"]
   ]);
 
   //   selectedButton == "btnBusinessNeeds"
@@ -94,6 +106,7 @@ const MainPage = (props) => {
   // Set screen to initial state
 
   const resetScreen = () => {
+    setGlobalState("IsBackgroundBlur", false);
     setTourState(false);
     setSelectedButton(null);
     setShowCardContainer(false);
@@ -102,11 +115,12 @@ const MainPage = (props) => {
     setGlobalState("mapped_use_case", null);
     setShowUC(false);
     setDimBg(false);
-
+		props.resetCamera();
     Howler.stop();
   };
 
   const handleTourButtonClick = (buttonId) => {
+    setGlobalState("IsBackgroundBlur", false);
     if (selectedButton === buttonId) {
       if (isTourOpen) {
         setTourState(false);
@@ -138,18 +152,21 @@ const MainPage = (props) => {
     }
   }, [toPress]);
 
-  useEffect(() => {
-    if (modelUseCaseId) {
-      handleUseCaseButtonClick("btnUseCasesEnabled");
-      setGlobalState("IsButtonContainer", false);
-    }
-  }, [modelUseCaseId]);
-
+  // useEffect(() => {
+  //   if (HoverUseCaseId) {
+  //     handleUseCaseButtonClick("btnUseCasesEnabled");
+  //     setGlobalState("IsButtonContainer", false);
+  //   }
+  // }, [HoverUseCaseId]);
+  const handlePlayStory =()=>{
+    handleUseCaseButtonClick("button8");
+    setGlobalState("IsButtonContainer", false);
+  }
   useEffect(() => {
     if (isHomeButtonClick) {
       setUI_Element("");
       setGlobalState("useCase", 0);
-      setGlobalState("modelUseCaseId", 0);
+      setGlobalState("HoverUseCaseId", 0);
       setSelectedButton(null);
       // setGlobalState("IsButtonContainer", false);
     }
@@ -157,7 +174,7 @@ const MainPage = (props) => {
 
   const handleUseCaseButtonClick = async (buttonId) => {
     setGlobalState("IsHomeButtonClick", false);
-    setGlobalState("ApplicationDB", StoryProc3D);
+    setGlobalState("ApplicationDB", ApplicationDB);
     if (isTourOpen) {
       document.getElementById("close-btn").click();
     }
@@ -170,7 +187,7 @@ const MainPage = (props) => {
     }
     setSelectedButton(buttonId);
     try {
-      const baseAPIUrl = `${BaseAPI}use_case_list/?db=${StoryProc3D}`;
+      const baseAPIUrl = `${BaseAPI}use_case_list/?db=${ApplicationDB}`;
       const id = buttonId.at(-1);
       const address = baseAPIUrl; //address for fetching sectiondata
       // const address = baseAPIUrl + id;//address for fetching sectiondata
@@ -203,13 +220,13 @@ const MainPage = (props) => {
       var address;
       if (id === 8) {
         baseAPIUrl = `${BaseAPI}use_case_list/`;
-        address = `${baseAPIUrl}?db=${StoryProc3D}`; //address for fetching sectiondata
-      } else if (id === 5 || id === 3) {
+        address = `${baseAPIUrl}?db=${ApplicationDB}`; //address for fetching sectiondata
+      } else if (id === 7) {
         baseAPIUrl = `${BaseAPI}solutions`;
-        address = `${baseAPIUrl}?db=${StoryProc3D}`; //address for fetching sectiondata
+        address = `${baseAPIUrl}?db=${ApplicationDB}`; //address for fetching sectiondata
       } else {
         baseAPIUrl = `${BaseAPI}section/`;
-        address = `${baseAPIUrl + id}?db=${StoryProc3D}`; //address for fetching sectiondata
+        address = `${baseAPIUrl + id}?db=${ApplicationDB}`; //address for fetching sectiondata
       }
       // CHANGES HERE
       try {
@@ -237,7 +254,7 @@ const MainPage = (props) => {
     const audio_Paths = [];
     for (var id = 1; id <= 30; id++) {
       const src_url =
-        `${assetsLocation}${StoryProc3D}/audio/uc` + String(id) + "/";
+        `${assetsLocation}${ApplicationDB}/audio/uc` + String(id) + "/";
       const path = src_url + "10.mp3";
       try {
         Vosound = new Howl({
@@ -275,7 +292,7 @@ const MainPage = (props) => {
     }
     setGlobalState("IsAutoPlay", false);
     setGlobalState("IsHomeButtonClick", false);
-    setGlobalState("ApplicationDB", StoryProc3D);
+    setGlobalState("ApplicationDB", ApplicationDB);
     if (isTourOpen) {
       setGlobalState("UCTourId", 0);
       document.getElementById("close-btn").click();
@@ -290,10 +307,14 @@ const MainPage = (props) => {
       resetScreen();
       return;
     }
-
+    if (buttonId == "btnBusinessNeeds" || buttonId == "btnGuidingPrinciples" || buttonId == "btnSalesChallenges" || buttonId == "btnUseCasesEnabled" || buttonId == "btnStoryProcSolutions") {
+      setGlobalState("IsBackgroundBlur", true);
+    }else{
+    setGlobalState("IsBackgroundBlur", false);
+    }
     if (buttonId !== "btnUseCasesEnabled") {
       setGlobalState("useCase", 0);
-      setGlobalState("modelUseCaseId", 0);
+      setGlobalState("HoverUseCaseId", 0);
     }
 
     if (buttonId !== "tour") {
@@ -308,36 +329,36 @@ const MainPage = (props) => {
       if (buttonId === "btnBusinessNeeds") {
         id = 1;
         baseAPIUrl = `${BaseAPI}section/`;
-        address = `${baseAPIUrl + 1}?db=${StoryProc3D}`;
+        address = `${baseAPIUrl + 1}?db=${ApplicationDB}`;
       } else if (buttonId === "btnSalesChallenges") {
         id = 2;
         baseAPIUrl = `${BaseAPI}section/`;
-        address = `${baseAPIUrl + 2}?db=${StoryProc3D}`;
+        address = `${baseAPIUrl + 2}?db=${ApplicationDB}`;
       } else if (buttonId === "btnGuidingPrinciples") {
-        id = 3;
+        id = 4;
         baseAPIUrl = `${BaseAPI}section/`;
-        address = `${baseAPIUrl + 3}?db=${StoryProc3D}`;
+        address = `${baseAPIUrl + 4}?db=${ApplicationDB}`;
       } else if (buttonId === "btnStoryProcSolutions") {
         id = 7;
         baseAPIUrl = `${BaseAPI}solutions`;
-        address = `${baseAPIUrl}?db=${StoryProc3D}`;
+        address = `${baseAPIUrl}?db=${ApplicationDB}`;
       } else {
         id = 8;
         baseAPIUrl = `${BaseAPI}use_case_list/`;
-        address = `${baseAPIUrl}?db=${StoryProc3D}`;
+        address = `${baseAPIUrl}?db=${ApplicationDB}`;
       }
 
       // if (buttonId === "btnUseCasesEnabled") {
       //   baseAPIUrl = `${BaseAPI}use_case_list/`;
-      //   address = `${baseAPIUrl}?db=${StoryProc3D}`; //address for fetching sectiondata
+      //   address = `${baseAPIUrl}?db=${ApplicationDB}`; //address for fetching sectiondata
       // }
       // else if (buttonId === "btnStoryProcSolutions") {
       //   baseAPIUrl = `${BaseAPI}solutions`;
-      //   address = `${baseAPIUrl}?db=${StoryProc3D}`; //address for fetching sectiondata
+      //   address = `${baseAPIUrl}?db=${ApplicationDB}`; //address for fetching sectiondata
       // }
       //  else {
       //   baseAPIUrl = `${BaseAPI}section/`;
-      //   address = `${baseAPIUrl + id}?db=${StoryProc3D}`; //address for fetching sectiondata
+      //   address = `${baseAPIUrl + id}?db=${ApplicationDB}`; //address for fetching sectiondata
       // }
       // CHANGES HERE
 
@@ -354,7 +375,7 @@ const MainPage = (props) => {
       // }
       // if (buttonId === "btnUseCasesEnabled") {
       //   setButtonType("Use_case");
-      //   setGlobalState("modelUseCaseId", 0);
+      //   setGlobalState("HoverUseCaseId", 0);
       //   setGlobalState("IsButtonContainer", true);
       // }
 
@@ -377,8 +398,6 @@ console.log("data",data);
           }
         });
         setSectionData(dataUsed);
-      } else if (buttonId === "btnGuidingPrinciples"){
-        setSectionData(data.Solutions);
       }else {
         setSectionData(data.SectionData);
       }
@@ -395,6 +414,13 @@ console.log("data",data);
   };
 
   const handleResetButtonClick = () => {
+    setGlobalState("IsBackgroundBlur", false);
+    if(MainMenuIsButtons){
+      setIsResetClick(true)
+    }
+    setTimeout(() => {
+      setIsResetClick(false)
+    }, 1000);
     setTourState(false);
     setGlobalState("IsTourOpen", false);
     setGlobalState("UCTourId", 0);
@@ -420,6 +446,16 @@ console.log("data",data);
   return (
     <div>
       {/* { dimBg && <img id="pattern" className='bg-front' src={bgpattern} preload="auto"></img>} */}
+      {HoverUseCaseId > 0  && !showUC && <div style={{top:clientYPosition1-120,left:clientXPosition1-30}} className="hot-spot-subMenu">
+      <div>
+      <div className="hover-label-text">{HoverLabel}</div>
+      <hr style={{marginTop:"5%"}} className="card-divider"></hr>
+      </div>
+      <div className="button-group" >
+        <div className="zoom-in" onClick={()=>setGlobalState("currentZoomedSection",HoverUseCaseId)} >Zoom-in</div>
+        <div className="learn-more" onClick={()=>handlePlayStory()}>Learn More</div>
+      </div>
+      </div>}
       <div
         // style={{ justifyContent: MainMenuIsButtons ? "center" : "end" }}
         className={`${MainMenuIsButtons ? "toolbar" : "plain-toolbar"} `}
@@ -497,7 +533,7 @@ console.log("data",data);
             setUI_Element("");
             setUI_Element("popuptoolbar");
             setButtonType("Use_case");
-            setGlobalState("modelUseCaseId", 0);
+            setGlobalState("HoverUseCaseId", 0);
             setGlobalState("IsButtonContainer", true);
             setShowUC(true);
           }}
@@ -543,6 +579,7 @@ console.log("data",data);
           ui_element={ui_Element}
           buttonId={selectedButton}
           useCaseMapping={selectedButton === "btnBusinessNeeds"}
+          handleMenuItemClick = {handleMenuItemClick}
           anchorEl={anchorEl}
           handleClose={handleClose}
           open={open}

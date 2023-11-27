@@ -4,7 +4,7 @@ import { Vector3 } from "@babylonjs/core";
 import usecases from "../data/usecases.json";
 import { Howl } from "howler";
 import { setGlobalState, useGlobalState } from "../state";
-import { StoryProc3D, assetsLocation } from "../assets/assetsLocation";
+import { ApplicationDB, assetsLocation } from "../assets/assetsLocation";
 
 let IsTourOpen = true
 const setTourState = (onOff)=>{
@@ -16,61 +16,78 @@ const toggleSectionUIs = (scene) => {
 
     if (!advancedTexture) return;
 
-    sections.forEach((section) => {
-        const container = advancedTexture.getControlByName(`section-${section.id}-container`);
+    // sections.forEach((section) => {
+    //     const container = advancedTexture.getControlByName(`section-${section.id}-container`);
 
-        container.alpha = 0;
-        container.isVisible = !container.isVisible;;
+    //     container.alpha = 0;
 
-        gsap.to(container, {
-            alpha: container.isVisible ? 1 : 0,
-            duration: 0.5,
-            ease: "power1.out",
-            duration: 2,
-        });
+    //     gsap.to(container, {
+    //         alpha: container.isVisible ? 1 : 0,
+    //         duration: 0.5,
+    //         ease: "power1.out",
+    //         duration: 2,
+    //     });
 
-    });
+    // });
 
-    usecases.forEach((usecase) => {
-        const container = advancedTexture.getControlByName(`usecase-${usecase.id}-container`);
+    // usecases.forEach((usecase) => {
+    //     const container = scene.getMeshByName(`usecase-${usecase.id}-fake-mesh`);
 
-        container.alpha = 0;
-        container.isVisible = true;
+    //     container.alpha = 0;
+    //     container.isVisible = true;
 
 
-        gsap.to(container, {
-            alpha: container.isVisible ? 1 : 0,
-            duration: 0.5,
-            ease: "power1.out",
-            duration: 2,
-        });
+    //     gsap.to(container, {
+    //         alpha: container.isVisible ? 1 : 0,
+    //         duration: 0.5,
+    //         ease: "power1.out",
+    //         duration: 2,
+    //     });
 
-    });
+    // });
 };
 
 
+const lookAt=(xCoordinate, yCoordinate, zCoordinate, cameraX, cameraY, cameraZ)=>{
+    // Calculate the vector from the camera position to the target point
+    let direction = new Vector3(xCoordinate - cameraX, yCoordinate - cameraY, zCoordinate - cameraZ);
 
-
+		// Calculate the alpha angle (rotation around the vertical axis)
+    let alpha = Math.atan2(direction.x, direction.z);
+    
+    // Calculate the beta angle (elevation from the horizontal plane)
+    let distance = Math.sqrt(direction.x * direction.x + direction.z * direction.z);
+    let beta = Math.atan2(direction.y, distance);
+    
+		console.log(alpha, beta);
+		if (Math.abs(alpha) > Math.abs(alpha + 2* Math.PI))
+			alpha = alpha + 2 * Math.PI;
+		if (Math.abs(beta) > Math.abs(beta + 2* Math.PI))
+			beta = beta + 2 * Math.PI;
+    // // Convert angles to the range expected by ArcRotateCamera
+    // alpha = alpha < 0 ? alpha : alpha;
+    // beta = beta < 0 ? beta + 2 * Math.PI : beta;
+    return {alpha,beta}
+}
 
 const moveFirstTarget = (camera) => {
-
     const timeline = gsap.timeline();
     gsap.globalTimeline.add(timeline)
     const sound = new Howl({
-        src: `${assetsLocation}${StoryProc3D}/audio/intros/1.mp3`,
+        src: `${assetsLocation}${ApplicationDB}/audio/intros/1.mp3`,
         html5: true,
         preload:true
     })
     timeline
         .to(camera.position, {
-            x: -12,
-            y: 2.5,
-            z: 4.8,
+            x: -54.126,
+						y: 2,
+            z: -19.147,
             duration: 3
         })
         .to(camera.rotation, {
-            x: 0.2797833944525906,
-            y: -1.729744737715753,
+            x: 0,
+            y: lookAt(-58.141,2,-16.087, -54.126, 2, -19.147).alpha,
             duration: 2,
             onComplete: () => {
                 if (IsTourOpen) {
@@ -90,28 +107,39 @@ const moveSecondTarget = (camera) => {
     const timeline = gsap.timeline();
     gsap.globalTimeline.add(timeline)
     const sound = new Howl({
-        src: `${assetsLocation}${StoryProc3D}/audio/intros/11.mp3`,
+        src: `${assetsLocation}${ApplicationDB}/audio/intros/11.mp3`,
         html5: true,
         preload:true
 
     })
 
 
-    timeline.to(camera.position, {
-        x: -30,
-        y: 2.5,
-        z: 4.5,
+    timeline
+		.to(camera.rotation, {
+			x: 0.2797833944525906,
+			y: -1.729744737715753,
+			duration: 2,
+		})
+		.to(camera.position, {
+        x: -57.508,
+        y: 2,
+        z: -19.147,
+        duration: 2,
+    })
+		.to(camera.rotation, {
+			y: 0,
+			duration: 2,
+		})
+		.to(camera.position, {
+		x: -57.508,
+		y: 2,
+		z: 4.6328,
+		duration: 2,
+		})
+    .to(camera.rotation, {
+        x: 0,
+        y: lookAt(-47,2,7,-57.508,2,4.6328).alpha,
         duration: 3,
-
-    });
-
-    gsap.to(
-        camera.rotation, {
-        x: 0.25100995695259154,
-        y: -1.0734955447982695,
-        z: 0,
-        duration: 1.5,
-        delay: 1.5,
         onComplete: () => {
             if (IsTourOpen) {
             sound.play();
@@ -120,6 +148,7 @@ const moveSecondTarget = (camera) => {
         }
         }
     });
+
     // sound.play();
     // sound.on("end", function () {
     //     callNextTarget(camera, moveThirdTarget);
@@ -130,35 +159,20 @@ const moveSecondTarget = (camera) => {
 
 const moveThirdTarget = (camera) => {
     const sound = new Howl({
-        src: `${assetsLocation}${StoryProc3D}/audio/intros/13.mp3`,
+        src: `${assetsLocation}${ApplicationDB}/audio/intros/13.mp3`,
         html5: true,
         preload:true
 
     })
     const timeline = gsap.timeline();
     gsap.globalTimeline.add(timeline)
-    gsap.to(camera.position, {
-        x: -37,
-        y: 2.5,
-        z: 4.8,
-        duration: 3,
-        ease: "none"
-    });
-
 
     // rotate camera in y axis
     timeline.to(
         camera.rotation, {
-        y: -1.5,
+				x: 0,
+        y: lookAt(-52,2,-1.3,-57.508,2,4.6328).alpha,
         duration: 2,
-    })
-
-    gsap.to(
-        camera.rotation, {
-        y: -2.9,
-        x: 0.009319252382391422,
-        duration: 2,
-        delay: 2,
         onComplete: () => {
             if (IsTourOpen) {
             sound.play();
@@ -176,7 +190,7 @@ const moveThirdTarget = (camera) => {
 
 const moveFourthTarget = (camera) => {
     const sound = new Howl({
-        src: `${assetsLocation}${StoryProc3D}/audio/intros/2.mp3`,
+        src: `${assetsLocation}${ApplicationDB}/audio/intros/2.mp3`,
         html5: true,
         preload:true
 
@@ -189,28 +203,25 @@ const moveFourthTarget = (camera) => {
         y: -1.729744737715753,
         z: 0,
         duration: 1.5,
-    }).to(camera.position, {
-        x: -61,
-        y: 2,
-        z: 4.8,
-        duration: 3,
+			}).to(camera.position, {
+					x: -68.739,
+					y: 2,
+					z: 4.6328,
+					duration: 3,
 
-    })
-
-    gsap.to(camera.rotation, {
-        x: 0.14641971875000054,
-        y: -0.9016915187780603,
+			})
+			.to(camera.rotation, {
+        x: 0,
+        y: lookAt(-68.8572,2,8.13481,-68.739,2,4.6328).alpha,
         duration: 2,
-        delay: 3.5,
         onComplete: () => {
             if (IsTourOpen) {
             sound.play();
             setGlobalState("UCTourId", 2);
             callNextTarget(camera, moveFifthTarget, sound)
+        	}
         }
-        }
-
-    })
+    	});
     // sound.play();
     // sound.on("end", function () {
     //     callNextTarget(camera, moveFifthTarget);
@@ -220,7 +231,7 @@ const moveFourthTarget = (camera) => {
 
 const moveFifthTarget = (camera) => {
     const sound = new Howl({
-        src: `${assetsLocation}${StoryProc3D}/audio/intros/8.mp3`,
+        src: `${assetsLocation}${ApplicationDB}/audio/intros/8.mp3`,
         html5: true,
         preload:true
 
@@ -228,41 +239,26 @@ const moveFifthTarget = (camera) => {
     const timeline = gsap.timeline();
     gsap.globalTimeline.add(timeline)
 
-    timeline.to(camera.rotation, {
-        x: 0.2797833944525906,
-        y: -1.729744737715753,
-        z: 0,
-        duration: 2,
-
-    }).to(camera.position, {
-        x: -70,
-        y: 1.956003718383328,
-        z: 4.8,
-        duration: 3,
-        ease: "none"
-    })
-
-    gsap.to(camera.rotation, {
-        x: 0.126,
-        y: -3,
-        duration: 2,
-        delay: 2.5,
-        onComplete: () => {
-            if (IsTourOpen) {
-            sound.play();
-            setGlobalState("UCTourId", 8);
-            callNextTarget(camera, moveSixthTarget, sound)
-        }
-        }
-    })
-
+    timeline
+		.to(camera.rotation, {
+			x: 0,
+			y: lookAt(-70,2,-0.5,-68.739,2,4.6328).alpha,
+			duration: 2,
+			onComplete: () => {
+					if (IsTourOpen) {
+					sound.play();
+					setGlobalState("UCTourId", 8);
+					callNextTarget(camera, moveSixthTarget, sound)
+				}
+			}
+		});
 
 
 };
 
 const moveSixthTarget = (camera) => {
     const sound = new Howl({
-        src: `${assetsLocation}${StoryProc3D}/audio/intros/5.mp3`,
+        src: `${assetsLocation}${ApplicationDB}/audio/intros/6.mp3`,
         html5: true,
         preload:true
 
@@ -276,35 +272,19 @@ const moveSixthTarget = (camera) => {
         z: 0,
         duration: 1.5,
     }).to(camera.position, {
-        x: -76,
-        y: 1.75,
+        x: -87.06,
+        y: 2,
+				z: 4.6328,
         duration: 3,
     })
-
-    gsap.to(camera.rotation, {
-        x: 0.126,
-        y: -0.13,
-        duration: 1.5,
-        delay: 2.5
-    })
-
-    gsap.to(camera.position, {
-        x: -76.5,
-        y: 1.75,
-        z: 15,
-        duration: 3,
-        delay: 6
-    })
-
-    gsap.to(camera.rotation, {
-        x: 0.3,
-        y: 1.12,
+		.to(camera.rotation, {
+        x: 0,
+        y: lookAt(-90,2,-1.5,-87.06,2,4.6328).alpha,
         duration: 2,
-        delay: 8,
         onComplete: () => {
             if (IsTourOpen) {
             sound.play()
-            setGlobalState("UCTourId", 5);
+            setGlobalState("UCTourId", 6);
             callNextTarget(camera, moveSixthTarget2, sound)
         }
         }
@@ -317,56 +297,21 @@ const moveSixthTarget = (camera) => {
 
 const moveSixthTarget2 = (camera) => {
     const sound = new Howl({
-        src: `${assetsLocation}${StoryProc3D}/audio/intros/12.mp3`,
+        src: `${assetsLocation}${ApplicationDB}/audio/intros/4.mp3`,
         html5: true,
         preload:true
 
     })
-    gsap.to(camera.position, {
-        x: -75,
-        y: 2.7,
-        z: 27,
-        duration: 3,
-    })
-
-    gsap.to(camera.rotation, {
-        x: -0.05,
-        y: 2.55,
+		const timeline = gsap.timeline();
+    gsap.globalTimeline.add(timeline);
+    timeline.to(camera.rotation, {
+        x: 0,
+        y: lookAt(-91.6166,2,9.8,-87.06,2,4.6328).alpha,
         duration: 3,
         onComplete: () => {
             if (IsTourOpen) {
             sound.play()
-            setGlobalState("UCTourId", 12);
-            callNextTarget(camera, moveSixthTarget3, sound)
-        }
-        }
-    })
-
-
-};
-
-const moveSixthTarget3 = (camera) => {
-    const sound = new Howl({
-        src: `${assetsLocation}${StoryProc3D}/audio/intros/7.mp3`,
-        html5: true,
-        preload:true
-
-    })
-    gsap.to(camera.position, {
-        x: -75,
-        y: 2.7,
-        z: 27,
-        duration: 3,
-    })
-
-    gsap.to(camera.rotation, {
-        x: -0.05,
-        y: 2.55,
-        duration: 3,
-        onComplete: () => {
-            if (IsTourOpen) {
-            sound.play()
-            setGlobalState("UCTourId", 7);
+            setGlobalState("UCTourId", 4);
             callNextTarget(camera, moveSeventhTarget, sound)
         }
         }
@@ -377,7 +322,7 @@ const moveSixthTarget3 = (camera) => {
 
 const moveSeventhTarget = (camera) => {
     const sound = new Howl({
-        src: `${assetsLocation}${StoryProc3D}/audio/intros/4.mp3`,
+        src: `${assetsLocation}${ApplicationDB}/audio/intros/14.mp3`,
         html5: true,
         preload:true
 
@@ -385,157 +330,145 @@ const moveSeventhTarget = (camera) => {
     const timeline = gsap.timeline();
     gsap.globalTimeline.add(timeline)
     timeline.to(camera.rotation, {
-        x: 0,
-        y: 3,
-        z: 0,
+        x: 0.2797833944525906,
+        y: -1.729744737715753,
         duration: 1.5,
     }).to(camera.position, {
-        x: -76.5,
-        y: 1.75,
-        z: 15,
-        duration: 3,
-        ease: "none"
-    }).to(camera.position, {
+        x: -94.672,
         y: 2,
-        z: 4.8,
+        z: 4.6328,
+        duration: 2,
+    }).to(camera.rotation, {
+        y: -Math.PI,
         duration: 2,
     })
-
-
-
-    gsap.to(camera.rotation, {
-        x: 0.05,
-        y: 4.487835249499371,
-        duration: 2.5,
-        delay: 5
-    })
-
-    gsap.to(camera.position, {
-        x: -83,
+		.to(camera.position, {
+        x: -94.672,
         y: 2,
-        z: 4.8,
-        duration: 2.5,
-        delay: 6.5
-    })
-    gsap.to(
-        camera.rotation, {
-        x: 0.01001562499999997,
-        y: 3.6572926585271874,
+				z: -8.8227,
         duration: 2,
-        delay: 7,
+    })
+    .to(camera.rotation, {
+        x: 0,
+        // y: lookAt(-94, 2, -16, -94.672, 2, -8.8227).alpha,
+        duration: 2,
         onComplete: () => {
-            if (IsTourOpen) {
+          if (IsTourOpen) {
             sound.play()
-            setGlobalState("UCTourId", 4);
+            setGlobalState("UCTourId", 14);
             callNextTarget(camera, moveEighthTarget, sound)
-        }
+        	}
         }
     });
-
-
-
 };
 
 
 
 const moveEighthTarget = (camera) => {
     const sound = new Howl({
-        src: `${assetsLocation}${StoryProc3D}/audio/intros/6.mp3`,
+        src: `${assetsLocation}${ApplicationDB}/audio/intros/12.mp3`,
         html5: true,
         preload:true
 
     })
-    gsap.to(camera.rotation, {
-        x: 0.05,
-        y: 4.487835249499371,
-        duration: 3,
-    })
-
-    gsap.to(camera.position, {
-        x: -84,
+		const timeline = gsap.timeline();
+    gsap.globalTimeline.add(timeline)
+    timeline.to(camera.rotation, {
+        x: 0.2797833944525906,
+        duration: 1.5,
+    }).to(camera.position, {
+        x: -94.672,
         y: 2,
-        z: 4.8,
-        duration: 3,
-        delay: 4
-    })
-
-    gsap.to(camera.rotation, {
-        x: 0.05687500000000002,
-        y: 5.515267819819987,
+        z: -19.036,
         duration: 2,
-        delay: 5,
-        onComplete: () => {
+    }).to(camera.rotation, {
+			y: - 2*Math.PI + 1.729744737715753,
+			duration: 2,
+    })
+    .to(camera.position, {
+        x: -75.539,
+        y: 2,
+				z: -19.036,
+        duration: 3,
+    })
+    .to(camera.rotation, {
+        x: 0,
+        y: lookAt(-75,2,-24,-75.539,2,-19.036).alpha - 2 * Math.PI,
+        duration: 2,
+				onComplete: () => {
             if (IsTourOpen) {
             sound.play()
-            setGlobalState("UCTourId", 6);
-            callNextTarget(camera, moveNinthTarget, sound)
+            setGlobalState("UCTourId", 12);
+            callNextTarget(camera, moveNinthTarget, sound);
         }
         }
     })
-
-
 };
 
 const moveNinthTarget = (camera) => {
     const sound = new Howl({
-        src: `${assetsLocation}${StoryProc3D}/audio/intros/14.mp3`,
+        src: `${assetsLocation}${ApplicationDB}/audio/intros/7.mp3`,
         html5: true,
         preload:true
 
     })
     const timeline = gsap.timeline();
-    gsap.globalTimeline.add(timeline)
+    gsap.globalTimeline.add(timeline);
 
     timeline.to(camera.rotation, {
-        x: 0.05,
-        y: 4.487835249499371,
-        duration: 3,
-    })
-
-    timeline.to(camera.position, {
-        x: -108,
-        z: 4.8,
-        duration: 5,
-        delay: 3,
+				x: 0,
+				y: lookAt(-65,2,-23,-75.539,2,-19.036).alpha - 2*Math.PI,
+				duration: 2,
         onComplete: () => {
-            if (IsTourOpen) {
+          if (IsTourOpen) {
             sound.play()
-            setGlobalState("UCTourId", 14);
-            moveTenthTarget(camera);
-            // moveToOuterCamera(camera);
+            setGlobalState("UCTourId", 7);
+						callNextTarget(camera, moveTenthTarget, sound);
+					}
         }
-        }
-
     })
-
 };
+
 const moveTenthTarget = (camera) => {
-    // const sound = new Howl ({
-    //     src: `${assetsLocation}${StoryProc3D}/audio/intros/14.mp3`,
-    //     html5: true
-    // })
+    const sound = new Howl ({
+        src: `${assetsLocation}${ApplicationDB}/audio/intros/5.mp3`,
+        html5: true,
+        preload:true
+    })
     const timeline = gsap.timeline();
-    gsap.globalTimeline.add(timeline)
+    gsap.globalTimeline.add(timeline);
 
     timeline.to(camera.rotation, {
-        x: 0.05,
-        y: 4.487835249499371,
-        duration: 3,
-    })
-
-    timeline.to(camera.position, {
-        x: -125,
-        z: 4.8,
-        duration: 5,
-        delay: 3,
+        x: 0,
+				y: lookAt(-70,2,-12,-75.539,2,-19.036).alpha - 2*Math.PI,
+        duration: 2,
         onComplete: () => {
-            // sound.play()
-            setGlobalState("UCTourId", 0);
-            setGlobalState("IsTourOpen", false);
-            moveToOuterCamera(camera);
+            sound.play()
+            setGlobalState("UCTourId", 5);
+            callNextTarget(camera, moveEleventhTarget, sound);
         }
-
     })
+};
+
+const moveEleventhTarget = (camera) => {
+	// const sound = new Howl ({
+	//     src: `${assetsLocation}${ApplicationDB}/audio/intros/14.mp3`,
+	//     html5: true
+	// })
+	const timeline = gsap.timeline();
+	gsap.globalTimeline.add(timeline)
+
+	timeline.to(camera.rotation, {
+			x: 0.2797833944525906, 
+			duration: 5,
+			onComplete: () => {
+					// sound.play()
+					setGlobalState("UCTourId", 0);
+					setGlobalState("IsTourOpen", false);
+					moveToOuterCamera(camera);
+			}
+
+	})
 
 };
 
@@ -556,7 +489,7 @@ const moveToOuterCamera = (camera) => {
         .to(camera.position, {
             x: -120,
             duration: 3,
-            ease: "none",
+            ease: "power1.out",
             onComplete: () => {
                 setGlobalState("IsTourOpen", true);
 
@@ -595,7 +528,7 @@ const moveCameraOnClose = (camera) => {
             y: 33,
             z: 58,
             duration: 3,
-            ease: "none"
+            ease: "power1.out"
         })
 
 
@@ -605,7 +538,7 @@ const moveCameraOnClose = (camera) => {
             y: - 2.8,
             z: 0,
             duration: 3.5,
-            ease: "none",
+            ease: "power1.out",
             onComplete: () => {
 
 
@@ -643,7 +576,7 @@ const moveCameraOnClose = (camera) => {
 //         y: 4.63,
 //         z: 24.4,
 //         duration: 3,
-//         ease: "none"
+//         ease: "power1.out"
 //     })
 
 //     gsap.to(camera.rotation, {
@@ -680,7 +613,8 @@ const startAnimations = (scene) => {
     const freeCam = scene.getCameraByName("camera-1");
 
 
-    freeCam.position = new Vector3(13.892347024014637, 4.3472194044273555, 4.757436822500906);
+    freeCam.position = new Vector3(-40.13, 2, -19.147);
+		// freeCam.setTarget(new Vector3(-80.13,2,-19.147));
     freeCam.rotation = new Vector3(0.2797833944525906, -1.729744737715753, 0);
 
     scene.activeCamera = freeCam;
@@ -691,7 +625,7 @@ const startAnimations = (scene) => {
     disableCameraMovementOnTour(freeCam);
     gsap.globalTimeline.getChildren().forEach(child => child.kill());
     const sound = new Howl({
-        src: `${assetsLocation}${StoryProc3D}/audio/intros/0.mp3`,
+        src: `${assetsLocation}${ApplicationDB}/audio/intros/0.mp3`,
         html5: true
     })
     sound.play()
