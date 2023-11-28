@@ -41,16 +41,17 @@ const SceneComponent = ({
 			0,
 			1,
 			10,
-			new Vector3(-70, 10, 0),
+			new Vector3(-20, 10, 0),
 			scene
 		);
 		arcRotateCamera.minZ = 0;
 		arcRotateCamera.alpha = 1.57 ;
-		arcRotateCamera.beta = 0.8;
+		arcRotateCamera.beta = 1.3;
 		arcRotateCamera.radius = 70;
 
 		// set limnitations for camera
-		arcRotateCamera.upperBetaLimit = 1.2;
+		arcRotateCamera.lowerBetaLimit = 0.5;
+		arcRotateCamera.upperBetaLimit = 1.5;
 		arcRotateCamera.lowerRadiusLimit = 40;
 		arcRotateCamera.upperRadiusLimit = 70;
 		arcRotateCamera.lowerAlphaLimit = arcRotateCamera.alpha;
@@ -193,7 +194,7 @@ const SceneComponent = ({
 // document.addEventListener('wheel', handleMouseWheel);
 
 
-	return <canvas ref={reactCanvas} {...rest} id={styles.renderCanvas} />;
+	return <canvas ref={reactCanvas} {...rest} id={styles.renderCanvas} className='main-canvas' />;
 };
 
 export default SceneComponent;
