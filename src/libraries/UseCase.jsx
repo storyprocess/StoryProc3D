@@ -572,7 +572,9 @@ function UseCase(props) {
                           })}
                       </div>
                       {stepData &&
-                        stepData[String(currentStep)][0].step_type == "DS" && (
+                        stepData[String(currentStep + 1)] &&
+                        stepData[String(currentStep + 1)][0]?.step_type == "VP"
+                         && (
                           <>
                             {" "}
                             <hr className="value-line"></hr>
