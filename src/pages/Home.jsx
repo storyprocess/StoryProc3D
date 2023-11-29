@@ -11,6 +11,8 @@ import {
 	Axis,
 	Space,
 	DracoCompression,
+	Matrix,
+	Viewport
 } from '@babylonjs/core';
 
 import SceneComponent from '../component/SceneComponents';
@@ -50,7 +52,6 @@ dracoLoader.decoder = {
 
 export const CAMERA_INITIAL_POSITION = new Vector3(-61, 72, 105);
 const Home = (props) => {
-	console.log("props",props);
 	const [isLoading, setIsLoading] = useState(true);
 	const [isTitle, setIsTitle] = useState(false);
 	const [scene, setScene] = useState(null);
@@ -179,6 +180,7 @@ const Home = (props) => {
 		setIsLoading(false);
 
 		showSectionUIs(scene);
+		createUCGUI(scene);
 		setIsTitle(false);
 	};
 
@@ -188,38 +190,43 @@ const Home = (props) => {
 		usecases.forEach((usecase) => {
 			createUC(usecase, scene, advancedTexture);
 		});
+		scene.getMeshByName(`hotspotMesh`).setEnabled(false);
 	};
+	let hotspotInitialScaling
 
 	let clientXPosition=0;
 
 	const createUC = (usecase, scene, texture) => {
-		const fakeMesh = MeshBuilder.CreateSphere(
-			`usecase-${usecase.id}-fake-mesh`,
-			{ diameter: 1 },
-			scene
-		);
-		 
+		// const fakeMesh = MeshBuilder.CreateSphere(
+		// 	`usecase-${usecase.id}-fake-mesh`,
+		// 	{ diameter: 1 },
+		// 	scene
+		// );
 
+		const fakeMesh = scene.getMeshByName('hotspotMesh').clone(`usecase-${usecase.id}-fake-mesh`);
+		 hotspotInitialScaling = scene.getMeshByName('hotspotMesh').scaling.clone();
+
+		 scene.onBeforeRenderObservable.add(() => {
+			// adjustHotspotScale(scene);
+		});
 		fakeMesh.position = new Vector3(usecase.position.x, usecase.position.y, usecase.position.z);
-		fakeMesh.billboardMode = 7;
-
 		// fakeMesh.material = new StandardMaterial('hotspot-material', scene);
 		// fakeMesh.isVisible = false;
-
+		fakeMesh.billboardMode = 7;
 		const hotspotLabelIndex = props.extraData.findIndex((element) => element.use_case_id == usecase.id);
 
 		const container = new Rectangle(`usecase-${usecase.id}-container`);
 
-		container.width = '30px';
-		container.height = '30px';
-		container.cornerRadius = 30;
+		container.width = '20px';
+		container.height = '20px';
+		container.cornerRadius = 20;
 		container.thickness = 0;
 
-		container.background = '#071122';
+		container.background = 'rgba(7,17,34,0)';
 
 		// const sectionNameUI = new TextBlock();
 		// sectionNameUI.text = usecase.name;
-		// sectionNameUI.color = 'rgba(255, 255, 255, 1)';
+		// sectionNameUI.color = 'rgba(255, 255, 255, 0)';
 		// sectionNameUI.fontSize = 12;
 		// sectionNameUI.fontFamily = 'Helvetica';
 		// sectionNameUI.fontWeight = 'bold';
@@ -235,36 +242,41 @@ const Home = (props) => {
 
 		container.isVisible = true;
 
-		let MouseXPosition=0
-		let MouseYPosition=0
+		// let RefreshMousePosition = true;
+		// useEffect(() => {
+		//   if (clientXPosition1 <= 0) {
+		// 	RefreshMousePosition = true;
+		//   } else {
+		// 	RefreshMousePosition = false;
+		//   }
+		// }, []);
+		
+			let MouseXPosition=0
+			let MouseYPosition=0
 
-		document.addEventListener("mousemove", function (event) {
-			MouseXPosition = event.clientX;
-			MouseYPosition = event.clientY;
-			if(MouseXPosition > clientXPosition+20 || MouseXPosition < clientXPosition-20){
-				clientXPosition = -20
-			}
-		});
+			document.addEventListener("mousemove", function (event) {
+				MouseXPosition = event.clientX;
+				MouseYPosition = event.clientY;
+				if(MouseXPosition > clientXPosition+20 || MouseXPosition < clientXPosition-20){
+					clientXPosition = -20
+				}
+			});
 
 		container.onPointerEnterObservable.add(() => {
-			console.log("calllllllllllllllllll",props);
 			if (clientXPosition <= 0) {
 				setGlobalState("HoverLabel", props.extraData[hotspotLabelIndex].short_label);
 				setGlobalState("HoverUseCaseId", usecase.id);
+				const canvas = document.getElementsByClassName("main-canvas")[0];
+				var pos = Vector3.Project(
+					fakeMesh.position,
+					Matrix.Identity(), //world matrix
+					scene.getTransformMatrix(), //transform matrix
+					new Viewport(0, 0, canvas.width, canvas.height)
+				);
 				clientXPosition = MouseXPosition;
-				setGlobalState("clientXPosition1", MouseXPosition);
-				setGlobalState("clientYPosition1", MouseYPosition);
+				setGlobalState("clientXPosition1", pos.x);
+				setGlobalState("clientYPosition1", pos.y);
 			}
-			// container.width = `${usecase.length * 54}px`;
-			// container.height = '35px';
-			// container.cornerRadius = 20;
-			// sectionNameUI.fontSize = 12;
-			// container.background = '#071122CC';
-			// if(hotspotLabelIndex == -1) {
-			// 	sectionNameUI.text = props.extraData[hotspotLabelIndex].short_label;
-			// }
-			// // sectionNameUI.text = usecase.textData;
-			// sectionNameUI.color = '#FFFFFF';
 		});
 
 		container.onPointerOutObservable.add(() => {
@@ -273,37 +285,8 @@ const Home = (props) => {
 			setGlobalState("clientXPosition1", -20);
 			setGlobalState("clientYPosition1", -20);
 			clientXPosition = -20
-			// if (scene.activeCamera.name.includes('security-camera')) {
-			// 	container.width = '90px';
-			// 	container.height = '90px';
-			// 	container.cornerRadius = 50;
-			// 	container.children[0].fontSize = 18;
-			// } else {
-			// 	container.width = '30px';
-			// 	container.height = '30px';
-			// 	container.cornerRadius = 30;
-			// }
-			// // sectionNameUI.color = 'rgba(255, 255, 255, 1)';
-			// container.background = '#071122CC';
-			// sectionNameUI.text = usecase.name;
-			//sectionNameUI.color = 'rgba(127, 201, 250, 1)';
 		});
-	// 	container.onPointerClickObservable.add(() => {
-    //   setGlobalState("HoverUseCaseId", usecase.id);
-	// 		if (scene.activeCamera.name.includes('security-camera')) {
-	// 			container.width = '90px';
-	// 			container.height = '90px';
-	// 			container.cornerRadius = 50;
-	// 			container.children[0].fontSize = 18;
-	// 		} else {
-	// 			container.width = '30px';
-	// 			container.height = '30px';
-	// 			container.cornerRadius = 30;
-	// 		}
-	// 		// sectionNameUI.color = 'rgba(255, 255, 255, 1)';
-	// 		container.background = '#071122CC';
-	// 		sectionNameUI.text = usecase.name;
-    // });
+
 	};
 
 	const createSectionsGUI = (scene) => {
@@ -324,58 +307,7 @@ const Home = (props) => {
 		fakeMesh.position = new Vector3(section.position.x, section.position.y, section.position.z);
 		fakeMesh.material = new StandardMaterial('hotspot-material', scene);
 		fakeMesh.isVisible = false;
-
-		// const container = new Rectangle(`section-${section.id}-container`);
-
-		// container.width = '130px';
-		// container.height = '65px';
-		// container.cornerRadius = 20;
-		// container.background = 'rgba(11, 55, 164, 0.7)';
-		// container.thickness = 0;
-
-		// // if section name contain 2 or more words, make it two line and make first line two words
-
-		// // if section name IT room make it one line
-
-		// const sectionName = section.name.split(' ');
-		// const firstLine =
-		// 	sectionName.length > 2 ? sectionName[0] + ' ' + sectionName[1] : sectionName[0];
-
-		// const secondLine = sectionName.length > 2 ? sectionName[2] : sectionName[1];
-
-		// const text1 = new TextBlock(`section-${section.id}-text-1`, firstLine);
-		// text1.fontSize = 16;
-		// text1.color = 'rgba(127, 201, 250, 1)';
-		// text1.fontSize = 16;
-		// text1.fontFamily = 'Helvetica';
-		// text1.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
-		// text1.textVerticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
-		// text1.top = '-8px';
-		// container.addControl(text1);
-
-		// const text2 = new TextBlock(`section-${section.id}-text-2`, secondLine);
-		// text2.color = 'white';
-		// text2.fontSize = 16;
-		// text2.color = 'rgba(127, 201, 250, 1)';
-		// text2.fontFamily = 'Helvetica';
-		// text2.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
-		// text2.textVerticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
-		// text2.top = '11px';
-
-		// if (section.name === 'IT Room') {
-		// 	text1.text = section.name;
-		// 	text1.top = '0px';
-		// } else {
-		// 	container.addControl(text2);
-		// }
-
-		// texture.addControl(container);
-		// container.linkWithMesh(fakeMesh);
-
-		// // hide containers by default
-		// container.isVisible = true;
-
-		// add click event listener to contianer
+		
 		const model = scene.getMeshByName('factory-model');
 
 		const securityCamera = new ArcRotateCamera(
@@ -399,12 +331,6 @@ const Home = (props) => {
 		securityCamera.lowerAlphaLimit = securityCamera.alpha - 0.75;
 		securityCamera.upperAlphaLimit = securityCamera.alpha + 0.75;
 
-		// if (section.name === 'IT Room') {
-		// 	securityCamera.alpha = 0.98;
-		// 	securityCamera.lowerAlphaLimit = securityCamera.alpha - 0.25;
-		// 	securityCamera.upperAlphaLimit = securityCamera.alpha + 0.75;
-		// }
-
 		const fakeCameraMesh = MeshBuilder.CreateSphere(
 			`section-${section.id}-fake-mesh`,
 			{ diameter: 1 },
@@ -423,33 +349,8 @@ const Home = (props) => {
 
 		securityCamera.parent = fakeCameraMesh;
 
-		const canvas = document.getElementById('renderCanvas');
-
 		// disable camera up and down movements
 		securityCamera.beta = 1.2;
-
-		// container.onPointerClickObservable.add(() => {
-		// 	hideSectionUIs(scene);
-		// 	hideInfoUIs(scene);
-
-		// 	scene.activeCamera = securityCamera;
-		// 	securityCamera.attachControl(canvas, true);
-
-		// 	// make visibile to UC's
-		// 	const advancedTexture = scene.getTextureByName('myUI');
-
-		// 	section.infos.forEach((usecaseId) => {
-		// 		const cnt = advancedTexture.getControlByName(`usecase-${usecaseId}-container`);
-		// 		cnt.width = '90px';
-		// 		cnt.height = '90px';
-		// 		cnt.cornerRadius = 50;
-		// 		// make cnt first children fontsize 18
-		// 		cnt.children[0].fontSize = 18;
-		// 		cnt.isVisible = true;
-		// 	});
-
-		// 	// enable start tour and close button
-		// });
 	};
 
 	useEffect(()=>{
@@ -461,27 +362,82 @@ const Home = (props) => {
 
  	const zoomInToSection =(i)=>{
 		// let section = sections[i]
-		let section = sections[usecases[i].section]
-		console.log("section",section);
-		console.log("i",i);
+		let id = -1;
+		usecases.forEach((useCase) => {
+			if(useCase.id == i) id = useCase.section;
+		});
+		let section = null;
+		sections.forEach((sect) => {
+			if(sect.id == id) section = sect;
+		});
+
 		hideSectionUIs(scene);
 		hideInfoUIs(scene);
-		const canvas = document.getElementById('renderCanvas');
-		const securityCamera = scene.getCameraByName(`security-camera-${section.id}`);
-		scene.activeCamera = securityCamera;
-		securityCamera.attachControl(canvas, true);
+		const canvas = document.getElementsByClassName("main-canvas")[0];
+		const arcRotateCamera = scene.getCameraByName('camera-2');
+		const movingCamera = scene.getCameraByName('camera-3');
+		movingCamera.position.copyFrom(arcRotateCamera.position);
+		movingCamera.setTarget(arcRotateCamera.target.clone());
+
+		const securityCamera = scene.getCameraByName(`security-camera-${id}`);
+		scene.activeCamera = movingCamera;
+		console.log(securityCamera.target);
+		let direction = new Vector3(securityCamera.target.x - securityCamera.position.x, securityCamera.target.y - securityCamera.position.y, securityCamera.target.z - securityCamera.position.z);
+		console.log(direction);
 		
-		// make visibile to UC's
-		const advancedTexture = scene.getTextureByName('myUI');
-		section.infos.forEach((usecaseId) => {
-			const currMesh = scene.getMeshByName(`usecase-${usecaseId }-fake-mesh`);
-			const currContainer = advancedTexture.getControlByName(`usecase-${ usecaseId}-container`);
-			if(!currMesh || !currContainer){
-				currMesh.scale(.2);
-				currContainer.scale(.2);
+		let alpha = Math.atan2(direction.x, direction.z);
+		let distance = Math.sqrt(direction.x * direction.x + direction.z * direction.z);
+
+		const timeline = gsap.timeline();
+		timeline.to(movingCamera.position, {
+			x: section.cameraPosition.x,
+			y: section.cameraPosition.y,
+			z: section.cameraPosition.z,
+			duration: 2,
+		});
+		timeline.to(movingCamera.rotation, {
+			x: Math.PI/2 - 1.2,
+			y: alpha,
+			duration: 2,
+			onComplete: () => {
+				scene.activeCamera = securityCamera;
+				securityCamera.attachControl(canvas, true);
+
+				// RESET THE MOVING CAMERA
+				movingCamera.position.copyFrom(arcRotateCamera.position);
+				movingCamera.setTarget(arcRotateCamera.target.clone());
 			}
-			});
+		});
+		timeline.play();
 	}
+
+
+	// Function to adjust the ball's scale inversely to the camera's scaling
+    function adjustHotspotScale(scene) {
+		if (scene.activeCamera.globalScale == undefined) {
+			return
+		}
+        // Get the current scaling of the camera (assuming it's uniform scaling)
+		console.log("scene",scene.activeCamera.globalScale.x);
+        const cameraScaling = scene.activeCamera.globalScale.x;
+
+        // Calculate the inverse scaling factor for the ball
+        const inverseScalingFactor = 1 / cameraScaling;
+
+        // Apply the inverse scaling to each hotspot
+        if(!scene) return;
+        const texture = scene.getTextureByName('myUI');
+        for(var i = 0; i <= 30; i++) {
+            const currMesh = scene.getMeshByName(`usecase-${i}-fake-mesh`);
+            const currContainer = texture.getControlByName(`usecase-${i}-container`);
+            if(!currMesh || !currContainer) continue;
+            currMesh.scaling = hotspotInitialScaling.scale(inverseScalingFactor);
+        }
+    }
+
+    // Event listener for scene render loop or when the camera zoom changes
+
+
 
 	const showHotspots = (scene,show) => {
 		if(!scene) return;
@@ -517,40 +473,41 @@ const Home = (props) => {
 	const showSectionUIs = (scene) => {
 		const advancedTexture = scene.getTextureByName('myUI');
 
-		// sections.forEach((section) => {
-		// 	const container = advancedTexture.getControlByName(`section-${section.id}-container`);
-		// 	container.isVisible = true;
-		// });
+		sections.forEach((section) => {
+			const container = advancedTexture.getControlByName(`section-${section.id}-container`);
+			// container.isVisible = false;
+			// container.isVisible = true;
+		});
 
-		// usecases.forEach((usecase) => {
-		// 	const container = advancedTexture.getControlByName(`usecase-${usecase.id}-container`);
-		// 	container.isVisible = true;
-		// });
+		usecases.forEach((usecase) => {
+			const container = advancedTexture.getControlByName(`usecase-${usecase.id}-container`);
+			// container.isVisible = true;
+		});
 	};
 
 	const onSceneReady = useCallback(async (s) => {
+		loadModels(s);
 		createSectionsGUI(s);
-		createUCGUI(s);
 		hideSectionUIs(s);
 		hideInfoUIs(s);
 
-		loadModels(s);
-
+		setGlobalState("scene",s);
 		setScene(() => s);
 	}, [props.extraData]);
 
 	const handleMoveCameraOnClose = () => {
 		Howler.stop();
 
-		if (scene.activeCamera.name === 'camera-2') {
-			return;
-		}
+
 
 		const model = scene.getMeshByName('factory-model');
 		model.position = new Vector3(0, 0, 0);
 
 		const arcRotateCamera = scene.getCameraByName('camera-2');
 		arcRotateCamera.restoreState();
+		if (scene.activeCamera.name === 'camera-2') {
+			return;
+		}
 		const advancedTexture = scene.getTextureByName('myUI');
 		sections.forEach((section) => {
 			const securityCamera = scene.getCameraByName(`security-camera-${section.id}`);
@@ -562,7 +519,8 @@ const Home = (props) => {
 			cnt.height = '30px';
 			cnt.cornerRadius = 30;
 
-			cnt.children[0].fontSize = 12;
+			if(cnt.children.length > 0)
+				cnt.children[0].fontSize = 12;
 		});
 
 
@@ -586,26 +544,15 @@ const Home = (props) => {
 		setSectionData(data?.SectionData);
 	};
 
-	const changeName = (scene) => {
-		for(var i = 0; i < props.extraData.length; i++) {
-			const advancedTexture = scene.getTextureByName('myUI');
-			const cnt = advancedTexture.getControlByName(`usecase-${props.extraData[i].use_case_id}-container`);
-			cnt.onPointerEnterObservable.add(() => {
-				// sectionNameUI.text = props.extraData[i].short_label;
-				// sectionNameUI.text = usecase.textData;
-			});
-		}
-	};
-
 	/**
 	 * Will run on every frame render.  We are spinning the box on y-axis.
 	 */
 	useEffect(()=>{
-		if (!isLoading && !isWelcome) {
-					// setIsLoading(false);
-				setGlobalState('IsLoading', false);
-		}
-			},[isLoading,isWelcome])
+if (!isLoading && !isWelcome) {
+			// setIsLoading(false);
+		setGlobalState('IsLoading', false);
+}
+	},[isLoading,isWelcome])
 	const onRender = (scene) => {};
 	const handleNext = () => {
 		if(count == 5){
@@ -730,6 +677,14 @@ const Home = (props) => {
         </div>
       )}
       {(isLoading || isWelcome) && <Spinner isWelcome={isWelcome} isLoading={isLoading}/>}
+      {/* {isTitle &&
+        <div className={styles.hover_des_container}>
+          <div className={styles.hover_des}>
+            <div className={styles.Title_One}>{titleOne[counter]}</div>
+            <div className={styles.Title_Two}>{titleTwo[counter]}</div>
+          </div>
+        </div>
+      } */}
 
       {uCTourId > 0 ? (
         <div className={styles.hover_des_container}>

@@ -7,7 +7,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { setGlobalState, useGlobalState } from "../state";
 import { Howler, Howl } from "howler";
 import bgpattern from "../assets/Pattern.png";
-import "../css/mainPage.css";
+import "../css/toolbarManu.css";
 import {
   BaseAPI,
   MainMenuIsButtons,
