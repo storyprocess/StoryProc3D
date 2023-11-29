@@ -54,7 +54,7 @@ const DataCard = ({ data, onClose, handlePreButton, handleNexButton }) => {
   }
   return (
     <div className="rectangle">
-      <div className="LeftArrow blink">
+      <div className="LeftArrow">
 			{numGraphics > 1 && carouselType == "1" ?
         <img
           onMouseEnter={() => setIsHoverLeft(true)}
@@ -69,6 +69,7 @@ const DataCard = ({ data, onClose, handlePreButton, handleNexButton }) => {
       <div className="left-section">
         <h2 className="heading">{data.short_label}</h2>
         <hr className="divider" />
+        {/* <hr class="card-divider"></hr> */}
         <p className="content">{data?.long_desc}</p>
         <div className="left-image-container">
           <QRCodeCanvas
@@ -77,7 +78,7 @@ const DataCard = ({ data, onClose, handlePreButton, handleNexButton }) => {
             value={data.details_url}
             bgColor={"#fff"}
             level={"H"}
-            style={{width:'30%',height:'40%'}}
+            style={{width:'30%',height:'auto'}}
           />
           <p className="scan-content"><a href={data.details_url} target="_blank"> Scan or click for more details</a></p>
         </div>
@@ -95,7 +96,7 @@ const DataCard = ({ data, onClose, handlePreButton, handleNexButton }) => {
            : ''}
         </div>
       </div>
-      <div className="RightArrow blink" style={{marginRight:'10%'}}>
+      <div className="RightArrow" style={{marginRight:'10%'}}>
 				{numGraphics > 1 && carouselType == "1" ?
         <img
           onMouseEnter={() => setIsHoverRight(true)}

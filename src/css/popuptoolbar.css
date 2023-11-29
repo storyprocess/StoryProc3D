@@ -138,6 +138,7 @@
     color: var(--HamburgerMenuListFontColor) !important;
     border-radius: 12px !important;
     font-family: var(--HamburgerMenuListFontFamily) !important;
+    font-weight: var(--HamburgerMenuListFontWeight) !important;
     font-size: var(--HamburgerMenuListFontSize) !important;
     top: auto !important;
     bottom: 11% !important;

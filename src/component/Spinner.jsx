@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/Spinner.module.css";
+import  "../css/Spinner.css";
 // import BGLogo from "../assets/background.png";
 import BGLogo from "../assets/Screenshot_34.png";
 import { CircularProgressbar } from "react-circular-progressbar";

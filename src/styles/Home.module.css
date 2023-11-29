@@ -6,7 +6,7 @@
 	justify-content: center;
 	margin: 0;
 	padding: 0;
-	background-color: var(--bgSeparator);
+	background-color: var(--bgWorldBackground);
 }
 .start__button__container {
 	position: absolute;
@@ -28,7 +28,7 @@
 	border-radius: 0.5rem;
 	font-weight: 600;
 	border: none;
-	background-color: var(--bgSeparator);
+	background-color: var(--bgWorldBackground);
 	color: var(--fontWhite);
 	cursor: pointer;
 }

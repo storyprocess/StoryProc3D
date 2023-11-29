@@ -38,7 +38,12 @@ function CardContainer(props) {
 			setGlobalState("mapped_use_case",id);
 		}
 	});
-
+  useEffect(()=>{
+    if (props.useCaseMapping) {
+      setCurrentPage(0)
+      setContentOverflow(false)
+    }
+  },[props.useCaseMapping])
   return (
     <div style={{ display: "flex", width: "100%", justifyContent: "center" ,zIndex:3}}>
 			{/* <MyFirstLib /> */}

@@ -45,7 +45,7 @@
 .card-heading {
   font-family: var(--CardsFontFamily);
   font-size: var(--CardsFontSize);
-  font-weight: 300;
+  font-weight: var(--CardsFontWeight);
   margin: 0;
   margin-bottom: 0vh;
   padding-bottom: 1vh;
@@ -58,9 +58,9 @@
   font-family: var(--CardsContentFontFamily);
   font-size: var(--CardsContentFontSize);
   text-align: left;
-  font-weight: 300;
+  font-weight: var(--CardsContentFontWeight);
   margin: 0;
-  margin-top: 3vh;
+  margin-top: 8%;
   padding: 0;
   color: var(--CardsFontColor);
 }
@@ -144,10 +144,11 @@
   /* box-shadow: 10px 10px 54px -6px rgba(0, 0, 0, 1); */
   /* box-shadow: -30px 0px 15px -10px #00000066 !important; */
   height: 20vh;
-  padding-bottom: 12%;
+  padding: 9%;
+  /* padding-bottom: 12%;
   padding-top: 12%;
   padding-left: 10%;
-  padding-right: 10%;
+  padding-right: 10%; */
   border-radius: 4%;
 	/* overflow-y: auto;
 	overflow-x: auto; */
@@ -233,6 +234,7 @@
   position: absolute;
   display: flex;
 	bottom: 5%;
+  width: 65%;
 }
 
 .tooltip-button {
@@ -240,15 +242,17 @@
 	bottom: 10px; */
   color: var(--AchievedThroughButtonFontColor);
   border: none;
-  padding: 10px 20px;
+  /* padding: 10px 20px; */
   cursor: pointer;
 	background: var(--bgAchievedThroughButton);
-	padding: 9px 16px 9px 16px;
+	padding: 5% 6%;
+	/* padding: 9px 16px 9px 16px; */
 	border-radius: 12px;
 	display: flex; /* Enable flex layout */
   align-items: center; /* Vertically center content */
 	font-size: var(--AchievedThroughButtonFontSize);
   font-family: var(--AchievedThroughButtonFontFamily);
+  font-weight: var(--AchievedThroughButtonFontWeight);
   opacity: var(--AchievedThroughButtonOpacity);
 }
 

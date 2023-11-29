@@ -20,6 +20,7 @@ import hotspots from '../data/hotspots.json';
 import sections from '../data/sections.json';
 import { gsap } from 'gsap';
 import usecases from '../data/usecases.json';
+import WelcomeImg from '../assets/Rectangle 3463321.png'
 // Adds the default support for glTF file format
 import '@babylonjs/loaders';
 import '@babylonjs/core/Debug/debugLayer'; // Augments the scene with the debug methods
@@ -28,7 +29,7 @@ import { AdvancedDynamicTexture, Rectangle, TextBlock, Control } from '@babylonj
 import { startAnimations, moveCameraOnClose, handleSectionData } from '../hooks/animations';
 import { setGlobalState, useGlobalState } from '../state';
 import { Howl, Howler } from 'howler';
-import { BaseAPI, ApplicationDB } from '../assets/assetsLocation';
+import { BaseAPI, ApplicationDB, assetsLocation } from '../assets/assetsLocation';
 import {
 	// ClientOfficeAnimation,
 	// OwnOfficeAnimation2,
@@ -64,6 +65,8 @@ const Home = (props) => {
 	const [isWelcome, setIsWelcome] = useState(true);
 	const [currentZoomedSection, setCurrentZoomedSection] = useGlobalState("currentZoomedSection");
 	const [HoverLabel, setHoverLabel] = useGlobalState("HoverLabel");
+	const [applicationDB, setApplicationDB] =
+	useGlobalState("ApplicationDB");
 	/*const [titleOne, setTitleOne] = useState([
 		"Dell Edge Virtual Experience Center for Manufacturing",
 		"Dell Edge Virtual Experience Center for Manufacturing",
@@ -623,39 +626,109 @@ const Home = (props) => {
 		// setIsLoading(false);
 		// setGlobalState('IsLoading', false);
 	  };
+	  function isImage(url) {
+		return /\.(jpg|JPG|jpeg|png|webp|avif|gif|svg)$/.test(url);
+	  }
+	  function getExtension(filename) {
+		var parts = filename.split('.');
+		return parts[parts.length - 1];
+	  }
+	  function isVideo(filename) {
+		var ext = getExtension(filename);
+		switch (ext.toLowerCase()) {
+		  case 'mp4':
+			// etc
+			return true;
+		}
+		return false;
+	  }
 	return (
     <div className={styles.app__container}>
-{count >= 0 && isWelcome && (
-				<div className='Welcome-card-container' style={{zIndex: 99999999999}}>
-				 <div className="Welcome-Tour-box-title">
-                   <div className='wel-title'> {WelcomeData[count]}</div>
-                   <div className='wel-description'>{WelcomeData1[count]}</div>
-                 </div>
-                 <div>
-                   <div
-                     style={{ display: "flex", justifyContent: "space-between",cursor:'pointer' }}
-                   >
-					<div className='welcome-page'>{count+1}/6</div>
-					<div style={{display:'flex',justifyContent:'end',alignItems:'center',width:'100%',gap:'5%'}}>
-                     <div
-                       className="welcome-btn"
-					   style={{color:'#0C2055'}}
-                       onClick={() => handleSkip()}
-					   >
-                       Skip
-                     </div>
-                     <div
-                       className="welcome-next-btn"
-                       onClick={() => handleNext()}
-					   >
-                       {count == 5 ? "Start tour" : "Next"}
-						 </div>
-                     </div>
-                   </div>
-                 </div>
-				</div>
-
-            			)}
+      {count >= 0 && isWelcome && (
+        <div className="Welcome-card-container" style={{ zIndex: 99999999999 }}>
+          {isVideo(`welcome${count+1}.mp4`) ? <div>
+              <video
+				autoPlay
+				muted
+				loop
+				controls
+                style={{ width: "100%", verticalAlign: "bottom" }}
+              >
+                <source
+                //   src={'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
+                  src={`${assetsLocation}${applicationDB}/graphics/${`welcome${count+1}.mp4`}`}
+                  type="video/mp4"
+                />
+              </video>
+            </div> :  isImage(`welcome${count+1}.png`) ? (
+            <div>
+              <img
+                alt="test"
+				width={"100%"}
+                src={`${assetsLocation}${applicationDB}/graphics/${`welcome${count+1}.png`}`}
+              />
+            </div>
+          ) : (
+           <img width={"100%"} src={WelcomeImg} />
+          )}
+          <div className="Welcome-Tour-box-title">
+            <div className="wel-title"> {WelcomeData[count]}</div>
+            <div className="wel-description">{WelcomeData1[count]}</div>
+          </div>
+          <div style={{ padding: "3%" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                cursor: "pointer",
+              }}
+            >
+              {/* <div className='welcome-page'>{count+1}/6</div> */}
+              <div className="welcome-page">
+                {[0, 1, 2, 3, 4, 5].map((item) => {
+                  return (
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="5"
+                        cy="5"
+                        r="4.5"
+                        fill={item == count ? "#1033A4" : "white"}
+                        stroke="#80C8FA"
+                      />
+                    </svg>
+                  );
+                })}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "end",
+                  alignItems: "center",
+                  width: "100%",
+                  gap: "5%",
+                }}
+              >
+                <div
+                  className="welcome-btn"
+                  style={{ color: "#0C2055" }}
+                  onClick={() => handleSkip()}
+                >
+                  Skip
+                </div>
+                <div className="welcome-next-btn" onClick={() => handleNext()}>
+                  {count == 5 ? "Start tour" : "Next"}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {(isLoading || isWelcome) && <Spinner isWelcome={isWelcome} isLoading={isLoading}/>}
 
       {uCTourId > 0 ? (

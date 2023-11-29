@@ -7,7 +7,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { setGlobalState, useGlobalState } from "../state";
 import { Howler, Howl } from "howler";
 import bgpattern from "../assets/Pattern.png";
-import "../css/toolbarManu.css";
+import "../css/mainPage.css";
 import {
   BaseAPI,
   MainMenuIsButtons,
@@ -307,7 +307,7 @@ const MainPage = (props) => {
       resetScreen();
       return;
     }
-    if (buttonId == "btnBusinessNeeds" || buttonId == "btnGuidingPrinciples" || buttonId == "btnSalesChallenges" || buttonId == "btnUseCasesEnabled" || buttonId == "btnStoryProcSolutions") {
+    if (buttonId == "btnBusinessNeeds" || buttonId == "btnGuidingPrinciples" || buttonId == "btnSalesChallenges") {
       setGlobalState("IsBackgroundBlur", true);
     }else{
     setGlobalState("IsBackgroundBlur", false);
@@ -456,6 +456,23 @@ console.log("data",data);
         <div className="learn-more" onClick={()=>handlePlayStory()}>Learn More</div>
       </div>
       </div>}
+      <div style={{display:'flex'}}>
+
+      <div className={`${MainMenuIsButtons ? "toolbar reset-toolbar" : "plain-reset-toolbar"} `} >
+      <ToolbarButton
+          forwardRef={buttonRef}
+          buttonId="reset"
+          id="reset"
+          selectedButton={selectedButton}
+          active={"reset" === selectedButton}
+          buttonName="Reset the Experience"
+          handleButtonClick={handleResetButtonClick}
+          handleMenuClick={() => {}}
+        >
+          Reset the Experience
+        </ToolbarButton>
+      </div>
+
       <div
         // style={{ justifyContent: MainMenuIsButtons ? "center" : "end" }}
         className={`${MainMenuIsButtons ? "toolbar" : "plain-toolbar"} `}
@@ -554,19 +571,9 @@ console.log("data",data);
         >
           Immersive Overview
         </ToolbarButton>
-        {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
-        <ToolbarButton
-          forwardRef={buttonRef}
-          buttonId="reset"
-          id="reset"
-          selectedButton={selectedButton}
-          active={"reset" === selectedButton}
-          buttonName="Reset the Experience"
-          handleButtonClick={handleResetButtonClick}
-          handleMenuClick={() => {}}
-        >
-          Reset the Experience
-        </ToolbarButton>
+        {/* {MainMenuIsButtons ? "" : <div className='plain-divider'></div>} */}
+        
+      </div>
       </div>
 
       {/* Display elements if clicked */}

@@ -1,29 +1,50 @@
 :root {
-  --fontWhite: #ffffff; 
+  /* --fontWhite: #ffffff; 
   --fontToolbar: #162221; 
   --fontLight: #ffffff; 
   --fontBlack:#000000; 
   
   --bgWhite: #ffffff; 
+  --bgGrey: #D9D9D9; 
   --bgSeparator: #162221; 
   --bgShadow: #000000; 
   --bgMedium: #7E6AD2;
   --bgDark:#FF6F61;
-  --bgLight: #4A148C;
+  --bgLight: #4A148C; */
+  --bgGrey: #D9D9D9; 
 
-  --fontFamily1:'Montserrat';
-  --fontFamilyRobotoMedium:'Roboto Medium';
-  --fontFamilyRobotoBold:'Roboto Bold';
+  --fontWhite: #ffffff; 
+  --fontToolbar: #f4d160; 
+  --fontLight: #ffffff; 
+  --fontBlack:#000000; 
+  
+  --bgWhite: #ffffff; 
+  --bgSeparator: #36696d; 
+  --bgShadow: #000000; 
+  --bgMedium: #263f92;
+  --bgDark:#36696d;
+  --bgLight: #4192a5;
+  
+  --fontFamily1:'Roboto';
+  --fontFamilyRobotoMedium:'Roboto';
+  --fontFamilyRobotoBold:'Roboto';
+
+  --fontWeightRegular:400;
+  --fontWeightMedium:500;
+  --fontWeightBold:700;
 
   --opacityOpaque:1;
   --opacityHigh:0.9;
   --opacityLow:0.85;
   --opacityVeryLow:0.4;
 
+  --bgWorldBackground:var(--bgSeparator);
+
   --bgBottomToolbar: var(--bgMedium);
   --BottomToolbarOpacity: var(--opacityHigh);
   --BottomToolbarFontFamily: var(--fontFamilyRobotoMedium);
-  --BottomToolbarFontSize: 0.938vw;
+  --BottomToolbarFontWeight: var(--fontWeightMedium);
+  --BottomToolbarFontSize: 1.2vw;
   --BottomToolbarFontColor: var(--fontWhite);
   --bgBottomToolbarHighlightedButton: var(--bgDark);
   --BottomToolbarSeparator: var(--bgSeparator);
@@ -34,30 +55,36 @@
   --bgCards: var(--bgMedium);
   --CardsOpacity: var(--opacityLow);
   --CardsFontFamily: var(--fontFamilyRobotoMedium);
+  --CardsFontWeight: var(--fontWeightMedium);
   --CardsFontSize: 1.354vw;
   --CardsFontColor: var(--fontWhite);
   
   --CardsContentFontFamily: var(--fontFamily1);
+  --CardsContentFontWeight: var(--fontWeightRegular);
   --CardsContentFontSize: 0.938vw;
   
   --bgAchievedThroughButton: var(--bgLight);
   --AchievedThroughButtonOpacity: var(--opacityHigh);
   --AchievedThroughButtonFontFamily: var(--fontFamily1);
+  --AchievedThroughButtonFontWeight: var(--fontWeightRegular);
   --AchievedThroughButtonFontSize: 0.938vw;
   --AchievedThroughButtonFontColor: var(--fontWhite);
   
   --bgCarousel: var(--bgMedium);
   --CarouselOpacity: var(--opacityLow);
   --CarouselFontFamily: var(--fontFamilyRobotoMedium);
+  --CarouselFontWeight: var(--fontWeightMedium);
   --CarouselFontSize: 1.354vw;
   --CarouselFontColor: var(--fontWhite);
 
   --CarouselContentFontFamily: var(--fontFamily1);
+  --CarouselContentFontWeight: var(--fontWeightRegular);
   --CarouselContentFontSize: 0.938vw;
 
   --bgHamburgerMenuList: var(--bgMedium);
   --HamburgerMenuListOpacity: var(--opacityLow);
   --HamburgerMenuListFontFamily: var(--fontFamily1);
+  --HamburgerMenuListFontWeight: var(--fontWeightRegular);
   --HamburgerMenuListFontSize: 0.833vw;
   --HamburgerMenuListFontColor: var(--fontWhite);
   
@@ -66,31 +93,41 @@
   --bgHotspotHover: var(--bgMedium);
   --HotspotHoverOpacity: var(--opacityLow);
   --HotspotHoverFontFamily: var(--fontFamilyRobotoMedium);
+  --HotspotHoverFontWeight: var(--fontWeightMedium);
   --HotspotHoverFontSize: 1.042vw;
   --HotspotHoverFontColor: var(--fontWhite);
   
   --bgOnboardingCard: var(--bgWhite);
+  --bgOnboardingCardImg: var(--bgGrey);
   --OnboardingCardOpacity: var(--opacityOpaque);
   --OnboardingCardFontFamily: var(--fontFamilyRobotoMedium);
+  --OnboardingCardFontWeight: var(--fontWeightMedium);
   --OnboardingCardFontSize: 0.938vw;
   --OnboardingCardFontColor: var(--bgMedium);
 
   --OnboardingCardContentFontFamily: var(--fontFamily1);
+  --OnboardingCardContentFontWeight: var(--fontWeightRegular);
   --OnboardingCardContentFontSize: 0.729vw;
   --OnboardingCardContentFontColor: var(--bgMedium);
   --OnboardingCardNumberingFontColor: var(--bgLight);
   --bgOnboardingCardHighlightedButton: var(--bgLight);
 
   --bgUcStory: var(--bgMedium);
-  --UcStoryOpacity: var(--opacityLow);
+  --UcStoryOpacity: var(--opacityHigh);
   --UcStoryFontFamily: var(--fontFamilyRobotoMedium);
+  --UcStoryFontWeight: var(--fontWeightMedium);
   --UcStoryFontSize: 1.667vw;
   --UcStoryFontColor: var(--fontWhite);
 
   --bgUcStoryBlocks: var(--bgDark);
   --UcStoryBlocksFontFamily: var(--fontFamilyRobotoBold);
+  --UcStoryBlocksFontWeight: var(--fontWeightBold);
   --UcStoryBlocksFontSize: 0.938vw;
 
   --UcStoryBlocksContentFontFamily: var(--fontFamily1);
+  --UcStoryBlocksContentFontWeight: var(--fontWeightRegular);
   --UcStoryBlocksContentFontSize: 0.833vw;
+
+  --bgSpinner: var(--bgLight);
+
 }

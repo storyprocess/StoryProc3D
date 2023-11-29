@@ -23,6 +23,7 @@
 
   color: var(--CarouselFontColor);
   font-family: var(--CarouselFontFamily);
+  font-weight: var(--CarouselFontWeight);
   text-align: left;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
@@ -50,7 +51,7 @@
   position: absolute;
   font-size: var(--CarouselFontSize);
   font-family: var(--CarouselFontFamily);
-  font-weight: 500;
+  font-weight: var(--CarouselFontWeight);
   /* margin: 0; */
   left: 8%;
   top: 3%;
@@ -60,8 +61,8 @@
 
 .divider {
   position: absolute;
-  width: 8%;
-  /* height: 1px; */
+  width: 15%;
+  height: 0.5%;
   font-size: 0.104vw;
   background-color: var(--bgSeparator);
   border: none;
@@ -73,8 +74,9 @@
   position: absolute;
   left: 8%;
   font-family: var(--CarouselContentFontFamily);
+  font-weight: var(--CarouselContentFontWeight);
   font-size: var(--CarouselContentFontSize);
-  top: 25%;
+  top: 20%;
   width: 80%;
 }
 
@@ -102,7 +104,7 @@
 }
 
 .left-image {
-  bottom: 20%;
+  bottom: 25%;
   position: absolute;
   border: 10px solid var(--fontWhite);
   border-radius: 5px;

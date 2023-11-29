@@ -172,8 +172,10 @@ function CardMapped(props) {
 						<p className="card-content">{props.content}</p>
 
 						<div className="tooltip-container">
-							<button onClick={(event)=>{{toggleTooltip();handleClick(event)}}} className="tooltip-button">
-              {`Achieved through >`} 
+            <button onClick={(event)=>{{toggleTooltip();handleClick(event)}}} className="tooltip-button">
+								Achieved through <span style={{display:'flex',alignItems:'center',marginLeft:'5px'}}><svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1.09998L7 6.49998L0.999999 11.9" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg></span>
 							</button>
 						</div>
 						{isOpen && linkedData && (

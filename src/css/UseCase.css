@@ -132,7 +132,7 @@
     /* max-width: 500px; */
     width: 45%;
     background: var(--bgMedium);
-    opacity: 0.8;
+    opacity: 0.9;
     text-align: left;
     font-family: var(--fontFamily1);
     box-shadow: 10px 10px 54px -6px rgba(0,0,0,1);
@@ -161,7 +161,7 @@
 }
   .Welcome-card-container {
     --angle: 0deg;
-  padding: 2% 1.5%;
+  /* padding: 0% 1.5% 2% 1.5%; */
   /* padding: 32px 15px 24px 24px; */
   width: 25%;
   /* height: 19%; */
@@ -171,20 +171,19 @@
   font-family: var(--fontFamily1);
   box-shadow: 10px 10px 54px -6px rgba(0,0,0,1);
   position: absolute;
-  top: 40%;
+  top: 25%;
   left:38%;
   border-radius: 12px;
 }
-.Welcome-card-container::before {
+/* .Welcome-card-container::before {
   content: '';
   position: absolute;
   bottom: -14px;
   left: 3%;
-  /* transform: translateX(-455%); */
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   border-top: 15px solid rgb(255, 255, 255);
-}
+} */
 .welcome-next-btn{
   background: var(--bgOnboardingCardHighlightedButton);
   padding: 3%;
@@ -198,21 +197,24 @@
   font-size: 1vw;
 }
 .welcome-page{
-  color: var(--OnboardingCardNumberingFontColor);
+  width: 50%;
+  gap: 3%;
+  display: flex;
+  align-items: center;
 }
 .wel-title{
 font-size: var(--OnboardingCardFontSize);
 font-family: var(--OnboardingCardFontFamily);
 color: var(--OnboardingCardFontColor);
-font-weight: 500;
+font-weight: var(--OnboardingCardFontWeight);
 margin-bottom: 3%;
 }
 .wel-description{
   font-size: var(--OnboardingCardContentFontSize);
   font-family: var(--OnboardingCardContentFontFamily);
   color: var(--OnboardingCardContentFontColor);
-  font-weight: 400;
-  margin-bottom: 5%;
+  font-weight: var(--OnboardingCardContentFontWeight);
+  margin: 0px 3%;
 
 }
   @keyframes rotate {
@@ -246,13 +248,16 @@ margin-bottom: 3%;
     color: var(--UcStoryFontColor);
     font-size: var(--UcStoryFontSize);
     font-family: var(--UcStoryFontFamily);
-    font-weight: 500;
+    font-weight: var(--UcStoryFontWeight);
     margin-bottom: 38px;
   }
   .Welcome-Tour-box-title {
     color: var(--OnboardingCardFontColor);
     font-size: 1.4vw;
     font-weight: 500;
+    padding-top: 5%;
+    margin: 0px 7%;
+    text-align: center;
     margin-bottom: 15px;
   }
   .Tour-box-title {
@@ -309,14 +314,15 @@ margin-bottom: 3%;
     font-family: var(--UcStoryBlocksFontFamily);
     color: var(--UcStoryFontColor);
     font-size: var(--UcStoryBlocksFontSize);
-    font-weight: 700;
-    margin-bottom: 12px;
+    font-weight: var(--UcStoryBlocksFontWeight);
   }
   
   .content-description {
+    margin-Top: 12px;
     color: var(--UcStoryFontColor);
     font-size: var(--UcStoryBlocksContentFontSize);
     font-family: var(--UcStoryBlocksContentFontFamily);
+    font-weight: var(--UcStoryBlocksContentFontWeight);
   }
   
   .box-content::-webkit-scrollbar {
@@ -350,7 +356,7 @@ margin-bottom: 3%;
     border-radius: 12px;
     border: 2px;
     background: var(--bgMedium);
-    opacity: 0.8;
+    opacity: 0.9;
     /* background: linear-gradient(0deg, rgba(3, 10, 27, 0.85), rgba(3, 10, 27, 0.85)),
     linear-gradient(40.07deg, #0F2C68 -3.97%, rgba(29, 63, 133, 0.84603) 5.79%, rgba(183, 206, 255, 0.6) 10.01%, rgba(20, 46, 100, 0.580451) 22.62%, rgba(0, 0, 0, 0) 59.42%);
     ; */

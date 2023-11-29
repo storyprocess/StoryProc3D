@@ -83,11 +83,13 @@ if (isTourOpen) {
 
 } 
 
-
+const handleReset=()=>{
+  document.getElementById('reset').click()
+}
   return (
     <div className='wrapper'>
         <div className='navbar'></div>
-        <img className='company-logo' src={companyLogo}></img>
+        <img className='company-logo' style={{cursor:'pointer'}} src={companyLogo} onClick={()=>handleReset()}></img>
         {/* <div className='divider1'></div> */}
         {/* <img className='intel' src={intel}></img> */}
         {/* {ApplicationDB == "M" ?<img style={{left:'82.84%'}} id="homeButton" className='mute withclick' src={homeIcon} onClick={()=>handleHome()}></img>:''} */}

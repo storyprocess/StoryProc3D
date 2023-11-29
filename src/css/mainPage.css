@@ -30,7 +30,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    background: var(--bgMedium);
+    background: var(--bgBottomToolbar);
     z-index: 3;
     padding-right: 2%;
 }
@@ -81,10 +81,9 @@
     border: none;
     width: 12%;
     font-size: var(--BottomToolbarFontSize);
-    /* border-radius: 10px; */
     font-family: var(--BottomToolbarFontFamily);
     color:var(--BottomToolbarFontColor);
-    font-weight: 100;
+    font-weight: var(--BottomToolbarFontWeight);
     opacity: var(--BottomToolbarOpacity);
     cursor: pointer;
 
@@ -99,14 +98,21 @@
 }
 .plain-toolbar-button{
     background: transparent;
-    color: var(--fontWhite);
+    font-size: var(--BottomToolbarFontSize);
+    font-family: var(--BottomToolbarFontFamily);
+    color:var(--BottomToolbarFontColor);
+    font-weight: var(--BottomToolbarFontWeight);
     border: none;
     cursor: pointer;
-    font-size: 1vw;
+    padding: 1%;
+    margin: 0px 0.3%;
     /* font-size: 16px; */
-    font-family: var(--fontFamily1);
     /* margin: 0px 0.3%; */
     /* padding: 0.5%; */
+}
+.plain-reset-toolbar .plain-toolbar-button {
+padding: 0px;
+margin: 0px;
 }
 .plain-toolbar-button:hover{
     color: var(--fontWhite);
@@ -117,7 +123,7 @@
 }
 .plain-button-selected{
     color: var(--fontWhite);
-    background: var(--bgDark);
+    background: var(--bgBottomToolbarHighlightedButton);
     padding: 1%;
     margin: 0px 0.3%;
     border-radius: 8px;
@@ -165,7 +171,7 @@
 .hover-label-text{
     color: var(--HotspotHoverFontColor);
     font-family: var(--HotspotHoverFontFamily);
-    font-weight: 500;
+    font-weight: var(--HotspotHoverFontWeight);
     font-size: var(--HotspotHoverFontSize);
     text-align: left;
 }
@@ -192,7 +198,7 @@
 }
 .zoom-in{
     font-size: 0.9vw;
-    font-weight: 400;
+    font-weight: var(--HotspotHoverFontWeight);
     font-family: var(--HotspotHoverFontFamily);
 }
 
@@ -210,7 +216,7 @@
     background: var(--bgDark);
     border-radius: 6px;
     font-size: 0.9vw;
-    font-weight: 400;
+    font-weight: var(--HotspotHoverFontWeight);
     font-family: var(--HotspotHoverFontFamily);
     padding: 3% 3%;
     width: 30%;

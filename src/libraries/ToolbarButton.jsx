@@ -13,6 +13,7 @@ const ToolbarButton = ({
   children,
   id,
   isDisable,
+  style
 }) => {
   const handleClick = () => {
     
@@ -43,6 +44,7 @@ const ToolbarButton = ({
           onClick={(e)=>{handleClick();handleMenuClick(e)}}
           id={buttonId}
           disabled={isDisable}
+          style={{fontWeight:buttonId == "reset" && 'bold'}}
         >
           {children}
         </button>
