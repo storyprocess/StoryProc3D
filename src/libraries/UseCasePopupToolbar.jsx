@@ -13,7 +13,7 @@ import UpArrowHover from "../assets/Group 111.png";
 import DownArrow from "../assets/Group 112.png";
 import UpArrow from "../assets/Group 113.png";
 import { useParams } from "react-router-dom";
-import { Fade, Menu, MenuItem } from "@mui/material";
+import { Fade, MenuList, MenuItem, Paper, Popper , Grow, ClickAwayListener } from "@mui/material";
 
 const UseCasePopupToolbar = (props) => {
 	const { loadID } = useParams();
@@ -93,8 +93,8 @@ const UseCasePopupToolbar = (props) => {
     }
     return filteredArr;
   }, [currentPage]);
-console.log("useCaseSectionData",useCaseSectionData);
-  return (
+
+	return (
     <div className="wrapper popup-wrapper">
       {startUC && (
         <UseCase
@@ -106,37 +106,48 @@ console.log("useCaseSectionData",useCaseSectionData);
       )}
       <div style={{ display: "flex" }}>
         <div className="popuptoolbar-container" style={{right:currentPage >= 1 || useCaseSectionData?.length == 12 && contentOverflow  ? '45px' : '0px'}}>
-        <Menu
-        id="fade-menu"
-        className="popup-container"
-        MenuListProps={{
-          'aria-labelledby': 'fade-button',
-        }}
-        anchorEl={props.anchorEl}
-        open={props.open}
-        onClose={props.handleClose}
-        TransitionComponent={Fade}
-      >
-          {useCaseSectionData &&
-            useCaseSectionData.map((element) => {
-              return isButtonContainer ? (
-                <MenuItem  onClick={()=>{props.handleMenuItemClick();handleUseCaseButtonClick(element.use_case_id)}}>{element.short_label}</MenuItem>
-
-                // <UseCasePopupToolbarButton
-                //   key={element.use_case_id}
-                //   buttonId={element.use_case_id}
-                //   selectedButton={selectedUseCaseButton}
-                //   handleButtonClick={(buttonId) =>
-                //     handleUseCaseButtonClick(buttonId)
-                //   }
-                // >
-                //   {element.short_label}
-                // </UseCasePopupToolbarButton>
-              ) : (
-                ""
-              );
-            })}
-        </Menu>
+					<Popper
+						anchorEl={props.anchorEl}
+						open={props.open}
+						TransitionComponent={Fade}
+						role={undefined}
+						placement="bottom-start"
+						transition
+						disablePortal
+						className="popup-container"
+					>
+						{({ TransitionProps, placement }) => (
+							<Grow
+								{...TransitionProps}
+								style={{
+									transformOrigin:
+										placement === 'bottom-start' ? 'left top' : 'left bottom',
+								}}
+							>
+								<Paper>
+									<ClickAwayListener onClickAway={props.handleClose}>
+										<MenuList
+											autoFocusItem={props.open}
+											id="fade-menu"
+											aria-labelledby="fade-button"
+											TransitionComponent={Fade}
+										>
+					
+											{useCaseSectionData && useCaseSectionData.map((element) => {
+													return isButtonContainer ? (
+														<MenuItem  onClick={()=>{
+														props.handleMenuItemClick();
+														handleUseCaseButtonClick(element.use_case_id)}}>
+															{element.short_label}
+														</MenuItem>)
+														: ""
+											})}
+										</MenuList>
+									</ClickAwayListener>
+								</Paper>
+							</Grow>
+						)}
+					</Popper>
         </div>
           <div className="popupArrow">
           {currentPage >= 1 && <div
@@ -169,7 +180,8 @@ console.log("useCaseSectionData",useCaseSectionData);
                 height={"40px"}
                 src={isHoverDown ? DownArrowHover : DownArrow}
               />
-            </div>}
+            </div>
+						}
           </div>
       </div>
     </div>

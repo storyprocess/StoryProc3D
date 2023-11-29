@@ -9,9 +9,8 @@ import ucData from "./ucData";
 import { async } from "q";
 import { BaseAPI} from "../assets/assetsLocation";
 import { useParams } from "react-router-dom";
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Fade from '@mui/material/Fade';
+import { Fade, MenuList, MenuItem, Paper, Popper , Grow, ClickAwayListener } from "@mui/material";
+
 const PopupToolbar = (props) => {
 	const { loadID } = useParams();
   const [selectedButton, setSelectedButton] = useState(null);
@@ -120,48 +119,57 @@ const PopupToolbar = (props) => {
   return (
     <div className="wrapper popup-wrapper">
       <div style={{ display: "flex" }}>
-        {/* <div className="popuptoolbar-container tooltip-content"> */}
-        <Menu
-        id="fade-menu"
-        className="popup-container"
-        MenuListProps={{
-          'aria-labelledby': 'fade-button',
-        }}
-        anchorEl={props.anchorEl}
-        open={props.open}
-        onClose={props.handleClose}
-        TransitionComponent={Fade}
-      >
-          {props.sectionData &&
-            props.sectionData.map((element) => {
-              return (
-        
-								<MenuItem  onClick={()=>{props.handleMenuItemClick();handleButtonClick(element.id)}}>
-									{element.short_label}
-								</MenuItem>
-                // <PopupToolbarButton
-                //   buttonType={props.buttonType}
-                //   key={element.id}
-                //   buttonId={element.id}
-                //   selectedButton={selectedButton}
-                //   handleButtonClick={handleButtonClick}
-                // >
-                //   {element.short_label}
-                // </PopupToolbarButton>
-            
-              );
-            })}
-      </Menu>
-
-          {showDataCard && (
-            <DataCard
-              data={dataObject}
-              onClose={handleCloseClick}
-              handlePreButton={handlePreButton}
-              handleNexButton={handleNexButton}
-            />
-          )}
-        {/* </div> */}
+        <div className="popuptoolbar-container">
+					<Popper
+						anchorEl={props.anchorEl}
+						open={props.open}
+						TransitionComponent={Fade}
+						role={undefined}
+						placement="bottom-start"
+						transition
+						disablePortal
+						className="popup-container"
+					>
+						{({ TransitionProps, placement }) => (
+							<Grow
+								{...TransitionProps}
+								style={{
+									transformOrigin:
+										placement === 'bottom-start' ? 'left top' : 'left bottom',
+								}}
+							>
+								<Paper>
+									<ClickAwayListener onClickAway={props.handleClose}>
+										<MenuList
+											autoFocusItem={props.open}
+											id="fade-menu"
+											aria-labelledby="fade-button"
+											TransitionComponent={Fade}
+										>
+											{props.sectionData && props.sectionData.map((element) => {
+													return (
+														<MenuItem  onClick={()=>{
+														props.handleMenuItemClick();
+														handleButtonClick(element.id)}}>
+															{element.short_label}
+														</MenuItem>
+														);
+											})}
+										</MenuList>
+									</ClickAwayListener>
+								</Paper>
+							</Grow>
+						)}
+					</Popper>
+					{showDataCard && (
+						<DataCard
+							data={dataObject}
+							onClose={handleCloseClick}
+							handlePreButton={handlePreButton}
+							handleNexButton={handleNexButton}
+						/>
+					)}
+        </div>
       </div>
     </div>
   );
