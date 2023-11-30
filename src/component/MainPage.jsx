@@ -478,7 +478,7 @@ const MainPage = (props) => {
           sectionData={sectionData}
           ui_element={ui_Element}
           buttonId={selectedButton}
-          useCaseMapping={selectedButton === "btnBusinessNeeds"}
+          useCaseMapping={selectedButton === "btnSalesChallenges"}
           handleMenuItemClick = {handleMenuItemClick}
           anchorEl={anchorEl}
           handleClose={handleClose}

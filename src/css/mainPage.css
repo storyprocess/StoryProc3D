@@ -83,7 +83,7 @@
     font-size: var(--BottomToolbarFontSize);
     font-family: var(--BottomToolbarFontFamily);
     color:var(--BottomToolbarFontColor);
-    font-weight: var(--BottomToolbarFontWeight);
+    /* font-weight: var(--BottomToolbarFontWeight); */
     opacity: var(--BottomToolbarOpacity);
     cursor: pointer;
 
@@ -101,7 +101,7 @@
     font-size: var(--BottomToolbarFontSize);
     font-family: var(--BottomToolbarFontFamily);
     color:var(--BottomToolbarFontColor);
-    font-weight: var(--BottomToolbarFontWeight);
+    /* font-weight: var(--BottomToolbarFontWeight); */
     border: none;
     cursor: pointer;
     padding: 1%;

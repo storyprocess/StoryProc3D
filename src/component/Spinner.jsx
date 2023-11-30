@@ -76,7 +76,8 @@ const Spinner = ({isWelcome}) => {
 
   return (
     <div className={styles.wrapper}>
-    {isModelLoaded ? <img src={BGLogo} style={{ objectFit: "contain",width:'100%',position:"absolute",bottom:'4%' }}  /> : ''}
+     {/* {isModelLoaded ? <img src={BGLogo} style={{ objectFit: "contain",width:'100%',position:"absolute",bottom:'4%' }}  /> : ''} */}
+     {isModelLoaded ? <div style={{ width:'100%',position:"absolute",bottom:'4%',filter: isModelLoaded ? "blur(5px)" : "blur(0px)" }}  > </div>: ''}
     {/* filter: isModelLoaded ? "blur(5px)" : "blur(0px)",  */}
     <div className={styles.loaderContainer}>
       {/* <div className={styles.loadingTitle}>

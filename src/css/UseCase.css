@@ -242,6 +242,15 @@ margin-bottom: 3%;
   .leftSvg {
     width: 8%;
     height: 8%;
+    fill: var(--bgUcStoryNextPrevButton);
+  }
+  .rightCloseSvg {
+    width: 8%;
+    height: 8%;
+    fill: var(--bgUcStoryNextPrevButton);
+  }
+  .rightSvg{
+    fill: var(--bgUcStoryNextPrevButton);
   }
   
   .box-title {
@@ -269,9 +278,10 @@ margin-bottom: 3%;
 
 
   .value-box-title {
-    color: var(--fontWhite);
-    font-size: 1.667vw;
-    font-weight: 500;
+    color: var(--UcStoryFontColor);
+    font-size: var(--UcStoryFontSize);
+    font-family: var(--UcStoryFontFamily);
+    font-weight: var(--UcStoryFontWeight);
     margin-top: 5%;
     margin-bottom: 5%;
   }

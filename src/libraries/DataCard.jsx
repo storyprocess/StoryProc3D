@@ -68,7 +68,7 @@ const DataCard = ({ data, onClose, handlePreButton, handleNexButton }) => {
       </div>
       <div className="left-section">
         <h2 className="heading">{data.short_label}</h2>
-        <hr className="divider" />
+        <hr className="divider" style={{marginTop:'6%'}}/>
         {/* <hr class="card-divider"></hr> */}
         <p className="content">{data?.long_desc}</p>
         <div className="left-image-container">
