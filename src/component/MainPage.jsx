@@ -49,7 +49,7 @@ const MainPage = (props) => {
   
   const [isResetClick, setIsResetClick] = useState(false);
 
-  const [HoverUseCaseId, setModelUseCaseId] = useGlobalState("HoverUseCaseId");
+  const [HoverId, setHoverId] = useGlobalState("HoverId");
   const [HoverLabel, setHoverLabel] = useGlobalState("HoverLabel");
   const [clientXPosition1, setClientXPosition1] = useGlobalState("clientXPosition1");
   const [clientYPosition1, setClientYPosition1] = useGlobalState("clientYPosition1");
@@ -130,6 +130,7 @@ const MainPage = (props) => {
   }, [toPress]);
 
   const handlePlayStory =()=>{
+		setGlobalState("HoverUseCaseId", HoverId);
     handleUseCaseButtonClick("button8");
     setGlobalState("IsButtonContainer", false);
   }
@@ -288,13 +289,13 @@ const MainPage = (props) => {
   return (
     <div>
       {/* { dimBg && <img id="pattern" className='bg-front' src={bgpattern} preload="auto"></img>} */}
-      {HoverUseCaseId > 0  && !showUC && <div style={{top:clientYPosition1-120,left:clientXPosition1-30}} className="hot-spot-subMenu">
+      {HoverId > 0 && <div style={{top:clientYPosition1-120,left:clientXPosition1-30}} className="hot-spot-subMenu">
       <div>
       <div className="hover-label-text">{HoverLabel}</div>
       <hr style={{marginTop:"5%"}} className="card-divider"></hr>
       </div>
       <div className="button-group" >
-        <div className="zoom-in" onClick={()=>setGlobalState("currentZoomedSection",HoverUseCaseId)} >Zoom-in</div>
+        <div className="zoom-in" onClick={()=>setGlobalState("currentZoomedSection",HoverId)} >Zoom-in</div>
         <div className="learn-more" onClick={()=>handlePlayStory()}>Learn More</div>
       </div>
       </div>}

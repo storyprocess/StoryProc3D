@@ -263,25 +263,23 @@ const Home = (props) => {
 			});
 
 		container.onPointerEnterObservable.add(() => {
-			if (clientXPosition <= 0) {
-				setGlobalState("HoverLabel", props.extraData[hotspotLabelIndex].short_label);
-				setGlobalState("HoverUseCaseId", usecase.id);
-				const canvas = document.getElementsByClassName("main-canvas")[0];
-				var pos = Vector3.Project(
-					fakeMesh.position,
-					Matrix.Identity(), //world matrix
-					scene.getTransformMatrix(), //transform matrix
-					new Viewport(0, 0, canvas.width, canvas.height)
-				);
-				clientXPosition = MouseXPosition;
-				setGlobalState("clientXPosition1", pos.x);
-				setGlobalState("clientYPosition1", pos.y);
-			}
+			setGlobalState("HoverLabel", props.extraData[hotspotLabelIndex].short_label);
+			setGlobalState("HoverId", usecase.id);
+			const canvas = document.getElementsByClassName("main-canvas")[0];
+			var pos = Vector3.Project(
+				fakeMesh.position,
+				Matrix.Identity(), //world matrix
+				scene.getTransformMatrix(), //transform matrix
+				new Viewport(0, 0, canvas.width, canvas.height)
+			);
+			clientXPosition = MouseXPosition;
+			setGlobalState("clientXPosition1", pos.x);
+			setGlobalState("clientYPosition1", pos.y);
 		});
 
 		container.onPointerOutObservable.add(() => {
 			setGlobalState("HoverLabel", "");
-			setGlobalState("HoverUseCaseId",0);
+			setGlobalState("HoverId", 0);
 			setGlobalState("clientXPosition1", -20);
 			setGlobalState("clientYPosition1", -20);
 			clientXPosition = -20
