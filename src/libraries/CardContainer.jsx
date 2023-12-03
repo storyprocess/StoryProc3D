@@ -27,15 +27,18 @@ function CardContainer(props) {
     return filteredArr;
   }, [currentPage, props.sectionData]);
 
-	const handleUcClick = ((id) => {
-    console.log("calllllllllllllllllllllllll");
+	const handleUcClick = ((id, play) => {
+		if(play == true)
+		{
+			props.handlePlayStory();
+			setGlobalState("IsBackgroundBlur", false);
+			return;
+		}
 		if(selectedCard == id) {
 			setSelectedCard(null);
-			setGlobalState("mapped_use_case",null);
 		}
 		else {
 			setSelectedCard(id);
-			setGlobalState("mapped_use_case",id);
 		}
 	});
   useEffect(()=>{
@@ -89,6 +92,7 @@ function CardContainer(props) {
 							selectedCard={selectedCard}
 							alignItems={props.alignItems}
 							handleUcClick={handleUcClick}
+							handlePlayStory={props.handlePlayStory}
             />
           ))}
         </div>
