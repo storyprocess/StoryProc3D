@@ -10,5 +10,28 @@
 			"z": 4.5
 		},
 		"section": 1
+	},
+	{
+		"id": 2,
+		"name": "𝒊",
+		"length": 4,
+		"textData": "Hotspot 2",
+		"position": {
+			"x": -20,
+			"y": 2,
+			"z": 4.5
+		},
+		"section": 1
+	},{
+		"id": 3,
+		"name": "𝒊",
+		"length": 4,
+		"textData": "Hotspot 3",
+		"position": {
+			"x": -10,
+			"y": 2,
+			"z": -4.5
+		},
+		"section": 1
 	}
 ]

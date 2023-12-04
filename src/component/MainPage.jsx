@@ -48,7 +48,7 @@ const MainPage = (props) => {
   const [showUC, setShowUC] = useGlobalState("showUC");
   
   const [isResetClick, setIsResetClick] = useState(false);
-
+	const [useCaseMapping, setUseCaseMapping] = useState(false);
   const [HoverId, setHoverId] = useGlobalState("HoverId");
   const [HoverLabel, setHoverLabel] = useGlobalState("HoverLabel");
   const [clientXPosition1, setClientXPosition1] = useGlobalState("clientXPosition1");
@@ -85,6 +85,7 @@ const MainPage = (props) => {
   const resetScreen = () => {
     setGlobalState("IsBackgroundBlur", false);
     setTourState(false);
+		setUseCaseMapping(false);
     setSelectedButton(null);
     setShowCardContainer(false);
     setUI_Element(null);
@@ -271,6 +272,7 @@ const MainPage = (props) => {
   };
 
   const handleResetButtonClick = () => {
+		setUseCaseMapping(false);
     setGlobalState("IsBackgroundBlur", false);
     if(MainMenuIsButtons){
       setIsResetClick(true)
@@ -332,6 +334,7 @@ const MainPage = (props) => {
 							resetScreen();
 							return;
 						}
+						setUseCaseMapping(false);
             handleButtonClick(buttonId);
             setGlobalState("IsBackgroundBlur", true);
             setGlobalState("useCase", 0);
@@ -358,6 +361,7 @@ const MainPage = (props) => {
 							resetScreen();
 							return;
 						}
+						setUseCaseMapping(false);
             handleButtonClick(buttonId);
             setGlobalState("IsBackgroundBlur", true);
             setGlobalState("useCase", 0);
@@ -386,6 +390,7 @@ const MainPage = (props) => {
 							resetScreen();
 							return;
 						}
+						setUseCaseMapping(true);
             handleButtonClick(buttonId);            
             setGlobalState("IsBackgroundBlur", true);
             setGlobalState("useCase", 0);
@@ -411,6 +416,7 @@ const MainPage = (props) => {
 							resetScreen();
 							return;
 						}
+						setUseCaseMapping(false);
             handleButtonClick(buttonId);
             setGlobalState("IsBackgroundBlur", false);
             setGlobalState("useCase", 0);
@@ -439,6 +445,7 @@ const MainPage = (props) => {
 							resetScreen();
 							return;
 						}
+						setUseCaseMapping(false);
             handleButtonClick(buttonId);            
             setGlobalState("IsBackgroundBlur", false);
             setGlobalState("IsTourOpen", false);
@@ -479,7 +486,7 @@ const MainPage = (props) => {
           sectionData={sectionData}
           ui_element={ui_Element}
           buttonId={selectedButton}
-          useCaseMapping={selectedButton === "btnSalesChallenges"}
+          useCaseMapping={useCaseMapping}
           handleMenuItemClick = {handleMenuItemClick}
           anchorEl={anchorEl}
           handleClose={handleClose}
