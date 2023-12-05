@@ -14,6 +14,7 @@ function MenuDispensor(props) {
 					 sectionData={props.sectionData}
 					 useCaseMapping={props.useCaseMapping}
            alignItems={props.alignItems}
+					 handlePlayStory = {props.handlePlayStory}
 					/>
         </div>
       )}

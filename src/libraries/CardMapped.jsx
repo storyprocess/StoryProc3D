@@ -3,7 +3,7 @@ import "../css/cardcontainer.css";
 import rightArrow from '../assets/Icon (1).png'
 import { BaseAPI, ApplicationDB } from "../assets/assetsLocation";
 import { setGlobalState } from "../state";
-import { Fade, Menu, MenuItem } from "@mui/material";
+import { Fade, MenuList, MenuItem, Paper, Popper , Grow, ClickAwayListener } from "@mui/material";
 
 const contentArr = [
   {
@@ -113,8 +113,8 @@ function CardMapped(props) {
 
 	const [isOpen, setIsOpen] = useState(false);
 
-  const toggleTooltip = () => {
-    props.handleUcClick(props.id);
+  const toggleTooltip = (play) => {
+    props.handleUcClick(props.id, play);
   };
 
 	const fetchData = async () => {
@@ -144,7 +144,9 @@ function CardMapped(props) {
     setAnchorEl(null);
     // setSelectedButton("selectedButton")
   };
-  const handleMenuItemClick = () => {
+  const handleMenuItemClick = (id) => {
+		setGlobalState("HoverUseCaseId", id);
+		toggleTooltip(true);
     setAnchorEl(null);
     // setSelectedButton("selectedButton")
   };
@@ -172,38 +174,52 @@ function CardMapped(props) {
 						<p className="card-content">{props.content}</p>
 
 						<div className="tooltip-container">
-            <button onClick={(event)=>{{toggleTooltip();handleClick(event)}}} className="tooltip-button">
+            <button onClick={(event)=>{{toggleTooltip(false);handleClick(event)}}} className="tooltip-button">
 								Dive Deeper <span style={{display:'flex',alignItems:'center',marginLeft:'5px'}}><svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1.09998L7 6.49998L0.999999 11.9" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg></span>
 							</button>
 						</div>
 						{isOpen && linkedData && (
-                      <Menu
-                      id="fade-menu"
-                      MenuListProps={{
-                        'aria-labelledby': 'fade-button',
-                      }}
-                      className="card-mapped-container"
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={handleClose}
-                      TransitionComponent={Fade}
-                    >
-                        {linkedData &&
-                          linkedData.element_linkages.map((element) => {
-                            return (
-                              <MenuItem  onClick={() => {handleMenuItemClick();setGlobalState("HoverUseCaseId",element.linked_id); toggleTooltip();}}>{element.short_label}</MenuItem>
-                            )
-                          })}
-                      </Menu>
-							// <div className="tooltip-content" >
-							// 	<ul>
-							// 		{linkedData.element_linkages.map((element, index) => (
-							// 			<li onClick={() => {setGlobalState("HoverUseCaseId",element.linked_id); toggleTooltip();}}>{element.short_label}</li>
-							// 		))}
-							// 	</ul>
-							// </div>
+							<Popper
+								anchorEl={anchorEl}
+								open={open}
+								TransitionComponent={Fade}
+								role={undefined}
+								placement="bottom-start"
+								transition
+								disablePortal
+								className="card-mapped-container"
+							>
+								{({ TransitionProps, placement }) => (
+									<Grow
+										{...TransitionProps}
+										style={{
+											transformOrigin:
+												placement === 'bottom-start' ? 'left top' : 'left bottom',
+										}}
+									>
+										<Paper>
+											<ClickAwayListener onClickAway={handleClose}>
+												<MenuList
+													autoFocusItem={open}
+													id="fade-menu"
+													aria-labelledby="fade-button"
+													TransitionComponent={Fade}
+													className="card-mapped-container"
+												>
+							
+												{linkedData && linkedData.element_linkages.map((element) => {
+													return (
+														<MenuItem  onClick={() => {handleMenuItemClick(element.linked_id);}}>{element.short_label}</MenuItem>
+													)
+												})}
+												</MenuList>
+											</ClickAwayListener>
+										</Paper>
+									</Grow>
+								)}
+							</Popper>
 						)}
 					</div>
 				</div>

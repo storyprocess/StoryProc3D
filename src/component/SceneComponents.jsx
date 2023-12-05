@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
 	CubeTexture,
 	Engine,
@@ -29,6 +29,7 @@ const SceneComponent = ({
 	onSceneReady,
 	...rest
 }) => {
+	var angle = -3*1.57;
 	const reactCanvas = useRef(null);
 
 	const createCameras = (scene) => {
@@ -45,7 +46,7 @@ const SceneComponent = ({
 			scene
 		);
 		arcRotateCamera.minZ = 0;
-		arcRotateCamera.alpha = 1.57 ;
+		arcRotateCamera.alpha = 1.57;
 		arcRotateCamera.beta = 1.3;
 		arcRotateCamera.radius = 70;
 
@@ -54,8 +55,8 @@ const SceneComponent = ({
 		arcRotateCamera.upperBetaLimit = 1.5;
 		arcRotateCamera.lowerRadiusLimit = 40;
 		arcRotateCamera.upperRadiusLimit = 70;
-		arcRotateCamera.lowerAlphaLimit = arcRotateCamera.alpha;
-		arcRotateCamera.upperAlphaLimit = arcRotateCamera.alpha;
+		// arcRotateCamera.lowerAlphaLimit = arcRotateCamera.alpha;
+		// arcRotateCamera.upperAlphaLimit = arcRotateCamera.alpha;
 
 		// set panning
 		// Enable panning
@@ -143,6 +144,12 @@ const SceneComponent = ({
 
 		engine.runRenderLoop(() => {
 			if (typeof onRender === 'function') onRender(scene);
+
+			const arc = scene.getCameraByName("camera-2");
+			if(arc != null && angle < 1.57) {
+				arc.alpha = angle;
+				angle += 0.01;
+			}
 
 			for(var id = 0; id < 30; id++) {
 				if(scene.getMeshByName(`usecase-${id}-fake-mesh`) != null && scene.activeCamera != null) {

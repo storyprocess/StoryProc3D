@@ -16,6 +16,7 @@ const { setGlobalState, useGlobalState } = createGlobalState({
     IsModelOpen:false,
     HoverUseCaseId:0,
     HoverLabel:"",
+		HoverId: 0,
     UCTourId:0,
     MfToEdgeCity:true,
     UmToDigitalCity:true,

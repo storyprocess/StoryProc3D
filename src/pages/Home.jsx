@@ -264,25 +264,23 @@ const Home = (props) => {
 			});
 
 		container.onPointerEnterObservable.add(() => {
-			if (clientXPosition <= 0) {
-				setGlobalState("HoverLabel", props.extraData[hotspotLabelIndex].short_label);
-				setGlobalState("HoverUseCaseId", usecase.id);
-				const canvas = document.getElementsByClassName("main-canvas")[0];
-				var pos = Vector3.Project(
-					fakeMesh.position,
-					Matrix.Identity(), //world matrix
-					scene.getTransformMatrix(), //transform matrix
-					new Viewport(0, 0, canvas.width, canvas.height)
-				);
-				clientXPosition = MouseXPosition;
-				setGlobalState("clientXPosition1", pos.x);
-				setGlobalState("clientYPosition1", pos.y);
-			}
+			setGlobalState("HoverLabel", props.extraData[hotspotLabelIndex].short_label);
+			setGlobalState("HoverId", usecase.id);
+			const canvas = document.getElementsByClassName("main-canvas")[0];
+			var pos = Vector3.Project(
+				fakeMesh.position,
+				Matrix.Identity(), //world matrix
+				scene.getTransformMatrix(), //transform matrix
+				new Viewport(0, 0, canvas.width, canvas.height)
+			);
+			clientXPosition = MouseXPosition;
+			setGlobalState("clientXPosition1", pos.x);
+			setGlobalState("clientYPosition1", pos.y);
 		});
 
 		container.onPointerOutObservable.add(() => {
 			setGlobalState("HoverLabel", "");
-			setGlobalState("HoverUseCaseId",0);
+			setGlobalState("HoverId", 0);
 			setGlobalState("clientXPosition1", -20);
 			setGlobalState("clientYPosition1", -20);
 			clientXPosition = -20
@@ -382,24 +380,47 @@ const Home = (props) => {
 
 		const securityCamera = scene.getCameraByName(`security-camera-${id}`);
 		scene.activeCamera = movingCamera;
-		console.log(securityCamera.target);
 		let direction = new Vector3(securityCamera.target.x - securityCamera.position.x, securityCamera.target.y - securityCamera.position.y, securityCamera.target.z - securityCamera.position.z);
-		console.log(direction);
 		
 		let alpha = Math.atan2(direction.x, direction.z);
 		let distance = Math.sqrt(direction.x * direction.x + direction.z * direction.z);
 
+		var rotation = [Math.PI/2 - 1.2 - movingCamera.rotation.x, alpha - movingCamera.rotation.y];
+		var positionStep = [section.cameraPosition.x - movingCamera.position.x, section.cameraPosition.y - movingCamera.position.y, section.cameraPosition.z - movingCamera.position.z];
+		
 		const timeline = gsap.timeline();
+		const steps = 10000;
+		for(var i = 0; i < steps-1; i++) {
+			timeline.to(movingCamera.position, {
+				x: movingCamera.position.x + (i+1)*positionStep[0]/steps,
+				y: movingCamera.position.y + (i+1)*positionStep[1]/steps,
+				z: movingCamera.position.z + (i+1)*positionStep[2]/steps,
+				duration: 2/steps,
+			});
+			timeline.to(movingCamera.rotation, {
+				x: movingCamera.rotation.x + (i+1)*rotation[0]/steps,
+				y: movingCamera.rotation.y + (i+1)*rotation[1]/steps,
+				duration: 2/steps,
+				// onComplete: () => {
+				// 	scene.activeCamera = securityCamera;
+				// 	securityCamera.attachControl(canvas, true);
+
+				// 	// RESET THE MOVING CAMERA
+				// 	movingCamera.position.copyFrom(arcRotateCamera.position);
+				// 	movingCamera.setTarget(arcRotateCamera.target.clone());
+				// }
+			});
+		}
 		timeline.to(movingCamera.position, {
 			x: section.cameraPosition.x,
 			y: section.cameraPosition.y,
 			z: section.cameraPosition.z,
-			duration: 2,
+			duration: 2/steps,
 		});
 		timeline.to(movingCamera.rotation, {
 			x: Math.PI/2 - 1.2,
 			y: alpha,
-			duration: 2,
+			duration: 2/steps,
 			onComplete: () => {
 				scene.activeCamera = securityCamera;
 				securityCamera.attachControl(canvas, true);
