@@ -59,7 +59,7 @@ const MainPage = (props) => {
   const [playAndPause, setPlayAndPause] = useGlobalState("playAndPause");
   const gaEventTracker = useAnalyticsEventTracker("ToolBarMenu");
   const [anchorEl, setAnchorEl] = useState(null);
-  let alignItems = true;
+  let alignItems = false;
 
   const open = anchorEl;
   const handleClick = (event) => {

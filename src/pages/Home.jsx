@@ -108,24 +108,25 @@ const Home = (props) => {
         "Assembly line workers are getting on the job...",
         "Finishing...",
 	  ]);
+
 	  let WelcomeData = [
-		"Do you sell enterprise solutions to cross-functional teams?",
-		"Explore this experience center as per your needs and interest",
-		"All information and stories are available via this menu. ",
-		"Hit Reset anytime to stop any running story and come back to the top level view",
-		"Select any Use case to get a complete overview of the use case",
-		"Let’s start with an overview",
-		"Remember, you can interrupt by pressing Reset anytime",
-	  ];
-	  let WelcomeData1 = [
-		"Do you sell enterprise solutions to cross-functional teams?",
-		"Explore this experience center as per your needs and interest",
-		"All information and stories are available via this menu. ",
-		"Hit Reset anytime to stop any running story and come back to the top level view",
-		"Select any Use case to get a complete overview of the use case",
-		"Let’s start with an overview",
-		"Remember, you can interrupt by pressing Reset anytime",
-	  ];
+		"Do you sell enterprise solutions to cross-functional teams? ",
+		"Explore visual stories interactively",
+		"Access all information using this toolbar",
+		"Use 'Reset' to go to the default view",
+		"Explore use cases",
+		"Let's start with an overview",
+		];
+		
+		let WelcomeData1 = [
+		"Learn how you can use 3D immersive experiences (like this one) to showcase and sell your solutions.",
+		"See the big picture. See the interconnections. Deep-dive. Watch it, hear it, read it.",
+		"All of the information and stories are organized and accessible from the menu.",
+		"Hit 'Reset' anytime to stop any running story and come back to the top level view.",
+		"Select any use case to get a complete overview of the use case, its significance, and the solutions available to you.",
+		"You can stop the tour anytime you like using the 'stop tour' button on the bottom right.", 
+		];
+		
 	const handleTourStart = () => {
 		showHotspots(scene,false);
 		hideSectionUIs(scene);

@@ -1,76 +1,87 @@
 :root {
+  
   --fontWhite: #ffffff; 
-  --fontToolbar: #162221; 
+  --fontToolbar: #CCCCCC; 
   --fontLight: #ffffff; 
-  --fontBlack:#000000; 
+  --fontBlack: #000000; 
   
   --bgWhite: #ffffff; 
   --bgGrey: #D9D9D9; 
-  --bgSeparator: #162221; 
+  --bgSeparator: #E9E7F5; 
   --bgShadow: #000000; 
   --bgMedium: #7E6AD2;
-  --bgDark:#FF6F61;
-  --bgLight: #4A148C;
+  --bgLight: #A793E5;
+  --bgDark: #5B459A;
+/*
+--fontWhite: #ffffff; 
+--fontToolbar: #333333; 
+--fontLight: #333333; 
+--fontBlack:#000000; 
 
-  /* --bgGrey: #D9D9D9; 
-  --fontWhite: #ffffff; 
-  --fontToolbar: #f4d160; 
-  --fontLight: #ffffff; 
-  --fontBlack:#000000; 
-  
-  --bgWhite: #ffffff; 
-  --bgSeparator: #36696d; 
-  --bgShadow: #000000; 
-  --bgMedium: #263f92;
-  --bgDark:#36696d;
-  --bgLight: #4192a5; */
-  
-  --fontFamily1:'Montserrat';
-  --fontFamilyRobotoMedium:'Montserrat';
-  --fontFamilyRobotoBold:'Montserrat';
+--bgWhite: var(--fontWhite); 
+--bgGrey: #D9D9D9; 
+--bgSeparator: #C5D4D1; 
+--bgShadow: #000000; 
+--bgMedium: #277F87;
+--bgDark:#277F87;
+--bgLight: #36696d;
 
-  --fontWeightRegular:300;
-  --fontWeightMedium:500;
-  --fontWeightBold:700;
+--bgSeparator: #b1b3b6; 
+--bgShadow: #000000; 
+--bgMedium: #b7b5af;
+--bgDark:#b1b3b6;
+--bgLight: #d7ded5;
+
+--fontFamily1:'Audrey';
+--fontFamilyRobotoMedium:'Audrey';
+--fontFamilyRobotoBold:'Audrey';
+*/
+--fontFamily1:'Arial';
+--fontFamilyRobotoMedium:var(--fontFamily1);
+--fontFamilyRobotoBold:var(--fontFamily1);
+
+--fontWeightRegular:200;
+--fontWeightMedium:300;
+--fontWeightBold:500;
 
   --opacityOpaque:1;
-  --opacityHigh:0.9;
-  --opacityLow:0.85;
+  --opacityHigh:.95;
+  --opacityLow:0.9;
   --opacityVeryLow:0.4;
 
   --bgWorldBackground:var(--bgSeparator);
 
-  --bgBottomToolbar: var(--bgMedium);
+  --bgBottomToolbar: var(--bgDark);
   --BottomToolbarOpacity: var(--opacityHigh);
   --BottomToolbarFontFamily: var(--fontFamilyRobotoMedium);
   --BottomToolbarFontWeight: var(--fontWeightMedium);
-  --BottomToolbarFontSize: 1.1vw;
+  --BottomToolbarFontSize: .95vw;
   --BottomToolbarFontColor: var(--fontWhite);
-  --bgBottomToolbarHighlightedButton: var(--bgDark);
+  --bgBottomToolbarHighlightedButton: var(--bgMedium);
   --BottomToolbarSeparator: var(--bgSeparator);
 
-  --bgTopNavbar: var(--bgMedium);
+  --bgTopNavbar: var(--bgDark);
   --TopNavbarOpacity: var(--opacityHigh);
 
-  --bgCards: var(--bgMedium);
+  --bgCards: var(--bgDark);
   --CardsOpacity: var(--opacityLow);
   --CardsFontFamily: var(--fontFamilyRobotoMedium);
   --CardsFontWeight: var(--fontWeightMedium);
-  --CardsFontSize: 1.354vw;
+  --CardsFontSize: 1.3vw;
   --CardsFontColor: var(--fontWhite);
   
   --CardsContentFontFamily: var(--fontFamily1);
   --CardsContentFontWeight: var(--fontWeightRegular);
-  --CardsContentFontSize: 0.938vw;
+  --CardsContentFontSize: 0.81vw;
   
-  --bgAchievedThroughButton: var(--bgLight);
+  --bgAchievedThroughButton: var(--bgMedium);
   --AchievedThroughButtonOpacity: var(--opacityHigh);
   --AchievedThroughButtonFontFamily: var(--fontFamily1);
-  --AchievedThroughButtonFontWeight: var(--fontWeightRegular);
-  --AchievedThroughButtonFontSize: 0.938vw;
+  --AchievedThroughButtonFontWeight: var(--fontWeightBold);
+  --AchievedThroughButtonFontSize: 0.8vw;
   --AchievedThroughButtonFontColor: var(--fontWhite);
   
-  --bgCarousel: var(--bgMedium);
+  --bgCarousel: var(--bgDark);
   --CarouselOpacity: var(--opacityLow);
   --CarouselFontFamily: var(--fontFamilyRobotoMedium);
   --CarouselFontWeight: var(--fontWeightMedium);
@@ -81,7 +92,7 @@
   --CarouselContentFontWeight: var(--fontWeightRegular);
   --CarouselContentFontSize: 0.938vw;
 
-  --bgHamburgerMenuList: var(--bgMedium);
+  --bgHamburgerMenuList: var(--bgDark);
   --HamburgerMenuListOpacity: var(--opacityLow);
   --HamburgerMenuListFontFamily: var(--fontFamily1);
   --HamburgerMenuListFontWeight: var(--fontWeightRegular);
@@ -112,7 +123,7 @@
   --OnboardingCardNumberingFontColor: var(--bgLight);
   --bgOnboardingCardHighlightedButton: var(--bgLight);
 
-  --bgUcStory: var(--bgMedium);
+  --bgUcStory: var(--bgDark);
   --bgUcStoryNextPrevButton: var(--bgDark);
   --UcStoryOpacity: var(--opacityHigh);
   --UcStoryFontFamily: var(--fontFamilyRobotoMedium);
@@ -120,10 +131,10 @@
   --UcStoryFontSize: 1.667vw;
   --UcStoryFontColor: var(--fontWhite);
 
-  --bgUcStoryBlocks: var(--bgDark);
+  --bgUcStoryBlocks: var(--bgMedium);
   --UcStoryBlocksFontFamily: var(--fontFamilyRobotoBold);
-  --UcStoryBlocksFontWeight: var(--fontWeightBold);
-  --UcStoryBlocksFontSize: 0.938vw;
+  --UcStoryBlocksFontWeight: var(--fontWeightRegular);
+  --UcStoryBlocksFontSize: 1.1vw;
 
   --UcStoryBlocksContentFontFamily: var(--fontFamily1);
   --UcStoryBlocksContentFontWeight: var(--fontWeightRegular);
