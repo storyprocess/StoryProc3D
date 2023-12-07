@@ -105,7 +105,7 @@
   --HotspotHoverOpacity: var(--opacityLow);
   --HotspotHoverFontFamily: var(--fontFamilyRobotoMedium);
   --HotspotHoverFontWeight: var(--fontWeightMedium);
-  --HotspotHoverFontSize: 1.042vw;
+  --HotspotHoverFontSize: .8vw;
   --HotspotHoverFontColor: var(--fontWhite);
   
   --bgOnboardingCard: var(--bgWhite);

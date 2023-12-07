@@ -197,27 +197,28 @@ margin: 0px;
     gap: 15px;
 }
 .zoom-in{
-    font-size: 0.9vw;
+    font-size: var(--HotspotHoverFontSize);
     font-weight: var(--HotspotHoverFontWeight);
     font-family: var(--HotspotHoverFontFamily);
 }
 
 .hot-spot-subMenu::before {
     content: '';
-    position: absolute;
-    bottom: -14px;
+/*    position: absolute;*/
+    bottom: -2%;
     left: 3%;
     /* transform: translateX(-455%); */
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 15px solid rgb(12, 31, 85);
+    border-left: 1% solid transparent;
+    border-right: 1% solid transparent;
+/*    border-top: 5% solid rgb(12, 31, 85);*/
+    border-top: 1% solid;
 }
 .learn-more{
     background: var(--bgDark);
     border-radius: 6px;
-    font-size: 0.9vw;
+    font-size: var(--HotspotHoverFontSize);
     font-weight: var(--HotspotHoverFontWeight);
     font-family: var(--HotspotHoverFontFamily);
     padding: 3% 3%;
-    width: 30%;
+  /*  width: 30%;*/
 }
