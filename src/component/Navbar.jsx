@@ -90,8 +90,7 @@ const handleReset=()=>{
     <div className='wrapper'>
         <div className='navbar'></div>
         <img className='company-logo' style={{cursor:'pointer'}} src={companyLogo} onClick={()=>handleReset()}></img>
-        {/* <div className='divider1'></div> */}
-        {/* <img className='intel' src={intel}></img> */}
+
         {/* {ApplicationDB == "M" ?<img style={{left:'82.84%'}} id="homeButton" className='mute withclick' src={homeIcon} onClick={()=>handleHome()}></img>:''} */}
         {/* <img style={{left:'82.84%'}} id="homeButton" className='mute withclick' src={homeIcon} onClick={()=>handleHome()}></img> */}
          <img  style={{left:'91.15%'}} id="playPauseButton" className='mute withclick' src={!playAndPause ?  audioPlayIcon :  isTourOpen ? UcaudioPlayIcon : audioPauseIcon} onClick={playPause}></img>

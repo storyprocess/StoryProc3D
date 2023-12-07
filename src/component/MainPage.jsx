@@ -59,7 +59,7 @@ const MainPage = (props) => {
   const [playAndPause, setPlayAndPause] = useGlobalState("playAndPause");
   const gaEventTracker = useAnalyticsEventTracker("ToolBarMenu");
   const [anchorEl, setAnchorEl] = useState(null);
-  let alignItems = true;
+  let alignItems = false;
 
   const open = anchorEl;
   const handleClick = (event) => {
@@ -296,7 +296,7 @@ const MainPage = (props) => {
       {HoverId > 0 && <div style={{top:clientYPosition1-height*0.2,left:clientXPosition1-width*0.02}} className="hot-spot-subMenu">
       <div>
       <div className="hover-label-text">{HoverLabel}</div>
-      <hr style={{marginTop:"5%"}} className="card-divider"></hr>
+      <hr style={{marginTop:"3%"}} className="card-divider"></hr>
       </div>
       <div className="button-group" >
         <div className="zoom-in" onClick={()=>setGlobalState("currentZoomedSection",HoverId)} >Zoom-in</div>
@@ -320,6 +320,7 @@ const MainPage = (props) => {
           Reset the Experience
         </ToolbarButton>
       </div>
+
 
       <div
         // style={{ justifyContent: MainMenuIsButtons ? "center" : "end" }}
@@ -351,6 +352,8 @@ const MainPage = (props) => {
         >
           Business Needs
         </ToolbarButton>
+
+
         {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
         <ToolbarButton // DVS button
           buttonId="btnGuidingPrinciples" //4
@@ -380,9 +383,11 @@ const MainPage = (props) => {
         >
           Guiding Principles
         </ToolbarButton>
+
+
         {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
-        <ToolbarButton // Outcomes button
-          buttonId="btnSalesChallenges" //2
+        <ToolbarButton 
+          buttonId="btnSalesChallenges" 
           active={"btnSalesChallenges" === selectedButton}
           selectedButton={selectedButton}
           buttonName="Sales Challenges"
@@ -406,9 +411,11 @@ const MainPage = (props) => {
         >
           Sales Challenges
         </ToolbarButton>
+
+
         {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
-        <ToolbarButton // Building Blocks button
-          buttonId="btnStoryProcSolutions" //7
+        <ToolbarButton 
+          buttonId="btnStoryProcSolutions"
           active={"btnStoryProcSolutions" === selectedButton}
           selectedButton={selectedButton}
           buttonName="StoryProc Solutions"
@@ -416,16 +423,15 @@ const MainPage = (props) => {
 						if (selectedButton === buttonId) {
 							// if same button clicked again, reset screen
 							resetScreen();
-							return;
+              setSelectedButton(buttonId);
+						// return;
 						}
 						setUseCaseMapping(false);
             handleButtonClick(buttonId);
-            setGlobalState("IsBackgroundBlur", false);
             setGlobalState("useCase", 0);
             setGlobalState("HoverUseCaseId", 0);
             setGlobalState("IsTourOpen", false);
             setSectionData(extraData[6][0].Solutions);
-
             setButtonType("D");
             setGlobalState("showUC", false);
             setUI_Element("popuptoolbar");
@@ -434,6 +440,8 @@ const MainPage = (props) => {
         >
           StoryProc Solutions
         </ToolbarButton>
+        
+        
         {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
         <ToolbarButton // Use Case Story Button
           buttonId="btnUseCasesEnabled" //8
@@ -445,11 +453,11 @@ const MainPage = (props) => {
 						if (selectedButton === buttonId) {
 							// if same button clicked again, reset screen
 							resetScreen();
-							return;
+              setSelectedButton(buttonId);
+							//return;
 						}
 						setUseCaseMapping(false);
             handleButtonClick(buttonId);            
-            setGlobalState("IsBackgroundBlur", false);
             setGlobalState("IsTourOpen", false);
             setSectionData(extraData[7][0].use_case_list);
 
@@ -462,6 +470,8 @@ const MainPage = (props) => {
           handleMenuClick={handleClick}
         >
           Use Cases Enabled
+
+
         </ToolbarButton>
         {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
         <ToolbarButton
@@ -478,6 +488,7 @@ const MainPage = (props) => {
         </ToolbarButton>
       </div>
 			</div>
+
 
       {/* Display elements if clicked */}
 
