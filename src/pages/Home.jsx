@@ -356,81 +356,102 @@ const Home = (props) => {
 		}
 	},[currentZoomedSection])
 
- 	const zoomInToSection =(i)=>{
+	const zoomInToSection =(i)=>{
 		// let section = sections[i]
 		let id = -1;
-		usecases.forEach((useCase) => {
-			if(useCase.id == i) id = useCase.section;
+		let useCase = null;
+		usecases.forEach((uc) => {
+			if(uc.id == i) {
+				useCase = uc;	
+				id = uc.section;
+			}
 		});
 		let section = null;
 		sections.forEach((sect) => {
 			if(sect.id == id) section = sect;
 		});
 
+		if(id == -1 || section == null) {
+			return;
+		}
+
+		console.log(id, section);
+
 		hideSectionUIs(scene);
 		hideInfoUIs(scene);
 		const canvas = document.getElementsByClassName("main-canvas")[0];
 		const arcRotateCamera = scene.getCameraByName('camera-2');
 		const movingCamera = scene.getCameraByName('camera-3');
-		movingCamera.position.copyFrom(arcRotateCamera.position);
-		movingCamera.setTarget(arcRotateCamera.target.clone());
-
 		const securityCamera = scene.getCameraByName(`security-camera-${id}`);
+		const finalTarget = new Vector3(useCase.position.x, useCase.position.y, useCase.position.z);
+		
+		movingCamera.position.copyFrom(arcRotateCamera.position);
+		movingCamera.setTarget(arcRotateCamera.target.clone());		
 		scene.activeCamera = movingCamera;
-		let direction = new Vector3(securityCamera.target.x - securityCamera.position.x, securityCamera.target.y - securityCamera.position.y, securityCamera.target.z - securityCamera.position.z);
-		console.log(direction + securityCamera.position);
+		
+		let direction = Vector3.Normalize(new Vector3(finalTarget.x - movingCamera.position.x, finalTarget.y - movingCamera.position.y, finalTarget.z - movingCamera.position.z));
+		let projectedDirection = Vector3.Normalize(new Vector3(finalTarget.x - movingCamera.position.x, 0, finalTarget.z - movingCamera.position.z));
+		let dotProduct = Vector3.Dot(direction, projectedDirection);
+		let beta = Math.acos(dotProduct);
 		let alpha = Math.atan2(direction.x, direction.z);
-		let distance = Math.sqrt(direction.x * direction.x + direction.z * direction.z);
+		let rotation = alpha - movingCamera.rotation.y;
+		if (Math.abs(rotation) > Math.abs(rotation - 2*Math.PI)) rotation = rotation - 2*Math.PI;
+		if (Math.abs(rotation) > Math.abs(rotation + 2*Math.PI)) rotation = rotation + 2*Math.PI;
+		alpha = rotation + movingCamera.rotation.y;
 
-		var rotation = [Math.PI/2 - 1.2 - movingCamera.rotation.x, alpha - movingCamera.rotation.y];
-		var positionStep = [section.cameraPosition.x - movingCamera.position.x, section.cameraPosition.y - movingCamera.position.y, section.cameraPosition.z - movingCamera.position.z];
+		let direction2 = new Vector3(securityCamera.target.x - securityCamera.position.x, securityCamera.target.y - securityCamera.position.y, securityCamera.target.z - securityCamera.position.z);
+		console.log(direction2);
+		
+		let alpha2 = Math.atan2(direction2.x, direction2.z);
+
+		const positionStep = [section.cameraPosition.x - movingCamera.position.x, section.cameraPosition.y - movingCamera.position.y, section.cameraPosition.z - movingCamera.position.z];
 		
 		const timeline = gsap.timeline();
 		const steps = 100;
-		for(var i = 0; i < steps-1; i++) {
+
+		timeline.to(movingCamera.rotation, {
+			x: beta,
+			y: alpha,
+			duration: 1,
+			onComplete: () => {
+				movingCamera.lockedTarget = finalTarget;
+			}
+		});
+		const timeAnimation = 3;
+		for(var i = 0; i < steps; i++) {
 			timeline.to(movingCamera.position, {
 				x: movingCamera.position.x + (i+1)*positionStep[0]/steps,
 				y: movingCamera.position.y + (i+1)*positionStep[1]/steps,
 				z: movingCamera.position.z + (i+1)*positionStep[2]/steps,
-				duration: 2/steps,
+				duration: timeAnimation/steps,
 			});
-			movingCamera.setTarget(new Vector3(securityCamera.target.x, securityCamera.target.y, securityCamera.target.z));
-			console.log(movingCamera.target, securityCamera.target);
-			// timeline.to(movingCamera.rotation, {
-			// 	x: Math.PI/2 - 1.2,
-			// 	y: alpha,
-			// 	duration: 2/steps,
-			// 	// onComplete: () => {
-			// 	// 	scene.activeCamera = securityCamera;
-			// 	// 	securityCamera.attachControl(canvas, true);
-
-			// 	// 	// RESET THE MOVING CAMERA
-			// 	// 	movingCamera.position.copyFrom(arcRotateCamera.position);
-			// 	// 	movingCamera.setTarget(arcRotateCamera.target.clone());
-			// 	// }
-			// });
 		}
-		// timeline.to(movingCamera.position, {
-		// 	x: section.cameraPosition.x,
-		// 	y: section.cameraPosition.y,
-		// 	z: section.cameraPosition.z,
-		// 	duration: 2/steps,
-		// });
-		// timeline.to(movingCamera.rotation, {
-		// 	x: Math.PI/2 - 1.2,
-		// 	y: alpha,
-		// 	duration: 2/steps,
-		// 	onComplete: () => {
-		// 		scene.activeCamera = securityCamera;
-		// 		securityCamera.attachControl(canvas, true);
+		timeline.to(movingCamera.position, {
+			x: section.cameraPosition.x,
+			y: section.cameraPosition.y,
+			z: section.cameraPosition.z,
+			duration: timeAnimation/steps,
+			onComplete: () => {
+				movingCamera.lockedTarget = null;
+			}
+		});
 
-		// 		// RESET THE MOVING CAMERA
-		// 		movingCamera.position.copyFrom(arcRotateCamera.position);
-		// 		movingCamera.setTarget(arcRotateCamera.target.clone());
-		// 	}
-		// });
+		timeline.to(movingCamera.rotation, {
+			x: Math.PI/2 - 1.2,
+			y: alpha2,
+			duration: 1,
+			onComplete: () => {
+				scene.activeCamera = securityCamera;
+				securityCamera.attachControl(canvas, true);
+
+				// RESET THE MOVING CAMERA
+				movingCamera.position.copyFrom(arcRotateCamera.position);
+				movingCamera.setTarget(arcRotateCamera.target.clone());
+			}
+		});
 		timeline.play();
 	}
+
 
 
 	// Function to adjust the ball's scale inversely to the camera's scaling

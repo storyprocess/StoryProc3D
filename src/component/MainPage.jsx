@@ -132,7 +132,9 @@ const MainPage = (props) => {
   }, [toPress]);
 
   const handlePlayStory =()=>{
-		setGlobalState("HoverUseCaseId", HoverId);
+		if(HoverId > 0) {
+			setGlobalState("HoverUseCaseId", HoverId);
+		}
     handleUseCaseButtonClick("button8");
     setGlobalState("IsButtonContainer", false);
   }
@@ -293,7 +295,7 @@ const MainPage = (props) => {
 
   return (
     <div>
-      {HoverId > 0 && <div style={{top:clientYPosition1-height*0.2,left:clientXPosition1-width*0.02}} className="hot-spot-subMenu">
+      {HoverId > 0 && <div style={{top:clientYPosition1,left:clientXPosition1}} className="hot-spot-subMenu">
       <div>
       <div className="hover-label-text">{HoverLabel}</div>
       <hr style={{marginTop:"3%"}} className="card-divider"></hr>

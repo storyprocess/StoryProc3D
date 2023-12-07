@@ -167,6 +167,7 @@ margin: 0px;
     opacity: var(--HotspotHoverOpacity);
     border-radius: 8px;
     padding: 1%;
+		transform: translate(-10%, -110%);
 }
 .hover-label-text{
     color: var(--HotspotHoverFontColor);
