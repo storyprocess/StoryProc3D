@@ -7,6 +7,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { setGlobalState, useGlobalState } from "../state";
 import { Howler, Howl } from "howler";
 import bgpattern from "../assets/Pattern.png";
+import useWindowDimensions from '../hooks/useWindowDimensions';
 import "../css/mainPage.css";
 import {
   BaseAPI,
@@ -42,7 +43,6 @@ const MainPage = (props) => {
   const [ui_Element, setUI_Element] = useState(null);
 
   const [showTour, setShowTour] = useGlobalState("showTour");
-  const [dimBg, setDimBg] = useGlobalState("dimBg");
   const [buttonType, setButtonType] = useState("");
 
   const [showUC, setShowUC] = useGlobalState("showUC");
@@ -91,8 +91,9 @@ const MainPage = (props) => {
     setUI_Element(null);
     setGlobalState("useCase", 0);
     setGlobalState("mapped_use_case", null);
+		setGlobalState("HoverId",0);
+		setGlobalState("HoverUseCaseId",0);
     setShowUC(false);
-    setDimBg(false);
 		// props.resetCamera();
     Howler.stop();
   };
@@ -177,7 +178,6 @@ const MainPage = (props) => {
       setSectionData(data.use_case_list);
 
       setShowCardContainer(true);
-      setDimBg(true);
       if (buttonId === "btnUseCasesEnabled") {
         setShowUC(true);
       }
@@ -266,7 +266,6 @@ const MainPage = (props) => {
     setUI_Element("");
 
     setShowCardContainer(true);
-    setDimBg(true);
 
     return;
   };
@@ -284,14 +283,17 @@ const MainPage = (props) => {
     setGlobalState("IsTourOpen", false);
     setGlobalState("UCTourId", 0);
     setGlobalState("IsHomeButtonClick", true);
+		setGlobalState("HoverId",0);
+		setGlobalState("HoverUseCaseId",0);
     Howler.stop();
     document.getElementById("close-btn").click();
   };
 
+	const { height, width } = useWindowDimensions();
+
   return (
     <div>
-      {/* { dimBg && <img id="pattern" className='bg-front' src={bgpattern} preload="auto"></img>} */}
-      {HoverId > 0 && <div style={{top:clientYPosition1-120,left:clientXPosition1-30}} className="hot-spot-subMenu">
+      {HoverId > 0 && <div style={{top:clientYPosition1-height*0.2,left:clientXPosition1-width*0.02}} className="hot-spot-subMenu">
       <div>
       <div className="hover-label-text">{HoverLabel}</div>
       <hr style={{marginTop:"5%"}} className="card-divider"></hr>

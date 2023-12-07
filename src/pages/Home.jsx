@@ -195,6 +195,7 @@ const Home = (props) => {
 	let hotspotInitialScaling
 
 	let clientXPosition=0;
+	let clientYPosition=0;
 
 	const createUC = (usecase, scene, texture) => {
 		// const fakeMesh = MeshBuilder.CreateSphere(
@@ -241,15 +242,6 @@ const Home = (props) => {
 		container.linkWithMesh(fakeMesh);
 
 		container.isVisible = true;
-
-		// let RefreshMousePosition = true;
-		// useEffect(() => {
-		//   if (clientXPosition1 <= 0) {
-		// 	RefreshMousePosition = true;
-		//   } else {
-		// 	RefreshMousePosition = false;
-		//   }
-		// }, []);
 		
 			let MouseXPosition=0
 			let MouseYPosition=0
@@ -257,8 +249,10 @@ const Home = (props) => {
 			document.addEventListener("mousemove", function (event) {
 				MouseXPosition = event.clientX;
 				MouseYPosition = event.clientY;
-				if(MouseXPosition > clientXPosition+20 || MouseXPosition < clientXPosition-20){
-					clientXPosition = -20
+				if(MouseXPosition > clientXPosition + 150 || MouseXPosition < clientXPosition-160 || MouseYPosition < clientYPosition - 160 || MouseYPosition > clientYPosition + 20){
+					clientXPosition = -20;
+					clientYPosition = -20;
+					setGlobalState("HoverId",0);
 				}
 			});
 
@@ -272,7 +266,8 @@ const Home = (props) => {
 				scene.getTransformMatrix(), //transform matrix
 				new Viewport(0, 0, canvas.width, canvas.height)
 			);
-			clientXPosition = MouseXPosition;
+			clientXPosition = pos.x;
+			clientYPosition = pos.y;
 			setGlobalState("clientXPosition1", pos.x);
 			setGlobalState("clientYPosition1", pos.y);
 		});
@@ -283,6 +278,7 @@ const Home = (props) => {
 			setGlobalState("clientXPosition1", -20);
 			setGlobalState("clientYPosition1", -20);
 			clientXPosition = -20
+			clientYPosition = -20
 		});
 
 	};
@@ -353,6 +349,7 @@ const Home = (props) => {
 
 	useEffect(()=>{
 		clientXPosition = -20
+		clientYPosition = -20
 		if(currentZoomedSection > 0){
 			zoomInToSection(currentZoomedSection)
 		}
@@ -380,7 +377,7 @@ const Home = (props) => {
 		const securityCamera = scene.getCameraByName(`security-camera-${id}`);
 		scene.activeCamera = movingCamera;
 		let direction = new Vector3(securityCamera.target.x - securityCamera.position.x, securityCamera.target.y - securityCamera.position.y, securityCamera.target.z - securityCamera.position.z);
-		
+		console.log(direction + securityCamera.position);
 		let alpha = Math.atan2(direction.x, direction.z);
 		let distance = Math.sqrt(direction.x * direction.x + direction.z * direction.z);
 
@@ -388,7 +385,7 @@ const Home = (props) => {
 		var positionStep = [section.cameraPosition.x - movingCamera.position.x, section.cameraPosition.y - movingCamera.position.y, section.cameraPosition.z - movingCamera.position.z];
 		
 		const timeline = gsap.timeline();
-		const steps = 10000;
+		const steps = 100;
 		for(var i = 0; i < steps-1; i++) {
 			timeline.to(movingCamera.position, {
 				x: movingCamera.position.x + (i+1)*positionStep[0]/steps,
@@ -396,39 +393,41 @@ const Home = (props) => {
 				z: movingCamera.position.z + (i+1)*positionStep[2]/steps,
 				duration: 2/steps,
 			});
-			timeline.to(movingCamera.rotation, {
-				x: movingCamera.rotation.x + (i+1)*rotation[0]/steps,
-				y: movingCamera.rotation.y + (i+1)*rotation[1]/steps,
-				duration: 2/steps,
-				// onComplete: () => {
-				// 	scene.activeCamera = securityCamera;
-				// 	securityCamera.attachControl(canvas, true);
+			movingCamera.setTarget(new Vector3(securityCamera.target.x, securityCamera.target.y, securityCamera.target.z));
+			console.log(movingCamera.target, securityCamera.target);
+			// timeline.to(movingCamera.rotation, {
+			// 	x: Math.PI/2 - 1.2,
+			// 	y: alpha,
+			// 	duration: 2/steps,
+			// 	// onComplete: () => {
+			// 	// 	scene.activeCamera = securityCamera;
+			// 	// 	securityCamera.attachControl(canvas, true);
 
-				// 	// RESET THE MOVING CAMERA
-				// 	movingCamera.position.copyFrom(arcRotateCamera.position);
-				// 	movingCamera.setTarget(arcRotateCamera.target.clone());
-				// }
-			});
+			// 	// 	// RESET THE MOVING CAMERA
+			// 	// 	movingCamera.position.copyFrom(arcRotateCamera.position);
+			// 	// 	movingCamera.setTarget(arcRotateCamera.target.clone());
+			// 	// }
+			// });
 		}
-		timeline.to(movingCamera.position, {
-			x: section.cameraPosition.x,
-			y: section.cameraPosition.y,
-			z: section.cameraPosition.z,
-			duration: 2/steps,
-		});
-		timeline.to(movingCamera.rotation, {
-			x: Math.PI/2 - 1.2,
-			y: alpha,
-			duration: 2/steps,
-			onComplete: () => {
-				scene.activeCamera = securityCamera;
-				securityCamera.attachControl(canvas, true);
+		// timeline.to(movingCamera.position, {
+		// 	x: section.cameraPosition.x,
+		// 	y: section.cameraPosition.y,
+		// 	z: section.cameraPosition.z,
+		// 	duration: 2/steps,
+		// });
+		// timeline.to(movingCamera.rotation, {
+		// 	x: Math.PI/2 - 1.2,
+		// 	y: alpha,
+		// 	duration: 2/steps,
+		// 	onComplete: () => {
+		// 		scene.activeCamera = securityCamera;
+		// 		securityCamera.attachControl(canvas, true);
 
-				// RESET THE MOVING CAMERA
-				movingCamera.position.copyFrom(arcRotateCamera.position);
-				movingCamera.setTarget(arcRotateCamera.target.clone());
-			}
-		});
+		// 		// RESET THE MOVING CAMERA
+		// 		movingCamera.position.copyFrom(arcRotateCamera.position);
+		// 		movingCamera.setTarget(arcRotateCamera.target.clone());
+		// 	}
+		// });
 		timeline.play();
 	}
 
@@ -536,12 +535,14 @@ const Home = (props) => {
 
 		section.infos.forEach((usecaseId) => {
 			const cnt = advancedTexture.getControlByName(`usecase-${usecaseId}-container`);
-			cnt.width = '30px';
-			cnt.height = '30px';
-			cnt.cornerRadius = 30;
+			if(cnt != null) {
+				cnt.width = '30px';
+				cnt.height = '30px';
+				cnt.cornerRadius = 30;
 
-			if(cnt.children.length > 0)
-				cnt.children[0].fontSize = 12;
+				if(cnt.children.length > 0)
+					cnt.children[0].fontSize = 12;
+			}
 		});
 
 
@@ -610,11 +611,31 @@ if (!isLoading && !isWelcome) {
 		}
 		return false;
 	  }
+
+	const [videoAvailable, setVideoAvailable] = useState(true);
+
+  useEffect(() => {
+    const checkVideoAvailability = async () => {
+      try {
+        const response = await fetch(`${assetsLocation}${applicationDB}/graphics/${`welcome${count+1}.mp4`}`);
+        if (!response.ok) {
+          // If the response is not OK (status code other than 2xx), video is not available
+          setVideoAvailable(false);
+        }
+      } catch (error) {
+        // If an error occurs during fetching (e.g., network error), video is not available
+        setVideoAvailable(false);
+      }
+    };
+
+    checkVideoAvailability();
+  }, [count]);
+
 	return (
     <div className={styles.app__container}>
       {count >= 0 && isWelcome && (
         <div className="Welcome-card-container" style={{ zIndex: 99999999999 }}>
-          {isVideo(`welcome${count+1}.mp4`) ? <div>
+          {isVideo(`welcome${count+1}.mp4`) && videoAvailable ? <div>
               <video
 				autoPlay
 				muted

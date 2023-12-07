@@ -4,7 +4,6 @@ const { setGlobalState, useGlobalState } = createGlobalState({
     scene : null,
     showTour: false,
     selectedButton: null,
-    dimBg: false,
     playBgMusic: false,
     showUC: false,
     fetched: false,

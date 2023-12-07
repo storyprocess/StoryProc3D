@@ -42,7 +42,7 @@ const SceneComponent = ({
 			0,
 			1,
 			10,
-			new Vector3(-20, 10, 0),
+			new Vector3(-8, 10, 0),
 			scene
 		);
 		arcRotateCamera.minZ = 0;
@@ -148,18 +148,18 @@ const SceneComponent = ({
 			const arc = scene.getCameraByName("camera-2");
 			if(arc != null && angle < 1.57) {
 				arc.alpha = angle;
-				angle += 0.01;
+				angle += 0.05;
 			}
 
 			for(var id = 0; id < 30; id++) {
 				if(scene.getMeshByName(`usecase-${id}-fake-mesh`) != null && scene.activeCamera != null) {
 					var distance = Vector3.Distance(scene.getMeshByName(`usecase-${id}-fake-mesh`).position, scene.activeCamera.position);
-					var scalingFactor = 0.01 * distance;
+					var scalingFactor = Math.max(0.015 * distance, 0.5);
 					scene.getMeshByName(`usecase-${id}-fake-mesh`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
 				}
 				if(scene.getMeshByName(`usecase-${id}-container`) != null && scene.activeCamera != null) {
 					var distance = Vector3.Distance(scene.getMeshByName(`usecase-${id}-container`).position, scene.activeCamera.position);
-					var scalingFactor = 0.01 * distance;
+					var scalingFactor = Math.max(0.015 * distance, 0.5);
 					scene.getMeshByName(`usecase-${id}-container`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
 				}
 			}

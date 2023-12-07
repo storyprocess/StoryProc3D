@@ -295,14 +295,14 @@
 /* .card-mapped-container .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper{ */
   background-color: var(--bgLight) !important;
   color: var(--fontWhite) !important;
-  border-radius: 12px !important;
+  border-radius: 0.75vw !important;
   font-family: var(--fontFamily1) !important;
   font-size: 16px !important;
   /* top: auto !important; */
   /* bottom: 120px !important; */
   /* opacity: 0.8 !important; */
-  padding: 0px 8px !important;
-  box-shadow: -30px 20px 28px -10px #00000066 !important;
+  padding: 0px 0.5vw !important;
+  box-shadow: -1.875vw 1.25vw 1.75vw -0.625vw #00000066 !important;
 }
 .MuiButtonBase-root{
 /* .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root{ */
@@ -312,7 +312,10 @@
 /* .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root:hover{ */
   background-color: var(--bgWhite) !important;
   color: var(--fontBlack);
-  border-radius: 5px;
+  border-radius: 0.3125vw;
+}
+.use-case-item {
+	font-size: 1vw !important;
 }
 .tooltip-content ul {
 	margin: 7%;

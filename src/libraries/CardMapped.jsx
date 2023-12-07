@@ -211,7 +211,7 @@ function CardMapped(props) {
 							
 												{linkedData && linkedData.element_linkages.map((element) => {
 													return (
-														<MenuItem  onClick={() => {handleMenuItemClick(element.linked_id);}}>{element.short_label}</MenuItem>
+														<MenuItem className="use-case-item"  onClick={() => {handleMenuItemClick(element.linked_id);}}>{element.short_label}</MenuItem>
 													)
 												})}
 												</MenuList>
