@@ -6,6 +6,7 @@ const { setGlobalState, useGlobalState } = createGlobalState({
     selectedButton: null,
     playBgMusic: false,
     showUC: false,
+    showDC: false,
     fetched: false,
     useCase:0,
     playAndPause:true,

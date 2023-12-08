@@ -15,7 +15,7 @@ const PopupToolbar = (props) => {
 	const { loadID } = useParams();
   const [selectedButton, setSelectedButton] = useState(null);
   const [selectedUseCaseButton, setSelectedUseCaseButton] = useState(null);
-  const [showDataCard, setShowDataCard] = useState(false);
+  const [showDataCard, setShowDataCard] = useGlobalState("showDC");
   // const [sectionData, setSectionData] = useState([]);
   const [dataObject, setDataObject] = useState(null);
   const [showUC, setShowUC] = useGlobalState("showUC");
@@ -36,6 +36,7 @@ const PopupToolbar = (props) => {
 
   const handleCloseClick = () => {
     setShowDataCard(false);
+		setGlobalState("showDC", false);
     setSelectedButton(null);
   };
 
@@ -90,6 +91,7 @@ const PopupToolbar = (props) => {
 		if (selectedButton === buttonId) {
       setSelectedButton(null);
       setShowDataCard(false);
+			setGlobalState("showDC", false);
       setStartUC(false);
       return;
     }
@@ -100,6 +102,7 @@ const PopupToolbar = (props) => {
       setDataObject(obj);
       if (!showUC) {
         setShowDataCard(true);
+				setGlobalState("showDC", true);
       } else {
         const ucid = "uc" + String(buttonId);
         setUseCaseID(buttonId);

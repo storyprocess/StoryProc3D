@@ -94,6 +94,7 @@ const MainPage = (props) => {
 		setGlobalState("HoverId",0);
 		setGlobalState("HoverUseCaseId",0);
     setShowUC(false);
+		setGlobalState("showDC", false);
 		// props.resetCamera();
     Howler.stop();
   };
@@ -425,8 +426,7 @@ const MainPage = (props) => {
 						if (selectedButton === buttonId) {
 							// if same button clicked again, reset screen
 							resetScreen();
-              setSelectedButton(buttonId);
-						// return;
+							// return;
 						}
 						setUseCaseMapping(false);
             handleButtonClick(buttonId);
@@ -435,6 +435,7 @@ const MainPage = (props) => {
             setGlobalState("IsTourOpen", false);
             setSectionData(extraData[6][0].Solutions);
             setButtonType("D");
+						setGlobalState("showDC", false);
             setGlobalState("showUC", false);
             setUI_Element("popuptoolbar");
           }}
@@ -455,11 +456,10 @@ const MainPage = (props) => {
 						if (selectedButton === buttonId) {
 							// if same button clicked again, reset screen
 							resetScreen();
-              setSelectedButton(buttonId);
-							//return;
+							return;
 						}
 						setUseCaseMapping(false);
-            handleButtonClick(buttonId);            
+            handleButtonClick(buttonId);
             setGlobalState("IsTourOpen", false);
             setSectionData(extraData[7][0].use_case_list);
 
