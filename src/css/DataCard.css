@@ -57,6 +57,8 @@
   top: 3%;
   color: var(--CarouselFontColor);
   padding-right: 8%;
+  animation: fadeIn ease 0.2s;
+  -webkit-animation: fadeIn ease 0.2s;
 }
 
 .divider {
@@ -78,8 +80,13 @@
   font-size: var(--CarouselContentFontSize);
   top: 20%;
   width: 80%;
+  animation: fadeIn ease 0.2s;
+  -webkit-animation: fadeIn ease 0.2s;
 }
-
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
 .image-container {
   position: relative;
   display: flex;

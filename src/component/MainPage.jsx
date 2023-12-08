@@ -320,7 +320,26 @@ const MainPage = (props) => {
           handleButtonClick={handleResetButtonClick}
           handleMenuClick={() => {}}
         >
-          Reset the Experience
+          <svg width="50" height="50" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#filter0_bd_47_83)">
+          <rect x="6" y="3" width="52" height="52" rx="26" fill="#D8D8D8"/>
+          </g>
+          <path d="M40 29H24M24 29L30 23M24 29L30 35" stroke="#0C2055" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+          <filter id="filter0_bd_47_83" x="0" y="-3" width="64" height="67" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feGaussianBlur in="BackgroundImageFix" stdDeviation="3"/>
+          <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_47_83"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+          <feOffset dy="3"/>
+          <feGaussianBlur stdDeviation="3"/>
+          <feComposite in2="hardAlpha" operator="out"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
+          <feBlend mode="normal" in2="effect1_backgroundBlur_47_83" result="effect2_dropShadow_47_83"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_47_83" result="shape"/>
+          </filter>
+          </defs>
+          </svg> Reset
         </ToolbarButton>
       </div>
 

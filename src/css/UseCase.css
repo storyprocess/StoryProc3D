@@ -202,6 +202,14 @@
   display: flex;
   align-items: center;
 }
+.welcome-dot-circle-fill{
+  fill: var(--bagWelcomeDotCircleFill);
+  stroke: var(--bagWelcomeDotCircleStroke);
+}
+.welcome-dot-circle{
+  fill: var(--bagWelcomeDotCircle);
+  stroke: var(--bagWelcomeDotCircleStroke);
+}
 .wel-title{
 font-size: var(--OnboardingCardFontSize);
 font-family: var(--OnboardingCardFontFamily);

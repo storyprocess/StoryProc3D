@@ -121,13 +121,24 @@ function CardContainer(props) {
               setIsHoverUp(false);
             }}
           >
-            <img
+                        <svg className={isHoverUp ? "nex-prev-hover" : "nex-prev"} onMouseEnter={() => setIsHoverUp(true)} onMouseLeave={() => setIsHoverUp(false)}  width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="37.9999" y="38" width="36" height="36" rx="18" transform="rotate(-180 37.9999 38)" />
+<rect x="38.8999" y="38.9" width="37.8" height="37.8" rx="18.9" transform="rotate(-180 38.8999 38.9)" stroke="#0B37A4" stroke-opacity="0.6" stroke-width="1.8"/>
+<path d="M15.885 22.0569L19.9993 17.9426L24.1136 22.0569" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<defs>
+<linearGradient id="paint0_linear_488_1431" x1="40.8284" y1="47.2571" x2="68.857" y2="51.3714" gradientUnits="userSpaceOnUse">
+<stop stop-color="#040C32"/>
+<stop offset="1" stop-color="#040C38" stop-opacity="0.82"/>
+</linearGradient>
+</defs>
+</svg>
+            {/* <img
               onMouseEnter={() => setIsHoverUp(true)}
               onMouseLeave={() => setIsHoverUp(false)}
               width="40px"
               height={"40px"}
               src={isHoverUp ? UpArrowHover : UpArrow}
-            />
+            /> */}
 
           </div>
         )}
@@ -139,13 +150,24 @@ function CardContainer(props) {
               setIsHoverDown(false);
             }}
           >
-            <img
+                        <svg className={isHoverDown ? "nex-prev-hover" : "nex-prev"} onMouseEnter={() => setIsHoverDown(true)} onMouseLeave={() => setIsHoverDown(false)} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="36" height="36" rx="18" transform="matrix(-1 8.74228e-08 8.74228e-08 1 37.9999 2)" />
+<rect x="0.9" y="-0.9" width="37.8" height="37.8" rx="18.9" transform="matrix(-1 8.74228e-08 8.74228e-08 1 39.7999 2)" stroke="#0B37A4" stroke-opacity="0.6" stroke-width="1.8"/>
+<path d="M15.885 17.9431L19.9993 22.0574L24.1136 17.9431" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<defs>
+<linearGradient id="paint0_linear_488_1428" x1="2.82857" y1="9.25714" x2="30.8571" y2="13.3714" gradientUnits="userSpaceOnUse">
+<stop stop-color="#040C32"/>
+<stop offset="1" stop-color="#040C38" stop-opacity="0.82"/>
+</linearGradient>
+</defs>
+</svg>
+            {/* <img
               onMouseEnter={() => setIsHoverDown(true)}
               onMouseLeave={() => setIsHoverDown(false)}
               width="40px"
               height={"40px"}
               src={isHoverDown ? DownArrowHover : DownArrow}
-            />
+            /> */}
 
           </div>
         )}

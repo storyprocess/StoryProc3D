@@ -706,11 +706,12 @@ if (!isLoading && !isWelcome) {
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <circle
+					  className={item == count ? 'welcome-dot-circle-fill' : 'welcome-dot-circle'}
                         cx="5"
                         cy="5"
                         r="4.5"
-                        fill={item == count ? "#1033A4" : "white"}
-                        stroke="#80C8FA"
+                        // fill={item == count ? "#1033A4" : "white"}
+                        // stroke="#80C8FA"
                       />
                     </svg>
                   );

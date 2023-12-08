@@ -113,6 +113,9 @@
 .plain-reset-toolbar .plain-toolbar-button {
 padding: 0px;
 margin: 0px;
+display: flex;
+align-items: center;
+gap: 5%;
 }
 .plain-toolbar-button:hover{
     color: var(--fontWhite);
@@ -158,7 +161,7 @@ margin: 0px;
     margin-top: -2px;
 }
 .hot-spot-subMenu{
-    width: 17%;
+    width: 15%;
     /* height: 13%; */
     z-index: 9;
     cursor: pointer;
@@ -173,7 +176,7 @@ margin: 0px;
     color: var(--HotspotHoverFontColor);
     font-family: var(--HotspotHoverFontFamily);
     font-weight: var(--HotspotHoverFontWeight);
-    font-size: var(--HotspotHoverFontSize);
+    font-size: var(--HotspotHoverLabelFontSize);
     text-align: left;
 }
 .hot-spot-Hover{
@@ -205,14 +208,14 @@ margin: 0px;
 
 .hot-spot-subMenu::before {
     content: '';
-/*    position: absolute;*/
-    bottom: -2%;
+   position: absolute;
+    bottom: -14px;
     left: 3%;
     /* transform: translateX(-455%); */
-    border-left: 1% solid transparent;
-    border-right: 1% solid transparent;
-/*    border-top: 5% solid rgb(12, 31, 85);*/
-    border-top: 1% solid;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+   border-top: 15px solid rgb(12, 31, 85);
+    /* border-top: 1% solid; */
 }
 .learn-more{
     background: var(--bgDark);

@@ -8,6 +8,7 @@
   --bgWhite: #ffffff; 
   --bgGrey: #D9D9D9; 
   --bgSeparator: #E9E7F5; 
+  --bgSeparator1: #F2F0F8; 
   --bgShadow: #000000; 
   --bgMedium: #7E6AD2;
   --bgLight: #A793E5;
@@ -50,6 +51,13 @@
   --opacityVeryLow:0.4;
 
   --bgWorldBackground:var(--bgSeparator);
+  --bgWorldBackground1:var(--bgSeparator1);
+
+  --bagWelcomeDotCircleFill:var(--bgDark);
+  --bagWelcomeDotCircle:var(--bgWhite);
+  --bagWelcomeDotCircleStroke:var(--bgSeparator);
+  --bgNextPreButton:var(--bgMedium);
+  --bgNextPreButtonHover:var(--bgDark);
 
   --bgBottomToolbar: var(--bgDark);
   --BottomToolbarOpacity: var(--opacityHigh);
@@ -106,6 +114,7 @@
   --HotspotHoverFontFamily: var(--fontFamilyRobotoMedium);
   --HotspotHoverFontWeight: var(--fontWeightMedium);
   --HotspotHoverFontSize: .8vw;
+  --HotspotHoverLabelFontSize: 1.042vw;
   --HotspotHoverFontColor: var(--fontWhite);
   
   --bgOnboardingCard: var(--bgWhite);

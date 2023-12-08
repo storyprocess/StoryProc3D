@@ -52,6 +52,8 @@
   text-align: left;
   left: 0;
   color: var(--CardsFontColor);
+  animation: fadeIn ease 0.2s;
+  -webkit-animation: fadeIn ease 0.2s;
 }
 
 .card-content {
@@ -63,8 +65,13 @@
   margin-top: 8%;
   padding: 0;
   color: var(--CardsFontColor);
+  animation: fadeIn ease 0.2s;
+  -webkit-animation: fadeIn ease 0.2s;
 }
-
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
 #container {
   width: 33.33%;
   height: 25vh;
@@ -125,6 +132,12 @@
   margin-top: 36px;
 }
 
+.nex-prev{
+  fill: var(--bgNextPreButton);
+}
+.nex-prev-hover{
+  fill:var(--bgNextPreButtonHover)
+}
 
 .card {
   --angle: 0deg;
@@ -255,7 +268,9 @@
   font-weight: var(--AchievedThroughButtonFontWeight);
   opacity: var(--AchievedThroughButtonOpacity);
 }
-
+.dive-deeper-arrow{
+  stroke: var(--AchievedThroughButtonFontColor);
+}
 .right-arrow {
   width: 7px; /* Set the size of the right arrow image */
   /* height: 1vw; */
@@ -293,14 +308,14 @@
 }
 .card-mapped-container .MuiPaper-elevation{
 /* .card-mapped-container .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper{ */
-  background-color: var(--bgLight) !important;
-  color: var(--fontWhite) !important;
+  background-color: var(--bgHamburgerMenuList) !important;
+  color: var(--HamburgerMenuListFontColor) !important;
   border-radius: 0.75vw !important;
-  font-family: var(--fontFamily1) !important;
-  font-size: 16px !important;
+  font-family: var(--HamburgerMenuListFontFamily) !important;
+  font-size:  var(--HamburgerMenuListFontSize) !important;
   /* top: auto !important; */
   /* bottom: 120px !important; */
-  /* opacity: 0.8 !important; */
+  opacity: var(--HamburgerMenuListOpacity) !important;
   padding: 0px 0.5vw !important;
   box-shadow: -1.875vw 1.25vw 1.75vw -0.625vw #00000066 !important;
 }
@@ -310,8 +325,8 @@
 }
 .card-mapped-container .MuiButtonBase-root:hover{
 /* .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root:hover{ */
-  background-color: var(--bgWhite) !important;
-  color: var(--fontBlack);
+  background-color: var(--bgHamburgerMenuListHover) !important;
+  /* color: var(--fontBlack); */
   border-radius: 0.3125vw;
 }
 .use-case-item {
