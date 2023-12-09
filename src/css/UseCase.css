@@ -158,6 +158,8 @@
   position: absolute;
   top: 40%;
   left:30%;
+  animation: fadeIn ease 0.2s;
+  -webkit-animation: fadeIn ease
 }
   .Welcome-card-container {
     --angle: 0deg;
@@ -174,6 +176,8 @@
   top: 25%;
   left:38%;
   border-radius: 12px;
+  animation: fadeIn ease 0.2s;
+  -webkit-animation: fadeIn ease
 }
 /* .Welcome-card-container::before {
   content: '';
@@ -267,6 +271,8 @@ margin-bottom: 3%;
     font-family: var(--UcStoryFontFamily);
     font-weight: var(--UcStoryFontWeight);
     margin-bottom: 38px;
+    animation: fadeIn ease 0.2s;
+    -webkit-animation: fadeIn ease
   }
   .Welcome-Tour-box-title {
     color: var(--OnboardingCardFontColor);
@@ -276,12 +282,16 @@ margin-bottom: 3%;
     margin: 0px 7%;
     text-align: center;
     margin-bottom: 15px;
+    animation: fadeIn ease 0.2s;
+    -webkit-animation: fadeIn ease
   }
   .Tour-box-title {
     color: var(--fontWhite);
     font-size: 1.4vw;
     font-weight: 500;
     margin-bottom: 15px;
+    animation: fadeIn ease 0.2s;
+    -webkit-animation: fadeIn ease
   }
 
 
@@ -312,6 +322,8 @@ margin-bottom: 3%;
     flex-direction: column;
     gap: 16px;
     max-height: calc(100vh - 220px);
+    animation: fadeIn ease 0.2s;
+    -webkit-animation: fadeIn ease
     /* overflow-y: scroll; */
   }
   
@@ -333,6 +345,8 @@ margin-bottom: 3%;
     color: var(--UcStoryFontColor);
     font-size: var(--UcStoryBlocksFontSize);
     font-weight: var(--UcStoryBlocksFontWeight);
+    animation: fadeIn ease 0.2s;
+    -webkit-animation: fadeIn ease
   }
   
   .content-description {
@@ -341,6 +355,8 @@ margin-bottom: 3%;
     font-size: var(--UcStoryBlocksContentFontSize);
     font-family: var(--UcStoryBlocksContentFontFamily);
     font-weight: var(--UcStoryBlocksContentFontWeight);
+    animation: fadeIn ease 0.2s;
+    -webkit-animation: fadeIn ease
   }
   
   .box-content::-webkit-scrollbar {
