@@ -90,7 +90,7 @@
 
   --CarouselContentFontFamily: var(--fontFamily1);
   --CarouselContentFontWeight: var(--fontWeightRegular);
-  --CarouselContentFontSize: 0.938vw;
+  --CarouselContentFontSize: calc(0.469vw + 0.834vh);
 
   --bgHamburgerMenuList: var(--bgDark);
   --HamburgerMenuListOpacity: var(--opacityLow);

@@ -15,6 +15,7 @@ import {
 	Viewport
 } from '@babylonjs/core';
 
+import useWindowDimensions from '../hooks/useWindowDimensions';
 import SceneComponent from '../component/SceneComponents';
 import Spinner from '../component/Spinner';
 import styles from '../styles/Home.module.css';
@@ -52,6 +53,7 @@ dracoLoader.decoder = {
 
 export const CAMERA_INITIAL_POSITION = new Vector3(-61, 72, 105);
 const Home = (props) => {
+	const { height, width } = useWindowDimensions();
 	const [isLoading, setIsLoading] = useState(true);
 	const [isTitle, setIsTitle] = useState(false);
 	const [scene, setScene] = useState(null);
@@ -193,27 +195,15 @@ const Home = (props) => {
 		});
 		scene.getMeshByName(`hotspotMesh`).setEnabled(false);
 	};
-	let hotspotInitialScaling
 
 	let clientXPosition=0;
 	let clientYPosition=0;
 
 	const createUC = (usecase, scene, texture) => {
-		// const fakeMesh = MeshBuilder.CreateSphere(
-		// 	`usecase-${usecase.id}-fake-mesh`,
-		// 	{ diameter: 1 },
-		// 	scene
-		// );
 
 		const fakeMesh = scene.getMeshByName('hotspotMesh').clone(`usecase-${usecase.id}-fake-mesh`);
-		 hotspotInitialScaling = scene.getMeshByName('hotspotMesh').scaling.clone();
 
-		 scene.onBeforeRenderObservable.add(() => {
-			// adjustHotspotScale(scene);
-		});
 		fakeMesh.position = new Vector3(usecase.position.x, usecase.position.y, usecase.position.z);
-		// fakeMesh.material = new StandardMaterial('hotspot-material', scene);
-		// fakeMesh.isVisible = false;
 		fakeMesh.billboardMode = 7;
 		const hotspotLabelIndex = props.extraData.findIndex((element) => element.use_case_id == usecase.id);
 
@@ -226,19 +216,6 @@ const Home = (props) => {
 
 		container.background = 'rgba(7,17,34,0)';
 
-		// const sectionNameUI = new TextBlock();
-		// sectionNameUI.text = usecase.name;
-		// sectionNameUI.color = 'rgba(255, 255, 255, 0)';
-		// sectionNameUI.fontSize = 12;
-		// sectionNameUI.fontFamily = 'Helvetica';
-		// sectionNameUI.fontWeight = 'bold';
-		// sectionNameUI.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
-		// sectionNameUI.textVerticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
-		// sectionNameUI.paddingTop = '1px';
-		// sectionNameUI.paddingBottom = '1px';
-
-		// container.addControl(sectionNameUI);
-
 		texture.addControl(container);
 		container.linkWithMesh(fakeMesh);
 
@@ -250,7 +227,7 @@ const Home = (props) => {
 			document.addEventListener("mousemove", function (event) {
 				MouseXPosition = event.clientX;
 				MouseYPosition = event.clientY;
-				if(MouseXPosition > clientXPosition + 150 || MouseXPosition < clientXPosition-160 || MouseYPosition < clientYPosition - 160 || MouseYPosition > clientYPosition + 20){
+				if(MouseXPosition > clientXPosition + width*0.17 || MouseXPosition < clientXPosition-width*0.02 || MouseYPosition < clientYPosition - height*0.17 || MouseYPosition > clientYPosition + height*0.02){
 					clientXPosition = -20;
 					clientYPosition = -20;
 					setGlobalState("HoverId",0);
@@ -399,16 +376,13 @@ const Home = (props) => {
 		if (Math.abs(rotation) > Math.abs(rotation + 2*Math.PI)) rotation = rotation + 2*Math.PI;
 		alpha = rotation + movingCamera.rotation.y;
 
-		let direction2 = new Vector3(securityCamera.target.x - securityCamera.position.x, securityCamera.target.y - securityCamera.position.y, securityCamera.target.z - securityCamera.position.z);
-		console.log(direction2);
-		
+		let direction2 = Vector3.Normalize(new Vector3(finalTarget.x - section.cameraPosition.x, finalTarget.y - section.cameraPosition.y, finalTarget.z - section.cameraPosition.z));
+		let projectedDirection2 = Vector3.Normalize(new Vector3(finalTarget.x - section.cameraPosition.x, 0, finalTarget.z - section.cameraPosition.z));
+		let dotProduct2 = Vector3.Dot(direction2, projectedDirection2);
+		let beta2 = Math.acos(dotProduct2);
 		let alpha2 = Math.atan2(direction2.x, direction2.z);
 
-		const positionStep = [section.cameraPosition.x - movingCamera.position.x, section.cameraPosition.y - movingCamera.position.y, section.cameraPosition.z - movingCamera.position.z];
-		
 		const timeline = gsap.timeline();
-		const steps = 100;
-
 		timeline.to(movingCamera.rotation, {
 			x: beta,
 			y: alpha,
@@ -417,30 +391,21 @@ const Home = (props) => {
 				movingCamera.lockedTarget = finalTarget;
 			}
 		});
-		const timeAnimation = 3;
-		for(var i = 0; i < steps; i++) {
-			timeline.to(movingCamera.position, {
-				x: movingCamera.position.x + (i+1)*positionStep[0]/steps,
-				y: movingCamera.position.y + (i+1)*positionStep[1]/steps,
-				z: movingCamera.position.z + (i+1)*positionStep[2]/steps,
-				duration: timeAnimation/steps,
-			});
-		}
+
 		timeline.to(movingCamera.position, {
 			x: section.cameraPosition.x,
 			y: section.cameraPosition.y,
 			z: section.cameraPosition.z,
-			duration: timeAnimation/steps,
+			duration: 3,
+			ease: "power.inOut",
 			onComplete: () => {
 				movingCamera.lockedTarget = null;
-			}
-		});
 
-		timeline.to(movingCamera.rotation, {
-			x: Math.PI/2 - 1.2,
-			y: alpha2,
-			duration: 1,
-			onComplete: () => {
+				securityCamera.lowerBetaLimit = Math.PI/2 - beta2;
+				securityCamera.upperBetaLimit = Math.PI/2 - beta2;
+				securityCamera.beta = Math.PI/2 - beta2;
+				securityCamera.alpha = -Math.PI/2 - alpha2;
+
 				scene.activeCamera = securityCamera;
 				securityCamera.attachControl(canvas, true);
 
@@ -449,37 +414,11 @@ const Home = (props) => {
 				movingCamera.setTarget(arcRotateCamera.target.clone());
 			}
 		});
+
 		timeline.play();
+
+		setGlobalState("HoverId", 0);
 	}
-
-
-
-	// Function to adjust the ball's scale inversely to the camera's scaling
-    function adjustHotspotScale(scene) {
-		if (scene.activeCamera.globalScale == undefined) {
-			return
-		}
-        // Get the current scaling of the camera (assuming it's uniform scaling)
-		console.log("scene",scene.activeCamera.globalScale.x);
-        const cameraScaling = scene.activeCamera.globalScale.x;
-
-        // Calculate the inverse scaling factor for the ball
-        const inverseScalingFactor = 1 / cameraScaling;
-
-        // Apply the inverse scaling to each hotspot
-        if(!scene) return;
-        const texture = scene.getTextureByName('myUI');
-        for(var i = 0; i <= 30; i++) {
-            const currMesh = scene.getMeshByName(`usecase-${i}-fake-mesh`);
-            const currContainer = texture.getControlByName(`usecase-${i}-container`);
-            if(!currMesh || !currContainer) continue;
-            currMesh.scaling = hotspotInitialScaling.scale(inverseScalingFactor);
-        }
-    }
-
-    // Event listener for scene render loop or when the camera zoom changes
-
-
 
 	const showHotspots = (scene,show) => {
 		if(!scene) return;

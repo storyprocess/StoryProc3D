@@ -81,20 +81,10 @@ const PopupToolbar = (props) => {
     return new Promise( res => setTimeout(res, delay) );
 	}
   const handleButtonClick = async (buttonId) => {
-    if (props.buttonId == "button3" || props.buttonId == "button5") {
-      setGlobalState("IsBackgroundBlur", true);
-    }
-		// if(props.buttonType === "D")
-		// {window.history.pushState("", "", "/manufacturing/solutions/" + buttonId);}
-		// else if(props.buttonType === "P")
-		// {window.history.pushState("", "", "/manufacturing/partners/" + buttonId);}
-		if (selectedButton === buttonId) {
-      setSelectedButton(null);
-      setShowDataCard(false);
-			setGlobalState("showDC", false);
-      setStartUC(false);
-      return;
-    }
+		setGlobalState("IsBackgroundBlur", true);
+		setShowDataCard(true);
+		setGlobalState("showDC", true);
+		setStartUC(false);
 
     try {
       setSelectedButton(buttonId);

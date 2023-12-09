@@ -29,7 +29,6 @@ const SceneComponent = ({
 	onSceneReady,
 	...rest
 }) => {
-	var angle = -3*1.57;
 	const reactCanvas = useRef(null);
 
 	const createCameras = (scene) => {
@@ -42,18 +41,18 @@ const SceneComponent = ({
 			0,
 			1,
 			10,
-			new Vector3(-8, 10, 0),
+			new Vector3(-8, 5, 0),
 			scene
 		);
 		arcRotateCamera.minZ = 0;
 		arcRotateCamera.alpha = 1.57;
 		arcRotateCamera.beta = 1.3;
-		arcRotateCamera.radius = 70;
+		arcRotateCamera.radius = 30;
 
 		// set limnitations for camera
 		arcRotateCamera.lowerBetaLimit = 0.5;
 		arcRotateCamera.upperBetaLimit = 1.5;
-		arcRotateCamera.lowerRadiusLimit = 40;
+		arcRotateCamera.lowerRadiusLimit = 30;
 		arcRotateCamera.upperRadiusLimit = 70;
 		// arcRotateCamera.lowerAlphaLimit = arcRotateCamera.alpha;
 		// arcRotateCamera.upperAlphaLimit = arcRotateCamera.alpha;
@@ -142,24 +141,33 @@ const SceneComponent = ({
 			scene.onReadyObservable.addOnce((scene) => onSceneReady(scene));
 		}
 
+		// scene.registerBeforeRender(function() {
+		// 	let mesh = scene.getMeshByName('factory-model');
+		// 	if (mesh){
+		// 		mesh.addRotation(0, 0.05, 0);
+		// 	}
+		// })
+
 		engine.runRenderLoop(() => {
 			if (typeof onRender === 'function') onRender(scene);
 
-			const arc = scene.getCameraByName("camera-2");
-			if(arc != null && angle < 1.57) {
-				arc.alpha = angle;
-				angle += 0.05;
-			}
-
 			for(var id = 0; id < 30; id++) {
 				if(scene.getMeshByName(`usecase-${id}-fake-mesh`) != null && scene.activeCamera != null) {
-					var distance = Vector3.Distance(scene.getMeshByName(`usecase-${id}-fake-mesh`).position, scene.activeCamera.position);
-					var scalingFactor = Math.max(0.015 * distance, 0.5);
+					var coordinates = scene.activeCamera.position;
+					if(scene.activeCamera.id.includes("security-camera")) {
+						coordinates = scene.activeCamera.parent.position;
+					}
+					var distance = Vector3.Distance(scene.getMeshByName(`usecase-${id}-fake-mesh`).position, coordinates);
+					var scalingFactor = 0.015 * distance;
 					scene.getMeshByName(`usecase-${id}-fake-mesh`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
 				}
 				if(scene.getMeshByName(`usecase-${id}-container`) != null && scene.activeCamera != null) {
-					var distance = Vector3.Distance(scene.getMeshByName(`usecase-${id}-container`).position, scene.activeCamera.position);
-					var scalingFactor = Math.max(0.015 * distance, 0.5);
+					var coordinates = scene.activeCamera.position;
+					if(scene.activeCamera.id.includes("security-camera")) {
+						coordinates = scene.activeCamera.parent.position;
+					}
+					var distance = Vector3.Distance(scene.getMeshByName(`usecase-${id}-container`).position, coordinates);
+					var scalingFactor = 0.015 * distance;
 					scene.getMeshByName(`usecase-${id}-container`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
 				}
 			}

@@ -7,7 +7,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { setGlobalState, useGlobalState } from "../state";
 import { Howler, Howl } from "howler";
 import bgpattern from "../assets/Pattern.png";
-import useWindowDimensions from '../hooks/useWindowDimensions';
 import "../css/mainPage.css";
 import {
   BaseAPI,
@@ -59,7 +58,8 @@ const MainPage = (props) => {
   const [playAndPause, setPlayAndPause] = useGlobalState("playAndPause");
   const gaEventTracker = useAnalyticsEventTracker("ToolBarMenu");
   const [anchorEl, setAnchorEl] = useState(null);
-  let alignItems = false;
+	const [scene, setScene] = useGlobalState("scene");
+	let alignItems = false;
 
   const open = anchorEl;
   const handleClick = (event) => {
@@ -292,8 +292,6 @@ const MainPage = (props) => {
     document.getElementById("close-btn").click();
   };
 
-	const { height, width } = useWindowDimensions();
-
   return (
     <div>
       {HoverId > 0 && <div style={{top:clientYPosition1,left:clientXPosition1}} className="hot-spot-subMenu">
@@ -302,7 +300,12 @@ const MainPage = (props) => {
       <hr style={{marginTop:"3%"}} className="card-divider"></hr>
       </div>
       <div className="button-group" >
-        <div className="zoom-in" onClick={()=>setGlobalState("currentZoomedSection",HoverId)} >Zoom-in</div>
+			{ scene.activeCamera.name.includes("security") == false
+					?
+					<div className="zoom-in" onClick={()=> setGlobalState("currentZoomedSection",HoverId)}>Zoom-in</div>
+					:
+					<div className="zoom-in" onClick={()=> resetScreen()}>Zoom-out</div>
+				}
         <div className="learn-more" onClick={()=>handlePlayStory()}>Learn More</div>
       </div>
       </div>}

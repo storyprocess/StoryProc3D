@@ -78,7 +78,7 @@ const DataCard = ({ data, onClose, handlePreButton, handleNexButton }) => {
             value={data.details_url}
             bgColor={"#fff"}
             level={"H"}
-            style={{width:'30%',height:'auto'}}
+            // style={{width:'30%',height:'auto'}}
           />
           <p className="scan-content"><a href={data.details_url} target="_blank"> Scan or click for more details</a></p>
         </div>
