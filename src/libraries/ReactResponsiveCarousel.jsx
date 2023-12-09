@@ -62,7 +62,7 @@ const ReactResponsiveCarousel = ({ solutionGraphicsData }) => {
       {/* {isFullScreen && <img className="full-screen-img" src={Tree}/>} */}
       {isFullScreen && <img className="full-screen-img" src={`${assetsLocation}${applicationDB}/graphics/${solutionGraphicsData[imagePosition].graphic}`}/>}
     <div className="CarouselContainer">
-      <div className="full-screen" onClick={()=>setIsFullScreen(true)}><img width={"20px"} height={"20px"} src={FullScreenIcon}/></div>
+      {/* <div className="full-screen" onClick={()=>setIsFullScreen(true)}><img width={"20px"} height={"20px"} src={FullScreenIcon}/></div> */}
       <Carousel
         width="auto"
         dynamicHeight={false}

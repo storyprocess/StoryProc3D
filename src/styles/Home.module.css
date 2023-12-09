@@ -6,7 +6,8 @@
 	justify-content: center;
 	margin: 0;
 	padding: 0;
-	background-color: var(--bgWorldBackground);
+	/* background-color: var(--bgWorldBackground); */
+	background-image: linear-gradient(to right, var(--bgWorldBackground) , var(--bgWorldBackground1));
 }
 .start__button__container {
 	position: absolute;
