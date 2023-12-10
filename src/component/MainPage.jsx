@@ -359,7 +359,7 @@ const MainPage = (props) => {
           selectedButton={selectedButton}
           active={"btnBusinessNeeds" === selectedButton}
           buttonName="Business Needs"
-          handleButtonClick={(buttonId,buttonName) => {
+          handleButtonClick={async (buttonId,buttonName) => {
 						if (selectedButton === buttonId) {
 							// if same button clicked again, reset screen
 							resetScreen();
@@ -371,6 +371,19 @@ const MainPage = (props) => {
             setGlobalState("useCase", 0);
             setGlobalState("HoverUseCaseId", 0);
             setGlobalState("IsTourOpen", false);
+
+						if(extraData[0][0] == null) {
+							const baseAPIUrl = `${BaseAPI}section/`;
+							const address = `${baseAPIUrl + "1"}?db=${ApplicationDB}`;
+							try {
+								const response = await fetch(address);
+								const data = await response.json();
+								extraData[0].push(data);
+							} catch (error) {
+								// console.error("Error fetching data:", error);
+							}
+						}
+
             setSectionData(extraData[0][0].SectionData);
 
             setUI_Element("");
@@ -388,7 +401,7 @@ const MainPage = (props) => {
           active={"btnGuidingPrinciples" === selectedButton}
           selectedButton={selectedButton}
           buttonName="Guiding Principles"
-          handleButtonClick={(buttonId,buttonName) => {
+          handleButtonClick={async (buttonId,buttonName) => {
 						if (selectedButton === buttonId) {
 							// if same button clicked again, reset screen
 							resetScreen();
@@ -400,8 +413,21 @@ const MainPage = (props) => {
             setGlobalState("useCase", 0);
             setGlobalState("HoverUseCaseId", 0);
             setGlobalState("IsTourOpen", false);
-            console.log(extraData[3][0]);
-            console.log(extraData[3][0].SectionData);
+
+            if(extraData[3][0] == null) {
+							const baseAPIUrl = `${BaseAPI}section/`;
+							const address = `${baseAPIUrl + "4"}?db=${ApplicationDB}`; //address for fetching sectiondata
+							// CHANGES HERE
+							try {
+								// console.log("API CALLED");
+								const response = await fetch(address); //fetch section data files for specific config id
+								const data = await response.json();
+								extraData[3].push(data);
+							} catch (error) {
+								// console.error("Error fetching data:", error);
+							}
+						}
+
             setSectionData(extraData[3][0].SectionData);
 
             setUI_Element("");
@@ -419,7 +445,7 @@ const MainPage = (props) => {
           active={"btnSalesChallenges" === selectedButton}
           selectedButton={selectedButton}
           buttonName="Sales Challenges"
-          handleButtonClick={(buttonId,buttonName) => {
+          handleButtonClick={async (buttonId,buttonName) => {
 						if (selectedButton === buttonId) {
 							// if same button clicked again, reset screen
 							resetScreen();
@@ -431,6 +457,21 @@ const MainPage = (props) => {
             setGlobalState("useCase", 0);
             setGlobalState("HoverUseCaseId", 0);
             setGlobalState("IsTourOpen", false);
+
+						if(extraData[1][0] == null) {
+							const baseAPIUrl = `${BaseAPI}section/`;
+							const address = `${baseAPIUrl + "2"}?db=${ApplicationDB}`; //address for fetching sectiondata
+							// CHANGES HERE
+							try {
+								// console.log("API CALLED");
+								const response = await fetch(address); //fetch section data files for specific config id
+								const data = await response.json();
+								extraData[1].push(data);
+							} catch (error) {
+								// console.error("Error fetching data:", error);
+							}
+						}
+
             setSectionData(extraData[1][0].SectionData);
 
             setUI_Element("cards");
@@ -447,7 +488,7 @@ const MainPage = (props) => {
           active={"btnStoryProcSolutions" === selectedButton}
           selectedButton={selectedButton}
           buttonName="StoryProc Solutions"
-          handleButtonClick={(buttonId,buttonName) => {
+          handleButtonClick={async (buttonId,buttonName) => {
 						if (selectedButton === buttonId) {
 							// if same button clicked again, reset screen
 							resetScreen();
@@ -458,6 +499,21 @@ const MainPage = (props) => {
             setGlobalState("useCase", 0);
             setGlobalState("HoverUseCaseId", 0);
             setGlobalState("IsTourOpen", false);
+
+						if(extraData[6][0] == null) {
+							const baseAPIUrl = `${BaseAPI}solutions`;
+							const address = `${baseAPIUrl}?db=${ApplicationDB}`; //address for fetching sectiondata
+							// CHANGES HERE
+							try {
+								// console.log("API CALLED");
+								const response = await fetch(address); //fetch section data files for specific config id
+								const data = await response.json();
+								extraData[6].push(data);
+							} catch (error) {
+								// console.error("Error fetching data:", error);
+							}
+						}
+
             setSectionData(extraData[6][0].Solutions);
             setButtonType("D");
 						setGlobalState("showDC", false);
@@ -476,7 +532,7 @@ const MainPage = (props) => {
           selectedButton={selectedButton}
           active={"btnUseCasesEnabled" === selectedButton}
           buttonName="Use Cases Enabled"
-          handleButtonClick={(buttonId,buttonName) => {
+          handleButtonClick={async (buttonId,buttonName) => {
 						fetchAudio();
 						if (selectedButton === buttonId) {
 							// if same button clicked again, reset screen
@@ -486,6 +542,18 @@ const MainPage = (props) => {
 						setUseCaseMapping(false);
             handleButtonClick(buttonId);
             setGlobalState("IsTourOpen", false);
+
+						if(extraData[7][0] == null) {
+							const baseAPIUrl = `${BaseAPI}use_case_list`;
+							const address = `${baseAPIUrl}?db=${ApplicationDB}`;
+							try {
+								const response = await fetch(address);
+								const data = await response.json();
+								extraData[7].push(data);
+							} catch (error) {
+								// console.error("Error fetching data:", error);
+							}
+						}
             setSectionData(extraData[7][0].use_case_list);
 
             setUI_Element("popuptoolbar");
