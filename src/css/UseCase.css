@@ -161,6 +161,12 @@
   animation: fadeIn ease 0.2s;
   -webkit-animation: fadeIn ease
 }
+
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
   .Welcome-card-container {
     --angle: 0deg;
   /* padding: 0% 1.5% 2% 1.5%; */
@@ -219,6 +225,7 @@ font-size: var(--OnboardingCardFontSize);
 font-family: var(--OnboardingCardFontFamily);
 color: var(--OnboardingCardFontColor);
 font-weight: var(--OnboardingCardFontWeight);
+animation: fadeIn ease 0.2s;
 margin-bottom: 3%;
 }
 .wel-description{
@@ -226,6 +233,8 @@ margin-bottom: 3%;
   font-family: var(--OnboardingCardContentFontFamily);
   color: var(--OnboardingCardContentFontColor);
   font-weight: var(--OnboardingCardContentFontWeight);
+  line-height: var(--OnboardingCardContentLineHeight);
+  animation: fadeIn ease 0.3s;
   margin: 0px 3%;
 
 }
@@ -322,7 +331,7 @@ margin-bottom: 3%;
     flex-direction: column;
     gap: 16px;
     max-height: calc(100vh - 220px);
-    animation: fadeIn ease 0.2s;
+    animation: fadeIn ease 0.3s;
     -webkit-animation: fadeIn ease
     /* overflow-y: scroll; */
   }
@@ -355,8 +364,9 @@ margin-bottom: 3%;
     font-size: var(--UcStoryBlocksContentFontSize);
     font-family: var(--UcStoryBlocksContentFontFamily);
     font-weight: var(--UcStoryBlocksContentFontWeight);
-    animation: fadeIn ease 0.2s;
-    -webkit-animation: fadeIn ease
+    animation: fadeIn ease 0.3s;
+    -webkit-animation: fadeIn ease;
+    line-height: var(--UcStoryBlocksContentLineHeight);
   }
   
   .box-content::-webkit-scrollbar {

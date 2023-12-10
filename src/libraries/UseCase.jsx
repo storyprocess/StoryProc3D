@@ -100,8 +100,10 @@ function UseCase(props) {
           (stepData[String(currentStep)][0].step_type ==
             "DS" ||
             stepData[String(currentStep)][0].step_type ==
-              "PS")
-        ) {
+              "PS" ||
+              stepData[String(currentStep)][0].step_type ==
+              "IM")
+          ) {
           let graphicObj = {
             graphic: "",
           };
@@ -189,6 +191,7 @@ function UseCase(props) {
   useEffect(() => {
     if (audioClipList && audioClipList.length > 0) {
         if (
+            (stepData && stepData[String(currentStep)][0]?.step_type == "IM") ||
             (stepData && stepData[String(currentStep)][0]?.step_type == "DS") ||
             (stepData && stepData[String(currentStep)][0]?.step_type == "PS")
           ) {
@@ -218,7 +221,8 @@ function UseCase(props) {
     audioClipList[idx].on("end", function (index) {
       if (
         (stepData && stepData[String(currentStep)][0]?.step_type == "DS") ||
-        (stepData && stepData[String(currentStep)][0]?.step_type == "PS")
+        (stepData && stepData[String(currentStep)][0]?.step_type == "PS") ||
+        (stepData && stepData[String(currentStep)][0]?.step_type == "IM")
       ) {
         let splitString = audioClipList[idx].load()._src.split(
           `uc${String(props.useCaseID)}/`
@@ -407,7 +411,7 @@ function UseCase(props) {
     Howler.stop();
     setGlobalState("showUC", false);
     setGlobalState("selectedButton", null);
-    setGlobalState("dimBg", false);
+   // setGlobalState("dimBg", false);
     setGlobalState("playBgMusic", true);
     props.setStartUC(false);
     setGlobalState("useCase", 0);
@@ -565,7 +569,9 @@ function UseCase(props) {
                                       (stepData[String(currentStep)][0]
                                         .step_type == "DS" ||
                                         stepData[String(currentStep)][0]
-                                          .step_type == "PS")
+                                          .step_type == "PS" ||
+                                          stepData[String(currentStep)][0]
+                                            .step_type == "IM")
                                         ? obj.short_label.split("-")[2]
                                         : obj.short_label}
                                     </div>
@@ -640,7 +646,8 @@ function UseCase(props) {
       )}
       {stepData &&
         (stepData[String(currentStep)][0].step_type == "DS" ||
-          stepData[String(currentStep)][0].step_type == "PS") && (
+          stepData[String(currentStep)][0].step_type == "PS" ||
+          stepData[String(currentStep)][0].step_type == "IM") && (
           <div className="left-container">
             {solutionGraphicsData && solutionGraphicsData.length > 0 ?
             DynamicCarousel()

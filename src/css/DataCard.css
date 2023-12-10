@@ -78,10 +78,11 @@
   font-family: var(--CarouselContentFontFamily);
   font-weight: var(--CarouselContentFontWeight);
   font-size: var(--CarouselContentFontSize);
-  top: 20%;
+  top: 21%;
   width: 80%;
-  animation: fadeIn ease 0.2s;
-  -webkit-animation: fadeIn ease 0.2s;
+  animation: fadeIn ease 0.3s;
+  -webkit-animation: fadeIn ease 0.3s;
+  line-height: var(--CarouselContentLineHeight);
 }
 @keyframes fadeIn {
   0% {opacity:0;}

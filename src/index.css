@@ -44,6 +44,7 @@
 --fontWeightRegular:200;
 --fontWeightMedium:300;
 --fontWeightBold:500;
+--contentLineHeight: 1.3;
 
   --opacityOpaque:1;
   --opacityHigh:.95;
@@ -81,6 +82,7 @@
   --CardsContentFontFamily: var(--fontFamily1);
   --CardsContentFontWeight: var(--fontWeightRegular);
   --CardsContentFontSize: 0.81vw;
+  --CardsContentLineHeight: var(--contentLineHeight);
   
   --bgAchievedThroughButton: var(--bgMedium);
   --AchievedThroughButtonOpacity: var(--opacityHigh);
@@ -99,6 +101,7 @@
   --CarouselContentFontFamily: var(--fontFamily1);
   --CarouselContentFontWeight: var(--fontWeightRegular);
   --CarouselContentFontSize: calc(0.469vw + 0.834vh);
+  --CarouselContentLineHeight: var(--contentLineHeight);
 
   --bgHamburgerMenuList: var(--bgDark);
   --HamburgerMenuListOpacity: var(--opacityLow);
@@ -131,6 +134,7 @@
   --OnboardingCardContentFontColor: var(--bgMedium);
   --OnboardingCardNumberingFontColor: var(--bgLight);
   --bgOnboardingCardHighlightedButton: var(--bgLight);
+  --OnboardingCardContentLineHeight: var(--contentLineHeight);
 
   --bgUcStory: var(--bgDark);
   --bgUcStoryNextPrevButton: var(--bgDark);
@@ -148,6 +152,7 @@
   --UcStoryBlocksContentFontFamily: var(--fontFamily1);
   --UcStoryBlocksContentFontWeight: var(--fontWeightRegular);
   --UcStoryBlocksContentFontSize: 0.833vw;
+  --UcStoryBlocksContentLineHeight: var(--contentLineHeight);
 
   --bgSpinner: var(--bgLight);
 
