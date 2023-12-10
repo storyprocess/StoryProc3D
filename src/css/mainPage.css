@@ -170,7 +170,7 @@ gap: 5%;
     opacity: var(--HotspotHoverOpacity);
     border-radius: 8px;
     padding: 1%;
-		transform: translate(-10%, -110%);
+		transform: translate(calc(-3% - 15px), calc(-100% - 14px));
 }
 .hover-label-text{
     color: var(--HotspotHoverFontColor);
@@ -196,8 +196,8 @@ gap: 5%;
     padding: 5%;
     color: var(--fontWhite);
     font-family: var(--fontFamily1);
-    font-size: 1.2vw;
-    border-radius: 8px;
+		font-size: calc(0.6vw + 1.06vh);
+		border-radius: 8px;
 }
 .button-group{
     padding-left: 5%;
@@ -221,7 +221,8 @@ gap: 5%;
     /* transform: translateX(-455%); */
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
-   border-top: 15px solid rgb(12, 31, 85);
+   border-top: 15px solid var(--bgHotspotHover);
+	 ;
     /* border-top: 1% solid; */
 }
 .learn-more{

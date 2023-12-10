@@ -64,7 +64,7 @@
   --BottomToolbarOpacity: var(--opacityHigh);
   --BottomToolbarFontFamily: var(--fontFamilyRobotoMedium);
   --BottomToolbarFontWeight: var(--fontWeightMedium);
-  --BottomToolbarFontSize: .95vw;
+  --BottomToolbarFontSize: calc(0.475vw + 0.844);
   --BottomToolbarFontColor: var(--fontWhite);
   --bgBottomToolbarHighlightedButton: var(--bgMedium);
   --BottomToolbarSeparator: var(--bgSeparator);
@@ -76,26 +76,26 @@
   --CardsOpacity: var(--opacityLow);
   --CardsFontFamily: var(--fontFamilyRobotoMedium);
   --CardsFontWeight: var(--fontWeightMedium);
-  --CardsFontSize: 1.3vw;
+  --CardsFontSize: calc(0.65vw + 1.15vh);
   --CardsFontColor: var(--fontWhite);
   
   --CardsContentFontFamily: var(--fontFamily1);
   --CardsContentFontWeight: var(--fontWeightRegular);
-  --CardsContentFontSize: 0.81vw;
+  --CardsContentFontSize: calc(0.405vw + 0.72vh);
   --CardsContentLineHeight: var(--contentLineHeight);
   
   --bgAchievedThroughButton: var(--bgMedium);
   --AchievedThroughButtonOpacity: var(--opacityHigh);
   --AchievedThroughButtonFontFamily: var(--fontFamily1);
   --AchievedThroughButtonFontWeight: var(--fontWeightBold);
-  --AchievedThroughButtonFontSize: 0.8vw;
+  --AchievedThroughButtonFontSize: calc(0.4vw + 0.71vh);
   --AchievedThroughButtonFontColor: var(--fontWhite);
   
   --bgCarousel: var(--bgDark);
   --CarouselOpacity: var(--opacityLow);
   --CarouselFontFamily: var(--fontFamilyRobotoMedium);
   --CarouselFontWeight: var(--fontWeightMedium);
-  --CarouselFontSize: 1.354vw;
+  --CarouselFontSize: calc(0.677vw + 1.2vh);
   --CarouselFontColor: var(--fontWhite);
 
   --CarouselContentFontFamily: var(--fontFamily1);
@@ -107,7 +107,7 @@
   --HamburgerMenuListOpacity: var(--opacityLow);
   --HamburgerMenuListFontFamily: var(--fontFamily1);
   --HamburgerMenuListFontWeight: var(--fontWeightRegular);
-  --HamburgerMenuListFontSize: 0.833vw;
+  --HamburgerMenuListFontSize: calc(0.4165vw + 0.74vh);
   --HamburgerMenuListFontColor: var(--fontWhite);
   
   --bgHamburgerMenuListHover: var(--bgDark);
@@ -116,8 +116,8 @@
   --HotspotHoverOpacity: var(--opacityLow);
   --HotspotHoverFontFamily: var(--fontFamilyRobotoMedium);
   --HotspotHoverFontWeight: var(--fontWeightMedium);
-  --HotspotHoverFontSize: .8vw;
-  --HotspotHoverLabelFontSize: 1.042vw;
+  --HotspotHoverFontSize: calc(0.4vw + 0.71vh);
+  --HotspotHoverLabelFontSize: calc(0.521vw + 0.926vh);
   --HotspotHoverFontColor: var(--fontWhite);
   
   --bgOnboardingCard: var(--bgWhite);
@@ -125,12 +125,12 @@
   --OnboardingCardOpacity: var(--opacityOpaque);
   --OnboardingCardFontFamily: var(--fontFamilyRobotoMedium);
   --OnboardingCardFontWeight: var(--fontWeightMedium);
-  --OnboardingCardFontSize: 0.938vw;
+  --OnboardingCardFontSize: calc(0.469vw + 0.834vh);
   --OnboardingCardFontColor: var(--bgMedium);
 
   --OnboardingCardContentFontFamily: var(--fontFamily1);
   --OnboardingCardContentFontWeight: var(--fontWeightRegular);
-  --OnboardingCardContentFontSize: 0.729vw;
+  --OnboardingCardContentFontSize: calc(0.3645vw + 0.648vh);
   --OnboardingCardContentFontColor: var(--bgMedium);
   --OnboardingCardNumberingFontColor: var(--bgLight);
   --bgOnboardingCardHighlightedButton: var(--bgLight);
@@ -141,17 +141,17 @@
   --UcStoryOpacity: var(--opacityHigh);
   --UcStoryFontFamily: var(--fontFamilyRobotoMedium);
   --UcStoryFontWeight: var(--fontWeightMedium);
-  --UcStoryFontSize: 1.667vw;
+  --UcStoryFontSize: calc(0.8335vw + 1.481vh);
   --UcStoryFontColor: var(--fontWhite);
 
   --bgUcStoryBlocks: var(--bgMedium);
   --UcStoryBlocksFontFamily: var(--fontFamilyRobotoBold);
   --UcStoryBlocksFontWeight: var(--fontWeightRegular);
-  --UcStoryBlocksFontSize: 1.1vw;
+  --UcStoryBlocksFontSize: calc(0.55vw + 0.98vh);
 
   --UcStoryBlocksContentFontFamily: var(--fontFamily1);
   --UcStoryBlocksContentFontWeight: var(--fontWeightRegular);
-  --UcStoryBlocksContentFontSize: 0.833vw;
+  --UcStoryBlocksContentFontSize: calc(0.4165vw + 0.74vh);
   --UcStoryBlocksContentLineHeight: var(--contentLineHeight);
 
   --bgSpinner: var(--bgLight);

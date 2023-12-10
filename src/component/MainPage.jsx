@@ -283,6 +283,7 @@ const MainPage = (props) => {
       setIsResetClick(false)
     }, 1000);
     setTourState(false);
+		setSelectedButton(null);
     setGlobalState("IsTourOpen", false);
     setGlobalState("UCTourId", 0);
     setGlobalState("IsHomeButtonClick", true);
@@ -594,7 +595,7 @@ const MainPage = (props) => {
           sectionData={sectionData}
           ui_element={ui_Element}
           buttonId={selectedButton}
-          useCaseMapping={useCaseMapping}
+          useCaseMapping={false}
           handleMenuItemClick = {handleMenuItemClick}
           anchorEl={anchorEl}
           handleClose={handleClose}
