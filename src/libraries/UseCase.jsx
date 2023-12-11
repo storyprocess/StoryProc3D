@@ -596,7 +596,7 @@ function UseCase(props) {
                                   ?.short_label}
                             </div>
                             <div className="box-content-vp">
-                            <div className="content-description-vp" style={{marginTop:'0px', marginBottom:'0px'}}>
+                            <div className="content-description-vp" style={{marginTop:'0px', marginBottom:'0px'}}> <ul>
                               {stepData &&
                                 stepData[String(currentStep + 1)]?.map(
                                   (obj, index) => {
@@ -604,7 +604,7 @@ function UseCase(props) {
                                         index > 0 ? (
                                           <div key={index} style={{paddingBottom: '.8vh'}}>
                                             
-                                              {obj.short_label}
+                                             <li> {obj.short_label} </li>
                                             
                                           </div>
                                           
@@ -614,7 +614,7 @@ function UseCase(props) {
                                     );
                                   }
                                 )}
-                            </div>
+                            </ul></div>
                             </div>                          </>
                         )}
                     </div>

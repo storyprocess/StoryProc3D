@@ -7,36 +7,13 @@
   
   --bgWhite: #ffffff; 
   --bgGrey: #D9D9D9; 
-  --bgSeparator: #E9E7F5; 
-  --bgSeparator1: #F2F0F8; 
+  --bgSeparator:  #e3def5; 
+  --bgSeparator1: #E9E7F5; 
   --bgShadow: #000000; 
   --bgMedium: #7E6AD2;
-  --bgLight: #A793E5;
+  --bgLight: #cbc2e7;
   --bgDark: #5B459A;
-/*
---fontWhite: #ffffff; 
---fontToolbar: #333333; 
---fontLight: #333333; 
---fontBlack:#000000; 
 
---bgWhite: var(--fontWhite); 
---bgGrey: #D9D9D9; 
---bgSeparator: #C5D4D1; 
---bgShadow: #000000; 
---bgMedium: #277F87;
---bgDark:#277F87;
---bgLight: #36696d;
-
---bgSeparator: #b1b3b6; 
---bgShadow: #000000; 
---bgMedium: #b7b5af;
---bgDark:#b1b3b6;
---bgLight: #d7ded5;
-
---fontFamily1:'Audrey';
---fontFamilyRobotoMedium:'Audrey';
---fontFamilyRobotoBold:'Audrey';
-*/
 --fontFamily1:'Arial';
 --fontFamilyRobotoMedium:var(--fontFamily1);
 --fontFamilyRobotoBold:var(--fontFamily1);
