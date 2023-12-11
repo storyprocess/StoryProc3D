@@ -340,13 +340,13 @@ margin-bottom: 3%;
   
   .Tour-box-content>div {
     padding: 15px;
-    font-size: 0.938vw;
+    font-size: var(--UcStoryBlocksContentFontSize);
     border-radius: 6px;
     background: var(--bgDark);
   }
   .box-content>div {
     padding: 5%;
-    font-size: 0.938vw;
+    font-size: var(--UcStoryBlocksContentFontSize);
     border-radius: 6px;
     background: var(--bgUcStoryBlocks);
   }
@@ -356,7 +356,7 @@ margin-bottom: 3%;
     padding-right: 5%;
     padding-top: 4%;
     padding-bottom: 4%;
-    font-size: 0.938vw;
+    font-size: var(--UcStoryBlocksContentFontSize);
     border-radius: 6px;
     background: var(--bgUcStoryBlocks);
   }

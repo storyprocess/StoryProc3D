@@ -596,16 +596,18 @@ function UseCase(props) {
                                   ?.short_label}
                             </div>
                             <div className="box-content-vp">
+                            <div className="content-description-vp" style={{marginTop:'0px', marginBottom:'0px'}}>
                               {stepData &&
                                 stepData[String(currentStep + 1)]?.map(
                                   (obj, index) => {
                                     return (
                                         index > 0 ? (
-                                          <div key={index}>
-                                            <div className="content-description-vp" style={{marginBottom:'0px'}}>
+                                          <div key={index} style={{paddingBottom: '.8vh'}}>
+                                            
                                               {obj.short_label}
-                                            </div>
+                                            
                                           </div>
+                                          
                                         ) : (
                                           ""
                                         )
@@ -613,7 +615,7 @@ function UseCase(props) {
                                   }
                                 )}
                             </div>
-                          </>
+                            </div>                          </>
                         )}
                     </div>
                   </CSSTransition>
