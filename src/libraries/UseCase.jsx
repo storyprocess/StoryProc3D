@@ -595,14 +595,14 @@ function UseCase(props) {
                                 stepData[String(currentStep + 1)]?.[0]
                                   ?.short_label}
                             </div>
-                            <div className="box-content">
+                            <div className="box-content-vp">
                               {stepData &&
                                 stepData[String(currentStep + 1)]?.map(
                                   (obj, index) => {
                                     return (
                                         index > 0 ? (
                                           <div key={index}>
-                                            <div className="content-title" style={{marginBottom:'0px'}}>
+                                            <div className="content-description-vp" style={{marginBottom:'0px'}}>
                                               {obj.short_label}
                                             </div>
                                           </div>
