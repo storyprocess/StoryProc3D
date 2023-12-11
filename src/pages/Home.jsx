@@ -34,9 +34,6 @@ import { setGlobalState, useGlobalState } from '../state';
 import { Howl, Howler } from 'howler';
 import { BaseAPI, ApplicationDB, assetsLocation } from '../assets/assetsLocation';
 import {
-	// ClientOfficeAnimation,
-	// OwnOfficeAnimation2,
-	// TradeshowAnimationTest,
 	Clientofficefinal,
 	Marker
 } from '../models';
@@ -352,8 +349,6 @@ const Home = (props) => {
 			return;
 		}
 
-		console.log(id, section);
-
 		hideSectionUIs(scene);
 		hideInfoUIs(scene);
 		const canvas = document.getElementsByClassName("main-canvas")[0];
@@ -404,6 +399,8 @@ const Home = (props) => {
 				securityCamera.lowerBetaLimit = Math.PI/2 - beta2;
 				securityCamera.upperBetaLimit = Math.PI/2 - beta2;
 				securityCamera.beta = Math.PI/2 - beta2;
+				securityCamera.lowerAlphaLimit = -Math.PI/2 - alpha2 - 0.75;
+				securityCamera.upperAlphaLimit = -Math.PI/2 - alpha2 + 0.75;
 				securityCamera.alpha = -Math.PI/2 - alpha2;
 
 				scene.activeCamera = securityCamera;
