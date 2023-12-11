@@ -524,14 +524,45 @@ const Home = (props) => {
 		setSectionData(data?.SectionData);
 	};
 
+	const initialAnimation = () => {
+		const beta = Math.PI/2 - 1.3;
+		const radius = 20;
+		const alpha = 1.57 - Math.PI/2; // Assuming alpha is in radians
+		const target = new Vector3(-5, 5, 0);
+
+		const x = radius * Math.cos(beta) * Math.sin(alpha);
+		const y = radius * Math.sin(beta);
+		const z = radius * Math.cos(beta) * Math.cos(alpha);
+
+		const cameraPosition = new Vector3(x, y, z).add(target);
+
+		const cam2 = scene.getCameraByName('camera-2');
+		const cam3 = scene.activeCamera;
+
+		cam3.lockedTarget = target;
+		const timeline = gsap.timeline();
+		timeline.to(cam3.position, {
+			x: cameraPosition.x,
+			y: cameraPosition.y,
+			z: cameraPosition.z,
+			duration: 5,
+			onComplete: () => {
+				scene.activeCamera = cam2;
+			}
+		});
+
+		return;
+	};
+
 	/**
 	 * Will run on every frame render.  We are spinning the box on y-axis.
 	 */
 	useEffect(()=>{
-if (!isLoading && !isWelcome) {
-			// setIsLoading(false);
+	if (!isLoading && !isWelcome) {
+		// setIsLoading(false);
 		setGlobalState('IsLoading', false);
-}
+		initialAnimation();
+	}
 	},[isLoading,isWelcome])
 	const onRender = (scene) => {};
 	const handleNext = () => {
@@ -539,6 +570,7 @@ if (!isLoading && !isWelcome) {
 			setIsWelcome(false)
 			setIsLoading(false);
 			setGlobalState('IsLoading', false);
+			initialAnimation();
 			setTimeout(() => {
 				document.getElementById("tour").click()
 			}, 2000);

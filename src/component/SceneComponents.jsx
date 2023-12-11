@@ -41,18 +41,18 @@ const SceneComponent = ({
 			0,
 			1,
 			10,
-			new Vector3(-8, 5, 0),
+			new Vector3(-5, 5, 0),
 			scene
 		);
 		arcRotateCamera.minZ = 0;
 		arcRotateCamera.alpha = 1.57;
 		arcRotateCamera.beta = 1.3;
-		arcRotateCamera.radius = 30;
+		arcRotateCamera.radius = 20;
 
 		// set limnitations for camera
 		arcRotateCamera.lowerBetaLimit = 0.5;
 		arcRotateCamera.upperBetaLimit = 1.5;
-		arcRotateCamera.lowerRadiusLimit = 30;
+		arcRotateCamera.lowerRadiusLimit = 10;
 		arcRotateCamera.upperRadiusLimit = 70;
 		// arcRotateCamera.lowerAlphaLimit = arcRotateCamera.alpha;
 		// arcRotateCamera.upperAlphaLimit = arcRotateCamera.alpha;
@@ -88,17 +88,17 @@ const SceneComponent = ({
 		camera.rotation = new Vector3(0.2797833944525906, -1.729744737715753, 0);
 
 		// This attaches the camera to the canvas
-		scene.activeCamera = arcRotateCamera;
-
+		
 		scene.clearColor = new Color4(0, 0, 0, 0);
-
+		
 		// camera.attachControl(canvas, true);
 		arcRotateCamera.storeState() 
 		arcRotateCamera.attachControl(canvas, true);
-
+		
 		const movingCamera = new FreeCamera('camera-3', new Vector3(0,0,0), scene);
-		movingCamera.position.copyFrom(arcRotateCamera.position);
+		movingCamera.position.copyFrom(new Vector3(30,30,50));
 		movingCamera.setTarget(arcRotateCamera.target.clone());
+		scene.activeCamera = movingCamera;
 	};
 
 	const createLights = (scene) => {
