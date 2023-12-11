@@ -548,6 +548,9 @@ const Home = (props) => {
 			duration: 5,
 			onComplete: () => {
 				scene.activeCamera = cam2;
+				cam3.position.copyFrom(cam2.position);
+				cam3.lockedTarget = null;
+				cam3.setTarget(target);
 			}
 		});
 
