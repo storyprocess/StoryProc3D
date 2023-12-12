@@ -4,4 +4,4 @@ export const assetsLocation = "http://dell-edge-test.s3-accelerate.amazonaws.com
 export const ApplicationDB = "storyprocess3d"
 export const BaseAPI = "https://bubble-backend.storyproc.com/"
 export const MainMenuIsButtons = false
-export const carouselType = "2"
+export const carouselType = "1"
