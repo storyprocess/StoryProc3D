@@ -325,7 +325,7 @@ const MainPage = (props) => {
           handleMenuClick={() => {}}
         >
         
-        <svg width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="4vh" height="4vh" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_bd_38_67)">
         <rect x="6" y="3" width="52" height="52" rx="26" fill="#D8D8D8"/>
         </g>
@@ -595,7 +595,7 @@ const MainPage = (props) => {
           sectionData={sectionData}
           ui_element={ui_Element}
           buttonId={selectedButton}
-          useCaseMapping={false}
+					useCaseMapping = {useCaseMapping}
           handleMenuItemClick = {handleMenuItemClick}
           anchorEl={anchorEl}
           handleClose={handleClose}

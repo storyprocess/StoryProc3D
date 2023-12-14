@@ -56,7 +56,7 @@ const DataCard = ({ data, onClose, handlePreButton, handleNexButton }) => {
     <div className="rectangle">
       <div className="LeftArrow">
 			{numGraphics > 1 && carouselType == "1" ?
-            <svg className={isHoverLeft ? "nex-prev-hover" : "nex-prev"} onClick={() => handlePreButton()} onMouseEnter={() => setIsHoverLeft(true)} onMouseLeave={() => setIsHoverLeft(false)} width="62" height="62" viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className={isHoverLeft ? "nex-prev-hover" : "nex-prev"} onClick={() => handlePreButton()} onMouseEnter={() => setIsHoverLeft(true)} onMouseLeave={() => setIsHoverLeft(false)} width="6.6vh" height="6.6vh" viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="56" height="56" rx="28" transform="matrix(4.37114e-08 -1 -1 -4.37114e-08 59 59)" />
             <rect x="1.5" y="1.5" width="59" height="59" rx="29.5" transform="matrix(4.37114e-08 -1 -1 -4.37114e-08 62 62)" stroke="#0B37A4" stroke-opacity="0.6" stroke-width="3"/>
             <path d="M34.2 24.6001L27.8 31.0001L34.2 37.4001" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -89,7 +89,7 @@ const DataCard = ({ data, onClose, handlePreButton, handleNexButton }) => {
             value={data.details_url}
             bgColor={"#fff"}
             level={"H"}
-            // style={{width:'30%',height:'auto'}}
+            style={{width:'1vw',height:'auto'}}
           />
           <p className="scan-content"><a href={data.details_url} target="_blank"> Scan or click for more details</a></p>
         </div>
@@ -109,7 +109,7 @@ const DataCard = ({ data, onClose, handlePreButton, handleNexButton }) => {
       </div>
       <div className="RightArrow" style={{marginRight:'10%'}}>
 				{numGraphics > 1 && carouselType == "1" ?
-                <svg className={isHoverRight ? "nex-prev-hover" : "nex-prev"} onMouseEnter={() => setIsHoverRight(true)} onMouseLeave={() => setIsHoverRight(false)} onClick={() => handleNexButton()} width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg className={isHoverRight ? "nex-prev-hover" : "nex-prev"} onMouseEnter={() => setIsHoverRight(true)} onMouseLeave={() => setIsHoverRight(false)} onClick={() => handleNexButton()} width="6.6vh" height="6.6vh" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="5" y="61" width="56" height="56" rx="28" transform="rotate(-90 5 61)" />
                 <rect x="2.5" y="63.5" width="61" height="61" rx="30.5" transform="rotate(-90 2.5 63.5)" stroke="#0B37A4" stroke-opacity="0.4" stroke-width="5"/>
                 <path d="M29.8 26.6001L36.2 33.0001L29.8 39.4001" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

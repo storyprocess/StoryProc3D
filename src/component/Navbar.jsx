@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../css/Navbar.css';
-import companyLogo from '../assets/companyLogo.png';
+import companyLogo from '../assets/Storyproc logo.png';
 import intel from '../assets/intelLogo.png';
 import linkedin from '../assets/linLogo.png';
 import tweet from '../assets/twtLogo.png';

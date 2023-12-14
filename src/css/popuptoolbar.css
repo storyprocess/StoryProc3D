@@ -148,6 +148,7 @@
   }
   .MuiButtonBase-root{
     padding: 11px 12px !important;
+    font-size: var(--HamburgerMenuListFontSize) !important;
   }
   .MuiButtonBase-root:hover{
     background-color: var(--bgHamburgerMenuListHover) !important;

@@ -7,8 +7,8 @@
   
   --bgWhite: #ffffff; 
   --bgGrey: #D9D9D9; 
-  --bgSeparator:  #e3def5; 
-  --bgSeparator1: #E9E7F5; 
+  --bgSeparator:  #cbc2e7; 
+  --bgSeparator1: #ffffff; 
   --bgShadow: #000000; 
   --bgMedium: #7E6AD2;
   --bgLight: #cbc2e7;
@@ -41,13 +41,13 @@
   --BottomToolbarOpacity: var(--opacityHigh);
   --BottomToolbarFontFamily: var(--fontFamilyRobotoMedium);
   --BottomToolbarFontWeight: var(--fontWeightMedium);
-  --BottomToolbarFontSize: calc(0.475vw + 0.844);
+  --BottomToolbarFontSize: calc(0.475vw + 0.844vh);
   --BottomToolbarFontColor: var(--fontWhite);
   --bgBottomToolbarHighlightedButton: var(--bgMedium);
   --BottomToolbarSeparator: var(--bgSeparator);
 
   --bgTopNavbar: var(--bgDark);
-  --TopNavbarOpacity: var(--opacityHigh);
+  --TopNavbarOpacity: 0;
 
   --bgCards: var(--bgDark);
   --CardsOpacity: var(--opacityLow);
@@ -110,7 +110,7 @@
   --OnboardingCardContentFontSize: calc(0.3645vw + 0.648vh);
   --OnboardingCardContentFontColor: var(--bgMedium);
   --OnboardingCardNumberingFontColor: var(--bgLight);
-  --bgOnboardingCardHighlightedButton: var(--bgLight);
+  --bgOnboardingCardHighlightedButton: var(--bgDark);
   --OnboardingCardContentLineHeight: var(--contentLineHeight);
 
   --bgUcStory: var(--bgDark);
@@ -130,7 +130,8 @@
   --UcStoryBlocksContentFontWeight: var(--fontWeightRegular);
   --UcStoryBlocksContentFontSize: calc(0.4165vw + 0.74vh);
   --UcStoryBlocksContentLineHeight: var(--contentLineHeight);
+  --UcStoryBlocksContentFontColor: var(--fontWhite);
 
-  --bgSpinner: var(--bgLight);
+  --bgSpinner: var(--bgDark);
 
 }

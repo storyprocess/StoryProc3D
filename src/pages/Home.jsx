@@ -34,7 +34,7 @@ import { setGlobalState, useGlobalState } from '../state';
 import { Howl, Howler } from 'howler';
 import { BaseAPI, ApplicationDB, assetsLocation } from '../assets/assetsLocation';
 import {
-	Clientofficefinal,
+	mainModel,
 	Marker
 } from '../models';
 
@@ -147,7 +147,7 @@ const Home = (props) => {
 		// 1 - load factory model first
 		setCounter(1)
 		setIsTitle(true) 
-		const factoryModel = await SceneLoader.ImportMeshAsync('', Clientofficefinal, '', scene);
+		const factoryModel = await SceneLoader.ImportMeshAsync('', mainModel, '', scene);
 		factoryModel.meshes[0].name = 'factory-model';
 		
 		// setGlobalState('IsLoading', false);
@@ -545,7 +545,7 @@ const Home = (props) => {
 			x: cameraPosition.x,
 			y: cameraPosition.y,
 			z: cameraPosition.z,
-			duration: 5,
+			duration: 2,
 			onComplete: () => {
 				scene.activeCamera = cam2;
 				cam3.position.copyFrom(cam2.position);
@@ -670,8 +670,8 @@ const Home = (props) => {
                 {[0, 1, 2, 3, 4, 5].map((item) => {
                   return (
                     <svg
-                      width="10"
-                      height="10"
+                      width="1vh"
+                      height="1vh"
                       viewBox="0 0 10 10"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"

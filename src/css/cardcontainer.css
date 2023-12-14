@@ -99,7 +99,7 @@
   /* position: absolute; */
   background-size: cover;
   /* transform-style: preserve-3d; */
-  box-shadow: 1.5rem 2.5rem 5rem 0.7rem rgba(0, 0, 0, 0.13);
+  box-shadow: -1.875vw 1.25vw 1.75vw -0.625vw var(--bgShadow);
   display: flex;
   justify-content: center;
   align-items: center;

@@ -157,7 +157,7 @@ gap: 5%;
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-bottom: 8px solid #007bff;
+    border-bottom: 8px solid var(--bgBottomToolbarHighlightedButton);
     margin-top: -2px;
 }
 .hot-spot-subMenu{
@@ -170,7 +170,10 @@ gap: 5%;
     opacity: var(--HotspotHoverOpacity);
     border-radius: 8px;
     padding: 1%;
-		transform: translate(calc(-3% - 15px), calc(-100% - 14px));
+    box-shadow: -1vw 0.75vw 1.75vw -0.625vw var(--bgShadow);
+	transform: translate(calc(-3% - 15px), calc(-100% - 14px));
+    transform-origin: top left;
+    animation: animateGrow .3s;
 }
 .hover-label-text{
     color: var(--HotspotHoverFontColor);
@@ -182,7 +185,19 @@ gap: 5%;
 }
 @keyframes fadeIn {
     0% {opacity:0;}
-    100% {opacity:1;}
+    100% {opacity: var(--HotspotHoverOpacity);}
+}
+
+@keyframes animateGrow {
+    0% {opacity:0; scale:0%;};
+    25% {opacity: var(--HotspotHoverOpacity); scale:0%}
+    100% {opacity: var(--HotspotHoverOpacity); scale:100%}
+}
+
+@keyframes animateGrow2 {
+    0% {opacity:0; translate:calc(-3% - 15px), calc(-100% - 14px); scale:0%;};
+    25% {opacity: var(--HotspotHoverOpacity); translate:calc(-3% - 15px), calc(-100% - 14px); scale:0%}
+    100% {opacity: var(--HotspotHoverOpacity); translate:calc(-3% - 15px), calc(-100% - 14px); scale:100%}
 }
 
 .hot-spot-Hover{
@@ -235,3 +250,4 @@ gap: 5%;
     animation: fadeIn ease 0.3s;
   /*  width: 30%;*/
 }
+
