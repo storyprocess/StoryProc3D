@@ -25,8 +25,8 @@
 .company-logo {
     position: absolute;
     width: 8%;
-    left: 5.4167%;
-    top: 1%;
+    left: 2%;
+    top: .8%;
     z-index: 3;
 }
 
@@ -53,18 +53,18 @@
 .mute {
     position: absolute;
     left: 86.5875%;
-    top: 3%;
+    top: 2%;
     
-    width: 1.5625%;
+    width: 2%;
     aspect-ratio: 1;
 }
 
 .playPause {
     position: absolute;
     left: 84.7175%;
-    top: 1%;
+    top: 2%;
     
-    width: 1.5625%;
+    width: 2%;
     aspect-ratio: 1;
 }
 

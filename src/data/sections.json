@@ -59,36 +59,5 @@
 			"z": 24.4
 		},
 		"infos": []
-	},
-	{
-		"id": 5,
-		"name": "Packaging Area",
-		"position": {
-			"x": -90,
-			"y": 10,
-			"z": -4.5
-		},
-		"cameraPosition": {
-			"x": -80,
-			"y": 5.68,
-			"z": 4.85
-		},
-		"infos": [6, 4]
-	},
-
-	{
-		"id": 6,
-		"name": "Final Product Warehouse",
-		"position": {
-			"x": -110,
-			"y": 10,
-			"z": -4.5
-		},
-		"cameraPosition": {
-			"x": -102,
-			"y": 5.68,
-			"z": 4.85
-		},
-		"infos": [14]
 	}
 ]

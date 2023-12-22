@@ -35,19 +35,19 @@ const SceneComponent = ({
 		const { current: canvas } = reactCanvas;
 
 		// This creates and positions a free camera (non-mesh)
-		const camera = new FreeCamera('camera-1', new Vector3(0, 10, -10), scene);
+		const camera = new FreeCamera('camera-1', new Vector3(-4, 0, 0), scene);
 		const arcRotateCamera = new ArcRotateCamera(
 			'camera-2',
 			0,
 			1,
 			10,
-			new Vector3(-5, 5, 0),
+			new Vector3(-4, 0, 0),
 			scene
 		);
 		arcRotateCamera.minZ = 0;
 		arcRotateCamera.alpha = 1.57;
-		arcRotateCamera.beta = 1.3;
-		arcRotateCamera.radius = 20;
+		arcRotateCamera.beta = 1.1; //1.15
+		arcRotateCamera.radius = 26;
 
 		// set limnitations for camera
 		arcRotateCamera.lowerBetaLimit = 0.5;
@@ -95,7 +95,7 @@ const SceneComponent = ({
 		arcRotateCamera.storeState() 
 		arcRotateCamera.attachControl(canvas, true);
 		
-		const movingCamera = new FreeCamera('camera-3', new Vector3(0,0,0), scene);
+		const movingCamera = new FreeCamera('camera-3', new Vector3(-4,0,0), scene);
 		movingCamera.position.copyFrom(new Vector3(30,30,50));
 		movingCamera.setTarget(arcRotateCamera.target.clone());
 		scene.activeCamera = movingCamera;

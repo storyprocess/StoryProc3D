@@ -305,7 +305,7 @@ const MainPage = (props) => {
 					?
 					<div className="zoom-in" onClick={()=> setGlobalState("currentZoomedSection",HoverId)}>Zoom-in</div>
 					:
-					<div className="zoom-in" onClick={()=> resetScreen()}>Zoom-out</div>
+					<div className="zoom-in" onClick={()=> props.resetCamera()}>Zoom-out</div>
 				}
         <div className="learn-more" onClick={()=>handlePlayStory()}>Learn More</div>
       </div>
@@ -452,7 +452,7 @@ const MainPage = (props) => {
 							resetScreen();
 							return;
 						}
-						setUseCaseMapping(true);
+						setUseCaseMapping(false);
             handleButtonClick(buttonId);            
             setGlobalState("IsBackgroundBlur", true);
             setGlobalState("useCase", 0);

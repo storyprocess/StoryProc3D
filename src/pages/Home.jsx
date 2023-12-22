@@ -381,7 +381,8 @@ const Home = (props) => {
 		timeline.to(movingCamera.rotation, {
 			x: beta,
 			y: alpha,
-			duration: 1,
+			duration: .4,
+			ease: "power.inOut",
 			onComplete: () => {
 				movingCamera.lockedTarget = finalTarget;
 			}
@@ -391,7 +392,7 @@ const Home = (props) => {
 			x: section.cameraPosition.x,
 			y: section.cameraPosition.y,
 			z: section.cameraPosition.z,
-			duration: 3,
+			duration: 1.,
 			ease: "power.inOut",
 			onComplete: () => {
 				movingCamera.lockedTarget = null;
@@ -525,10 +526,10 @@ const Home = (props) => {
 	};
 
 	const initialAnimation = () => {
-		const beta = Math.PI/2 - 1.3;
-		const radius = 20;
+		const beta = Math.PI/2 - 1.1;
+		const radius = 26;
 		const alpha = 1.57 - Math.PI/2; // Assuming alpha is in radians
-		const target = new Vector3(-5, 5, 0);
+		const target = new Vector3(-4, 0, 0);
 
 		const x = radius * Math.cos(beta) * Math.sin(alpha);
 		const y = radius * Math.sin(beta);
@@ -545,7 +546,8 @@ const Home = (props) => {
 			x: cameraPosition.x,
 			y: cameraPosition.y,
 			z: cameraPosition.z,
-			duration: 2,
+			duration: 1.5,
+			ease: "power.in",
 			onComplete: () => {
 				scene.activeCamera = cam2;
 				cam3.position.copyFrom(cam2.position);

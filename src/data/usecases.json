@@ -3,7 +3,7 @@
 		"id": 1,
 		"name": "𝒊",
 		"length": 4,
-		"textData": "5G-enabled Edge Applications",
+		"textData": "Hotspot 1",
 		"position": {
 			"x": -15.65,
 			"y": 2,
@@ -32,6 +32,39 @@
 			"y": 2,
 			"z": -4.5
 		},
-		"section": 1
-	}
+		"section": 2
+		},{
+		"id": 4,
+		"name": "𝒊",
+		"length": 4,
+		"textData": "Hotspot 4",
+		"position": {
+			"x": -5,
+			"y": 2,
+			"z": -4.5
+		},
+		"section": 3
+		},{
+		"id": 5,
+		"name": "𝒊",
+		"length": 4,
+		"textData": "Hotspot 5",
+		"position": {
+			"x": 0,
+			"y": 2,
+			"z": -4.5
+		},
+		"section": 4
+		},{
+			"id": 6,
+			"name": "𝒊",
+			"length": 4,
+			"textData": "Hotspot 6",
+			"position": {
+				"x": 5,
+				"y": 2,
+				"z": -4.5
+			},
+			"section": 4
+		}
 ]
