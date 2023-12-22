@@ -27,6 +27,7 @@ const SceneComponent = ({
 	sceneOptions,
 	onRender,
 	onSceneReady,
+	isLoading,
 	...rest
 }) => {
 	const reactCanvas = useRef(null);
@@ -209,7 +210,7 @@ const SceneComponent = ({
 // document.addEventListener('wheel', handleMouseWheel);
 
 
-	return <canvas ref={reactCanvas} {...rest} id={styles.renderCanvas} className='main-canvas' />;
+	return <canvas ref={reactCanvas} {...rest} id={styles.renderCanvas} className='main-canvas' style={{visibility: isLoading ?'hidden': 'visible'}} />;
 };
 
 export default SceneComponent;

@@ -8,6 +8,8 @@ import { motion } from "framer-motion";
 import verticalLine from "../assets/Group 27.png";
 import React, { Suspense, lazy, useEffect } from "react";
 import Spinner from "./Spinner";
+import { gsap } from 'gsap';
+import { Vector3 } from "@babylonjs/core";
 import { Howl, Howler } from "howler";
 import { ApplicationDB, assetsLocation } from "../assets/assetsLocation";
 import homeIcon from "../assets/Home button.png";
@@ -36,7 +38,8 @@ function HomeComponent() {
   // const [UmToManufacturing, setUmToManufacturing] = useGlobalState("UmToManufacturing");
   const [IsBackgroundBlur, setIsBackgroundBlur] = useGlobalState("IsBackgroundBlur");
 	const [scene, setScene] = useGlobalState("scene");
-
+	const [resetting, setResetting] = useState(false);
+	
   let WelcomeData = [
     "Do you sell enterprise solutions to cross-functional teams?",
     "Explore this experience center as per your needs and interest",
@@ -99,63 +102,69 @@ function HomeComponent() {
 		}
 	}
 
-const resetCamera = () => {
-  if(!scene) return;
-  const arcRotateCamera = scene.getCameraByName('camera-2');
-  arcRotateCamera.minZ = 0;
-  arcRotateCamera.alpha = 1.57;
-  arcRotateCamera.beta = 0.8;
-  arcRotateCamera.radius = 70;
+	const spiralAnimation = (target, startPosition, endPosition, steps = 1000, animationTime = 3, func, ...params) => {
+		const r1 = Math.sqrt((target.x - startPosition.x)*(target.x - startPosition.x) + (target.z - startPosition.z)*(target.z - startPosition.z));
+		const r2 = Math.sqrt((target.x - endPosition.x)*(target.x - endPosition.x) + (target.z - endPosition.z)*(target.z - endPosition.z));
 
-  // set limnitations for camera
-  arcRotateCamera.upperBetaLimit = 1.57;
-  arcRotateCamera.lowerRadiusLimit = 10;
-  arcRotateCamera.upperRadiusLimit = 100;
-  arcRotateCamera.lowerAlphaLimit = arcRotateCamera.alpha;
-  arcRotateCamera.upperAlphaLimit = arcRotateCamera.alpha;
+		var a1 = Math.atan2(startPosition.z - target.z, startPosition.x - target.x);
+		var a2 = Math.atan2(endPosition.z - target.z, endPosition.x - target.x);
 
-  // set panning
-  // Enable panning
-  // make panning axis to model axis (x,z)
+		if(a2 - a1 > Math.PI) {
+			a2 = a2 - 2*Math.PI;
+		}
+		if(a2 - a1 < -Math.PI) {
+			a2 = a2 + 2*Math.PI;
+		}
 
-  arcRotateCamera.inputs.addMouseWheel();
-  arcRotateCamera.inputs.addPointers();
-  arcRotateCamera.wheelPrecision = 20;
+		const cam = scene.getCameraByName('camera-3');
+		scene.activeCamera = cam;
+		cam.lockedTarget = target;
+		cam.position.copyFrom(startPosition);
+		const timeline = gsap.timeline();
+		for(var i = 1; i <= steps; i++) {
+			const r = r1 + i*(r2-r1)/steps;
+			const a = a1 + i*(a2-a1)/steps;
+			timeline.to(cam.position, {
+				x: target.x + r * Math.cos(a),
+				y: target.y + startPosition.y + (endPosition.y - startPosition.y)*i/steps,
+				z: target.z + r * Math.sin(a),
+				duration: (animationTime/steps)*(i === steps ? 1 : 1 - Math.pow(2, -10 * (i/steps))),
+			});
+		}
+		timeline.to(cam.position, {
+			x: target.x + r2 * Math.cos(a2),
+			y: target.y + endPosition.y,
+			z: target.z + r2 * Math.sin(a2),
+			duration: (animationTime/steps),
+			onComplete: () => {
+				func(...params);
+			}
+		});
+		timeline.play();
+	}
 
-  // Set panning options
-  arcRotateCamera.panningSensibility = 170; // Adjust the panning speed as needed
-  // set limits for panning
-  arcRotateCamera.panningDistanceLimit = 80;
-  arcRotateCamera.allowUpsideDown = false;
-  // arcRotateCamera._panningMouseButton = 0;
+	const resetCamera = () => {
+		if(!scene) return;
+		if(resetting) return;
+		setResetting(true);
+		const arcRotateCamera = scene.getCameraByName('camera-2');
+		const cam3 = scene.getCameraByName('camera-3');
+		const canvas = document.getElementsByClassName("main-canvas")[0];
 
-  // Disable pinch zoom
-  arcRotateCamera.pinchDeltaPercentage = 0;
+		cam3.position.copyFrom(scene.activeCamera.position);
+		cam3.setTarget(scene.activeCamera.target.clone());
 
-  // Disable double-click zoom
-  arcRotateCamera.useInputToRestoreState = false;
-  // This attaches the camera to the canvas
-  scene.activeCamera = arcRotateCamera;
+		spiralAnimation(new Vector3(-4,0,0), cam3.position, new Vector3(-0.981548002133906,11.79349915706501,23.171384014686772), 1000, 3, () => {arcRotateCamera.restoreState(); scene.activeCamera = arcRotateCamera; arcRotateCamera.attachControl(canvas, true); setResetting(false);});
+	}
 
-  arcRotateCamera.storeState();
-}
   if (fetched) {
     return (
       <>
         <Landscape />
         <div className="App">
-        {/* {UmToManufacturing && <div className='wrapper' style={{zIndex:fetched ? 1 :9}}>
-            <video onEnded={()=>setFetchedd(true)} autoPlay="autoplay" preload="auto" className="bg" style={{filter:'none'}} src={ManufacturingBG} muted playsInline></video>
-            </div>}
-            {fetchedd && <div onClick={()=>{setFetched(true);setFetchedd(false)}} className="enter-factory">
-				<img src={EnterFactory}/>
-				<div >
-				Enter Factory
-				</div>
-				</div>} */}
           <div className={`wrapper home-wrapper ${IsBackgroundBlur ? "backgroung-blur" : ""}`}>
             <Suspense fallback={<Spinner />}>
-              <Home extraData={extraData[7][0].use_case_list} showHotspots={showHotspots}/>
+              <Home extraData={extraData[7][0].use_case_list} showHotspots={showHotspots} spiralAnimation = {spiralAnimation}/>
             </Suspense>
             {useCase !== 0 ? (
               <video
@@ -179,60 +188,6 @@ const resetCamera = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 2 }}
           >
-            {/* <div className="blur-ell1 manu-blur"></div>
-            <div className="blur-ell3"></div>
-            <div className="blur-ell4"></div>
-            <div className="blur-rect"></div> */}
-            {/* {count >= 0 && isWelcome && !IsLoading &&(
-              <div className="Welcome-card" style={{ zIndex: 999 }}>
-                <div className="Tour-box-title">
-                  {WelcomeData[count]} <br/>
-                  {count == 5 ? WelcomeData[count + 1] : ''}
-                </div>
-                <div className="Tour-box-content">
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between",cursor:'pointer' }}
-                  >
-                    <div
-                      className="welcome-btn"
-                      onClick={() => handlePrev()}
-                    >
-                      Prev
-                    </div>
-                    <div
-                      className="welcome-btn"
-                      onClick={() => handleNext()}
-                    >
-                      Next
-                    </div>
-                    <div
-                      className="welcome-btn"
-                      onClick={() => handleSkip()}
-                    >
-                      Skip
-                    </div>
-                  </div>
-                </div>
-				<input type="checkbox" value={"Never show this again"} onChange={(e)=>{}}/><label>Never show this again</label>
-              </div>
-            )} */}
-            {/* <button
-							className="mf-nav-button"
-							onClick={() => {
-								setTourState(false)
-								setGlobalState("IsTourOpen", false);
-								setGlobalState("UCTourId", 0);
-								setGlobalState("IsHomeButtonClick", true);
-								Howler.stop();
-								document.getElementById("close-btn").click();
-							}}
-						>
-							<img width={'20px'} height={"20px"} src={homeIcon}></img>
-							{navbuttontext}
-						</button> */}
-            {/* <h1 className="um-head">StoryProc</h1> */}
-            {/* <p className="um-sub">Streamline traffic, enforce regulations, and optimize transportation systems.</p> */}
-
             {IsLoading ? (
               ""
             ) : (

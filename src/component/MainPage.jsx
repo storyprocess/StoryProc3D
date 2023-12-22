@@ -107,7 +107,8 @@ const MainPage = (props) => {
         Howler.stop();
         setGlobalState("UCTourId", 0);
         setGlobalState("IsTourOpen", false);
-        document.getElementById("close-btn").click();
+        // document.getElementById("close-btn").click();
+				props.resetCamera();
       } // if same button clicked again, reset screen
       resetScreen();
       return;
@@ -153,7 +154,8 @@ const MainPage = (props) => {
     setGlobalState("IsHomeButtonClick", false);
     setGlobalState("ApplicationDB", ApplicationDB);
     if (isTourOpen) {
-      document.getElementById("close-btn").click();
+      // document.getElementById("close-btn").click();
+			props.resetCamera();
     }
     Howler.stop();
     setUI_Element("");
@@ -263,7 +265,8 @@ const MainPage = (props) => {
     setGlobalState("ApplicationDB", ApplicationDB);
     if (isTourOpen) {
       setGlobalState("UCTourId", 0);
-      document.getElementById("close-btn").click();
+      // document.getElementById("close-btn").click();
+			props.resetCamera();
     }
     Howler.stop();
     setUI_Element("");
@@ -290,7 +293,8 @@ const MainPage = (props) => {
 		setGlobalState("HoverId",0);
 		setGlobalState("HoverUseCaseId",0);
     Howler.stop();
-    document.getElementById("close-btn").click();
+    // document.getElementById("close-btn").click();
+		props.resetCamera();
   };
 
   return (

@@ -526,19 +526,15 @@ const Home = (props) => {
 	};
 
 	const initialAnimation = () => {
-		const beta = Math.PI/2 - 1.1;
-		const radius = 26;
-		const alpha = 1.57 - Math.PI/2; // Assuming alpha is in radians
-		const target = new Vector3(-4, 0, 0);
-
-		const x = radius * Math.cos(beta) * Math.sin(alpha);
-		const y = radius * Math.sin(beta);
-		const z = radius * Math.cos(beta) * Math.cos(alpha);
-
-		const cameraPosition = new Vector3(x, y, z).add(target);
-
 		const cam2 = scene.getCameraByName('camera-2');
 		const cam3 = scene.activeCamera;
+
+		const target = cam2.target;
+		const x = cam2.radius * Math.sin(cam2.beta) * Math.cos(cam2.alpha);
+		const y = cam2.radius * Math.cos(cam2.beta);
+		const z = cam2.radius * Math.sin(cam2.beta) * Math.sin(cam2.alpha);
+
+		const cameraPosition = new Vector3(x, y, z).add(target);
 
 		cam3.lockedTarget = target;
 		const timeline = gsap.timeline();
@@ -555,7 +551,8 @@ const Home = (props) => {
 				cam3.setTarget(target);
 			}
 		});
-
+		timeline.play();
+		
 		return;
 	};
 
@@ -607,7 +604,7 @@ const Home = (props) => {
 		return false;
 	  }
 
-	const [videoAvailable, setVideoAvailable] = useState(true);
+	const [videoAvailable, setVideoAvailable] = useState(false);
 
   useEffect(() => {
     const checkVideoAvailability = async () => {
@@ -617,6 +614,9 @@ const Home = (props) => {
           // If the response is not OK (status code other than 2xx), video is not available
           setVideoAvailable(false);
         }
+				else {
+					setVideoAvailable(true);
+				}
       } catch (error) {
         // If an error occurs during fetching (e.g., network error), video is not available
         setVideoAvailable(false);
@@ -751,7 +751,7 @@ const Home = (props) => {
       ) : (
         ""
       )}
-      <SceneComponent antialias onSceneReady={onSceneReady} />
+      <SceneComponent antialias onSceneReady={onSceneReady} isLoading={isLoading} />
       <div className={styles.close__button__container}>
         <button
           id="close-btn"
