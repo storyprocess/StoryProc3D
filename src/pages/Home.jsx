@@ -22,9 +22,9 @@ import WelcomeImg from '../assets/Rectangle 3463321.png'
 import '@babylonjs/loaders';
 import '@babylonjs/core/Debug/debugLayer'; // Augments the scene with the debug methods
 import '@babylonjs/inspector'; // Injects a local ES6 version of the inspector to prevent automatically loading the inspector from Babylon's servers.
-import { AdvancedDynamicTexture, Rectangle, TextBlock, Control } from '@babylonjs/gui';
-import { startAnimations, moveCameraOnClose, handleSectionData } from '../hooks/animations';
-import { setGlobalState, useGlobalState } from '../state';
+import { AdvancedDynamicTexture, Rectangle } from '@babylonjs/gui';
+import { startAnimations, moveCameraOnClose } from '../hooks/animations';
+import { setGlobalState, useGlobalState } from '../utils/state';
 import { Howl, Howler } from 'howler';
 import { BaseAPI, ApplicationDB, assetsLocation } from '../assets/assetsLocation';
 import {

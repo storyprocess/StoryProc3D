@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../css/Navbar.css';
 import companyLogo from '../assets/companyLogo.png';
-import { setGlobalState, useGlobalState } from '../state';
+import { setGlobalState, useGlobalState } from '../utils/state';
 import { Howl, Howler } from 'howler';
 import audioPlayingIcon from '../assets/audioPlayingIcon.png';
 import audioMutedIcon from '../assets/audioMutedIcon.png';

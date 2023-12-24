@@ -3,7 +3,7 @@ import styles from "../styles/Spinner.module.css";
 import  "../css/Spinner.css";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { useGlobalState } from "../state";
+import { useGlobalState } from "../utils/state";
 
 const Spinner = ({isWelcome}) => {
   const [titleOne, setTitleOne] = useState([

@@ -3,7 +3,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import ToolbarButton from "../utils/libraries/ToolbarButton";
 import MenuDispensor from "../utils/libraries/MenuDispensor";
 import { useParams, useNavigate } from "react-router-dom";
-import { setGlobalState, useGlobalState } from "../state";
+import { setGlobalState, useGlobalState } from "../utils/state";
 import { Howler, Howl } from "howler";
 import "../css/mainPage.css";
 import {
