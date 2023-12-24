@@ -1,6 +1,6 @@
 // import ToolbarManu from "./ToolBarManu";
 
-import "../css/UrbanMobility.css";
+import "../utils/css/UrbanMobility.css";
 import { setGlobalState, useGlobalState } from "../utils/state";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";

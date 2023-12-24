@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/Spinner.module.css";
-import  "../css/Spinner.css";
+import  "../utils/css/Spinner.css";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useGlobalState } from "../utils/state";

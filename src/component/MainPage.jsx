@@ -5,7 +5,7 @@ import MenuDispensor from "../utils/libraries/MenuDispensor";
 import { useParams, useNavigate } from "react-router-dom";
 import { setGlobalState, useGlobalState } from "../utils/state";
 import { Howler, Howl } from "howler";
-import "../css/mainPage.css";
+import "../utils/css/mainPage.css";
 import {
   BaseAPI,
   MainMenuIsButtons,
