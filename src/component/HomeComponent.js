@@ -14,6 +14,7 @@ import { useState } from "react";
 import { BaseAPI } from "../assets/assetsLocation";
 import Landscape from "./Landscape";
 import MainPage from "./MainPage";
+import { spiralAnimation } from "../utils/libraries/CameraUtils"
 
 
 const Home = lazy(() => import("../pages/Home"));
@@ -96,47 +97,6 @@ function HomeComponent() {
 		}
 	}
 
-	const spiralAnimation = (target, startPosition, endPosition, steps = 1000, animationTime = 3, func, ...params) => {
-		const r1 = Math.sqrt((target.x - startPosition.x)*(target.x - startPosition.x) + (target.z - startPosition.z)*(target.z - startPosition.z));
-		const r2 = Math.sqrt((target.x - endPosition.x)*(target.x - endPosition.x) + (target.z - endPosition.z)*(target.z - endPosition.z));
-
-		var a1 = Math.atan2(startPosition.z - target.z, startPosition.x - target.x);
-		var a2 = Math.atan2(endPosition.z - target.z, endPosition.x - target.x);
-
-		if(a2 - a1 > Math.PI) {
-			a2 = a2 - 2*Math.PI;
-		}
-		if(a2 - a1 < -Math.PI) {
-			a2 = a2 + 2*Math.PI;
-		}
-
-		const cam = scene.getCameraByName('camera-3');
-		scene.activeCamera = cam;
-		cam.lockedTarget = target;
-		cam.position.copyFrom(startPosition);
-		const timeline = gsap.timeline();
-		for(var i = 1; i <= steps; i++) {
-			const r = r1 + i*(r2-r1)/steps;
-			const a = a1 + i*(a2-a1)/steps;
-			timeline.to(cam.position, {
-				x: target.x + r * Math.cos(a),
-				y: target.y + startPosition.y + (endPosition.y - startPosition.y)*i/steps,
-				z: target.z + r * Math.sin(a),
-				duration: (animationTime/steps)*(i === steps ? 1 : 1 - Math.pow(2, -10 * (i/steps))),
-			});
-		}
-		timeline.to(cam.position, {
-			x: target.x + r2 * Math.cos(a2),
-			y: target.y + endPosition.y,
-			z: target.z + r2 * Math.sin(a2),
-			duration: (animationTime/steps),
-			onComplete: () => {
-				func(...params);
-			}
-		});
-		timeline.play();
-	}
-
 	const resetCamera = () => {
 		if(!scene) return;
 		if(resetting) return;
@@ -148,7 +108,16 @@ function HomeComponent() {
 		cam3.position.copyFrom(scene.activeCamera.position);
 		cam3.setTarget(scene.activeCamera.target.clone());
 
-		spiralAnimation(new Vector3(-4,0,0), cam3.position, new Vector3(-0.981548002133906,11.79349915706501,23.171384014686772), 1000, 3, () => {arcRotateCamera.restoreState(); scene.activeCamera = arcRotateCamera; arcRotateCamera.attachControl(canvas, true); setResetting(false);});
+		arcRotateCamera.restoreState();
+
+		const target = arcRotateCamera.target;
+		const x = arcRotateCamera.radius * Math.sin(arcRotateCamera.beta) * Math.cos(arcRotateCamera.alpha);
+		const y = arcRotateCamera.radius * Math.cos(arcRotateCamera.beta);
+		const z = arcRotateCamera.radius * Math.sin(arcRotateCamera.beta) * Math.sin(arcRotateCamera.alpha);
+
+		const cameraPosition = new Vector3(x, y, z).add(target);
+
+		spiralAnimation(scene, target, cam3.position, cameraPosition, 1000, 1, () => {arcRotateCamera.restoreState(); scene.activeCamera = arcRotateCamera; arcRotateCamera.attachControl(canvas, true); setResetting(false);});
 	}
 
   if (fetched) {
@@ -158,7 +127,7 @@ function HomeComponent() {
         <div className="App">
           <div className={`wrapper home-wrapper ${IsBackgroundBlur ? "backgroung-blur" : ""}`}>
             <Suspense fallback={<Spinner />}>
-              <Home extraData={extraData[7][0].use_case_list} showHotspots={showHotspots} spiralAnimation = {spiralAnimation}/>
+              <Home extraData={extraData[7][0].use_case_list} showHotspots={showHotspots} />
             </Suspense>
             {useCase !== 0 ? (
               <video

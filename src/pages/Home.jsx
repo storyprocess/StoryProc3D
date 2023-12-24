@@ -2,14 +2,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
 	Vector3,
 	MeshBuilder,
-	Color3,
 	SceneLoader,
 	StandardMaterial,
 	ArcRotateCamera,
-	Vector4,
-	TransformNode,
-	Axis,
-	Space,
 	DracoCompression,
 	Matrix,
 	Viewport
@@ -19,7 +14,6 @@ import useWindowDimensions from '../hooks/useWindowDimensions';
 import SceneComponent from '../component/SceneComponents';
 import Spinner from '../component/Spinner';
 import styles from '../styles/Home.module.css';
-import hotspots from '../data/hotspots.json';
 import sections from '../data/sections.json';
 import { gsap } from 'gsap';
 import usecases from '../data/usecases.json';
@@ -246,6 +240,22 @@ const Home = (props) => {
 			setGlobalState("clientXPosition1", pos.x);
 			setGlobalState("clientYPosition1", pos.y);
 		});
+		
+		container.onPointerMoveObservable.add(() => {
+			setGlobalState("HoverLabel", props.extraData[hotspotLabelIndex].short_label);
+			setGlobalState("HoverId", usecase.id);
+			const canvas = document.getElementsByClassName("main-canvas")[0];
+			var pos = Vector3.Project(
+				fakeMesh.position,
+				Matrix.Identity(), //world matrix
+				scene.getTransformMatrix(), //transform matrix
+				new Viewport(0, 0, canvas.width, canvas.height)
+			);
+			clientXPosition = pos.x;
+			clientYPosition = pos.y;
+			setGlobalState("clientXPosition1", pos.x);
+			setGlobalState("clientYPosition1", pos.y);
+		});
 
 		container.onPointerOutObservable.add(() => {
 			setGlobalState("HoverLabel", "");
@@ -410,6 +420,7 @@ const Home = (props) => {
 				// RESET THE MOVING CAMERA
 				movingCamera.position.copyFrom(arcRotateCamera.position);
 				movingCamera.setTarget(arcRotateCamera.target.clone());
+				setCurrentZoomedSection(0);
 			}
 		});
 

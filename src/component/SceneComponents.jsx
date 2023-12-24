@@ -13,10 +13,7 @@ import {
 	Matrix,
 } from '@babylonjs/core';
 
-import backgroundImage from '../assets/background.png';
-
 import styles from '../styles/SceneComponent.module.css';
-import { useGlobalState } from '../state';
 
 SceneLoaderFlags.ShowLoadingScreen = false;
 
