@@ -2,24 +2,18 @@
 
 import "../css/UrbanMobility.css";
 import { setGlobalState, useGlobalState } from "../state";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import verticalLine from "../assets/Group 27.png";
 import React, { Suspense, lazy, useEffect } from "react";
 import Spinner from "./Spinner";
 import { gsap } from 'gsap';
 import { Vector3 } from "@babylonjs/core";
-import { Howl, Howler } from "howler";
 import { ApplicationDB, assetsLocation } from "../assets/assetsLocation";
-import homeIcon from "../assets/Home button.png";
-import { setTourState } from "../hooks/animations";
 import { useState } from "react";
 import { BaseAPI } from "../assets/assetsLocation";
 import Landscape from "./Landscape";
 import MainPage from "./MainPage";
-import ManufacturingBG from "../assets/Manufacturing BG.mp4";
-import EnterFactory from "../assets/Start icon.png";
 
 
 const Home = lazy(() => import("../pages/Home"));

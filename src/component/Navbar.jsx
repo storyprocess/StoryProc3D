@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import '../css/Navbar.css';
 import companyLogo from '../assets/companyLogo.png';
-import intel from '../assets/intelLogo.png';
-import linkedin from '../assets/linLogo.png';
-import tweet from '../assets/twtLogo.png';
 import { setGlobalState, useGlobalState } from '../state';
 import { Howl, Howler } from 'howler';
 import audioPlayingIcon from '../assets/audioPlayingIcon.png';
-import pauseIcon from '../assets/pauseIcon.png';
-import playIcon from '../assets/playIcon.png';
 import audioMutedIcon from '../assets/audioMutedIcon.png';
 import audioPlayIcon from '../assets/playIcon.png';
 import UcaudioPlayIcon from '../assets/Group 32 (1).png';
 import audioPauseIcon from '../assets/pauseIcon.png';
-import homeIcon from '../assets/Group 33.png';
 import { useNavigate } from 'react-router-dom';
 
 

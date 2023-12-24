@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import ToolbarButton from "../libraries/ToolbarButton";
-import MenuDispensor from "../libraries/MenuDispensor";
-import UseCase from "../libraries/UseCase";
+import ToolbarButton from "../utils/libraries/ToolbarButton";
+import MenuDispensor from "../utils/libraries/MenuDispensor";
 import { useParams, useNavigate } from "react-router-dom";
 import { setGlobalState, useGlobalState } from "../state";
 import { Howler, Howl } from "howler";
-import bgpattern from "../assets/Pattern.png";
 import "../css/mainPage.css";
 import {
   BaseAPI,
