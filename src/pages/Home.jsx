@@ -143,36 +143,8 @@ const Home = (props) => {
 		setIsTitle(true) 
 		const factoryModel = await SceneLoader.ImportMeshAsync('', mainModel, '', scene);
 		factoryModel.meshes[0].name = 'factory-model';
-		
-		// setGlobalState('IsLoading', false);
-		// setIsTitle(true)
-		// setGlobalState("IsModelLoaded",false)
-	
-		// 2 - load guided vehicles
-		setCounter(2)
-		// const guidedVehiclesModel = await SceneLoader.ImportMeshAsync('', OwnOfficeAnimation2); // moved up
-		// guidedVehiclesModel.meshes[0].name = 'guided-vehicles';
 
-		// 3 - load packing robots
-		setCounter(3)
-		// const packingRobotsModel = await SceneLoader.ImportMeshAsync('', TradeshowAnimationTest);
-		// packingRobotsModel.meshes[0].name = 'packing-robots';
-
-		// 4 - load workers
-		setCounter(4)
-		// const workersIT = await Promise.all([
-		// 	SceneLoader.ImportMeshAsync('', people),
-		// ]);
-		// const seatedWorker = workersIT[0].meshes[0];
-
-		// setGlobalState('IsLoading', false);
-		const hotspotGlb = await SceneLoader.ImportMeshAsync('', Marker);
-		const hotspotMesh = hotspotGlb.meshes[0]
-		hotspotMesh.name = 'hotspotMesh';
-		hotspotMesh.isVisible = false;
-		hotspotMesh.billboardMode = 7;
 		setIsLoading(false);
-
 		showSectionUIs(scene);
 		createUCGUI(scene);
 		setIsTitle(false);
@@ -184,18 +156,21 @@ const Home = (props) => {
 		usecases.forEach((usecase) => {
 			createUC(usecase, scene, advancedTexture);
 		});
-		scene.getMeshByName(`hotspotMesh`).setEnabled(false);
 	};
 
 	let clientXPosition=0;
 	let clientYPosition=0;
 
-	const createUC = (usecase, scene, texture) => {
+	const createUC = async (usecase, scene, texture) => {
 
-		const fakeMesh = scene.getMeshByName('hotspotMesh').clone(`usecase-${usecase.id}-fake-mesh`);
+		const hotspotGlb = await SceneLoader.ImportMeshAsync('', Marker);
+		const fakeMesh = hotspotGlb.meshes[0];
+		fakeMesh.name = `usecase-${usecase.id}-fake-mesh`;
 
 		fakeMesh.position = new Vector3(usecase.position.x, usecase.position.y, usecase.position.z);
 		fakeMesh.billboardMode = 7;
+		fakeMesh.setEnabled(false);
+
 		const hotspotLabelIndex = props.extraData.findIndex((element) => element.use_case_id == usecase.id);
 
 		const container = new Rectangle(`usecase-${usecase.id}-container`);
@@ -560,6 +535,7 @@ const Home = (props) => {
 				cam3.position.copyFrom(cam2.position);
 				cam3.lockedTarget = null;
 				cam3.setTarget(target);
+				showHotspots(scene,true);
 			}
 		});
 		timeline.play();
