@@ -325,6 +325,7 @@ const MainPage = (props) => {
           buttonName="Reset the Experience"
           handleButtonClick={handleResetButtonClick}
           handleMenuClick={() => {}}
+					MainMenuIsButtons = {MainMenuIsButtons}
         >
         
         <svg width="4vh" height="4vh" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -393,6 +394,7 @@ const MainPage = (props) => {
             setUI_Element("cards");
           }}
           handleMenuClick={() => {}}
+					MainMenuIsButtons = {MainMenuIsButtons}
         >
           Business Needs
         </ToolbarButton>
@@ -437,6 +439,7 @@ const MainPage = (props) => {
             setUI_Element("cards");
           }}
           handleMenuClick={() => {}}
+					MainMenuIsButtons = {MainMenuIsButtons}
         >
           Guiding Principles
         </ToolbarButton>
@@ -480,6 +483,7 @@ const MainPage = (props) => {
             setUI_Element("cards");
           }}
           handleMenuClick={() => {}}
+					MainMenuIsButtons = {MainMenuIsButtons}
         >
           Sales Challenges
         </ToolbarButton>
@@ -524,6 +528,7 @@ const MainPage = (props) => {
             setUI_Element("popuptoolbar");
           }}
           handleMenuClick={handleClick}
+					MainMenuIsButtons = {MainMenuIsButtons}
         >
           StoryProc Solutions
         </ToolbarButton>
@@ -566,6 +571,7 @@ const MainPage = (props) => {
             setShowUC(true);
           }}
           handleMenuClick={handleClick}
+					MainMenuIsButtons = {MainMenuIsButtons}
         >
           Use Cases Enabled
 
@@ -581,6 +587,7 @@ const MainPage = (props) => {
           buttonName="Immersive Overview"
           handleButtonClick={handleTourButtonClick}
           handleMenuClick={() => {}}
+					MainMenuIsButtons = {MainMenuIsButtons}
         >
           Immersive Overview
         </ToolbarButton>

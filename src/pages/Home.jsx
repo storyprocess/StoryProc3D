@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback, useEffect, useState } from 'react';
 import {
 	Vector3,
 	MeshBuilder,
@@ -25,14 +26,12 @@ import '@babylonjs/inspector'; // Injects a local ES6 version of the inspector t
 import { AdvancedDynamicTexture, Rectangle } from '@babylonjs/gui';
 import { startAnimations, moveCameraOnClose } from '../hooks/animations';
 import { setGlobalState, useGlobalState } from '../utils/state';
-import { Howl, Howler } from 'howler';
+import { Howler } from 'howler';
 import { BaseAPI, ApplicationDB, assetsLocation } from '../assets/assetsLocation';
 import {
 	mainModel,
 	Marker
 } from '../models';
-
-var loader = new SceneLoader();
 
 // Set the decoding configuration
 var dracoLoader = new DracoCompression();
@@ -48,17 +47,12 @@ const Home = (props) => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [isTitle, setIsTitle] = useState(false);
 	const [scene, setScene] = useState(null);
-	const buttonRef = useRef(null);
-	const closeButtonRef = useRef(null);
 	const [isTourOpen, setIsTourOpen] = useGlobalState('IsTourOpen');
 	const [uCTourId, setUCTourId] = useGlobalState('UCTourId');
-	const [isSectionSelected, setIsSectionSelected] = useState(false);
 	const [sectionData, setSectionData] = useState();
-	const [counter, setCounter] = useState(0);
 	const [count, setCount] = useState(0);
 	const [isWelcome, setIsWelcome] = useState(true);
 	const [currentZoomedSection, setCurrentZoomedSection] = useGlobalState("currentZoomedSection");
-	const [HoverLabel, setHoverLabel] = useGlobalState("HoverLabel");
 	const [applicationDB, setApplicationDB] =
 	useGlobalState("ApplicationDB");
 	/*const [titleOne, setTitleOne] = useState([
@@ -80,27 +74,6 @@ const Home = (props) => {
         "Enabling computer vision quality inspection...",
 	  ]);
 	  */
-	  const [titleOne, setTitleOne] = useState([
-		"Dell Edge Virtual Experience Center for Manufacturing",
-		"Dell Edge Virtual Experience Center for Manufacturing",
-		"Digitally transforming the factory with smart edge solutions",
-		"Digitally transforming the factory with smart edge solutions",
-		"Digitally transforming the factory with smart edge solutions",
-		"Getting ready for manufacturing operations",
-		"Getting ready for manufacturing operations",
-		"Getting ready for manufacturing operations",
-		"Getting ready for manufacturing operations",
-		"Getting ready for manufacturing operations",
-		"Ready to start"
-	  ]);
-	  const [titleTwo, setTitleTwo] = useState([
-		"Welcome",
-		"Loading the factory model",
-		"Starting 5G-enabled automated vehicles...",
-		"Enabling computer vision quality inspection...",
-        "Assembly line workers are getting on the job...",
-        "Finishing...",
-	  ]);
 
 	  let WelcomeData = [
 		"Do you sell enterprise solutions to cross-functional teams? ",
@@ -122,8 +95,6 @@ const Home = (props) => {
 		
 	const handleTourStart = () => {
 		showHotspots(scene,false);
-		hideSectionUIs(scene);
-		hideInfoUIs(scene);
 		startAnimations(scene);
 	};
 
@@ -139,13 +110,11 @@ const Home = (props) => {
 		// Load meshes
 
 		// 1 - load factory model first
-		setCounter(1)
 		setIsTitle(true) 
 		const factoryModel = await SceneLoader.ImportMeshAsync('', mainModel, '', scene);
 		factoryModel.meshes[0].name = 'factory-model';
 
 		setIsLoading(false);
-		showSectionUIs(scene);
 		createUCGUI(scene);
 		setIsTitle(false);
 	};
@@ -171,7 +140,7 @@ const Home = (props) => {
 		fakeMesh.billboardMode = 7;
 		fakeMesh.setEnabled(false);
 
-		const hotspotLabelIndex = props.extraData.findIndex((element) => element.use_case_id == usecase.id);
+		const hotspotLabelIndex = props.extraData.findIndex((element) => element.use_case_id === usecase.id);
 
 		const container = new Rectangle(`usecase-${usecase.id}-container`);
 
@@ -334,8 +303,6 @@ const Home = (props) => {
 			return;
 		}
 
-		hideSectionUIs(scene);
-		hideInfoUIs(scene);
 		const canvas = document.getElementsByClassName("main-canvas")[0];
 		const arcRotateCamera = scene.getCameraByName('camera-2');
 		const movingCamera = scene.getCameraByName('camera-3');
@@ -416,45 +383,9 @@ const Home = (props) => {
 		}
 	}
 
-	const hideSectionUIs = (scene) => {
-		const advancedTexture = scene.getTextureByName('myUI');
-
-		sections.forEach((section) => {
-			const container = advancedTexture.getControlByName(`section-${section.id}-container`);
-			// container.isVisible = false;
-		});
-	};
-
-	const hideInfoUIs = (scene) => {
-		const advancedTexture = scene.getTextureByName('myUI');
-
-		usecases.forEach((usecase) => {
-			const container = advancedTexture.getControlByName(`usecase-${usecase.id}-container`);
-
-			// container.isVisible = false;
-		});
-	};
-
-	const showSectionUIs = (scene) => {
-		const advancedTexture = scene.getTextureByName('myUI');
-
-		sections.forEach((section) => {
-			const container = advancedTexture.getControlByName(`section-${section.id}-container`);
-			// container.isVisible = false;
-			// container.isVisible = true;
-		});
-
-		usecases.forEach((usecase) => {
-			const container = advancedTexture.getControlByName(`usecase-${usecase.id}-container`);
-			// container.isVisible = true;
-		});
-	};
-
 	const onSceneReady = useCallback(async (s) => {
 		loadModels(s);
 		createSectionsGUI(s);
-		hideSectionUIs(s);
-		hideInfoUIs(s);
 
 		setGlobalState("scene",s);
 		setScene(() => s);
@@ -553,9 +484,9 @@ const Home = (props) => {
 		initialAnimation();
 	}
 	},[isLoading,isWelcome])
-	const onRender = (scene) => {};
+
 	const handleNext = () => {
-		if(count == 5){
+		if(count === 5){
 			setIsWelcome(false)
 			setIsLoading(false);
 			setGlobalState('IsLoading', false);
@@ -666,7 +597,7 @@ const Home = (props) => {
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <circle
-					  className={item == count ? 'welcome-dot-circle-fill' : 'welcome-dot-circle'}
+					  className={item === count ? 'welcome-dot-circle-fill' : 'welcome-dot-circle'}
                         cx="5"
                         cy="5"
                         r="4.5"
@@ -694,7 +625,7 @@ const Home = (props) => {
                   Skip
                 </div>
                 <div className="welcome-next-btn" onClick={() => handleNext()}>
-                  {count == 5 ? "Start tour" : "Next"}
+                  {count === 5 ? "Start tour" : "Next"}
                 </div>
               </div>
             </div>
@@ -718,7 +649,7 @@ const Home = (props) => {
               sectionData.map((item, index) => {
                 return (
                   <>
-                    {item.seq == uCTourId ? (
+                    {item.seq === uCTourId ? (
                       <div className="Tour-box-wrap" key={index}>
                         <div className="Tour-box-title">{item.short_label}</div>
                         <div className="Tour-box-content">
