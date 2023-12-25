@@ -13,7 +13,7 @@ import {
 	Matrix,
 } from '@babylonjs/core';
 
-import styles from '../styles/SceneComponent.module.css';
+import styles from '../utils/styles/SceneComponent.module.css';
 
 SceneLoaderFlags.ShowLoadingScreen = false;
 

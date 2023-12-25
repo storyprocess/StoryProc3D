@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "../styles/Spinner.module.css";
+import styles from "../utils/styles/Spinner.module.css";
 import  "../utils/css/Spinner.css";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";

@@ -13,7 +13,7 @@ import {
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import SceneComponent from '../component/SceneComponents';
 import Spinner from '../component/Spinner';
-import styles from '../styles/Home.module.css';
+import styles from '../utils/styles/Home.module.css';
 import sections from '../data/sections.json';
 import { gsap } from 'gsap';
 import usecases from '../data/usecases.json';
@@ -320,17 +320,17 @@ const Home = (props) => {
 		let id = -1;
 		let useCase = null;
 		usecases.forEach((uc) => {
-			if(uc.id == i) {
+			if(uc.id === i) {
 				useCase = uc;	
 				id = uc.section;
 			}
 		});
 		let section = null;
 		sections.forEach((sect) => {
-			if(sect.id == id) section = sect;
+			if(sect.id === id) section = sect;
 		});
 
-		if(id == -1 || section == null) {
+		if(id === -1 || section == null) {
 			return;
 		}
 
@@ -366,7 +366,7 @@ const Home = (props) => {
 		timeline.to(movingCamera.rotation, {
 			x: beta,
 			y: alpha,
-			duration: .4,
+			duration: 3,
 			ease: "power.inOut",
 			onComplete: () => {
 				movingCamera.lockedTarget = finalTarget;
@@ -377,7 +377,7 @@ const Home = (props) => {
 			x: section.cameraPosition.x,
 			y: section.cameraPosition.y,
 			z: section.cameraPosition.z,
-			duration: 1.,
+			duration: 4,
 			ease: "power.inOut",
 			onComplete: () => {
 				movingCamera.lockedTarget = null;
