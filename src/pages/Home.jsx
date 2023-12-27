@@ -28,10 +28,12 @@ import { startAnimations, moveCameraOnClose } from '../hooks/animations';
 import { setGlobalState, useGlobalState } from '../utils/state';
 import { Howler } from 'howler';
 import { BaseAPI, ApplicationDB, assetsLocation } from '../assets/assetsLocation';
+import { spiralAnimation, rotateToTarget, linearAnimation } from '../utils/libraries/CameraUtils';
 import {
 	mainModel,
 	Marker
 } from '../models';
+import { set } from 'react-ga';
 
 // Set the decoding configuration
 var dracoLoader = new DracoCompression();
@@ -245,35 +247,31 @@ const Home = (props) => {
 		// disable panning for security camera
 
 		securityCamera.panningSensibility = 0;
-		securityCamera.lowerRadiusLimit = 0;
-		securityCamera.upperRadiusLimit = 0;
+		securityCamera.setPosition(new Vector3 (section.cameraPosition.x, section.cameraPosition.y, section.cameraPosition.z));
+		// securityCamera.lowerBetaLimit = 1.2;
+		// securityCamera.upperBetaLimit = 1.2;
 
-		securityCamera.lowerBetaLimit = 1.2;
-		securityCamera.upperBetaLimit = 1.2;
+		// securityCamera.lowerAlphaLimit = securityCamera.alpha - 0.75;
+		// securityCamera.upperAlphaLimit = securityCamera.alpha + 0.75;
 
-		securityCamera.lowerAlphaLimit = securityCamera.alpha - 0.75;
-		securityCamera.upperAlphaLimit = securityCamera.alpha + 0.75;
+		// const fakeCameraMesh = MeshBuilder.CreateSphere(
+		// 	`section-${section.id}-fake-mesh`,
+		// 	{ diameter: 1 },
+		// 	scene
+		// );
 
-		const fakeCameraMesh = MeshBuilder.CreateSphere(
-			`section-${section.id}-fake-mesh`,
-			{ diameter: 1 },
-			scene
-		);
+		// fakeCameraMesh.position = new Vector3(
+		// 	section.cameraPosition.x,
+		// 	section.cameraPosition.y,
+		// 	section.cameraPosition.z
+		// );
 
-		fakeCameraMesh.position = new Vector3(
-			section.cameraPosition.x,
-			section.cameraPosition.y,
-			section.cameraPosition.z
-		);
+		// fakeCameraMesh.parent = model;
+		// fakeCameraMesh.isVisible = false;
+		// fakeCameraMesh.material = new StandardMaterial('hotspot-material', scene);
 
-		fakeCameraMesh.parent = model;
-		fakeCameraMesh.isVisible = false;
-		fakeCameraMesh.material = new StandardMaterial('hotspot-material', scene);
-
-		securityCamera.parent = fakeCameraMesh;
-
-		// disable camera up and down movements
-		securityCamera.beta = 1.2;
+		// securityCamera.parent = fakeCameraMesh;
+		// // disable camera up and down movements
 	};
 
 	useEffect(()=>{
@@ -289,17 +287,17 @@ const Home = (props) => {
 		let id = -1;
 		let useCase = null;
 		usecases.forEach((uc) => {
-			if(uc.id === i) {
+			if(uc.id == i) {
 				useCase = uc;	
 				id = uc.section;
 			}
 		});
 		let section = null;
 		sections.forEach((sect) => {
-			if(sect.id === id) section = sect;
+			if(sect.id == id) section = sect;
 		});
 
-		if(id === -1 || section == null) {
+		if(id == -1 || section == null) {
 			return;
 		}
 
@@ -310,64 +308,20 @@ const Home = (props) => {
 		const finalTarget = new Vector3(useCase.position.x, useCase.position.y, useCase.position.z);
 		
 		movingCamera.position.copyFrom(arcRotateCamera.position);
-		movingCamera.setTarget(arcRotateCamera.target.clone());		
+		movingCamera.setTarget(arcRotateCamera.target.clone());
 		scene.activeCamera = movingCamera;
+
+		const func = (movingCamera, securityCamera, canvas) => {
+			movingCamera.lockedTarget = null;
+			securityCamera.setTarget(finalTarget);
+			securityCamera.setPosition(movingCamera.position);
+			scene.activeCamera = securityCamera;
+			securityCamera.attachControl(canvas, true);
+
+			setCurrentZoomedSection(0);
+		};
 		
-		let direction = Vector3.Normalize(new Vector3(finalTarget.x - movingCamera.position.x, finalTarget.y - movingCamera.position.y, finalTarget.z - movingCamera.position.z));
-		let projectedDirection = Vector3.Normalize(new Vector3(finalTarget.x - movingCamera.position.x, 0, finalTarget.z - movingCamera.position.z));
-		let dotProduct = Vector3.Dot(direction, projectedDirection);
-		let beta = Math.acos(dotProduct);
-		let alpha = Math.atan2(direction.x, direction.z);
-		let rotation = alpha - movingCamera.rotation.y;
-		if (Math.abs(rotation) > Math.abs(rotation - 2*Math.PI)) rotation = rotation - 2*Math.PI;
-		if (Math.abs(rotation) > Math.abs(rotation + 2*Math.PI)) rotation = rotation + 2*Math.PI;
-		alpha = rotation + movingCamera.rotation.y;
-
-		let direction2 = Vector3.Normalize(new Vector3(finalTarget.x - section.cameraPosition.x, finalTarget.y - section.cameraPosition.y, finalTarget.z - section.cameraPosition.z));
-		let projectedDirection2 = Vector3.Normalize(new Vector3(finalTarget.x - section.cameraPosition.x, 0, finalTarget.z - section.cameraPosition.z));
-		let dotProduct2 = Vector3.Dot(direction2, projectedDirection2);
-		let beta2 = Math.acos(dotProduct2);
-		let alpha2 = Math.atan2(direction2.x, direction2.z);
-
-		const timeline = gsap.timeline();
-		timeline.to(movingCamera.rotation, {
-			x: beta,
-			y: alpha,
-			duration: 3,
-			ease: "power.inOut",
-			onComplete: () => {
-				movingCamera.lockedTarget = finalTarget;
-			}
-		});
-
-		timeline.to(movingCamera.position, {
-			x: section.cameraPosition.x,
-			y: section.cameraPosition.y,
-			z: section.cameraPosition.z,
-			duration: 4,
-			ease: "power.inOut",
-			onComplete: () => {
-				movingCamera.lockedTarget = null;
-
-				securityCamera.lowerBetaLimit = Math.PI/2 - beta2;
-				securityCamera.upperBetaLimit = Math.PI/2 - beta2;
-				securityCamera.beta = Math.PI/2 - beta2;
-				securityCamera.lowerAlphaLimit = -Math.PI/2 - alpha2 - 0.75;
-				securityCamera.upperAlphaLimit = -Math.PI/2 - alpha2 + 0.75;
-				securityCamera.alpha = -Math.PI/2 - alpha2;
-
-				scene.activeCamera = securityCamera;
-				securityCamera.attachControl(canvas, true);
-
-				// RESET THE MOVING CAMERA
-				movingCamera.position.copyFrom(arcRotateCamera.position);
-				movingCamera.setTarget(arcRotateCamera.target.clone());
-				setCurrentZoomedSection(0);
-			}
-		});
-
-		timeline.play();
-
+		rotateToTarget(scene, finalTarget, movingCamera, .4, linearAnimation, scene, finalTarget, movingCamera.position, securityCamera.position, 1, func, movingCamera, securityCamera, canvas);
 		setGlobalState("HoverId", 0);
 	}
 

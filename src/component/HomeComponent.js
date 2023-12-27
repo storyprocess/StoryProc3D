@@ -13,7 +13,7 @@ import { useState } from "react";
 import { BaseAPI } from "../assets/assetsLocation";
 import Landscape from "./Landscape";
 import MainPage from "./MainPage";
-import { spiralAnimation } from "../utils/libraries/CameraUtils"
+import { spiralAnimation, rotateToTarget } from "../utils/libraries/CameraUtils";
 
 
 const Home = lazy(() => import("../pages/Home"));
@@ -82,26 +82,19 @@ function HomeComponent() {
 	}
 
 	const resetCamera = () => {
-		if (!scene) return;
-		if (resetting) return;
+		if(!scene) return;
+		if(resetting) return;
 		setResetting(true);
 		const arcRotateCamera = scene.getCameraByName('camera-2');
 		const cam3 = scene.getCameraByName('camera-3');
 		const canvas = document.getElementsByClassName("main-canvas")[0];
 
+		scene.activeCamera.computeWorldMatrix();
 		cam3.position.copyFrom(scene.activeCamera.position);
 		cam3.setTarget(scene.activeCamera.target.clone());
-
 		arcRotateCamera.restoreState();
-
-		const target = arcRotateCamera.target;
-		const x = arcRotateCamera.radius * Math.sin(arcRotateCamera.beta) * Math.cos(arcRotateCamera.alpha);
-		const y = arcRotateCamera.radius * Math.cos(arcRotateCamera.beta);
-		const z = arcRotateCamera.radius * Math.sin(arcRotateCamera.beta) * Math.sin(arcRotateCamera.alpha);
-
-		const cameraPosition = new Vector3(x, y, z).add(target);
-
-		spiralAnimation(scene, target, cam3.position, cameraPosition, 1000, 1, () => { arcRotateCamera.restoreState(); scene.activeCamera = arcRotateCamera; arcRotateCamera.attachControl(canvas, true); setResetting(false); });
+		arcRotateCamera.computeWorldMatrix();
+		rotateToTarget(scene, arcRotateCamera.target, cam3, 0.4, spiralAnimation, scene, arcRotateCamera.target, cam3.position, arcRotateCamera.position, 1000, 1, (arcRotateCamera, canvas) => { scene.activeCamera = arcRotateCamera; arcRotateCamera.attachControl(canvas, true); setResetting(false);}, arcRotateCamera, canvas);
 	}
 
 	if (fetched) {

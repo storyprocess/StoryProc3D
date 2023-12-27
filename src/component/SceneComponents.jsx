@@ -152,18 +152,12 @@ const SceneComponent = ({
 			for(var id = 0; id < 30; id++) {
 				if(scene.getMeshByName(`usecase-${id}-fake-mesh`) != null && scene.activeCamera != null) {
 					var coordinates = scene.activeCamera.position;
-					if(scene.activeCamera.id.includes("security-camera")) {
-						coordinates = scene.activeCamera.parent.position;
-					}
 					var distance = Vector3.Distance(scene.getMeshByName(`usecase-${id}-fake-mesh`).position, coordinates);
 					var scalingFactor = 0.015 * distance;
 					scene.getMeshByName(`usecase-${id}-fake-mesh`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
 				}
 				if(scene.getMeshByName(`usecase-${id}-container`) != null && scene.activeCamera != null) {
 					var coordinates = scene.activeCamera.position;
-					if(scene.activeCamera.id.includes("security-camera")) {
-						coordinates = scene.activeCamera.parent.position;
-					}
 					var distance = Vector3.Distance(scene.getMeshByName(`usecase-${id}-container`).position, coordinates);
 					var scalingFactor = 0.015 * distance;
 					scene.getMeshByName(`usecase-${id}-container`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
