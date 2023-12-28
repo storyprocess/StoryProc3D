@@ -14,7 +14,7 @@ import {
 } from "../assets/assetsLocation";
 import { setTourState } from "../hooks/animations";
 import useAnalyticsEventTracker from "./useAnalyticsEventTracker";
-// import urlExist from 'url-exist';
+import { CSSTransition } from "react-transition-group";
 
 const MainPage = (props) => {
   const location = useLocation();
@@ -297,21 +297,29 @@ const MainPage = (props) => {
 
   return (
     <div>
-      {HoverId > 0 && <div style={{top:clientYPosition1,left:clientXPosition1}} className="hot-spot-subMenu">
-      <div>
-      <div className="hover-label-text">{HoverLabel}</div>
-      <hr style={{marginTop:"3%"}} className="card-divider"></hr>
-      </div>
-      <div className="button-group" >
-			{ scene.activeCamera.name.includes("security") == false
-					?
-					<div className="zoom-in" onClick={()=> setGlobalState("currentZoomedSection",HoverId)}>Zoom-in</div>
-					:
-					<div className="zoom-in" onClick={()=> props.resetCamera()}>Zoom-out</div>
-				}
-        <div className="learn-more" onClick={()=>handlePlayStory()}>Learn More</div>
-      </div>
-      </div>}
+			<CSSTransition
+        in={HoverId > 0}
+        timeout={300} // Duration of the animation in milliseconds
+        classNames="animationHover" // Your CSS class for animations
+        unmountOnExit
+        mountOnEnter
+      >
+				<div style={{top:clientYPosition1,left:clientXPosition1}} className="hot-spot-subMenu">
+					<div>
+						<div className="hover-label-text">{HoverLabel}</div>
+						<hr style={{marginTop:"3%"}} className="card-divider"></hr>
+					</div>
+					<div className="button-group" >
+					{ scene.activeCamera.name.includes("security") == false
+							?
+							<div className="zoom-in" onClick={()=> setGlobalState("currentZoomedSection",HoverId)}>Zoom-in</div>
+							:
+							<div className="zoom-in" onClick={()=> props.resetCamera()}>Zoom-out</div>
+						}
+						<div className="learn-more" onClick={()=>handlePlayStory()}>Learn More</div>
+					</div>
+				</div>
+			</CSSTransition>
 
 			<div style={{display:'flex'}}>
 
@@ -545,7 +553,7 @@ const MainPage = (props) => {
 						if (selectedButton === buttonId) {
 							// if same button clicked again, reset screen
 							resetScreen();
-							return;
+							// return;
 						}
 						setUseCaseMapping(false);
             handleButtonClick(buttonId);
@@ -611,7 +619,7 @@ const MainPage = (props) => {
           open={open}
           alignItems={alignItems}
         />
-      )}
+			)}
 
       {/* UseCases/Guided Tour tab */}
       {/* {showTour && fetched && <UseCase steps={stepData} useCaseID={5} />} */}

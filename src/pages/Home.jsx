@@ -204,12 +204,12 @@ const Home = (props) => {
 		});
 
 		container.onPointerOutObservable.add(() => {
-			setGlobalState("HoverLabel", "");
+			// setGlobalState("HoverLabel", "");
 			setGlobalState("HoverId", 0);
-			setGlobalState("clientXPosition1", -20);
-			setGlobalState("clientYPosition1", -20);
-			clientXPosition = -20
-			clientYPosition = -20
+			// setGlobalState("clientXPosition1", -20);
+			// setGlobalState("clientYPosition1", -20);
+			// clientXPosition = -20
+			// clientYPosition = -20
 		});
 
 	};
