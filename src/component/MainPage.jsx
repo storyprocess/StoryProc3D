@@ -87,12 +87,13 @@ const MainPage = (props) => {
     setShowCardContainer(false);
 		// setUseCaseMapping(false);
     // setUI_Element(null);
-    // setGlobalState("useCase", 0);
+    setGlobalState("useCase", 0);
     // setGlobalState("mapped_use_case", null);
 		// setGlobalState("HoverId",0);
-		// setGlobalState("HoverUseCaseId",0);
+		setGlobalState("HoverUseCaseId",0);
     setShowUC(false);
 		setGlobalState("showDC", false);
+		setGlobalState("showUC", false);
 		// props.resetCamera();
     Howler.stop();
   };
@@ -183,6 +184,7 @@ const MainPage = (props) => {
       setShowCardContainer(true);
       if (buttonId === "btnUseCasesEnabled") {
         setShowUC(true);
+				setGlobalState("showUC", true);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -287,6 +289,7 @@ const MainPage = (props) => {
 		setSelectedButton(null);
 		setShowCardContainer(false);
 		setGlobalState("showDC", false);
+		setGlobalState("showUC", false);
     setGlobalState("IsTourOpen", false);
     setGlobalState("UCTourId", 0);
     setGlobalState("IsHomeButtonClick", true);
@@ -511,6 +514,7 @@ const MainPage = (props) => {
 							resetScreen();
 							// return;
 						}
+						setShowCardContainer(true);
 						setUseCaseMapping(false);
             handleButtonClick(buttonId);
             setGlobalState("useCase", 0);
@@ -557,6 +561,7 @@ const MainPage = (props) => {
 							resetScreen();
 							// return;
 						}
+						setShowCardContainer(true);
 						setUseCaseMapping(false);
             handleButtonClick(buttonId);
             setGlobalState("IsTourOpen", false);
@@ -578,7 +583,6 @@ const MainPage = (props) => {
             setButtonType("Use_case");
             setGlobalState("HoverUseCaseId", 0);
             setGlobalState("IsButtonContainer", true);
-            setShowUC(true);
           }}
           handleMenuClick={handleClick}
 					MainMenuIsButtons = {MainMenuIsButtons}
