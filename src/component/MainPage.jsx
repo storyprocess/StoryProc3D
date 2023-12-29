@@ -140,7 +140,7 @@ const MainPage = (props) => {
   }
   useEffect(() => {
     if (isHomeButtonClick) {
-      setUI_Element("");
+      // setUI_Element("");
       setGlobalState("useCase", 0);
       setGlobalState("HoverUseCaseId", 0);
       setSelectedButton(null);
@@ -275,7 +275,7 @@ const MainPage = (props) => {
   };
 
   const handleResetButtonClick = () => {
-		setUseCaseMapping(false);
+		// setUseCaseMapping(false);
     setGlobalState("IsBackgroundBlur", false);
     if(MainMenuIsButtons){
       setIsResetClick(true)
@@ -285,6 +285,8 @@ const MainPage = (props) => {
     }, 1000);
     setTourState(false);
 		setSelectedButton(null);
+		setShowCardContainer(false);
+		setGlobalState("showDC", false);
     setGlobalState("IsTourOpen", false);
     setGlobalState("UCTourId", 0);
     setGlobalState("IsHomeButtonClick", true);
