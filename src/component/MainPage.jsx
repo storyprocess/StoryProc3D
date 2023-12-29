@@ -83,14 +83,14 @@ const MainPage = (props) => {
   const resetScreen = () => {
     setGlobalState("IsBackgroundBlur", false);
     setTourState(false);
-		setUseCaseMapping(false);
     setSelectedButton(null);
     setShowCardContainer(false);
-    setUI_Element(null);
-    setGlobalState("useCase", 0);
-    setGlobalState("mapped_use_case", null);
-		setGlobalState("HoverId",0);
-		setGlobalState("HoverUseCaseId",0);
+		// setUseCaseMapping(false);
+    // setUI_Element(null);
+    // setGlobalState("useCase", 0);
+    // setGlobalState("mapped_use_case", null);
+		// setGlobalState("HoverId",0);
+		// setGlobalState("HoverUseCaseId",0);
     setShowUC(false);
 		setGlobalState("showDC", false);
 		// props.resetCamera();
@@ -606,8 +606,7 @@ const MainPage = (props) => {
       {/* Display elements if clicked */}
 
       {/* Cards or DVS tab */}
-      {showCardContainer && (
-        <MenuDispensor
+				<MenuDispensor
           buttonType={buttonType}
           sectionData={sectionData}
           ui_element={ui_Element}
@@ -618,8 +617,8 @@ const MainPage = (props) => {
           handleClose={handleClose}
           open={open}
           alignItems={alignItems}
-        />
-			)}
+					showCardContainer={showCardContainer}
+				/>
 
       {/* UseCases/Guided Tour tab */}
       {/* {showTour && fetched && <UseCase steps={stepData} useCaseID={5} />} */}
