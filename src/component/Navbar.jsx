@@ -3,11 +3,11 @@ import '../css/Navbar.css';
 import companyLogo from '../assets/companyLogo.png';
 import { setGlobalState, useGlobalState } from '../utils/state';
 import { Howl, Howler } from 'howler';
-import audioPlayingIcon from '../assets/audioPlayingIcon.png';
-import audioMutedIcon from '../assets/audioMutedIcon.png';
-import audioPlayIcon from '../assets/playIcon.png';
+import audioPlayingIcon from '../assets/audioPlayingIcon.svg';
+import audioMutedIcon from '../assets/audioMutedIcon.svg';
+import audioPlayIcon from '../assets/playIcon.svg';
+import audioPauseIcon from '../assets/pauseIcon.svg';
 import UcaudioPlayIcon from '../assets/Group 32 (1).png';
-import audioPauseIcon from '../assets/pauseIcon.png';
 import { useNavigate } from 'react-router-dom';
 
 
