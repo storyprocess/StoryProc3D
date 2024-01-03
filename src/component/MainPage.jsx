@@ -136,7 +136,7 @@ const MainPage = (props) => {
 		if(HoverId > 0) {
 			setGlobalState("HoverUseCaseId", HoverId);
 		}
-    handleUseCaseButtonClick("button8");
+    handleUseCaseButtonClick("btnUseCasesEnabled");
     setGlobalState("IsButtonContainer", false);
   }
   useEffect(() => {
