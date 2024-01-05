@@ -60,10 +60,10 @@ const SceneComponent = ({
 		// make panning axis to model axis (x,z)
 
 		arcRotateCamera.inputs.addMouseWheel();
-		arcRotateCamera.inputs.addPointers();
+		// arcRotateCamera.inputs.addPointers();
 		arcRotateCamera.wheelPrecision = 20;
 		// arcRotateCamera.inputs.addKeyboard();
-		arcRotateCamera.inputs.attached.pointers.attachControl(canvas, false);
+		// arcRotateCamera.inputs.attached.pointers.attachControl(canvas, false);
 		// Set panning axis
 
 		// Set panning options
