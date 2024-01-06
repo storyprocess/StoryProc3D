@@ -88,6 +88,8 @@ const MainPage = (props) => {
 		// setUseCaseMapping(false);
     // setUI_Element(null);
     setGlobalState("useCase", 0);
+		setGlobalState("solutionsId", -1);
+		// setGlobalState("IsButtonContainer", true);
     // setGlobalState("mapped_use_case", null);
 		// setGlobalState("HoverId",0);
 		setGlobalState("HoverUseCaseId",0);
@@ -512,15 +514,16 @@ const MainPage = (props) => {
 						if (selectedButton === buttonId) {
 							// if same button clicked again, reset screen
 							resetScreen();
-							// return;
+							return;
 						}
 						setShowCardContainer(true);
 						setUseCaseMapping(false);
-            handleButtonClick(buttonId);
+            // handleButtonClick(buttonId);
             setGlobalState("useCase", 0);
             setGlobalState("HoverUseCaseId", 0);
             setGlobalState("IsTourOpen", false);
-
+						setGlobalState("solutionsId", "1");
+						setSelectedButton("btnStoryProcSolutions");
 						if(extraData[6][0] == null) {
 							const baseAPIUrl = `${BaseAPI}solutions`;
 							const address = `${baseAPIUrl}?db=${ApplicationDB}`; //address for fetching sectiondata
@@ -537,9 +540,9 @@ const MainPage = (props) => {
 
             setSectionData(extraData[6][0].Solutions);
             setButtonType("D");
-						setGlobalState("showDC", false);
             setGlobalState("showUC", false);
             setUI_Element("popuptoolbar");
+						setGlobalState("IsButtonContainer", false);
           }}
           handleMenuClick={handleClick}
 					MainMenuIsButtons = {MainMenuIsButtons}
