@@ -3,6 +3,7 @@ import { Vector3 } from "@babylonjs/core";
 import { Howl } from "howler";
 import { setGlobalState, useGlobalState } from "../utils/state";
 import { ApplicationDB, assetsLocation } from "../assets/assetsLocation";
+import { rotateToTarget, spiralAnimation } from "../utils/libraries/CameraUtils";
 
 let IsTourOpen = true
 const setTourState = (onOff) => {
@@ -52,14 +53,15 @@ const lookAt = (xCoordinate, yCoordinate, zCoordinate, cameraX, cameraY, cameraZ
 
 	// Calculate the alpha angle (rotation around the vertical axis)
 	let alpha = Math.atan2(direction.x, direction.z);
+	let rotation = alpha - cameraY;
+	if (Math.abs(rotation) > Math.abs(rotation - 2*Math.PI)) rotation = rotation - 2*Math.PI;
+	if (Math.abs(rotation) > Math.abs(rotation + 2*Math.PI)) rotation = rotation + 2*Math.PI;
+	alpha = rotation + cameraY;
 
 	// Calculate the beta angle (elevation from the horizontal plane)
 	let distance = Math.sqrt(direction.x * direction.x + direction.z * direction.z);
 	let beta = Math.atan2(direction.y, distance);
 
-	console.log(alpha, beta);
-	if (Math.abs(alpha) > Math.abs(alpha + 2 * Math.PI))
-		alpha = alpha + 2 * Math.PI;
 	if (Math.abs(beta) > Math.abs(beta + 2 * Math.PI))
 		beta = beta + 2 * Math.PI;
 	// // Convert angles to the range expected by ArcRotateCamera
@@ -78,15 +80,15 @@ const moveFirstTarget = (camera) => {
 	})
 	timeline
 		.to(camera.position, {
-			x: -54.126,
+			x: 6.85724,
 			y: 2,
-			z: -19.147,
-			duration: 3
+			z: -0.614593,
+			duration: 1
 		})
 		.to(camera.rotation, {
 			x: 0,
-			y: lookAt(-58.141, 2, -16.087, -54.126, 2, -19.147).alpha,
-			duration: 2,
+			y: lookAt(6.9717, 2, -8.29712, 6.85724, 2, -0.614593).alpha - 2*Math.PI,
+			duration: 0.4,
 			onComplete: () => {
 				if (IsTourOpen) {
 					sound.play();
@@ -105,7 +107,7 @@ const moveSecondTarget = (camera) => {
 	const timeline = gsap.timeline();
 	gsap.globalTimeline.add(timeline)
 	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/11.mp3`,
+		src: `${assetsLocation}${ApplicationDB}/audio/intros/2.mp3`,
 		html5: true,
 		preload: true
 
@@ -113,35 +115,20 @@ const moveSecondTarget = (camera) => {
 
 
 	timeline
-		.to(camera.rotation, {
-			x: 0.2797833944525906,
-			y: -1.729744737715753,
-			duration: 2,
-		})
 		.to(camera.position, {
-			x: -57.508,
+			x: -3.42844,
 			y: 2,
-			z: -19.147,
-			duration: 2,
-		})
-		.to(camera.rotation, {
-			y: 0,
-			duration: 2,
-		})
-		.to(camera.position, {
-			x: -57.508,
-			y: 2,
-			z: 4.6328,
-			duration: 2,
+			z: 4.21576,
+			duration: 1,
 		})
 		.to(camera.rotation, {
 			x: 0,
-			y: lookAt(-47, 2, 7, -57.508, 2, 4.6328).alpha,
-			duration: 3,
+			y: lookAt(-1.59544, 2, -3.14136, -3.42844, 2, 4.21576).alpha - 2*Math.PI,
+			duration: 0.4,
 			onComplete: () => {
 				if (IsTourOpen) {
 					sound.play();
-					setGlobalState("UCTourId", 11);
+					setGlobalState("UCTourId", 2);
 					callNextTarget(camera, moveThirdTarget, sound)
 				}
 			}
@@ -157,7 +144,7 @@ const moveSecondTarget = (camera) => {
 
 const moveThirdTarget = (camera) => {
 	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/13.mp3`,
+		src: `${assetsLocation}${ApplicationDB}/audio/intros/3.mp3`,
 		html5: true,
 		preload: true
 
@@ -169,12 +156,12 @@ const moveThirdTarget = (camera) => {
 	timeline.to(
 		camera.rotation, {
 		x: 0,
-		y: lookAt(-52, 2, -1.3, -57.508, 2, 4.6328).alpha,
-		duration: 2,
+		y: lookAt(-4.18857, 2, -3.21763, -3.42844, 2, 4.21576).alpha - 2*Math.PI,
+		duration: 0.4,
 		onComplete: () => {
 			if (IsTourOpen) {
 				sound.play();
-				setGlobalState("UCTourId", 13);
+				setGlobalState("UCTourId", 3);
 				callNextTarget(camera, moveFourthTarget, sound)
 			}
 		}
@@ -188,7 +175,7 @@ const moveThirdTarget = (camera) => {
 
 const moveFourthTarget = (camera) => {
 	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/2.mp3`,
+		src: `${assetsLocation}${ApplicationDB}/audio/intros/4.mp3`,
 		html5: true,
 		preload: true
 
@@ -196,26 +183,21 @@ const moveFourthTarget = (camera) => {
 	const timeline = gsap.timeline();
 	gsap.globalTimeline.add(timeline)
 
-	timeline.to(camera.rotation, {
-		x: 0.2797833944525906,
-		y: -1.729744737715753,
-		z: 0,
-		duration: 1.5,
-	}).to(camera.position, {
-		x: -68.739,
+	timeline.to(camera.position, {
+		x: -8.37532,
 		y: 2,
-		z: 4.6328,
-		duration: 3,
+		z: 3.91916,
+		duration: 1,
 
 	})
 		.to(camera.rotation, {
 			x: 0,
-			y: lookAt(-68.8572, 2, 8.13481, -68.739, 2, 4.6328).alpha,
-			duration: 2,
+			y: lookAt(-6.39782, 2, -1.28294, -8.37532, 2, 3.91916).alpha - 2*Math.PI,
+			duration: 0.4,
 			onComplete: () => {
 				if (IsTourOpen) {
 					sound.play();
-					setGlobalState("UCTourId", 2);
+					setGlobalState("UCTourId", 4);
 					callNextTarget(camera, moveFifthTarget, sound)
 				}
 			}
@@ -229,7 +211,7 @@ const moveFourthTarget = (camera) => {
 
 const moveFifthTarget = (camera) => {
 	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/8.mp3`,
+		src: `${assetsLocation}${ApplicationDB}/audio/intros/5.mp3`,
 		html5: true,
 		preload: true
 
@@ -240,12 +222,12 @@ const moveFifthTarget = (camera) => {
 	timeline
 		.to(camera.rotation, {
 			x: 0,
-			y: lookAt(-70, 2, -0.5, -68.739, 2, 4.6328).alpha,
+			y: lookAt(-10.529, 2, -1.33379, -8.37532, 2, 3.91916).alpha - 2*Math.PI,
 			duration: 2,
 			onComplete: () => {
 				if (IsTourOpen) {
 					sound.play();
-					setGlobalState("UCTourId", 8);
+					setGlobalState("UCTourId", 5);
 					callNextTarget(camera, moveSixthTarget, sound)
 				}
 			}
@@ -264,247 +246,43 @@ const moveSixthTarget = (camera) => {
 	const timeline = gsap.timeline();
 	gsap.globalTimeline.add(timeline)
 
-	timeline.to(camera.rotation, {
-		x: 0.2797833944525906,
-		y: -1.729744737715753,
-		z: 0,
-		duration: 1.5,
-	}).to(camera.position, {
-		x: -87.06,
+	timeline.to(camera.position, {
+		x: -22.5449,
 		y: 2,
-		z: 4.6328,
-		duration: 3,
+		z: 5.18109,
+		duration: 1,
 	})
 		.to(camera.rotation, {
 			x: 0,
-			y: lookAt(-90, 2, -1.5, -87.06, 2, 4.6328).alpha,
-			duration: 2,
+			y: lookAt(-22.8226, 2, 2.02661, -22.5449, 2, 5.18109).alpha - 2*Math.PI,
+			duration: 0.4,
 			onComplete: () => {
 				if (IsTourOpen) {
 					sound.play()
 					setGlobalState("UCTourId", 6);
-					callNextTarget(camera, moveSixthTarget2, sound)
+					callNextTarget(camera, moveToOuterCamera, sound)
 				}
 			}
 		});
 
 
-
-};
-
-
-const moveSixthTarget2 = (camera) => {
-	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/4.mp3`,
-		html5: true,
-		preload: true
-
-	})
-	const timeline = gsap.timeline();
-	gsap.globalTimeline.add(timeline);
-	timeline.to(camera.rotation, {
-		x: 0,
-		y: lookAt(-91.6166, 2, 9.8, -87.06, 2, 4.6328).alpha,
-		duration: 3,
-		onComplete: () => {
-			if (IsTourOpen) {
-				sound.play()
-				setGlobalState("UCTourId", 4);
-				callNextTarget(camera, moveSeventhTarget, sound)
-			}
-		}
-	})
-
-
-};
-
-const moveSeventhTarget = (camera) => {
-	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/14.mp3`,
-		html5: true,
-		preload: true
-
-	})
-	const timeline = gsap.timeline();
-	gsap.globalTimeline.add(timeline)
-	timeline.to(camera.rotation, {
-		x: 0.2797833944525906,
-		y: -1.729744737715753,
-		duration: 1.5,
-	}).to(camera.position, {
-		x: -94.672,
-		y: 2,
-		z: 4.6328,
-		duration: 2,
-	}).to(camera.rotation, {
-		y: -Math.PI,
-		duration: 2,
-	})
-		.to(camera.position, {
-			x: -94.672,
-			y: 2,
-			z: -8.8227,
-			duration: 2,
-		})
-		.to(camera.rotation, {
-			x: 0,
-			// y: lookAt(-94, 2, -16, -94.672, 2, -8.8227).alpha,
-			duration: 2,
-			onComplete: () => {
-				if (IsTourOpen) {
-					sound.play()
-					setGlobalState("UCTourId", 14);
-					callNextTarget(camera, moveEighthTarget, sound)
-				}
-			}
-		});
-};
-
-
-
-const moveEighthTarget = (camera) => {
-	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/12.mp3`,
-		html5: true,
-		preload: true
-
-	})
-	const timeline = gsap.timeline();
-	gsap.globalTimeline.add(timeline)
-	timeline.to(camera.rotation, {
-		x: 0.2797833944525906,
-		duration: 1.5,
-	}).to(camera.position, {
-		x: -94.672,
-		y: 2,
-		z: -19.036,
-		duration: 2,
-	}).to(camera.rotation, {
-		y: - 2 * Math.PI + 1.729744737715753,
-		duration: 2,
-	})
-		.to(camera.position, {
-			x: -75.539,
-			y: 2,
-			z: -19.036,
-			duration: 3,
-		})
-		.to(camera.rotation, {
-			x: 0,
-			y: lookAt(-75, 2, -24, -75.539, 2, -19.036).alpha - 2 * Math.PI,
-			duration: 2,
-			onComplete: () => {
-				if (IsTourOpen) {
-					sound.play()
-					setGlobalState("UCTourId", 12);
-					callNextTarget(camera, moveNinthTarget, sound);
-				}
-			}
-		})
-};
-
-const moveNinthTarget = (camera) => {
-	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/7.mp3`,
-		html5: true,
-		preload: true
-
-	})
-	const timeline = gsap.timeline();
-	gsap.globalTimeline.add(timeline);
-
-	timeline.to(camera.rotation, {
-		x: 0,
-		y: lookAt(-65, 2, -23, -75.539, 2, -19.036).alpha - 2 * Math.PI,
-		duration: 2,
-		onComplete: () => {
-			if (IsTourOpen) {
-				sound.play()
-				setGlobalState("UCTourId", 7);
-				callNextTarget(camera, moveTenthTarget, sound);
-			}
-		}
-	})
-};
-
-const moveTenthTarget = (camera) => {
-	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/5.mp3`,
-		html5: true,
-		preload: true
-	})
-	const timeline = gsap.timeline();
-	gsap.globalTimeline.add(timeline);
-
-	timeline.to(camera.rotation, {
-		x: 0,
-		y: lookAt(-70, 2, -12, -75.539, 2, -19.036).alpha - 2 * Math.PI,
-		duration: 2,
-		onComplete: () => {
-			sound.play()
-			setGlobalState("UCTourId", 5);
-			callNextTarget(camera, moveEleventhTarget, sound);
-		}
-	})
-};
-
-const moveEleventhTarget = (camera) => {
-	// const sound = new Howl ({
-	//     src: `${assetsLocation}${ApplicationDB}/audio/intros/14.mp3`,
-	//     html5: true
-	// })
-	const timeline = gsap.timeline();
-	gsap.globalTimeline.add(timeline)
-
-	timeline.to(camera.rotation, {
-		x: 0.2797833944525906,
-		duration: 5,
-		onComplete: () => {
-			// sound.play()
-			setGlobalState("UCTourId", 0);
-			setGlobalState("IsTourOpen", false);
-			moveToOuterCamera(camera);
-		}
-
-	})
 
 };
 
 const moveToOuterCamera = (camera) => {
 	setGlobalState("UCTourId", 0);
-	const timeline = gsap.timeline();
-	gsap.globalTimeline.add(timeline)
 	const scene = camera.getScene();
-	// scene.activeCamera = scene.getCameraByName("camera-2")
-	const camera2 = scene.getCameraByName("camera-2");
-	scene.activeCamera = camera2;
+	const arcRotateCamera = scene.getCameraByName('camera-2');
+	const cam3 = scene.getCameraByName('camera-3');
+	const canvas = document.getElementsByClassName("main-canvas")[0];
 
-
-	camera2.restoreState();
-	toggleSectionUIs(scene);
-
-	timeline
-		.to(camera.position, {
-			x: -120,
-			duration: 3,
-			ease: "power1.out",
-			onComplete: () => {
-				setGlobalState("IsTourOpen", true);
-
-
-				enableCameraMovement(camera);
-
-				const closeBtn = document.querySelector("#close-btn");
-				closeBtn.removeAttribute("disabled");
-
-				const startBtn = document.querySelector("#tour");
-				startBtn.removeAttribute("disabled");
-			}
-		})
-
-
+	scene.activeCamera.computeWorldMatrix();
+	cam3.position.copyFrom(scene.activeCamera.position);
+	cam3.setTarget(scene.activeCamera.target.clone());
+	arcRotateCamera.restoreState();
+	arcRotateCamera.computeWorldMatrix();
+	rotateToTarget(scene, arcRotateCamera.target, cam3, 0.4, spiralAnimation, scene, arcRotateCamera.target, cam3.position, arcRotateCamera.position, 1000, 1, (arcRotateCamera, canvas) => { scene.activeCamera = arcRotateCamera; arcRotateCamera.attachControl(canvas, true); enableCameraMovement(camera); setGlobalState("IsTourOpen", false); }, arcRotateCamera, canvas);
 }
-
 
 
 const moveCameraOnClose = (camera) => {
@@ -611,10 +389,9 @@ const startAnimations = (scene) => {
 	const freeCam = scene.getCameraByName("camera-1");
 
 
-	freeCam.position = new Vector3(-40.13, 2, -19.147);
+	freeCam.position = new Vector3(1.04175, 2, 5.73054);
 	// freeCam.setTarget(new Vector3(-80.13,2,-19.147));
-	freeCam.rotation = new Vector3(0.2797833944525906, -1.729744737715753, 0);
-
+	freeCam.setTarget(new Vector3(-0.832747, 2, -0.832747));
 	scene.activeCamera = freeCam;
 
 	const startBtn = document.querySelector("#tour");

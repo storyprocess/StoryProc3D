@@ -96,8 +96,7 @@ const Home = (props) => {
 		];
 		
 	const handleTourStart = () => {
-		showHotspots(scene,false);
-		startAnimations(scene);
+		spiralAnimation(scene, new Vector3(-0.762211, 2, 3.51571), scene.getCameraByName('camera-2').position, new Vector3(0.851, 2, 5.982), 1000, 1, (s) => {startAnimations(s)}, scene);
 	};
 
 	useEffect(() => {
@@ -315,6 +314,7 @@ const Home = (props) => {
 			movingCamera.lockedTarget = null;
 			securityCamera.setTarget(finalTarget);
 			securityCamera.setPosition(movingCamera.position);
+			securityCamera.lowerRadiusLimit = 5;
 			scene.activeCamera = securityCamera;
 			securityCamera.attachControl(canvas, true);
 

@@ -5,9 +5,9 @@
 		"length": 4,
 		"textData": "Hotspot 1",
 		"position": {
-			"x": -15.65,
+			"x": 6.97717,
 			"y": 2,
-			"z": 4.5
+			"z": -8.29712
 		},
 		"section": 1
 	},
@@ -17,20 +17,20 @@
 		"length": 4,
 		"textData": "Hotspot 2",
 		"position": {
-			"x": -20,
+			"x": -1.59544,
 			"y": 2,
-			"z": 4.5
+			"z": -3.14136
 		},
-		"section": 1
+		"section": 2
 	},{
 		"id": 3,
 		"name": "𝒊",
 		"length": 4,
 		"textData": "Hotspot 3",
 		"position": {
-			"x": -10,
+			"x": -4.18857,
 			"y": 2,
-			"z": -4.5
+			"z": -3.21763
 		},
 		"section": 2
 		},{
@@ -39,9 +39,9 @@
 		"length": 4,
 		"textData": "Hotspot 4",
 		"position": {
-			"x": -5,
+			"x": -6.39781,
 			"y": 2,
-			"z": -4.5
+			"z": -1.28294
 		},
 		"section": 3
 		},{
@@ -50,20 +50,20 @@
 		"length": 4,
 		"textData": "Hotspot 5",
 		"position": {
-			"x": 0,
+			"x": -10.529,
 			"y": 2,
-			"z": -4.5
+			"z": -1.33379
 		},
-		"section": 4
+		"section": 3
 		},{
 			"id": 6,
 			"name": "𝒊",
 			"length": 4,
 			"textData": "Hotspot 6",
 			"position": {
-				"x": 5,
+				"x": -22.8226,
 				"y": 2,
-				"z": -4.5
+				"z": 2.02661
 			},
 			"section": 4
 		}

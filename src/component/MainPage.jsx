@@ -100,6 +100,12 @@ const MainPage = (props) => {
     Howler.stop();
   };
 
+	useEffect(() => {
+		if(selectedButton == "tour" && isTourOpen == false) {
+			setSelectedButton(null);
+		}
+	}, [isTourOpen]);
+
   const handleTourButtonClick = (buttonId) => {
     setGlobalState("IsBackgroundBlur", false);
     if (selectedButton === buttonId) {
@@ -297,6 +303,7 @@ const MainPage = (props) => {
     setGlobalState("IsHomeButtonClick", true);
 		setGlobalState("HoverId",0);
 		setGlobalState("HoverUseCaseId",0);
+		setGlobalState("IsButtonContainer", true);
     Howler.stop();
     // document.getElementById("close-btn").click();
 		props.resetCamera();
@@ -317,7 +324,8 @@ const MainPage = (props) => {
 						<hr style={{marginTop:"3%"}} className="card-divider"></hr>
 					</div>
 					<div className="button-group" >
-					{ scene.activeCamera.name.includes("security") == false
+					{ isTourOpen ? "" :
+					  scene.activeCamera.name.includes("security") == false
 							?
 							<div className="zoom-in" onClick={()=> setGlobalState("currentZoomedSection",HoverId)}>Zoom-in</div>
 							:
@@ -586,6 +594,7 @@ const MainPage = (props) => {
             setButtonType("Use_case");
             setGlobalState("HoverUseCaseId", 0);
             setGlobalState("IsButtonContainer", true);
+						setGlobalState("playUCDirectly", false);
           }}
           handleMenuClick={handleClick}
 					MainMenuIsButtons = {MainMenuIsButtons}
