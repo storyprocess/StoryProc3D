@@ -64,6 +64,10 @@ function HomeComponent() {
 	}
 
 	useEffect(() => {
+		setGlobalState("currentZoomedSection", String(useCase).substring(2));
+	}, [useCase]);
+
+	useEffect(() => {
 		fetchData();
 	}, []);
 	const showHotspots = (show) => {
