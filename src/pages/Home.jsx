@@ -57,25 +57,6 @@ const Home = (props) => {
 	const [currentZoomedSection, setCurrentZoomedSection] = useGlobalState("currentZoomedSection");
 	const [applicationDB, setApplicationDB] =
 	useGlobalState("ApplicationDB");
-	/*const [titleOne, setTitleOne] = useState([
-		"Dell Edge Virtual Experience Center for Manufacturing",
-		"Dell Edge Virtual Experience Center for Manufacturing",
-		"Dell Edge Virtual Experience Center for Manufacturing",
-		"Dell Edge Virtual Experience Center for Manufacturing",
-		"Digitally transforming the factory with smart edge solutions",
-		"Digitally transforming the factory with smart edge solutions",
-		"Digitally transforming the factory with smart edge solutions",
-	  ]);
-	  const [titleTwo, setTitleTwo] = useState([
-		"Welcome",
-        "Setting up the experience…",
-        "Assembly line workers are getting on the job...",
-        "Technical workers are coming in...",
-        "Starting 5G-enabled automated vehicles...",
-        "Establishing seamless IT-OT connection...",
-        "Enabling computer vision quality inspection...",
-	  ]);
-	  */
 
 	  let WelcomeData = [
 		"Do you sell enterprise solutions to cross-functional teams? ",
@@ -145,9 +126,9 @@ const Home = (props) => {
 
 		const container = new Rectangle(`usecase-${usecase.id}-container`);
 
-		container.width = '20px';
-		container.height = '20px';
-		container.cornerRadius = 20;
+		container.width = '25px';
+		container.height = '25px';
+		container.cornerRadius = 25;
 		container.thickness = 0;
 
 		container.background = 'rgba(7,17,34,0)';
@@ -494,7 +475,7 @@ const Home = (props) => {
         setVideoAvailable(false);
       }
     };
-
+		
     checkVideoAvailability();
   }, [count]);
 
@@ -504,14 +485,13 @@ const Home = (props) => {
         <div className="Welcome-card-container" style={{ zIndex: 99999999999 }}>
           {isVideo(`welcome${count+1}.mp4`) && videoAvailable ? <div>
               <video
-				autoPlay
-				muted
-				loop
-				controls
+								autoPlay
+								muted
+								loop
+								controls
                 style={{ width: "100%", verticalAlign: "bottom" }}
               >
                 <source
-                //   src={'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
                   src={`${assetsLocation}${applicationDB}/graphics/${`welcome${count+1}.mp4`}`}
                   type="video/mp4"
                 />

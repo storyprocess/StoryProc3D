@@ -156,12 +156,6 @@ const SceneComponent = ({
 					var scalingFactor = 0.015 * distance;
 					scene.getMeshByName(`usecase-${id}-fake-mesh`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
 				}
-				if(scene.getMeshByName(`usecase-${id}-container`) != null && scene.activeCamera != null) {
-					var coordinates = scene.activeCamera.position;
-					var distance = Vector3.Distance(scene.getMeshByName(`usecase-${id}-container`).position, coordinates);
-					var scalingFactor = 0.015 * distance;
-					scene.getMeshByName(`usecase-${id}-container`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
-				}
 			}
 			scene.render();
 		});
