@@ -296,6 +296,7 @@ const MainPage = (props) => {
     setTourState(false);
 		setSelectedButton(null);
 		setShowCardContainer(false);
+		setGlobalState("solutionsId", -1);
 		setGlobalState("showDC", false);
 		setGlobalState("showUC", false);
     setGlobalState("IsTourOpen", false);
@@ -303,7 +304,6 @@ const MainPage = (props) => {
     setGlobalState("IsHomeButtonClick", true);
 		setGlobalState("HoverId",0);
 		setGlobalState("HoverUseCaseId",0);
-		setGlobalState("IsButtonContainer", true);
     Howler.stop();
     // document.getElementById("close-btn").click();
 		props.resetCamera();

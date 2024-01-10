@@ -282,13 +282,13 @@ const Home = (props) => {
 		}
 
 		const canvas = document.getElementsByClassName("main-canvas")[0];
-		const arcRotateCamera = scene.getCameraByName('camera-2');
 		const movingCamera = scene.getCameraByName('camera-3');
 		const securityCamera = scene.getCameraByName(`security-camera-${id}`);
+
 		const finalTarget = new Vector3(useCase.position.x, useCase.position.y, useCase.position.z);
-		
-		movingCamera.position.copyFrom(arcRotateCamera.position);
-		movingCamera.setTarget(arcRotateCamera.target.clone());
+		const finalPosition = new Vector3 (section.cameraPosition.x, section.cameraPosition.y, section.cameraPosition.z);
+		movingCamera.position.copyFrom(scene.activeCamera.position);
+		movingCamera.setTarget(scene.activeCamera.target.clone());
 		scene.activeCamera = movingCamera;
 
 		const func = (movingCamera, securityCamera, canvas) => {
@@ -296,13 +296,14 @@ const Home = (props) => {
 			securityCamera.setTarget(finalTarget);
 			securityCamera.setPosition(movingCamera.position);
 			securityCamera.lowerRadiusLimit = 5;
+			securityCamera.upperRadiusLimit = 15;
 			scene.activeCamera = securityCamera;
 			securityCamera.attachControl(canvas, true);
 
 			setCurrentZoomedSection(0);
 		};
 		
-		rotateToTarget(scene, finalTarget, movingCamera, .4, linearAnimation, scene, finalTarget, movingCamera.position, securityCamera.position, 1, func, movingCamera, securityCamera, canvas);
+		rotateToTarget(scene, finalTarget, movingCamera, .4, linearAnimation, scene, finalTarget, movingCamera.position, finalPosition, 1, func, movingCamera, securityCamera, canvas);
 		setGlobalState("HoverId", 0);
 	}
 
@@ -475,7 +476,7 @@ const Home = (props) => {
         setVideoAvailable(false);
       }
     };
-		
+
     checkVideoAvailability();
   }, [count]);
 
