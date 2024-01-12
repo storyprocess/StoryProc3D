@@ -599,7 +599,7 @@ const MainPage = (props) => {
           handleMenuClick={handleClick}
 					MainMenuIsButtons = {MainMenuIsButtons}
         >
-          Use Cases Enabled
+          Use Cases
 
 
         </ToolbarButton>
