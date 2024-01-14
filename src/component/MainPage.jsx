@@ -555,7 +555,7 @@ const MainPage = (props) => {
           handleMenuClick={handleClick}
 					MainMenuIsButtons = {MainMenuIsButtons}
         >
-          StoryProc Solutions
+          StoryStudio3D
         </ToolbarButton>
         
         
@@ -576,6 +576,7 @@ const MainPage = (props) => {
 						setUseCaseMapping(false);
             handleButtonClick(buttonId);
             setGlobalState("IsTourOpen", false);
+						setGlobalState("IsBackgroundBlur", false);
 
 						if(extraData[7][0] == null) {
 							const baseAPIUrl = `${BaseAPI}use_case_list`;
