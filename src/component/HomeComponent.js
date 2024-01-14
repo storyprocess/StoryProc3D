@@ -6,7 +6,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import React, { Suspense, lazy, useEffect } from "react";
-import Spinner from "./Spinner";
+import Spinner from "../utils/libraries/Spinner";
 import { Vector3 } from "@babylonjs/core";
 import { ApplicationDB, assetsLocation } from "../assets/assetsLocation";
 import { useState } from "react";
@@ -98,7 +98,9 @@ function HomeComponent() {
 		cam3.setTarget(scene.activeCamera.target.clone());
 		arcRotateCamera.restoreState();
 		arcRotateCamera.computeWorldMatrix();
-		rotateToTarget(scene, arcRotateCamera.target, cam3, 0.4, spiralAnimation, scene, arcRotateCamera.target, cam3.position, arcRotateCamera.position, 1000, 1, (arcRotateCamera, canvas) => { scene.activeCamera = arcRotateCamera; arcRotateCamera.attachControl(canvas, true); setResetting(false);}, arcRotateCamera, canvas);
+		scene.activeCamera = cam3;
+		
+		spiralAnimation(scene, scene.activeCamera.target, scene.activeCamera.position, arcRotateCamera.position, 1000, 1, rotateToTarget, scene, arcRotateCamera.target, cam3, .4, (arcRotateCamera, canvas) => { scene.activeCamera = arcRotateCamera; arcRotateCamera.attachControl(canvas, true); setResetting(false);}, arcRotateCamera, canvas);
 	}
 
 	if (fetched) {
@@ -120,6 +122,7 @@ function HomeComponent() {
 								muted
 								loop
 								playsInline
+								onError={(e) => e.target.style.display = 'none'}
 							></video>
 						) : (
 							""

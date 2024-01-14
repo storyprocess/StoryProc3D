@@ -13,7 +13,7 @@ import {
 
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import SceneComponent from '../component/SceneComponents';
-import Spinner from '../component/Spinner';
+import Spinner from '../utils/libraries/Spinner';
 import styles from '../utils/styles/Home.module.css';
 import sections from '../data/sections.json';
 import { gsap } from 'gsap';
@@ -302,7 +302,7 @@ const Home = (props) => {
 
 			setCurrentZoomedSection(0);
 		};
-		
+
 		rotateToTarget(scene, finalTarget, movingCamera, .4, linearAnimation, scene, finalTarget, movingCamera.position, finalPosition, 1, func, movingCamera, securityCamera, canvas);
 		setGlobalState("HoverId", 0);
 	}
