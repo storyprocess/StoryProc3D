@@ -294,10 +294,11 @@ const Home = (props) => {
 		const func = (movingCamera, securityCamera, canvas) => {
 			movingCamera.lockedTarget = null;
 			securityCamera.setTarget(finalTarget);
-			securityCamera.setPosition(movingCamera.position);
+			securityCamera.setPosition(finalPosition);
 			securityCamera.lowerRadiusLimit = 5;
 			securityCamera.upperRadiusLimit = 15;
 			scene.activeCamera = securityCamera;
+			securityCamera.detachControl(canvas);
 			securityCamera.attachControl(canvas, true);
 
 			setCurrentZoomedSection(0);
