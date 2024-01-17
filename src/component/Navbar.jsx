@@ -87,8 +87,8 @@ const handleReset=()=>{
 
         {/* {ApplicationDB == "M" ?<img style={{left:'82.84%'}} id="homeButton" className='mute withclick' src={homeIcon} onClick={()=>handleHome()}></img>:''} */}
         {/* <img style={{left:'82.84%'}} id="homeButton" className='mute withclick' src={homeIcon} onClick={()=>handleHome()}></img> */}
-         <img  style={{left:'94.25%'}} id="playPauseButton" className='mute withclick' src={!playAndPause ?  audioPlayIcon :  isTourOpen ? UcaudioPlayIcon : audioPauseIcon} onClick={playPause}></img>
-        <img style={{left:"96.5%"}} id="muteButton" className='mute withclick' src={muted ?  audioMutedIcon : audioPlayingIcon} onClick={muteUnmute}></img>
+         <img  style={{left:'94%'}} id="playPauseButton" className='mute withclick' src={!playAndPause ?  audioPlayIcon :  isTourOpen ? UcaudioPlayIcon : audioPauseIcon} onClick={playPause}></img>
+        <img style={{left:"96%"}} id="muteButton" className='mute withclick' src={muted ?  audioMutedIcon : audioPlayingIcon} onClick={muteUnmute}></img>
         {/* <img id="playButton" className='playPause withclick' src={playIcon} onClick={playPauseMusic}></img> */}
     </div>
   );

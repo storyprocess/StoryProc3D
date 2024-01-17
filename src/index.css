@@ -47,7 +47,7 @@
   --BottomToolbarSeparator: var(--bgSeparator);
 
   --bgTopNavbar: var(--bgDark);
-  --TopNavbarOpacity: 0;
+  --TopNavbarOpacity: 1;
 
   --bgCards: var(--bgDark);
   --CardsOpacity: var(--opacityLow);

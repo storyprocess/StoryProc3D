@@ -126,9 +126,9 @@ const Home = (props) => {
 
 		const container = new Rectangle(`usecase-${usecase.id}-container`);
 
-		container.width = '25px';
-		container.height = '25px';
-		container.cornerRadius = 25;
+		container.width = '30px';
+		container.height = '30px';
+		container.cornerRadius = 30;
 		container.thickness = 0;
 
 		container.background = 'rgba(7,17,34,0)';

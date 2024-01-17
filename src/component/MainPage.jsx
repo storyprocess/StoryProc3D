@@ -43,6 +43,7 @@ const MainPage = (props) => {
   const [buttonType, setButtonType] = useState("");
 
   const [showUC, setShowUC] = useGlobalState("showUC");
+  const [useCase, setUseCase] = useGlobalState("useCase");
   
   const [isResetClick, setIsResetClick] = useState(false);
 	const [useCaseMapping, setUseCaseMapping] = useState(false);
@@ -319,20 +320,19 @@ const MainPage = (props) => {
         mountOnEnter
       >
 				<div style={{top:clientYPosition1,left:clientXPosition1}} className="hot-spot-subMenu">
-					<div>
-						<div className="hover-label-text">{HoverLabel}</div>
-						<hr style={{marginTop:"3%"}} className="card-divider"></hr>
-					</div>
-					<div className="button-group" >
-					{ isTourOpen ? "" :
-					  scene.activeCamera.name.includes("security") == false
-							?
-							<div className="zoom-in" onClick={()=> setGlobalState("currentZoomedSection",HoverId)}>Zoom-in</div>
-							:
-							<div className="zoom-in" onClick={()=> props.resetCamera()}>Zoom-out</div>
-						}
-						<div className="learn-more" onClick={()=>handlePlayStory()}>Learn More</div>
-					</div>
+				<div>
+				<div className="hover-label-text">{HoverLabel}</div>
+				<hr style={{marginTop:"5%"}} className="card-divider"></hr>
+				</div>
+				<div className="button-group" >
+					{ (isTourOpen || useCase !== 0) ? "" :
+						scene.activeCamera.name.includes("security") == false ?
+						<div className="zoom-in" onClick={()=> setGlobalState("currentZoomedSection",HoverId)}>Zoom-in</div>
+						:
+						<div className="zoom-in" onClick={()=> props.resetCamera()}>Zoom-out</div>
+					}
+					<div className="learn-more" onClick={()=>handlePlayStory()}>{useCase !== 0 ? "End Story" : "Learn More"}</div>
+				</div>
 				</div>
 			</CSSTransition>
 

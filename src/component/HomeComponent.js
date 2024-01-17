@@ -11,7 +11,7 @@ import { Vector3 } from "@babylonjs/core";
 import { ApplicationDB, assetsLocation } from "../assets/assetsLocation";
 import { useState } from "react";
 import { BaseAPI } from "../assets/assetsLocation";
-import Landscape from "./Landscape";
+import Landscape from "../utils/libraries/Landscape";
 import MainPage from "./MainPage";
 import { spiralAnimation, rotateToTarget } from "../utils/libraries/CameraUtils";
 

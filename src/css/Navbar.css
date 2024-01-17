@@ -12,7 +12,7 @@
 .navbar {
     position: absolute;
     width: 100%;
-    height: 5.2%;
+    height: 5.9%;
     left: 0;
     top: 0;
 
@@ -25,9 +25,9 @@
 
 .company-logo {
     position: absolute;
-    width: 8%;
+    width: 9%;
     left: 2%;
-    top: .8%;
+    top: -1.8%;
     z-index: 3;
 }
 
@@ -54,18 +54,18 @@
 .mute {
     position: absolute;
     left: 86.5875%;
-    top: 2%;
+    top: 1%;
     
-    width: 2%;
+    width: 1.7%;
     aspect-ratio: 1;
 }
 
 .playPause {
     position: absolute;
     left: 84.7175%;
-    top: 2%;
+    top: 1%;
     
-    width: 2%;
+    width: 1.7%;
     aspect-ratio: 1;
 }
 
