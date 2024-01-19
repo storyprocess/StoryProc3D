@@ -549,7 +549,7 @@ const Home = (props) => {
                   display: "flex",
                   justifyContent: "end",
                   alignItems: "center",
-                  width: "100%",
+                  width: "50%",
                   gap: "5%",
                 }}
               >

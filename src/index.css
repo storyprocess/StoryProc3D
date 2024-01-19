@@ -102,12 +102,12 @@
   --OnboardingCardOpacity: var(--opacityOpaque);
   --OnboardingCardFontFamily: var(--fontFamilyRobotoMedium);
   --OnboardingCardFontWeight: var(--fontWeightMedium);
-  --OnboardingCardFontSize: calc(0.469vw + 0.834svh);
+  --OnboardingCardFontSize: calc(1vw + 0.834svh);
   --OnboardingCardFontColor: var(--bgMedium);
 
   --OnboardingCardContentFontFamily: var(--fontFamily1);
   --OnboardingCardContentFontWeight: var(--fontWeightRegular);
-  --OnboardingCardContentFontSize: calc(0.3645vw + 0.648svh);
+  --OnboardingCardContentFontSize: calc(0.65vw + 0.648svh);
   --OnboardingCardContentFontColor: var(--bgMedium);
   --OnboardingCardNumberingFontColor: var(--bgLight);
   --bgOnboardingCardHighlightedButton: var(--bgDark);
