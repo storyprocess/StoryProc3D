@@ -18,7 +18,6 @@ import styles from '../utils/styles/Home.module.css';
 import sections from '../data/sections.json';
 import { gsap } from 'gsap';
 import usecases from '../data/usecases.json';
-import WelcomeImg from '../assets/Rectangle 3463321.png'
 // Adds the default support for glTF file format
 import '@babylonjs/loaders';
 import '@babylonjs/core/Debug/debugLayer'; // Augments the scene with the debug methods
@@ -34,6 +33,7 @@ import {
 	Marker
 } from '../models';
 import { set } from 'react-ga';
+import Welcome from '../utils/libraries/Welcome';
 
 // Set the decoding configuration
 var dracoLoader = new DracoCompression();
@@ -55,8 +55,8 @@ const Home = (props) => {
 	const [count, setCount] = useState(0);
 	const [isWelcome, setIsWelcome] = useState(true);
 	const [currentZoomedSection, setCurrentZoomedSection] = useGlobalState("currentZoomedSection");
-	const [applicationDB, setApplicationDB] =
-	useGlobalState("ApplicationDB");
+	const [applicationDB, setApplicationDB] = useGlobalState("ApplicationDB");
+	const [useCaseNumber, setUseCaseNumber] = useGlobalState("useCase");
 
 	let WelcomeData = [
 		"Do you sell enterprise solutions to cross-functional teams in client offices like this?",
@@ -258,11 +258,11 @@ const Home = (props) => {
 		clientXPosition = -20
 		clientYPosition = -20
 		if(currentZoomedSection > 0){
-			zoomInToSection(currentZoomedSection)
+			zoomInToSection(currentZoomedSection, useCaseNumber !== 0 ? -2 : 0);
 		}
 	},[currentZoomedSection])
 
-	const zoomInToSection =(i)=>{
+	const zoomInToSection =(i, offset = 0)=>{
 		// let section = sections[i]
 		let id = -1;
 		let useCase = null;
@@ -285,7 +285,7 @@ const Home = (props) => {
 		const movingCamera = scene.getCameraByName('camera-3');
 		const securityCamera = scene.getCameraByName(`security-camera-${id}`);
 
-		const finalTarget = new Vector3(useCase.position.x, useCase.position.y, useCase.position.z);
+		const finalTarget = new Vector3(useCase.position.x + offset, useCase.position.y, useCase.position.z);
 		const finalPosition = new Vector3 (section.cameraPosition.x, section.cameraPosition.y, section.cameraPosition.z);
 		movingCamera.position.copyFrom(scene.activeCamera.position);
 		movingCamera.setTarget(scene.activeCamera.target.clone());
@@ -459,124 +459,12 @@ const Home = (props) => {
 		return false;
 	  }
 
-	const [videoAvailable, setVideoAvailable] = useState(false);
-
-  useEffect(() => {
-    const checkVideoAvailability = async () => {
-      try {
-        const response = await fetch(`${assetsLocation}${applicationDB}/graphics/${`welcome${count+1}.mp4`}`);
-        if (!response.ok) {
-          // If the response is not OK (status code other than 2xx), video is not available
-          setVideoAvailable(false);
-        }
-				else {
-					setVideoAvailable(true);
-				}
-      } catch (error) {
-        // If an error occurs during fetching (e.g., network error), video is not available
-        setVideoAvailable(false);
-      }
-    };
-
-    checkVideoAvailability();
-  }, [count]);
-
 	return (
     <div className={styles.app__container}>
       {count >= 0 && isWelcome && (
-        <div className="Welcome-card-container" style={{ zIndex: 99999999999 }}>
-          {isVideo(`welcome${count+1}.mp4`) && videoAvailable ? <div>
-              <video
-								autoPlay
-								muted
-								loop
-								controls
-                style={{ width: "100%", verticalAlign: "bottom" }}
-              >
-                <source
-                  src={`${assetsLocation}${applicationDB}/graphics/${`welcome${count+1}.mp4`}`}
-                  type="video/mp4"
-                />
-              </video>
-            </div> :  isImage(`welcome${count+1}.png`) ? (
-            <div>
-              <img
-                alt="test"
-				width={"100%"}
-                src={`${assetsLocation}${applicationDB}/graphics/${`welcome${count+1}.png`}`}
-              />
-            </div>
-          ) : (
-           <img width={"100%"} src={WelcomeImg} />
-          )}
-          <div className="Welcome-Tour-box-title">
-            <div className="wel-title"> {WelcomeData[count]}</div>
-            <div className="wel-description">{WelcomeData1[count]}</div>
-          </div>
-          <div style={{ padding: "3%" }}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                cursor: "pointer",
-              }}
-            >
-              {/* <div className='welcome-page'>{count+1}/6</div> */}
-              <div className="welcome-page">
-                {[0, 1, 2, 3, 4, 5].map((item) => {
-                  return (
-                    <svg
-                      width="1vh"
-                      height="1vh"
-                      viewBox="0 0 10 10"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <circle
-					  className={item === count ? 'welcome-dot-circle-fill' : 'welcome-dot-circle'}
-                        cx="5"
-                        cy="5"
-                        r="4.5"
-                        // fill={item == count ? "#1033A4" : "white"}
-                        // stroke="#80C8FA"
-                      />
-                    </svg>
-                  );
-                })}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "end",
-                  alignItems: "center",
-                  width: "50%",
-                  gap: "5%",
-                }}
-              >
-                <div
-                  className="welcome-btn"
-                  style={{ color: "#0C2055" }}
-                  onClick={() => handleSkip()}
-                >
-                  Skip
-                </div>
-                <div className="welcome-next-btn" onClick={() => handleNext()}>
-                  {count === 5 ? "Start tour" : "Next"}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Welcome WelcomeData={WelcomeData} WelcomeData1={WelcomeData1} count={count} handleSkip={handleSkip} handleNext={handleNext} />
       )}
       {(isLoading || isWelcome) && <Spinner isWelcome={isWelcome} isLoading={isLoading}/>}
-      {/* {isTitle &&
-        <div className={styles.hover_des_container}>
-          <div className={styles.hover_des}>
-            <div className={styles.Title_One}>{titleOne[counter]}</div>
-            <div className={styles.Title_Two}>{titleTwo[counter]}</div>
-          </div>
-        </div>
-      } */}
 
       {uCTourId > 0 ? (
         <div className={styles.hover_des_container}>
