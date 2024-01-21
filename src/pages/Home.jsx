@@ -58,14 +58,14 @@ const Home = (props) => {
 	const [applicationDB, setApplicationDB] =
 	useGlobalState("ApplicationDB");
 
-	  let WelcomeData = [
-		"Do you sell enterprise solutions to cross-functional teams? ",
-		"Explore visual stories interactively",
+	let WelcomeData = [
+		"Do you sell enterprise solutions to cross-functional teams in client offices like this?",
+		"Explore visual stories interactively, in action within a client office",
 		"Access all information using this toolbar",
 		"Use 'Reset' to go to the default view",
-		"Explore use cases",
-		"Let's start with an overview",
-		];
+		"Explore use cases in context, such as your client office above",
+		"Let’s see your sales in action in a client’s office",
+	];
 		
 		let WelcomeData1 = [
 		"Learn how you can use 3D immersive experiences (like this one) to showcase and sell your solutions.",
