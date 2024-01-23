@@ -183,25 +183,29 @@ const moveFourthTarget = (camera) => {
 	const timeline = gsap.timeline();
 	gsap.globalTimeline.add(timeline)
 
-	timeline.to(camera.position, {
+	timeline.to(camera.rotation, {
+		x: 0,
+		y: lookAt(-6.39782, 2, -1.28294, -3.42844, 2, 4.21576).alpha - 2*Math.PI,
+		duration: 0.8,
+		onComplete: () => {
+			if (IsTourOpen) {
+				camera.lockedTarget = new Vector3(-6.39782, 2, -1.28294);
+			}
+		}
+	}).to(camera.position, {
 		x: -8.37532,
 		y: 2,
 		z: 3.91916,
 		duration: 1,
-
-	})
-		.to(camera.rotation, {
-			x: 0,
-			y: lookAt(-6.39782, 2, -1.28294, -8.37532, 2, 3.91916).alpha - 2*Math.PI,
-			duration: 0.4,
-			onComplete: () => {
-				if (IsTourOpen) {
-					sound.play();
-					setGlobalState("UCTourId", 4);
-					callNextTarget(camera, moveFifthTarget, sound)
-				}
+		onComplete: () => {
+			if (IsTourOpen) {
+				camera.lockedTarget = null;
+				sound.play();
+				setGlobalState("UCTourId", 4);
+				callNextTarget(camera, moveFifthTarget, sound)
 			}
-		});
+		}
+	});
 	// sound.play();
 	// sound.on("end", function () {
 	//     callNextTarget(camera, moveFifthTarget);
@@ -222,7 +226,7 @@ const moveFifthTarget = (camera) => {
 	timeline
 		.to(camera.rotation, {
 			x: 0,
-			y: lookAt(-10.529, 2, -1.33379, -8.37532, 2, 3.91916).alpha - 2*Math.PI,
+			y: lookAt(-10.529, 2, -1.33379, -8.37532, 2, 3.91916).alpha,
 			duration: 2,
 			onComplete: () => {
 				if (IsTourOpen) {

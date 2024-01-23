@@ -616,7 +616,7 @@ const MainPage = (props) => {
           handleMenuClick={() => {}}
 					MainMenuIsButtons = {MainMenuIsButtons}
         >
-          Immersive Overview
+          {isTourOpen ? "End Tour" : "Immersive Overview"}
         </ToolbarButton>
       </div>
 			</div>

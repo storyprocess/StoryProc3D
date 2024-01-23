@@ -77,6 +77,7 @@ const Home = (props) => {
 		];
 		
 	const handleTourStart = () => {
+		showHotspots(scene, true);
 		spiralAnimation(scene, new Vector3(-0.762211, 2, 3.51571), scene.getCameraByName('camera-2').position, new Vector3(0.851, 2, 5.982), 1000, 1, (s) => {startAnimations(s)}, scene);
 	};
 
