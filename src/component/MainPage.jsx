@@ -413,7 +413,7 @@ const MainPage = (props) => {
 
             setSectionData(extraData[0][0].SectionData);
 
-            setUI_Element("");
+            setUseCaseMapping(false);
             setUI_Element("cards");
           }}
           handleMenuClick={() => {}}
@@ -636,6 +636,7 @@ const MainPage = (props) => {
           handleClose={handleClose}
           open={open}
           alignItems={alignItems}
+					handlePlayStory={handlePlayStory}
 					showCardContainer={showCardContainer}
 				/>
 
