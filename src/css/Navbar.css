@@ -24,11 +24,11 @@
 }
 
 .company-logo {
-    position: absolute;
-    width: 9%;
-    left: 2%;
-    top: -1.8%;
-    z-index: 3;
+	position: absolute;
+	width: 9%;
+	left: 1.5%;
+	top: -6.5%;
+	z-index: 3;
 }
 
 .divider1 {
