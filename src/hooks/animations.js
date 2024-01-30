@@ -403,11 +403,18 @@ const startAnimations = (scene) => {
 
 	disableCameraMovementOnTour(freeCam);
 	gsap.globalTimeline.getChildren().forEach(child => child.kill());
+	const bgMusic = new Howl({
+		src: `${assetsLocation}${ApplicationDB}/audio/uc_music/immersive.mp3`,
+		loop: true,
+		volume: 0.2,
+		html5: true
+	});
 	const sound = new Howl({
 		src: `${assetsLocation}${ApplicationDB}/audio/intros/0.mp3`,
 		html5: true
 	})
-	sound.play()
+	bgMusic.play();
+	sound.play();
 	sound.on("end", function () {
 		moveFirstTarget(freeCam);
 	});
