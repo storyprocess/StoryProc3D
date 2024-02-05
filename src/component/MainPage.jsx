@@ -392,7 +392,7 @@ const MainPage = (props) => {
 							resetScreen();
 							return;
 						}
-						setUseCaseMapping(false);
+						setUseCaseMapping(true);
             handleButtonClick(buttonId);
             setGlobalState("IsBackgroundBlur", true);
             setGlobalState("useCase", 0);
@@ -413,7 +413,6 @@ const MainPage = (props) => {
 
             setSectionData(extraData[0][0].SectionData);
 
-            setUseCaseMapping(false);
             setUI_Element("cards");
           }}
           handleMenuClick={() => {}}
