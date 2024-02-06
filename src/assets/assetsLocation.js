@@ -5,3 +5,4 @@ export const ApplicationDB = "storyprocess3d"
 export const BaseAPI = "https://bubble-backend.storyproc.com/"
 export const MainMenuIsButtons = false
 export const carouselType = "1"
+export const packageApp = false
