@@ -406,13 +406,13 @@ const startAnimations = (scene) => {
 	const bgMusic = new Howl({
 		src: `${assetsLocation}${ApplicationDB}/audio/uc_music/immersive.mp3`,
 		loop: true,
-		volume: 0.2,
+		volume: 0.15,
 		html5: true
 	});
 	const sound = new Howl({
 		src: `${assetsLocation}${ApplicationDB}/audio/intros/0.mp3`,
 		html5: true
-	})
+	});
 	bgMusic.play();
 	sound.play();
 	sound.on("end", function () {
