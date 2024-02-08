@@ -26,7 +26,7 @@ import { AdvancedDynamicTexture, Rectangle } from '@babylonjs/gui';
 import { startAnimations, moveCameraOnClose } from '../hooks/animations';
 import { setGlobalState, useGlobalState } from '../utils/state';
 import { Howler } from 'howler';
-import { BaseAPI, ApplicationDB, assetsLocation } from '../assets/assetsLocation';
+import { BaseAPI, ApplicationDB, assetsLocation, packageApp } from '../assets/assetsLocation';
 import { spiralAnimation, rotateToTarget, linearAnimation } from '../utils/libraries/CameraUtils';
 import {
 	mainModel,
@@ -374,7 +374,7 @@ const Home = (props) => {
 	const handleFetchSectionData = async () => {
 		const baseAPIUrl = `${BaseAPI}section/`;
 		// const id = buttonId.at(-1);
-		const address = `${baseAPIUrl + 8}?db=${ApplicationDB}`; //address for fetching sectiondata
+		const address = !packageApp ? `${baseAPIUrl + 8}?db=${ApplicationDB}` : `/offline_data/section/8.json`; //address for fetching sectiondata
 		const response = await fetch(address); //fetch section data files for specific config id
 		const data = await response.json();
 		setSectionData(data?.SectionData);

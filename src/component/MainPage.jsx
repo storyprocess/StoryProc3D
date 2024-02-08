@@ -11,6 +11,7 @@ import {
   MainMenuIsButtons,
   ApplicationDB,
   assetsLocation,
+	packageApp
 } from "../assets/assetsLocation";
 import { setTourState } from "../hooks/animations";
 import useAnalyticsEventTracker from "./useAnalyticsEventTracker";
@@ -174,7 +175,7 @@ const MainPage = (props) => {
     }
     setSelectedButton(buttonId);
     try {
-      const baseAPIUrl = `${BaseAPI}use_case_list/?db=${ApplicationDB}`;
+      const baseAPIUrl = !packageApp ? `${BaseAPI}use_case_list/?db=${ApplicationDB}` : "/offline_data/use_case_list.json";
       const id = buttonId.at(-1);
       const address = baseAPIUrl; //address for fetching sectiondata
       // const address = baseAPIUrl + id;//address for fetching sectiondata
@@ -207,13 +208,13 @@ const MainPage = (props) => {
       var address;
       if (id === 8) {
         baseAPIUrl = `${BaseAPI}use_case_list/`;
-        address = `${baseAPIUrl}?db=${ApplicationDB}`; //address for fetching sectiondata
+        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/use_case_list"; //address for fetching sectiondata
       } else if (id === 7) {
         baseAPIUrl = `${BaseAPI}solutions`;
-        address = `${baseAPIUrl}?db=${ApplicationDB}`; //address for fetching sectiondata
+        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/solutions"; //address for fetching sectiondata
       } else {
         baseAPIUrl = `${BaseAPI}section/`;
-        address = `${baseAPIUrl + id}?db=${ApplicationDB}`; //address for fetching sectiondata
+        address = !packageApp ? `${baseAPIUrl + id}?db=${ApplicationDB}` : `/offline_data/section/${id}.json`; //address for fetching sectiondata
       }
       // CHANGES HERE
       try {
@@ -236,8 +237,8 @@ const MainPage = (props) => {
     const audioClips = [];
     const audio_Paths = [];
     for (var id = 1; id <= 30; id++) {
-      const src_url =
-        `${assetsLocation}${ApplicationDB}/audio/uc` + String(id) + "/";
+      const src_url = !packageApp ?
+        `${assetsLocation}${ApplicationDB}/audio/uc` + String(id) + "/" : "/offline_data/audio/uc" + String(id) + "/";
       const path = src_url + "10.mp3";
       try {
         Vosound = new Howl({
@@ -401,13 +402,13 @@ const MainPage = (props) => {
 
 						if(extraData[0][0] == null) {
 							const baseAPIUrl = `${BaseAPI}section/`;
-							const address = `${baseAPIUrl + "1"}?db=${ApplicationDB}`;
+							const address = !packageApp ? `${baseAPIUrl + "1"}?db=${ApplicationDB}` : "/offline_data/section/1.json";
 							try {
 								const response = await fetch(address);
 								const data = await response.json();
 								extraData[0].push(data);
 							} catch (error) {
-								// console.error("Error fetching data:", error);
+								console.log("Error fetching data:", error);
 							}
 						}
 
@@ -443,7 +444,7 @@ const MainPage = (props) => {
 
             if(extraData[3][0] == null) {
 							const baseAPIUrl = `${BaseAPI}section/`;
-							const address = `${baseAPIUrl + "4"}?db=${ApplicationDB}`; //address for fetching sectiondata
+							const address = !packageApp ? `${baseAPIUrl + "4"}?db=${ApplicationDB}` : "/offline_data/section/4.json"; //address for fetching sectiondata
 							// CHANGES HERE
 							try {
 								// console.log("API CALLED");
@@ -488,7 +489,7 @@ const MainPage = (props) => {
 
 						if(extraData[1][0] == null) {
 							const baseAPIUrl = `${BaseAPI}section/`;
-							const address = `${baseAPIUrl + "2"}?db=${ApplicationDB}`; //address for fetching sectiondata
+							const address = !packageApp ? `${baseAPIUrl + "2"}?db=${ApplicationDB}` : "/offline_data/section/2.json"; //address for fetching sectiondata
 							// CHANGES HERE
 							try {
 								// console.log("API CALLED");
@@ -533,7 +534,7 @@ const MainPage = (props) => {
 						setSelectedButton("btnStoryProcSolutions");
 						if(extraData[6][0] == null) {
 							const baseAPIUrl = `${BaseAPI}solutions`;
-							const address = `${baseAPIUrl}?db=${ApplicationDB}`; //address for fetching sectiondata
+							const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/solutions"; //address for fetching sectiondata
 							// CHANGES HERE
 							try {
 								// console.log("API CALLED");
@@ -579,7 +580,7 @@ const MainPage = (props) => {
 
 						if(extraData[7][0] == null) {
 							const baseAPIUrl = `${BaseAPI}use_case_list`;
-							const address = `${baseAPIUrl}?db=${ApplicationDB}`;
+							const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/use_case_list";
 							try {
 								const response = await fetch(address);
 								const data = await response.json();

@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import React, { Suspense, lazy, useEffect } from "react";
 import Spinner from "../utils/libraries/Spinner";
 import { Vector3 } from "@babylonjs/core";
-import { ApplicationDB, assetsLocation } from "../assets/assetsLocation";
+import { ApplicationDB, assetsLocation, packageApp } from "../assets/assetsLocation";
 import { useState } from "react";
 import { BaseAPI } from "../assets/assetsLocation";
 import Landscape from "../utils/libraries/Landscape";
@@ -39,13 +39,13 @@ function HomeComponent() {
 			var address;
 			if (id === 8) {
 				baseAPIUrl = `${BaseAPI}use_case_list/`;
-				address = `${baseAPIUrl}?db=${ApplicationDB}`; //address for fetching sectiondata
+				address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/use_case_list.json"; //address for fetching sectiondata
 			} else if (id === 5 || id === 3) {
 				baseAPIUrl = `${BaseAPI}solutions`;
-				address = `${baseAPIUrl}?db=${ApplicationDB}`; //address for fetching sectiondata
+				address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/solutions.json"; //address for fetching sectiondata
 			} else {
 				baseAPIUrl = `${BaseAPI}section/`;
-				address = `${baseAPIUrl + id}?db=${ApplicationDB}`; //address for fetching sectiondata
+				address = !packageApp ? `${baseAPIUrl + id}?db=${ApplicationDB}` : `/offline_data/section/${id}.json`; //address for fetching sectiondata
 			}
 			// CHANGES HERE
 			try {
@@ -86,8 +86,8 @@ function HomeComponent() {
 	}
 
 	const resetCamera = () => {
-		if(!scene) return;
-		if(resetting) return;
+		if (!scene) return;
+		if (resetting) return;
 		setResetting(true);
 		const arcRotateCamera = scene.getCameraByName('camera-2');
 		const cam3 = scene.getCameraByName('camera-3');
@@ -99,8 +99,8 @@ function HomeComponent() {
 		arcRotateCamera.restoreState();
 		arcRotateCamera.computeWorldMatrix();
 		scene.activeCamera = cam3;
-		
-		spiralAnimation(scene, scene.activeCamera.target, scene.activeCamera.position, arcRotateCamera.position, 1000, 1, rotateToTarget, scene, arcRotateCamera.target, cam3, .4, (arcRotateCamera, canvas) => { scene.activeCamera = arcRotateCamera; arcRotateCamera.attachControl(canvas, true); setResetting(false);}, arcRotateCamera, canvas);
+
+		spiralAnimation(scene, scene.activeCamera.target, scene.activeCamera.position, arcRotateCamera.position, 1000, 1, rotateToTarget, scene, arcRotateCamera.target, cam3, .4, (arcRotateCamera, canvas) => { scene.activeCamera = arcRotateCamera; arcRotateCamera.attachControl(canvas, true); setResetting(false); }, arcRotateCamera, canvas);
 	}
 
 	if (fetched) {
@@ -109,16 +109,16 @@ function HomeComponent() {
 				<Landscape />
 				<div className="App">
 					<div className={`wrapper home-wrapper ${IsBackgroundBlur ? "backgroung-blur" : ""}`}>
-						<Suspense fallback={<Spinner />}>
+						{/* <Suspense fallback={<Spinner />}>
 							<Home extraData={extraData[7][0].use_case_list} showHotspots={showHotspots} />
-						</Suspense>
+						</Suspense> */}
 						{useCase !== 0 ? (
 							<video
 								id="bgvideo"
 								autoPlay="autoplay"
 								preload="auto"
 								className="bg manufacturing-bg-video"
-								src={`${assetsLocation}${ApplicationDB}/graphics/${useCase}.mp4`}
+								src={!packageApp ? `${assetsLocation}${ApplicationDB}/graphics/${useCase}.mp4` : `/offline_data/graphics/${useCase}.mp4`}
 								muted
 								loop
 								playsInline
