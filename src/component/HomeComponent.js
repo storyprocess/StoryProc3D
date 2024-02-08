@@ -109,9 +109,9 @@ function HomeComponent() {
 				<Landscape />
 				<div className="App">
 					<div className={`wrapper home-wrapper ${IsBackgroundBlur ? "backgroung-blur" : ""}`}>
-						{/* <Suspense fallback={<Spinner />}>
+						<Suspense fallback={<Spinner />}>
 							<Home extraData={extraData[7][0].use_case_list} showHotspots={showHotspots} />
-						</Suspense> */}
+						</Suspense>
 						{useCase !== 0 ? (
 							<video
 								id="bgvideo"

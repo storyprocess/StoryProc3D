@@ -2,7 +2,7 @@ import { gsap } from "gsap";
 import { Vector3 } from "@babylonjs/core";
 import { Howl } from "howler";
 import { setGlobalState, useGlobalState } from "../utils/state";
-import { ApplicationDB, assetsLocation } from "../assets/assetsLocation";
+import { ApplicationDB, assetsLocation, packageApp } from "../assets/assetsLocation";
 import { rotateToTarget, spiralAnimation } from "../utils/libraries/CameraUtils";
 
 let IsTourOpen = true
@@ -74,7 +74,7 @@ const moveFirstTarget = (camera) => {
 	const timeline = gsap.timeline();
 	gsap.globalTimeline.add(timeline)
 	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/1.mp3`,
+		src: !packageApp ? `${assetsLocation}${ApplicationDB}/audio/intros/1.mp3` : `/offline_data/audio/intros/1.mp3`,
 		html5: true,
 		preload: true
 	})
@@ -107,7 +107,7 @@ const moveSecondTarget = (camera) => {
 	const timeline = gsap.timeline();
 	gsap.globalTimeline.add(timeline)
 	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/2.mp3`,
+		src: !packageApp ? `${assetsLocation}${ApplicationDB}/audio/intros/2.mp3` : `/offline_data/audio/intros/2.mp3`,
 		html5: true,
 		preload: true
 
@@ -144,7 +144,7 @@ const moveSecondTarget = (camera) => {
 
 const moveThirdTarget = (camera) => {
 	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/3.mp3`,
+		src: !packageApp ? `${assetsLocation}${ApplicationDB}/audio/intros/3.mp3` : `/offline_data/audio/intros/3.mp3`,
 		html5: true,
 		preload: true
 
@@ -175,7 +175,7 @@ const moveThirdTarget = (camera) => {
 
 const moveFourthTarget = (camera) => {
 	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/4.mp3`,
+		src: !packageApp ? `${assetsLocation}${ApplicationDB}/audio/intros/4.mp3` : `/offline_data/audio/intros/4.mp3`,
 		html5: true,
 		preload: true
 
@@ -215,7 +215,7 @@ const moveFourthTarget = (camera) => {
 
 const moveFifthTarget = (camera) => {
 	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/5.mp3`,
+		src: !packageApp ? `${assetsLocation}${ApplicationDB}/audio/intros/5.mp3` : `/offline_data/audio/intros/5.mp3`,
 		html5: true,
 		preload: true
 
@@ -242,7 +242,7 @@ const moveFifthTarget = (camera) => {
 
 const moveSixthTarget = (camera) => {
 	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/6.mp3`,
+		src: !packageApp ? `${assetsLocation}${ApplicationDB}/audio/intros/6.mp3` : `/offline_data/audio/intros/6.mp3`,
 		html5: true,
 		preload: true
 
@@ -404,13 +404,13 @@ const startAnimations = (scene) => {
 	disableCameraMovementOnTour(freeCam);
 	gsap.globalTimeline.getChildren().forEach(child => child.kill());
 	const bgMusic = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/uc_music/immersive.mp3`,
+		src: !packageApp ? `${assetsLocation}${ApplicationDB}/audio/uc_music/immersive.mp3` : `/offline_data/audio/uc_music/immersive.mp3`,
 		loop: true,
 		volume: 0.15,
 		html5: true
 	});
 	const sound = new Howl({
-		src: `${assetsLocation}${ApplicationDB}/audio/intros/0.mp3`,
+		src: !packageApp ? `${assetsLocation}${ApplicationDB}/audio/intros/0.mp3` : `/offline_data/audio/intros/0.mp3`,
 		html5: true
 	});
 	bgMusic.play();

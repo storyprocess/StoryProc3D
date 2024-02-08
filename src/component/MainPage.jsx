@@ -208,10 +208,10 @@ const MainPage = (props) => {
       var address;
       if (id === 8) {
         baseAPIUrl = `${BaseAPI}use_case_list/`;
-        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/use_case_list"; //address for fetching sectiondata
+        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/use_case_list.json"; //address for fetching sectiondata
       } else if (id === 7) {
         baseAPIUrl = `${BaseAPI}solutions`;
-        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/solutions"; //address for fetching sectiondata
+        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/solutions.json"; //address for fetching sectiondata
       } else {
         baseAPIUrl = `${BaseAPI}section/`;
         address = !packageApp ? `${baseAPIUrl + id}?db=${ApplicationDB}` : `/offline_data/section/${id}.json`; //address for fetching sectiondata
@@ -534,7 +534,7 @@ const MainPage = (props) => {
 						setSelectedButton("btnStoryProcSolutions");
 						if(extraData[6][0] == null) {
 							const baseAPIUrl = `${BaseAPI}solutions`;
-							const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/solutions"; //address for fetching sectiondata
+							const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/solutions.json"; //address for fetching sectiondata
 							// CHANGES HERE
 							try {
 								// console.log("API CALLED");
@@ -580,7 +580,7 @@ const MainPage = (props) => {
 
 						if(extraData[7][0] == null) {
 							const baseAPIUrl = `${BaseAPI}use_case_list`;
-							const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/use_case_list";
+							const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/use_case_list.json";
 							try {
 								const response = await fetch(address);
 								const data = await response.json();
