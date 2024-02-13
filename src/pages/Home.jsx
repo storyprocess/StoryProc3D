@@ -374,7 +374,7 @@ const Home = (props) => {
 	const handleFetchSectionData = async () => {
 		const baseAPIUrl = `${BaseAPI}section/`;
 		// const id = buttonId.at(-1);
-		const address = !packageApp ? `${baseAPIUrl + 8}?db=${ApplicationDB}` : `/offline_data/section/8.json`; //address for fetching sectiondata
+		const address = !packageApp ? `${baseAPIUrl + 10}?db=${ApplicationDB}` : `../../${ApplicationDB}/section/8.json`; //address for fetching sectiondata
 		const response = await fetch(address); //fetch section data files for specific config id
 		const data = await response.json();
 		setSectionData(data?.SectionData);
@@ -474,7 +474,7 @@ const Home = (props) => {
               sectionData.map((item, index) => {
                 return (
                   <>
-                    {item.seq === uCTourId ? (
+                    {item.seq == uCTourId ? (
                       <div className="Tour-box-wrap" key={index}>
                         <div className="Tour-box-title">{item.short_label}</div>
                         <div className="Tour-box-content">
