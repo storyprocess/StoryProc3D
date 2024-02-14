@@ -39,13 +39,13 @@ function HomeComponent() {
 			var address;
 			if (id === 8) {
 				baseAPIUrl = `${BaseAPI}use_case_list/`;
-				address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/use_case_list.json"; //address for fetching sectiondata
+				address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`; //address for fetching sectiondata
 			} else if (id === 5 || id === 3) {
 				baseAPIUrl = `${BaseAPI}solutions`;
-				address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : "/offline_data/solutions.json"; //address for fetching sectiondata
+				address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/solutions.json`; //address for fetching sectiondata
 			} else {
 				baseAPIUrl = `${BaseAPI}section/`;
-				address = !packageApp ? `${baseAPIUrl + id}?db=${ApplicationDB}` : `/offline_data/section/${id}.json`; //address for fetching sectiondata
+				address = !packageApp ? `${baseAPIUrl + id}?db=${ApplicationDB}` : `../../${ApplicationDB}/section/${id}.json`; //address for fetching sectiondata
 			}
 			// CHANGES HERE
 			try {
@@ -152,7 +152,7 @@ function HomeComponent() {
 								autoPlay="autoplay"
 								preload="auto"
 								className="bg manufacturing-bg-video"
-								src={!packageApp ? `${assetsLocation}${ApplicationDB}/graphics/${useCase}.mp4` : `/offline_data/graphics/${useCase}.mp4`}
+								src={!packageApp ? `${assetsLocation}${ApplicationDB}/graphics/${useCase}.mp4` : `../../${ApplicationDB}/graphics/${useCase}.mp4`}
 								muted
 								loop
 								playsInline
