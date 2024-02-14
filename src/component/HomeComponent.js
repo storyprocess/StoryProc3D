@@ -14,7 +14,7 @@ import { BaseAPI } from "../assets/assetsLocation";
 import Landscape from "../utils/libraries/Landscape";
 import MainPage from "./MainPage";
 import { spiralAnimation, rotateToTarget } from "../utils/libraries/CameraUtils";
-
+import gsap from "gsap";
 
 const Home = lazy(() => import("../pages/Home"));
 
@@ -70,19 +70,21 @@ function HomeComponent() {
 	useEffect(() => {
 		fetchData();
 	}, []);
-	const showHotspots = (show) => {
+	const showHotspots = (name) => {
 		if (!scene) return;
-		if (scene.getMeshByName(`hotspotMesh`) != null) {
-			scene.getMeshByName(`hotspotMesh`).setEnabled(false);
-		}
 		const texture = scene.getTextureByName('myUI');
-		for (var i = 0; i <= 30; i++) {
-			const currMesh = scene.getMeshByName(`usecase-${i}-fake-mesh`);
-			const currContainer = texture.getControlByName(`usecase-${i}-container`);
-			if (!currMesh || !currContainer) continue;
-			currMesh.setEnabled(show);
-			currContainer.isVisible = show;
-		}
+		const names = ["usecase", "tradeShows"];
+
+		names.forEach((curr) => {
+			const enable = curr == name;
+			for (var i = 0; i <= 30; i++) {
+				const currMesh = scene.getMeshByName(`${curr}-${i}-fake-mesh`);
+				const currContainer = texture.getControlByName(`${curr}-${i}-container`);
+				if (!currMesh || !currContainer) continue;
+				currMesh.setEnabled(enable);
+				currContainer.isVisible = enable;
+			}
+		});
 	}
 
 	const resetCamera = () => {
@@ -93,14 +95,46 @@ function HomeComponent() {
 		const cam3 = scene.getCameraByName('camera-3');
 		const canvas = document.getElementsByClassName("main-canvas")[0];
 
-		scene.activeCamera.computeWorldMatrix();
-		cam3.position.copyFrom(scene.activeCamera.position);
-		cam3.setTarget(scene.activeCamera.target.clone());
-		arcRotateCamera.restoreState();
-		arcRotateCamera.computeWorldMatrix();
-		scene.activeCamera = cam3;
-
-		spiralAnimation(scene, scene.activeCamera.target, scene.activeCamera.position, arcRotateCamera.position, 1000, 1, rotateToTarget, scene, arcRotateCamera.target, cam3, .4, (arcRotateCamera, canvas) => { scene.activeCamera = arcRotateCamera; arcRotateCamera.attachControl(canvas, true); setResetting(false); }, arcRotateCamera, canvas);
+		if (scene.getMeshByName('tradeshow').isEnabled()) {
+			const crCamera = scene.getCameraByName('cr-camera');
+			showHotspots("");
+			scene.activeCamera = crCamera;
+			const timeline = gsap.timeline();
+			timeline.to(crCamera, {
+				radius: 300,
+				duration: 1.5,
+				ease: "power1.in",
+				onComplete: () => {
+					scene.getMeshByName('tradeshow').setEnabled(false);
+					scene.getMeshByName('factory-model').setEnabled(true);
+					const security = scene.getCameraByName('security-camera-3');
+					security.computeWorldMatrix();
+					const initTarget = security.target.clone();
+					const initPosition = security.position.clone();
+					cam3.position.copyFrom(initPosition);
+					cam3.setTarget(initTarget);
+					arcRotateCamera.restoreState();
+					arcRotateCamera.computeWorldMatrix();
+					scene.activeCamera = cam3;
+					crCamera.dispose();
+					showHotspots("usecase");
+					spiralAnimation(scene, initTarget, initPosition, arcRotateCamera.position, 1000, 1, rotateToTarget, scene, arcRotateCamera.target, cam3, .4, (arcRotateCamera, canvas) => { arcRotateCamera.detachControl(); scene.activeCamera = arcRotateCamera; arcRotateCamera.attachControl(canvas, true); setResetting(false); }, arcRotateCamera, canvas);
+				}
+			});
+			timeline.play();
+		}
+		else {
+			scene.activeCamera.computeWorldMatrix();
+			const initTarget = scene.activeCamera.target.clone();
+			const initPosition = scene.activeCamera.position.clone();
+			cam3.position.copyFrom(initPosition);
+			cam3.setTarget(initTarget);
+			arcRotateCamera.restoreState();
+			arcRotateCamera.computeWorldMatrix();
+			scene.activeCamera = cam3;
+			showHotspots("usecase");
+			spiralAnimation(scene, initTarget, initPosition, arcRotateCamera.position, 1000, 1, rotateToTarget, scene, arcRotateCamera.target, cam3, .4, (arcRotateCamera, canvas) => { arcRotateCamera.detachControl(); scene.activeCamera = arcRotateCamera; arcRotateCamera.attachControl(canvas, true); setResetting(false); }, arcRotateCamera, canvas);
+		}
 	}
 
 	if (fetched) {

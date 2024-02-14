@@ -86,15 +86,15 @@ const SceneComponent = ({
 		camera.rotation = new Vector3(0.2797833944525906, -1.729744737715753, 0);
 
 		// This attaches the camera to the canvas
-		
+
 		scene.clearColor = new Color4(0, 0, 0, 0);
-		
+
 		// camera.attachControl(canvas, true);
-		arcRotateCamera.storeState() 
+		arcRotateCamera.storeState()
 		arcRotateCamera.attachControl(canvas, true);
-		
-		const movingCamera = new FreeCamera('camera-3', new Vector3(-4,0,0), scene);
-		movingCamera.position.copyFrom(new Vector3(30,30,50));
+
+		const movingCamera = new FreeCamera('camera-3', new Vector3(-4, 0, 0), scene);
+		movingCamera.position.copyFrom(new Vector3(30, 30, 50));
 		movingCamera.setTarget(arcRotateCamera.target.clone());
 		scene.activeCamera = movingCamera;
 	};
@@ -149,14 +149,23 @@ const SceneComponent = ({
 		engine.runRenderLoop(() => {
 			if (typeof onRender === 'function') onRender(scene);
 
-			for(var id = 0; id < 30; id++) {
-				if(scene.getMeshByName(`usecase-${id}-fake-mesh`) != null && scene.activeCamera != null) {
-					var coordinates = scene.activeCamera.position;
-					var distance = Vector3.Distance(scene.getMeshByName(`usecase-${id}-fake-mesh`).position, coordinates);
-					var scalingFactor = 0.015 * distance;
-					scene.getMeshByName(`usecase-${id}-fake-mesh`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
+			const names = ["usecase", "tradeShows"];
+			names.forEach((curr) => {
+				for (var id = 0; id < 30; id++) {
+					if (scene.getMeshByName(`${curr}-${id}-fake-mesh`) != null && scene.activeCamera != null) {
+						var coordinates = scene.activeCamera.position;
+						var distance = Vector3.Distance(scene.getMeshByName(`${curr}-${id}-fake-mesh`).position, coordinates);
+						var scalingFactor = 0.015 * distance;
+						scene.getMeshByName(`${curr}-${id}-fake-mesh`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
+					}
+					if (scene.getMeshByName(`${curr}-${id}-container`) != null && scene.activeCamera != null) {
+						var coordinates = scene.activeCamera.position;
+						var distance = Vector3.Distance(scene.getMeshByName(`${curr}-${id}-container`).position, coordinates);
+						var scalingFactor = 0.015 * distance;
+						scene.getMeshByName(`${curr}-${id}-container`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
+					}
 				}
-			}
+			});
 			scene.render();
 		});
 
@@ -177,25 +186,25 @@ const SceneComponent = ({
 		};
 	}, [antialias, engineOptions, adaptToDeviceRatio, sceneOptions, onRender, onSceneReady]);
 
-// 	let zoomCounter = 0;
+	// 	let zoomCounter = 0;
 
-// 	function handleMouseWheel(event) {
-//     if (event.deltaY > 0) {
-//         zoomCounter++;
-//         if (zoomCounter === 3) {
-//               const arc = scene.getCameraByName('camera-2');
-// 							arc.position.z +=1 ;
-//         }
-//     } else {
-// 			const arc = scene.getCameraByName('camera-2');
-// 			arc.position.z +=1 ;
-//     }
-// 	}
-// // Add an event listener to listen for mouse wheel events
-// document.addEventListener('wheel', handleMouseWheel);
+	// 	function handleMouseWheel(event) {
+	//     if (event.deltaY > 0) {
+	//         zoomCounter++;
+	//         if (zoomCounter === 3) {
+	//               const arc = scene.getCameraByName('camera-2');
+	// 							arc.position.z +=1 ;
+	//         }
+	//     } else {
+	// 			const arc = scene.getCameraByName('camera-2');
+	// 			arc.position.z +=1 ;
+	//     }
+	// 	}
+	// // Add an event listener to listen for mouse wheel events
+	// document.addEventListener('wheel', handleMouseWheel);
 
 
-	return <canvas ref={reactCanvas} {...rest} id={styles.renderCanvas} className='main-canvas' style={{visibility: isLoading ?'hidden': 'visible'}} />;
+	return <canvas ref={reactCanvas} {...rest} id={styles.renderCanvas} className='main-canvas' style={{ visibility: isLoading ? 'hidden' : 'visible' }} />;
 };
 
 export default SceneComponent;

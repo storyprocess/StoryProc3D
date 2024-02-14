@@ -18,6 +18,7 @@ import styles from '../utils/styles/Home.module.css';
 import sections from '../data/sections.json';
 import { gsap } from 'gsap';
 import usecases from '../data/usecases.json';
+import tradeHotspots from '../data/tradeshow.json';
 // Adds the default support for glTF file format
 import '@babylonjs/loaders';
 import '@babylonjs/core/Debug/debugLayer'; // Augments the scene with the debug methods
@@ -30,7 +31,8 @@ import { BaseAPI, ApplicationDB, assetsLocation, packageApp } from '../assets/as
 import { spiralAnimation, rotateToTarget, linearAnimation } from '../utils/libraries/CameraUtils';
 import {
 	mainModel,
-	Marker
+	Marker,
+	tradeshow
 } from '../models';
 import { set } from 'react-ga';
 import Welcome from '../utils/libraries/Welcome';
@@ -57,6 +59,7 @@ const Home = (props) => {
 	const [currentZoomedSection, setCurrentZoomedSection] = useGlobalState("currentZoomedSection");
 	const [applicationDB, setApplicationDB] = useGlobalState("ApplicationDB");
 	const [useCaseNumber, setUseCaseNumber] = useGlobalState("useCase");
+	const [subModelsLoading, setSubModelsLoading] = useState(false);
 
 	let WelcomeData = [
 		"Do you sell enterprise solutions to cross-functional teams in client offices like this?",
@@ -66,19 +69,19 @@ const Home = (props) => {
 		"Explore use cases in context, such as your client office above",
 		"Let’s see your sales in action in a client’s office",
 	];
-		
-		let WelcomeData1 = [
+
+	let WelcomeData1 = [
 		"Learn how you can use 3D immersive experiences (like this one) to showcase and sell your solutions.",
 		"See the big picture. See the interconnections. Deep-dive. Watch it, hear it, read it.",
 		"All of the information and stories are organized and accessible from the menu.",
 		"Hit 'Reset' anytime to stop any running story and come back to the top level view.",
 		"Select any use case to get a complete overview of the use case, its significance, and the solutions available to you.",
-		"You can stop the tour anytime you like using the 'stop tour' button on the bottom right.", 
-		];
-		
+		"You can stop the tour anytime you like using the 'stop tour' button on the bottom right.",
+	];
+
 	const handleTourStart = () => {
-		showHotspots(scene, true);
-		spiralAnimation(scene, new Vector3(-0.762211, 2, 3.51571), scene.getCameraByName('camera-2').position, new Vector3(0.851, 2, 5.982), 1000, 1, (s) => {startAnimations(s)}, scene);
+		showHotspots(scene, "usecase");
+		spiralAnimation(scene, new Vector3(-0.762211, 2, 3.51571), scene.getCameraByName('camera-2').position, new Vector3(0.851, 2, 5.982), 1000, 1, (s) => { startAnimations(s) }, scene);
 	};
 
 	useEffect(() => {
@@ -93,12 +96,18 @@ const Home = (props) => {
 		// Load meshes
 
 		// 1 - load factory model first
-		setIsTitle(true) 
+		setIsTitle(true)
 		const factoryModel = await SceneLoader.ImportMeshAsync('', mainModel, '', scene);
 		factoryModel.meshes[0].name = 'factory-model';
-
 		setIsLoading(false);
 		createUCGUI(scene);
+		// scene.getMeshByName('factory-model').setEnabled(false);
+
+		// setSubModelsLoading(true);
+		const Tradeshow = await SceneLoader.ImportMeshAsync('', tradeshow, '', scene);
+		Tradeshow.meshes[0].name = 'tradeshow';
+		scene.getMeshByName('tradeshow').setEnabled(false);
+		// setSubModelsLoading(false);
 		setIsTitle(false);
 	};
 
@@ -106,18 +115,23 @@ const Home = (props) => {
 
 		const advancedTexture = scene.getTextureByName('myUI');
 		usecases.forEach((usecase) => {
-			createUC(usecase, scene, advancedTexture);
+			createUC(usecase, scene, advancedTexture, 'usecase');
 		});
+		tradeHotspots.forEach((usecase) => {
+			createUC(usecase, scene, advancedTexture, 'tradeShows');
+		});
+
+
 	};
 
-	let clientXPosition=0;
-	let clientYPosition=0;
+	let clientXPosition = 0;
+	let clientYPosition = 0;
 
-	const createUC = async (usecase, scene, texture) => {
+	const createUC = async (usecase, scene, texture, name = "usecase") => {
 
 		const hotspotGlb = await SceneLoader.ImportMeshAsync('', Marker);
 		const fakeMesh = hotspotGlb.meshes[0];
-		fakeMesh.name = `usecase-${usecase.id}-fake-mesh`;
+		fakeMesh.name = `${name}-${usecase.id}-fake-mesh`;
 
 		fakeMesh.position = new Vector3(usecase.position.x, usecase.position.y, usecase.position.z);
 		fakeMesh.billboardMode = 7;
@@ -125,7 +139,7 @@ const Home = (props) => {
 
 		const hotspotLabelIndex = props.extraData.findIndex((element) => element.use_case_id === usecase.id);
 
-		const container = new Rectangle(`usecase-${usecase.id}-container`);
+		const container = new Rectangle(`${name}-${usecase.id}-container`);
 
 		container.width = '30px';
 		container.height = '30px';
@@ -137,20 +151,20 @@ const Home = (props) => {
 		texture.addControl(container);
 		container.linkWithMesh(fakeMesh);
 
-		container.isVisible = true;
-		
-			let MouseXPosition=0
-			let MouseYPosition=0
+		container.isVisible = false;
 
-			document.addEventListener("mousemove", function (event) {
-				MouseXPosition = event.clientX;
-				MouseYPosition = event.clientY;
-				if(MouseXPosition > clientXPosition + width*0.17 || MouseXPosition < clientXPosition-width*0.02 || MouseYPosition < clientYPosition - height*0.17 || MouseYPosition > clientYPosition + height*0.02){
-					clientXPosition = -20;
-					clientYPosition = -20;
-					setGlobalState("HoverId",0);
-				}
-			});
+		let MouseXPosition = 0
+		let MouseYPosition = 0
+
+		document.addEventListener("mousemove", function (event) {
+			MouseXPosition = event.clientX;
+			MouseYPosition = event.clientY;
+			if (MouseXPosition > clientXPosition + width * 0.17 || MouseXPosition < clientXPosition - width * 0.02 || MouseYPosition < clientYPosition - height * 0.17 || MouseYPosition > clientYPosition + height * 0.02) {
+				clientXPosition = -20;
+				clientYPosition = -20;
+				setGlobalState("HoverId", 0);
+			}
+		});
 
 		container.onPointerEnterObservable.add(() => {
 			setGlobalState("HoverLabel", props.extraData[hotspotLabelIndex].short_label);
@@ -167,7 +181,7 @@ const Home = (props) => {
 			setGlobalState("clientXPosition1", pos.x);
 			setGlobalState("clientYPosition1", pos.y);
 		});
-		
+
 		container.onPointerMoveObservable.add(() => {
 			setGlobalState("HoverLabel", props.extraData[hotspotLabelIndex].short_label);
 			setGlobalState("HoverId", usecase.id);
@@ -213,7 +227,7 @@ const Home = (props) => {
 		fakeMesh.position = new Vector3(section.position.x, section.position.y, section.position.z);
 		fakeMesh.material = new StandardMaterial('hotspot-material', scene);
 		fakeMesh.isVisible = false;
-		
+
 		const model = scene.getMeshByName('factory-model');
 
 		const securityCamera = new ArcRotateCamera(
@@ -228,7 +242,7 @@ const Home = (props) => {
 		// disable panning for security camera
 
 		securityCamera.panningSensibility = 0;
-		securityCamera.setPosition(new Vector3 (section.cameraPosition.x, section.cameraPosition.y, section.cameraPosition.z));
+		securityCamera.setPosition(new Vector3(section.cameraPosition.x, section.cameraPosition.y, section.cameraPosition.z));
 		// securityCamera.lowerBetaLimit = 1.2;
 		// securityCamera.upperBetaLimit = 1.2;
 
@@ -255,30 +269,30 @@ const Home = (props) => {
 		// // disable camera up and down movements
 	};
 
-	useEffect(()=>{
+	useEffect(() => {
 		clientXPosition = -20
 		clientYPosition = -20
-		if(currentZoomedSection > 0){
+		if (currentZoomedSection > 0) {
 			zoomInToSection(currentZoomedSection, useCaseNumber !== 0 ? -2 : 0);
 		}
-	},[currentZoomedSection])
+	}, [currentZoomedSection])
 
-	const zoomInToSection =(i, offset = 0)=>{
+	const zoomInToSection = (i, offset = 0) => {
 		// let section = sections[i]
 		let id = -1;
 		let useCase = null;
 		usecases.forEach((uc) => {
-			if(uc.id == i) {
-				useCase = uc;	
+			if (uc.id == i) {
+				useCase = uc;
 				id = uc.section;
 			}
 		});
 		let section = null;
 		sections.forEach((sect) => {
-			if(sect.id == id) section = sect;
+			if (sect.id == id) section = sect;
 		});
 
-		if(id == -1 || section == null) {
+		if (id == -1 || section == null) {
 			return;
 		}
 
@@ -287,45 +301,101 @@ const Home = (props) => {
 		const securityCamera = scene.getCameraByName(`security-camera-${id}`);
 
 		const finalTarget = new Vector3(useCase.position.x + offset, useCase.position.y, useCase.position.z);
-		const finalPosition = new Vector3 (section.cameraPosition.x, section.cameraPosition.y, section.cameraPosition.z);
+		const finalPosition = new Vector3(section.cameraPosition.x, section.cameraPosition.y, section.cameraPosition.z);
 		movingCamera.position.copyFrom(scene.activeCamera.position);
 		movingCamera.setTarget(scene.activeCamera.target.clone());
 		scene.activeCamera = movingCamera;
 
-		const func = (movingCamera, securityCamera, canvas) => {
+		const func = async (movingCamera, securityCamera, canvas) => {
 			movingCamera.lockedTarget = null;
-			securityCamera.setTarget(finalTarget);
-			securityCamera.setPosition(finalPosition);
-			securityCamera.lowerRadiusLimit = 5;
-			securityCamera.upperRadiusLimit = 15;
-			scene.activeCamera = securityCamera;
-			securityCamera.detachControl(canvas);
-			securityCamera.attachControl(canvas, true);
 
-			setCurrentZoomedSection(0);
+			if (i == 6) {
+				setSubModelsLoading(true);
+				const crCamera = new ArcRotateCamera(
+					`cr-camera`,
+					1.57,
+					1.2,
+					300,
+					new Vector3(-2.98, 1, 5.35),
+					scene
+				);
+				scene.activeCamera = crCamera;
+				crCamera.detachControl(canvas);
+				crCamera.attachControl(canvas, true);
+
+				crCamera.inputs.addMouseWheel();
+				// arcRotateCamera.inputs.addPointers();
+				crCamera.wheelPrecision = 20;
+
+				scene.getMeshByName('factory-model').setEnabled(false);
+				showHotspots(scene, "");
+				await scene.getMeshByName('tradeshow').setEnabled(true);
+
+				const timeline = gsap.timeline();
+				timeline.to(crCamera, {
+					radius: 300,
+					duration: 1,
+					ease: "power1.out",
+					onComplete: () => {
+						setSubModelsLoading(false);
+					}
+				}).to(crCamera, {
+					radius: 13,
+					duration: 0.5,
+					ease: "power1.out",
+				}).to(crCamera, {
+					alpha: -4,
+					duration: 1.5,
+					ease: "power1.out",
+					onComplete: () => {
+						showHotspots(scene, "tradeShows");
+					}
+				});
+
+				setCurrentZoomedSection(0);
+				setGlobalState("HoverId", 0);
+
+			}
+			else {
+				securityCamera.setTarget(finalTarget);
+				securityCamera.setPosition(finalPosition);
+				securityCamera.lowerRadiusLimit = 5;
+				securityCamera.upperRadiusLimit = 15;
+				scene.activeCamera = securityCamera;
+				securityCamera.detachControl(canvas);
+				securityCamera.attachControl(canvas, true);
+				setCurrentZoomedSection(0);
+			}
 		};
+
 
 		rotateToTarget(scene, finalTarget, movingCamera, .4, linearAnimation, scene, finalTarget, movingCamera.position, finalPosition, 1, func, movingCamera, securityCamera, canvas);
 		setGlobalState("HoverId", 0);
 	}
 
-	const showHotspots = (scene,show) => {
-		if(!scene) return;
+	const showHotspots = (scene, name) => {
+		if (!scene) return;
 		const texture = scene.getTextureByName('myUI');
-		for(var i = 0; i <= 30; i++) {
-			const currMesh = scene.getMeshByName(`usecase-${i}-fake-mesh`);
-			const currContainer = texture.getControlByName(`usecase-${i}-container`);
-			if(!currMesh || !currContainer) continue;
-			currMesh.setEnabled(show);
-			currContainer.isVisible = show;
-		}
+		// const names = ["usecase", "commonroom"];
+		const names = ["usecase", "tradeShows"];
+
+		names.forEach((curr) => {
+			const enable = curr == name;
+			for (var i = 0; i <= 30; i++) {
+				const currMesh = scene.getMeshByName(`${curr}-${i}-fake-mesh`);
+				const currContainer = texture.getControlByName(`${curr}-${i}-container`);
+				if (!currMesh || !currContainer) continue;
+				currMesh.setEnabled(enable);
+				currContainer.isVisible = enable;
+			}
+		});
 	}
 
 	const onSceneReady = useCallback(async (s) => {
 		loadModels(s);
 		createSectionsGUI(s);
 
-		setGlobalState("scene",s);
+		setGlobalState("scene", s);
 		setScene(() => s);
 	}, [props.extraData]);
 
@@ -347,24 +417,24 @@ const Home = (props) => {
 			const securityCamera = scene.getCameraByName(`security-camera-${section.id}`);
 			securityCamera.detachControl();
 
-		section.infos.forEach((usecaseId) => {
-			const cnt = advancedTexture.getControlByName(`usecase-${usecaseId}-container`);
-			if(cnt != null) {
-				cnt.width = '30px';
-				cnt.height = '30px';
-				cnt.cornerRadius = 30;
+			section.infos.forEach((usecaseId) => {
+				const cnt = advancedTexture.getControlByName(`usecase-${usecaseId}-container`);
+				if (cnt != null) {
+					cnt.width = '30px';
+					cnt.height = '30px';
+					cnt.cornerRadius = 30;
 
-				if(cnt.children.length > 0)
-					cnt.children[0].fontSize = 12;
-			}
+					if (cnt.children.length > 0)
+						cnt.children[0].fontSize = 12;
+				}
+			});
+
+
 		});
-
-
-	});
 		window.dispatchEvent(new Event('onCloseTour'));
 		moveCameraOnClose(arcRotateCamera);
-		
-		
+
+
 	};
 
 	useEffect(() => {
@@ -404,27 +474,28 @@ const Home = (props) => {
 				cam3.position.copyFrom(cam2.position);
 				cam3.lockedTarget = null;
 				cam3.setTarget(target);
-				showHotspots(scene,true);
+				showHotspots(scene, "usecase");
+				console.log("HOTSPOTS ENABLED");
 			}
 		});
 		timeline.play();
-		
+
 		return;
 	};
 
 	/**
 	 * Will run on every frame render.  We are spinning the box on y-axis.
 	 */
-	useEffect(()=>{
-	if (!isLoading && !isWelcome) {
-		// setIsLoading(false);
-		setGlobalState('IsLoading', false);
-		initialAnimation();
-	}
-	},[isLoading,isWelcome])
+	useEffect(() => {
+		if (!isLoading && !isWelcome) {
+			// setIsLoading(false);
+			setGlobalState('IsLoading', false);
+			initialAnimation();
+		}
+	}, [isLoading, isWelcome])
 
 	const handleNext = () => {
-		if(count === 5){
+		if (count === 5) {
 			setIsWelcome(false)
 			setIsLoading(false);
 			setGlobalState('IsLoading', false);
@@ -434,78 +505,78 @@ const Home = (props) => {
 			}, 2000);
 		}
 		setCount(count + 1);
-	  };
-	  const handlePrev = () => {
+	};
+	const handlePrev = () => {
 		setCount(count - 1);
-	  };
-	  const handleSkip = () => {
+	};
+	const handleSkip = () => {
 		setIsWelcome(false)
 		// setIsLoading(false);
 		// setGlobalState('IsLoading', false);
-	  };
-	  function isImage(url) {
+	};
+	function isImage(url) {
 		return /\.(jpg|JPG|jpeg|png|webp|avif|gif|svg)$/.test(url);
-	  }
-	  function getExtension(filename) {
+	}
+	function getExtension(filename) {
 		var parts = filename.split('.');
 		return parts[parts.length - 1];
-	  }
-	  function isVideo(filename) {
+	}
+	function isVideo(filename) {
 		var ext = getExtension(filename);
 		switch (ext.toLowerCase()) {
-		  case 'mp4':
-			// etc
-			return true;
+			case 'mp4':
+				// etc
+				return true;
 		}
 		return false;
-	  }
+	}
 
 	return (
-    <div className={styles.app__container}>
-      {count >= 0 && isWelcome && (
-        <Welcome WelcomeData={WelcomeData} WelcomeData1={WelcomeData1} count={count} handleSkip={handleSkip} handleNext={handleNext} />
-      )}
-      {(isLoading || isWelcome) && <Spinner isWelcome={isWelcome} isLoading={isLoading}/>}
+		<div className={styles.app__container}>
+			{count >= 0 && isWelcome && (
+				<Welcome WelcomeData={WelcomeData} WelcomeData1={WelcomeData1} count={count} handleSkip={handleSkip} handleNext={handleNext} />
+			)}
+			{(isLoading || subModelsLoading || isWelcome) && <Spinner isWelcome={isWelcome} isLoading={isLoading} subModelsLoading={subModelsLoading} />}
 
-      {uCTourId > 0 ? (
-        <div className={styles.hover_des_container}>
-          <div className={styles.hover_des}>
-            {sectionData &&
-              sectionData.map((item, index) => {
-                return (
-                  <>
-                    {item.seq === uCTourId ? (
-                      <div className="Tour-box-wrap" key={index}>
-                        <div className="Tour-box-title">{item.short_label}</div>
-                        <div className="Tour-box-content">
-                          <div key={index}>
-                            <div className="content-description">
-                              {item.long_desc}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ) : null}
-                  </>
-                );
-              })}
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
-      <SceneComponent antialias onSceneReady={onSceneReady} isLoading={isLoading} />
-      <div className={styles.close__button__container}>
-        <button
-          id="close-btn"
-          className={`${styles.close__button}`}
-          onClick={handleMoveCameraOnClose}
-        >
-          X
-        </button>
-      </div>
-    </div>
-  );
+			{uCTourId > 0 ? (
+				<div className={styles.hover_des_container}>
+					<div className={styles.hover_des}>
+						{sectionData &&
+							sectionData.map((item, index) => {
+								return (
+									<>
+										{item.seq === uCTourId ? (
+											<div className="Tour-box-wrap" key={index}>
+												<div className="Tour-box-title">{item.short_label}</div>
+												<div className="Tour-box-content">
+													<div key={index}>
+														<div className="content-description">
+															{item.long_desc}
+														</div>
+													</div>
+												</div>
+											</div>
+										) : null}
+									</>
+								);
+							})}
+					</div>
+				</div>
+			) : (
+				""
+			)}
+			<SceneComponent antialias onSceneReady={onSceneReady} isLoading={isLoading || subModelsLoading} />
+			<div className={styles.close__button__container}>
+				<button
+					id="close-btn"
+					className={`${styles.close__button}`}
+					onClick={handleMoveCameraOnClose}
+				>
+					X
+				</button>
+			</div>
+		</div>
+	);
 };
 
 export default Home;
