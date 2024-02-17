@@ -322,12 +322,16 @@ const Home = (props) => {
         scene.activeCamera = crCamera;
         crCamera.detachControl(canvas);
         crCamera.attachControl(canvas, true);
-
+        crCamera.angularSensibilityX = 5000;
+        crCamera.angularSensibilityY = 5000;
         crCamera.inputs.addMouseWheel();
         // arcRotateCamera.inputs.addPointers();
         crCamera.wheelPrecision = 20;
 
         scene.getMeshByName('factory-model').setEnabled(false);
+        while (!scene.getMeshByName('tradeshow')) {
+
+        }
         showHotspots(scene, "");
         await scene.getMeshByName('tradeshow').setEnabled(true);
 
@@ -340,17 +344,18 @@ const Home = (props) => {
             setSubModelsLoading(false);
           }
         }).to(crCamera, {
-          radius: 13,
+          radius: 28,
           duration: 0.5,
           ease: "power1.out",
         }).to(crCamera, {
-          alpha: -4,
-          duration: 1.5,
+          alpha: -3.85,
+          duration: 3,
           ease: "power1.out",
           onComplete: () => {
             showHotspots(scene, "tradeShows");
           }
         });
+        timeline.play();
 
         setCurrentZoomedSection(0);
         setGlobalState("HoverId", 0);
