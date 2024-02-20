@@ -84,7 +84,7 @@ const MainPage = (props) => {
   // Set screen to initial state
   const resetScreen = () => {
     setGlobalState("IsBackgroundBlur", false);
-    setGlobalState("IsButtonContainer", true);
+    // setGlobalState("IsButtonContainer", true);
     setTourState(false);
     setSelectedButton(null);
     setShowCardContainer(false);

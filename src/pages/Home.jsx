@@ -104,9 +104,11 @@ const Home = (props) => {
     // scene.getMeshByName('factory-model').setEnabled(false);
 
     // setSubModelsLoading(true);
-    const Tradeshow = await SceneLoader.ImportMeshAsync('', tradeshow, '', scene);
-    Tradeshow.meshes[0].name = 'tradeshow';
-    scene.getMeshByName('tradeshow').setEnabled(false);
+		const timer = setTimeout(async () => {
+			const Tradeshow = await SceneLoader.ImportMeshAsync('', tradeshow, '', scene);
+			Tradeshow.meshes[0].name = 'tradeshow';
+			scene.getMeshByName('tradeshow').setEnabled(false);
+		}, 5000);
     // setSubModelsLoading(false);
     setIsTitle(false);
   };

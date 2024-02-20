@@ -73,7 +73,13 @@
       "package.json"
     ],
 		"win": {
-			"icon": "./public/companyLogo.ico"
+			"icon": "./public/companyLogo.ico",
+			"target": "nsis",
+			"compression": "maximum"
+		},
+		"nsis": {
+			"oneClick": false,
+			"allowToChangeInstallationDirectory": true
 		},
     "directories": {
       "buildResources": "assets"
