@@ -16,6 +16,7 @@ import {
 import { setTourState } from "../hooks/animations";
 import useAnalyticsEventTracker from "./useAnalyticsEventTracker";
 import { CSSTransition } from "react-transition-group";
+import { initialize } from "react-ga";
 
 const MainPage = (props) => {
   const location = useLocation();
@@ -144,6 +145,7 @@ const MainPage = (props) => {
   }, [toPress]);
 
   const handlePlayStory = () => {
+    // ga
     if (HoverId > 0) {
       setGlobalState("HoverUseCaseId", HoverId);
     }

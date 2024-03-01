@@ -1,9 +1,15 @@
 import { gsap } from "gsap";
-import { Vector3 } from "@babylonjs/core";
+import { Scene, Vector3 } from "@babylonjs/core";
 import { Howl } from "howler";
 import { setGlobalState, useGlobalState } from "../utils/state";
 import { ApplicationDB, assetsLocation, packageApp } from "../assets/assetsLocation";
 import { rotateToTarget, spiralAnimation } from "../utils/libraries/CameraUtils";
+import { ArcRotateCamera } from "@babylonjs/core";
+import { InitializeGoogleAnalytics, TrackGoogleAnalyticsTiming } from "../utils/libraries/googleanalytics.tsx";
+import usecases from '../data/usecases.json';
+import styles from '../utils/styles/Home.module.css';
+
+let startTime;
 
 let IsTourOpen = true
 const setTourState = (onOff) => {
@@ -54,8 +60,8 @@ const lookAt = (xCoordinate, yCoordinate, zCoordinate, cameraX, cameraY, cameraZ
 	// Calculate the alpha angle (rotation around the vertical axis)
 	let alpha = Math.atan2(direction.x, direction.z);
 	let rotation = alpha - cameraY;
-	if (Math.abs(rotation) > Math.abs(rotation - 2*Math.PI)) rotation = rotation - 2*Math.PI;
-	if (Math.abs(rotation) > Math.abs(rotation + 2*Math.PI)) rotation = rotation + 2*Math.PI;
+	if (Math.abs(rotation) > Math.abs(rotation - 2 * Math.PI)) rotation = rotation - 2 * Math.PI;
+	if (Math.abs(rotation) > Math.abs(rotation + 2 * Math.PI)) rotation = rotation + 2 * Math.PI;
 	alpha = rotation + cameraY;
 
 	// Calculate the beta angle (elevation from the horizontal plane)
@@ -87,7 +93,7 @@ const moveFirstTarget = (camera) => {
 		})
 		.to(camera.rotation, {
 			x: 0,
-			y: lookAt(6.9717, 2, -8.29712, 6.85724, 2, -0.614593).alpha - 2*Math.PI,
+			y: lookAt(6.9717, 2, -8.29712, 6.85724, 2, -0.614593).alpha - 2 * Math.PI,
 			duration: 0.4,
 			onComplete: () => {
 				if (IsTourOpen) {
@@ -123,7 +129,7 @@ const moveSecondTarget = (camera) => {
 		})
 		.to(camera.rotation, {
 			x: 0,
-			y: lookAt(-1.59544, 2, -3.14136, -3.42844, 2, 4.21576).alpha - 2*Math.PI,
+			y: lookAt(-1.59544, 2, -3.14136, -3.42844, 2, 4.21576).alpha - 2 * Math.PI,
 			duration: 0.4,
 			onComplete: () => {
 				if (IsTourOpen) {
@@ -156,7 +162,7 @@ const moveThirdTarget = (camera) => {
 	timeline.to(
 		camera.rotation, {
 		x: 0,
-		y: lookAt(-4.18857, 2, -3.21763, -3.42844, 2, 4.21576).alpha - 2*Math.PI,
+		y: lookAt(-4.18857, 2, -3.21763, -3.42844, 2, 4.21576).alpha - 2 * Math.PI,
 		duration: 0.4,
 		onComplete: () => {
 			if (IsTourOpen) {
@@ -185,7 +191,7 @@ const moveFourthTarget = (camera) => {
 
 	timeline.to(camera.rotation, {
 		x: 0,
-		y: lookAt(-6.39782, 2, -1.28294, -3.42844, 2, 4.21576).alpha - 2*Math.PI,
+		y: lookAt(-6.39782, 2, -1.28294, -3.42844, 2, 4.21576).alpha - 2 * Math.PI,
 		duration: 0.8,
 		onComplete: () => {
 			if (IsTourOpen) {
@@ -240,6 +246,24 @@ const moveFifthTarget = (camera) => {
 
 };
 
+const showHotspots = (scene, name) => {
+	if (!scene) return;
+	const texture = scene.getTextureByName('myUI');
+	// const names = ["usecase", "commonroom"];
+	const names = ["usecase", "tradeShows"];
+
+	names.forEach((curr) => {
+		const enable = curr == name;
+		for (var i = 0; i <= 30; i++) {
+			const currMesh = scene.getMeshByName(`${curr}-${i}-fake-mesh`);
+			const currContainer = texture.getControlByName(`${curr}-${i}-container`);
+			if (!currMesh || !currContainer) continue;
+			currMesh.setEnabled(enable);
+			currContainer.isVisible = enable;
+		}
+	});
+}
+
 const moveSixthTarget = (camera) => {
 	const sound = new Howl({
 		src: !packageApp ? `${assetsLocation}${ApplicationDB}/audio/intros/6.mp3` : `../../${ApplicationDB}/audio/intros/6.mp3`,
@@ -248,44 +272,97 @@ const moveSixthTarget = (camera) => {
 
 	})
 	const timeline = gsap.timeline();
-	gsap.globalTimeline.add(timeline)
+	gsap.globalTimeline.add(timeline);
 
-	timeline.to(camera.position, {
-		x: -22.5449,
-		y: 2,
-		z: 5.18109,
-		duration: 1,
-	})
-		.to(camera.rotation, {
-			x: 0,
-			y: lookAt(-22.8226, 2, 2.02661, -22.5449, 2, 5.18109).alpha - 2*Math.PI,
-			duration: 0.4,
-			onComplete: () => {
-				if (IsTourOpen) {
-					sound.play()
-					setGlobalState("UCTourId", 6);
-					callNextTarget(camera, moveToOuterCamera, sound)
-				}
+	const scene = camera.getScene();
+
+	timeline.to(camera.rotation, {
+		x: 0,
+		y: lookAt(-2.98, 1, 5.35, -3.18, 1, 5.35).alpha - 2 * Math.PI,
+		duration: 0.4,
+		onComplete: async () => {
+			const crCamera = new ArcRotateCamera(
+				`cr-camera`,
+				1.57,
+				1.2,
+				300,
+				new Vector3(-2.98, 1, 5.35),
+				scene
+			);
+			scene.activeCamera = crCamera;
+			scene.getMeshByName('factory-model').setEnabled(false);
+			while (!scene.getMeshByName('tradeshow')) {
+
 			}
-		});
+			showHotspots(scene, "");
+			await scene.getMeshByName('tradeshow').setEnabled(true);
 
-
-
+			const timeline = gsap.timeline();
+			timeline.to(crCamera, {
+				radius: 300,
+				duration: 1,
+				ease: "power1.out",
+				onComplete: () => {
+					// setSubModelsLoading(false);
+				}
+			}).to(crCamera, {
+				radius: 28,
+				duration: 0.5,
+				ease: "power1.out",
+			}).to(crCamera, {
+				alpha: -3.85 + Math.PI,
+				duration: 3,
+				ease: "power1.out",
+				onComplete: () => {
+					showHotspots(scene, "tradeShows");
+					if (IsTourOpen) {
+						sound.play()
+						setGlobalState("UCTourId", 6);
+						callNextTarget(camera, moveToOuterCamera, sound)
+					}
+				}
+			});
+			timeline.play();
+		}
+	});
 };
 
-const moveToOuterCamera = (camera) => {
+const moveToOuterCamera = async (camera) => {
 	setGlobalState("UCTourId", 0);
 	const scene = camera.getScene();
+	const timeline = gsap.timeline();
+	gsap.globalTimeline.add(timeline);
+
+	const crCamera = new ArcRotateCamera(
+		`cr-camera`,
+		1.57,
+		1.2,
+		300,
+		new Vector3(-2.98, 1, 5.35),
+		scene
+	);
+	scene.activeCamera = crCamera;
+	scene.getMeshByName('tradeshow').setEnabled(false);
+	while (!scene.getMeshByName('factory-model')) {
+	}
+	await scene.getMeshByName('factory-model').setEnabled(true);
 	const arcRotateCamera = scene.getCameraByName('camera-2');
 	const cam3 = scene.getCameraByName('camera-3');
 	const canvas = document.getElementsByClassName("main-canvas")[0];
-
+	await showHotspots(scene, "usecase");
+	Howler.stop()
 	scene.activeCamera.computeWorldMatrix();
 	cam3.position.copyFrom(scene.activeCamera.position);
 	cam3.setTarget(scene.activeCamera.target.clone());
 	arcRotateCamera.restoreState();
 	arcRotateCamera.computeWorldMatrix();
 	rotateToTarget(scene, arcRotateCamera.target, cam3, 0.4, spiralAnimation, scene, arcRotateCamera.target, cam3.position, arcRotateCamera.position, 1000, 1, (arcRotateCamera, canvas) => { scene.activeCamera = arcRotateCamera; arcRotateCamera.attachControl(canvas, true); enableCameraMovement(camera); setGlobalState("IsTourOpen", false); }, arcRotateCamera, canvas);
+
+	const endTime = performance.now();
+	// useEffect(() => {
+	InitializeGoogleAnalytics();
+	TrackGoogleAnalyticsTiming("Immersive Tour", "Tour Track", endTime - startTime, "Story Process 3D");
+	// }, []);
 }
 
 
@@ -385,13 +462,9 @@ const enableCameraMovement = (camera) => {
 	camera.inputs.addMouseWheel();
 	camera.inputs.addPointers();
 };
-
 const startAnimations = (scene) => {
-
-
-
 	const freeCam = scene.getCameraByName("camera-1");
-
+	startTime = performance.now();
 
 	freeCam.position = new Vector3(1.04175, 2, 5.73054);
 	// freeCam.setTarget(new Vector3(-80.13,2,-19.147));

@@ -5,10 +5,11 @@ import ReactGA from "react-ga4";
 import "./index.css"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-// ReactGA.initialize("G-6DD71Q9RNH");
-ReactGA.initialize("G-22MWCYHFSH");
+const TRACKING_ID = "G-728XS2G376"; // OUR_TRACKING_ID
+// const TRACKING_ID = "G-22MWCYHFSH"; // OUR_TRACKING_ID
+ReactGA.initialize(TRACKING_ID);
 root.render(
   // <React.StrictMode>
-    <App />
+  <App />
   // </React.StrictMode> 
 );

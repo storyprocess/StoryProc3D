@@ -10,7 +10,7 @@ import {
   Matrix,
   Viewport
 } from '@babylonjs/core';
-
+import { InitializeGoogleAnalytics, TrackGoogleAnalyticsTiming } from '../utils/libraries/googleanalytics.tsx';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import SceneComponent from '../component/SceneComponents';
 import Spinner from '../utils/libraries/Spinner';
@@ -84,10 +84,18 @@ const Home = (props) => {
     spiralAnimation(scene, new Vector3(-0.762211, 2, 3.51571), scene.getCameraByName('camera-2').position, new Vector3(0.851, 2, 5.982), 1000, 1, (s) => { startAnimations(s) }, scene);
   };
 
+  let startTime = 0, endTime = 0;
   useEffect(() => {
     if (isTourOpen) {
+      startTime = performance.now();
       handleTourStart();
     }
+    if (!isTourOpen) {
+      endTime = performance.now();
+      InitializeGoogleAnalytics();
+      TrackGoogleAnalyticsTiming("Immersive Tour", "Tour track", endTime - startTime, "Story Process 3D");
+    }
+
   }, [isTourOpen]);
 
   const loadModels = async (scene) => {
@@ -97,18 +105,33 @@ const Home = (props) => {
 
     // 1 - load factory model first
     setIsTitle(true)
+    // model load started
+    const startTime = performance.now(); // Record the start time
+
     const factoryModel = await SceneLoader.ImportMeshAsync('', mainModel, '', scene);
     factoryModel.meshes[0].name = 'factory-model';
+    const endTime = performance.now(); // records end time
+    // ga model load completed 
+    // useEffect(() => {
+    InitializeGoogleAnalytics();
+    TrackGoogleAnalyticsTiming("Model Loading", "Main Model", endTime - startTime, "Story Process 3D");
+    // }, []);
     setIsLoading(false);
     createUCGUI(scene);
     // scene.getMeshByName('factory-model').setEnabled(false);
 
     // setSubModelsLoading(true);
-		const timer = setTimeout(async () => {
-			const Tradeshow = await SceneLoader.ImportMeshAsync('', tradeshow, '', scene);
-			Tradeshow.meshes[0].name = 'tradeshow';
-			scene.getMeshByName('tradeshow').setEnabled(false);
-		}, 5000);
+    const timer = setTimeout(async () => {
+      const t_startTime = performance.now();
+      const Tradeshow = await SceneLoader.ImportMeshAsync('', tradeshow, '', scene);
+      Tradeshow.meshes[0].name = 'tradeshow';
+      const t_endTime = performance.now();
+      // useEffect(() => {
+      InitializeGoogleAnalytics();
+      TrackGoogleAnalyticsTiming("Model Loading", "Tradeshow Model", t_endTime - t_startTime, "Story Process 3D");
+      // }, []);
+      scene.getMeshByName('tradeshow').setEnabled(false);
+    }, 5000);
     // setSubModelsLoading(false);
     setIsTitle(false);
   };
