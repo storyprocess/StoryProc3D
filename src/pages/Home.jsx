@@ -8,9 +8,12 @@ import {
   ArcRotateCamera,
   DracoCompression,
   Matrix,
-  Viewport
+  Viewport,
+  Texture,
+  VideoTexture,
+  DynamicTexture
 } from '@babylonjs/core';
-import { InitializeGoogleAnalytics, TrackGoogleAnalyticsTiming } from '../utils/libraries/googleanalytics.tsx';
+import { InitializeGoogleAnalytics, TrackGoogleAnalyticsEvent, TrackGoogleAnalyticsTiming } from '../utils/libraries/googleanalytics.tsx';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import SceneComponent from '../component/SceneComponents';
 import Spinner from '../utils/libraries/Spinner';
@@ -36,6 +39,8 @@ import {
 } from '../models';
 import { set } from 'react-ga';
 import Welcome from '../utils/libraries/Welcome';
+import Logo from "../assets/Logo.png";
+import Video from "../assets/video.mp4";
 
 // Set the decoding configuration
 var dracoLoader = new DracoCompression();
@@ -93,6 +98,7 @@ const Home = (props) => {
     if (!isTourOpen) {
       endTime = performance.now();
       InitializeGoogleAnalytics();
+      TrackGoogleAnalyticsEvent((endTime - startTime).toString(), "Immersive Tour", "Story Process 3D Imm. Tour");
       TrackGoogleAnalyticsTiming("Immersive Tour", "Tour track", endTime - startTime, "Story Process 3D");
     }
 
@@ -112,9 +118,43 @@ const Home = (props) => {
     factoryModel.meshes[0].name = 'factory-model';
     const endTime = performance.now(); // records end time
     // ga model load completed 
+
+    // image
+
+    const imageTexture = new Texture(Logo, scene);
+    imageTexture.vScale = -1;
+    imageTexture.level = 1.2;
+    const tvScreenMaterial = new StandardMaterial("tvScreenMaterial", scene);
+    tvScreenMaterial.diffuseTexture = imageTexture; // Assign the dynamic texture
+
+    // video
+
+    // const videoTexture = new VideoTexture("Video", Video, scene, true);
+    // // Set the video to loop
+    // videoTexture.video.autoplay = true; // Ensure autoplay is enabled
+    // videoTexture.video.loop = true; // Set the loop property to true
+
+    // const tvScreenMaterial = new StandardMaterial("tvScreenMaterial", scene);
+    // tvScreenMaterial.diffuseTexture = videoTexture; // Assign the dynamic texture
+
+    // text
+
+    // const dynamicTexture = new DynamicTexture("customTextTexture", { width: 256, height: 128 }, scene);
+    // var font = "15px monospace";
+    // dynamicTexture.drawText("Story Process", 65, 35, font, "white", "black", false, true);
+    // const tvScreenMaterial = new StandardMaterial("tvScreenMaterial", scene);
+    // tvScreenMaterial.emissiveColor = new Color3(1, 1, 1);
+    // tvScreenMaterial.ambientColor = new Color3(1, 1, 1);
+    // tvScreenMaterial.diffuseTexture = dynamicTexture; // Assign the dynamic texture
+
+    const tvmesh = scene.getMeshByName("Cube.099_primitive1");
+    tvmesh.material = tvScreenMaterial;
+
     // useEffect(() => {
     InitializeGoogleAnalytics();
+    TrackGoogleAnalyticsEvent((endTime - startTime).toString(), "Main Model Loading", "Story Process 3D Main Model Load");
     TrackGoogleAnalyticsTiming("Model Loading", "Main Model", endTime - startTime, "Story Process 3D");
+
     // }, []);
     setIsLoading(false);
     createUCGUI(scene);
@@ -129,6 +169,8 @@ const Home = (props) => {
       // useEffect(() => {
       InitializeGoogleAnalytics();
       TrackGoogleAnalyticsTiming("Model Loading", "Tradeshow Model", t_endTime - t_startTime, "Story Process 3D");
+      TrackGoogleAnalyticsEvent((endTime - startTime).toString(), "Tradeshow Model Loading", "Story Process 3D Tradeshow Model Load");
+
       // }, []);
       scene.getMeshByName('tradeshow').setEnabled(false);
     }, 5000);
