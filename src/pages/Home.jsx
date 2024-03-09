@@ -8,7 +8,10 @@ import {
   ArcRotateCamera,
   DracoCompression,
   Matrix,
-  Viewport
+  Viewport,
+  DynamicTexture,
+  Texture,
+  Color3
 } from '@babylonjs/core';
 import { InitializeGoogleAnalytics, TrackGoogleAnalyticsTiming } from '../utils/libraries/googleanalytics.tsx';
 import useWindowDimensions from '../hooks/useWindowDimensions';
@@ -36,7 +39,8 @@ import {
 } from '../models';
 import { set } from 'react-ga';
 import Welcome from '../utils/libraries/Welcome';
-
+import { useLocation } from "react-router-dom";
+import Logo from "../assets/Logo.png"
 // Set the decoding configuration
 var dracoLoader = new DracoCompression();
 dracoLoader.decoder = {
@@ -60,6 +64,10 @@ const Home = (props) => {
   const [applicationDB, setApplicationDB] = useGlobalState("ApplicationDB");
   const [useCaseNumber, setUseCaseNumber] = useGlobalState("useCase");
   const [subModelsLoading, setSubModelsLoading] = useState(false);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const company = queryParams.get('company');
+  const presenter = queryParams.get('presenter');
 
   let WelcomeData = [
     "Do you sell enterprise solutions to cross-functional teams in client offices like this?",
@@ -112,6 +120,46 @@ const Home = (props) => {
     factoryModel.meshes[0].name = 'factory-model';
     const endTime = performance.now(); // records end time
     // ga model load completed 
+
+    // 
+    // image
+
+    const imageTexture = new Texture(Logo, scene);
+    imageTexture.vScale = -1;
+    imageTexture.level = 1.2;
+    const tvScreenMaterial = scene.getMaterialByName("Client Logo")
+    tvScreenMaterial.albedoTexture = imageTexture; // Assign the dynamic texture
+    tvScreenMaterial.opacityTexture = imageTexture; // Assign the dynamic texture
+
+    const imageTexture1 = new Texture(Logo, scene);
+    imageTexture1.vScale = -1;
+    imageTexture1.level = 1.2;
+    const tvScreenMaterial1 = scene.getMaterialByName("Company Logo 1")
+    tvScreenMaterial1.albedoTexture = imageTexture1; // Assign the dynamic texture
+    tvScreenMaterial1.opacityTexture = imageTexture1; // Assign the dynamic texture
+
+    // video
+
+    // const videoTexture = new VideoTexture("Video", Video, scene, true);
+    // // Set the video to loop
+    // videoTexture.video.autoplay = true; // Ensure autoplay is enabled
+    // videoTexture.video.loop = true; // Set the loop property to true
+
+    // const tvScreenMaterial = new StandardMaterial("tvScreenMaterial", scene);
+    // tvScreenMaterial.diffuseTexture = videoTexture; // Assign the dynamic texture
+
+    // text
+
+    if (presenter && presenter != "") {
+      const dynamicTexture = new DynamicTexture("customTextTexture", { width: 256, height: 128 }, scene);
+      var font = "40px monospace";
+      dynamicTexture.drawText(`Presented by ${presenter}`, 0, 10, font, "black", "transparent", false, true);
+      const tvScreenMaterial = scene.getMaterialByName("Presentor Placehodler")
+      // tvScreenMaterial.emissiveColor = new Color3(1, 1, 1);
+      // tvScreenMaterial.ambientColor = new Color3(1, 1, 1);
+      tvScreenMaterial.albedoTexture = dynamicTexture; // Assign the dynamic texture
+      tvScreenMaterial.opacityTexture = dynamicTexture;
+    }
     // useEffect(() => {
     InitializeGoogleAnalytics();
     TrackGoogleAnalyticsTiming("Model Loading", "Main Model", endTime - startTime, "Story Process 3D");
