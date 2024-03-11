@@ -2,8 +2,8 @@
   "name": "storyproc",
   "version": "0.1.0",
   "private": true,
-	"author": "storyprocess",
-	"description": "Packaged app for StoryProc3D",
+  "author": "storyprocess",
+  "description": "Packaged app for StoryProc3D",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babylonjs/core": "^6.10.0",
@@ -25,6 +25,7 @@
     "babylonjs-hook": "^0.1.1",
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
+    "earcut": "^2.2.4",
     "electron-is-dev": "^3.0.1",
     "framer-motion": "^10.12.16",
     "gsap": "^3.12.2",
@@ -60,7 +61,7 @@
     "electron:serve": "concurrently -k \"cross-env BROWSER=none npm run start\" \"npm run electron:start\"",
     "electron:build": "npm run build && electron-builder -c.extraMetadata.main=build/main.js",
     "electron:start": "wait-on tcp:3000 && electron .",
-		"erun": "electron ."
+    "erun": "electron ."
   },
   "build": {
     "extends": null,
@@ -72,24 +73,24 @@
       "public/**/*",
       "package.json"
     ],
-		"win": {
-			"icon": "./public/companyLogo.ico",
-			"target": "nsis",
-			"compression": "maximum"
-		},
-		"nsis": {
-			"oneClick": false,
-			"allowToChangeInstallationDirectory": true
-		},
+    "win": {
+      "icon": "./public/companyLogo.ico",
+      "target": "nsis",
+      "compression": "maximum"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
     "directories": {
       "buildResources": "assets"
     },
-		"extraFiles": [
-			{
-				"from": "public/storyprocess3d",
-				"to": "resources/storyprocess3d"
-			}
-		]
+    "extraFiles": [
+      {
+        "from": "public/storyprocess3d",
+        "to": "resources/storyprocess3d"
+      }
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -112,7 +113,7 @@
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.22.5",
     "@babel/preset-react": "^7.22.15",
-		"electron": "^28.1.4",
+    "electron": "^28.1.4",
     "electron-builder": "^24.9.1"
   }
 }

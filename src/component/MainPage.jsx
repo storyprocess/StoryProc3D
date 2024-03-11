@@ -385,6 +385,57 @@ const MainPage = (props) => {
           // style={{ justifyContent: MainMenuIsButtons ? "center" : "end" }}
           className={`${MainMenuIsButtons ? "toolbar" : "plain-toolbar"} `}
         >
+          <ToolbarButton // Introduction button
+            buttonId="btnIntroduction" //1
+            selectedButton={selectedButton}
+            active={"btnIntroduction" === selectedButton}
+            buttonName="Introduction"
+            handleButtonClick={async (buttonId, buttonName) => {
+              if (selectedButton === buttonId) {
+								// if same button clicked again, reset screen
+								resetScreen();
+								return;
+							}
+							setUseCaseMapping(false);
+							handleButtonClick(buttonId);
+							// setGlobalState("useCase", 1);
+							setGlobalState("IsTourOpen", false);
+							// handleUseCaseButtonClick("btnMyHostelStory");
+							setGlobalState("IsButtonContainer", false);
+							setGlobalState("IsHomeButtonClick", false);
+							setGlobalState("ApplicationDB", ApplicationDB);
+							setGlobalState("playUCDirectly", true);
+							if (isTourOpen) {
+								props.resetCamera();
+							}
+							Howler.stop();
+							setSelectedButton(buttonId);
+							try {
+								const apiurl = !packageApp ? `${BaseAPI}use_case_stories/1001?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_stories/1001.json`;
+
+								if(extraData[9].length == 0) {
+									const response = await fetch(apiurl);
+									const data = await response.json();
+									extraData[9][0] = data;
+								}
+							} catch (error) {
+								console.error("Error fetching data:", error);
+							}
+							setSectionData(extraData[9][0]);
+							setButtonType("Use_case");
+							setGlobalState("IsButtonContainer", false);
+							setUI_Element("popuptoolbar");
+							setShowCardContainer(true);
+							setGlobalState("HoverUseCaseId", 1001);
+							return;
+						}}
+						handleMenuClick={() => {}}
+						MainMenuIsButtons = {MainMenuIsButtons}
+          >
+            Introduction
+          </ToolbarButton>
+
+          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
           <ToolbarButton // Guided Tour button
             buttonId="btnBusinessNeeds" //1
             selectedButton={selectedButton}

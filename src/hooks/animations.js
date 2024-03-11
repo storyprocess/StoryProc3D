@@ -1,6 +1,6 @@
 import { gsap } from "gsap";
 import { Scene, Vector3 } from "@babylonjs/core";
-import { Howl } from "howler";
+import { Howl, Howler } from "howler";
 import { setGlobalState, useGlobalState } from "../utils/state";
 import { ApplicationDB, assetsLocation, packageApp } from "../assets/assetsLocation";
 import { rotateToTarget, spiralAnimation } from "../utils/libraries/CameraUtils";
