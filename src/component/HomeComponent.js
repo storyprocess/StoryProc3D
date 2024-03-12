@@ -95,7 +95,7 @@ function HomeComponent() {
 		const cam3 = scene.getCameraByName('camera-3');
 		const canvas = document.getElementsByClassName("main-canvas")[0];
 
-		if (scene.getMeshByName('tradeshow').isEnabled()) {
+		if (scene.getMeshByName('tradeshow') && scene.getMeshByName('tradeshow').isEnabled()) {
 			const crCamera = scene.getCameraByName('cr-camera');
 			showHotspots("");
 			scene.activeCamera = crCamera;

@@ -144,6 +144,10 @@ const MainPage = (props) => {
     }
   }, [toPress]);
 
+	// useEffect(() => {
+	// 	handleIntroButtonClick("btnIntroduction", "Introduction");
+	// },[]);
+
   const handlePlayStory = () => {
     // ga
     if (HoverId > 0) {
@@ -161,6 +165,46 @@ const MainPage = (props) => {
       // setGlobalState("IsButtonContainer", false);
     }
   }, [isHomeButtonClick]);
+
+	const handleIntroButtonClick = async (buttonId, buttonName) => {
+		if (selectedButton === buttonId) {
+			// if same button clicked again, reset screen
+			resetScreen();
+			return;
+		}
+		setUseCaseMapping(false);
+		handleButtonClick(buttonId);
+		// setGlobalState("useCase", 1);
+		setGlobalState("IsTourOpen", false);
+		// handleUseCaseButtonClick("btnMyHostelStory");
+		setGlobalState("IsButtonContainer", false);
+		setGlobalState("IsHomeButtonClick", false);
+		setGlobalState("ApplicationDB", ApplicationDB);
+		setGlobalState("playUCDirectly", true);
+		if (isTourOpen) {
+			props.resetCamera();
+		}
+		Howler.stop();
+		setSelectedButton(buttonId);
+		try {
+			const apiurl = !packageApp ? `${BaseAPI}use_case_stories/1001?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_stories/1001.json`;
+
+			if(extraData[9].length == 0) {
+				const response = await fetch(apiurl);
+				const data = await response.json();
+				extraData[9][0] = data;
+			}
+		} catch (error) {
+			console.error("Error fetching data:", error);
+		}
+		setSectionData(extraData[9][0]);
+		setButtonType("Use_case");
+		setGlobalState("IsButtonContainer", false);
+		setUI_Element("popuptoolbar");
+		setShowCardContainer(true);
+		setGlobalState("HoverUseCaseId", 1001);
+		return;
+	};
 
   const handleUseCaseButtonClick = async (buttonId) => {
     setGlobalState("IsHomeButtonClick", false);
@@ -330,7 +374,7 @@ const MainPage = (props) => {
           </div>
           <div className="button-group" >
             {(isTourOpen || useCase !== 0) ? "" :
-              (scene.activeCamera.name.includes("security") == false && scene.activeCamera.name.includes("cr-camera") == false) ?
+              (scene && scene.activeCamera.name.includes("security") == false && scene.activeCamera.name.includes("cr-camera") == false) ?
                 <div className="zoom-in" onClick={() => setGlobalState("currentZoomedSection", HoverId)}>Zoom-in</div>
                 :
                 <div className="zoom-in" onClick={() => props.resetCamera()}>Zoom-out</div>
@@ -390,45 +434,7 @@ const MainPage = (props) => {
             selectedButton={selectedButton}
             active={"btnIntroduction" === selectedButton}
             buttonName="Introduction"
-            handleButtonClick={async (buttonId, buttonName) => {
-              if (selectedButton === buttonId) {
-								// if same button clicked again, reset screen
-								resetScreen();
-								return;
-							}
-							setUseCaseMapping(false);
-							handleButtonClick(buttonId);
-							// setGlobalState("useCase", 1);
-							setGlobalState("IsTourOpen", false);
-							// handleUseCaseButtonClick("btnMyHostelStory");
-							setGlobalState("IsButtonContainer", false);
-							setGlobalState("IsHomeButtonClick", false);
-							setGlobalState("ApplicationDB", ApplicationDB);
-							setGlobalState("playUCDirectly", true);
-							if (isTourOpen) {
-								props.resetCamera();
-							}
-							Howler.stop();
-							setSelectedButton(buttonId);
-							try {
-								const apiurl = !packageApp ? `${BaseAPI}use_case_stories/1001?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_stories/1001.json`;
-
-								if(extraData[9].length == 0) {
-									const response = await fetch(apiurl);
-									const data = await response.json();
-									extraData[9][0] = data;
-								}
-							} catch (error) {
-								console.error("Error fetching data:", error);
-							}
-							setSectionData(extraData[9][0]);
-							setButtonType("Use_case");
-							setGlobalState("IsButtonContainer", false);
-							setUI_Element("popuptoolbar");
-							setShowCardContainer(true);
-							setGlobalState("HoverUseCaseId", 1001);
-							return;
-						}}
+            handleButtonClick={(buttonId, buttonName) => {handleIntroButtonClick(buttonId, buttonName)}}
 						handleMenuClick={() => {}}
 						MainMenuIsButtons = {MainMenuIsButtons}
           >
