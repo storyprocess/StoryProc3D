@@ -33,7 +33,7 @@
 			"y": 2,
 			"z": -3.21763
 		},
-		"section": 2
+		"section": 3
 	},
 	{
 		"id": 4,
@@ -45,7 +45,7 @@
 			"y": 2,
 			"z": -1.28294
 		},
-		"section": 3
+		"section": 4
 	},
 	{
 		"id": 5,
@@ -53,11 +53,11 @@
 		"length": 4,
 		"textData": "Hotspot 5",
 		"position": {
-			"x": -10.529,
+			"x": -10,
 			"y": 2,
 			"z": -1.33379
 		},
-		"section": 3
+		"section": 5
 	},
 	{
 		"id": 6,
@@ -69,6 +69,6 @@
 			"y": 3.5,
 			"z": 2.02661
 		},
-		"section": 4
+		"section": 6
 	}
 ]

@@ -1,7 +1,7 @@
 [
 	{
 		"id": 1,
-		"name": "Raw Material Warehouse",
+		"name": "Sales Presentation",
 		"position": {
 			"x": -15,
 			"y": 10,
@@ -18,24 +18,40 @@
 	},
 	{
 		"id": 2,
-		"name": "Assembly Line",
+		"name": "Connect feature to business value",
 		"position": {
 			"x": -42,
 			"y": 10,
 			"z": -4.5
 		},
 		"cameraPosition": {
-			"x": -3.42844,
-			"y": 4,
-			"z": 4.21576
+			"x": -5.42844,
+			"y": 3,
+			"z": 0.21576
 		},
 		"infos": [
-			2,
-			3
+			2
 		]
 	},
 	{
 		"id": 3,
+		"name": "Buyer Self-Discovery",
+		"position": {
+			"x": -42,
+			"y": 10,
+			"z": -4.5
+		},
+		"cameraPosition": {
+			"x": -1.42844,
+			"y": 3,
+			"z": 0.21576
+		},
+		"infos": [
+			3
+		]
+	},
+	{
+		"id": 4,
 		"name": "Quality Control",
 		"position": {
 			"x": -69,
@@ -43,17 +59,33 @@
 			"z": -4.5
 		},
 		"cameraPosition": {
-			"x": -8.37532,
-			"y": 4,
-			"z": 3.91916
+			"x": -9.37532,
+			"y": 3,
+			"z": 2.91916
 		},
 		"infos": [
-			4,
+			4
+		]
+	},
+	{
+		"id": 5,
+		"name": "Show and Tell",
+		"position": {
+			"x": -72,
+			"y": -1,
+			"z": 22
+		},
+		"cameraPosition": {
+			"x": -13.37532,
+			"y": 3,
+			"z": 2.91916
+		},
+		"infos": [
 			5
 		]
 	},
 	{
-		"id": 4,
+		"id": 6,
 		"name": "Trade Show",
 		"position": {
 			"x": -72,
