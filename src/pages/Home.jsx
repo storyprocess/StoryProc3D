@@ -126,16 +126,16 @@ const Home = (props) => {
 
     // 
     // image
-		if(!client || client == "") {
-			client = "Your Client";
-		}
-		if(!company || company == "") {
-			company = "company";
-		}
-		const address = `${assetsLocation}${ApplicationDB}/graphics/custom/`;
+    if (!client || client == "") {
+      client = "Your Client";
+    }
+    if (!company || company == "") {
+      company = "company";
+    }
+    const address = `${assetsLocation}${ApplicationDB}/graphics/custom/`;
 
-		// const textLogo = await fetch(`${address}${client}.png`)
-		// const imageURL = URL.createObjectURL(await textLogo.blob());
+    // const textLogo = await fetch(`${address}${client}.png`)
+    // const imageURL = URL.createObjectURL(await textLogo.blob());
     // const imageTexture = new Texture(imageURL, scene);
     // imageTexture.vScale = -1;
     // imageTexture.level = 1.2;
@@ -143,19 +143,19 @@ const Home = (props) => {
     // tvScreenMaterial.albedoTexture = imageTexture; // Assign the dynamic texture
     // tvScreenMaterial.opacityTexture = imageTexture; // Assign the dynamic texture
 
-		const clientText = MeshBuilder.CreateText(`clientText`, `${client}`, signFont, {
-				size: 0.4,
-				resolution: 64, 
-				depth: 0.1,
-			},
-			scene,
-			earcut
-		);
-		clientText.position = new Vector3(-0.37,3.05,-9.13);
-		clientText.rotation = new Vector3(0,Math.PI,0);
+    const clientText = MeshBuilder.CreateText(`clientText`, `${client}`, signFont, {
+      size: 0.4,
+      resolution: 64,
+      depth: 0.1,
+    },
+      scene,
+      earcut
+    );
+    clientText.position = new Vector3(-0.37, 3.05, -9.13);
+    clientText.rotation = new Vector3(0, Math.PI, 0);
 
-		const textLogo1 = await fetch(`${address}${company}1.png`)
-		const imageURL1 = URL.createObjectURL(await textLogo1.blob());
+    const textLogo1 = await fetch(`${address}${company}1.png`)
+    const imageURL1 = URL.createObjectURL(await textLogo1.blob());
     const imageTexture1 = new Texture(imageURL1, scene);
     imageTexture1.vScale = -1;
     imageTexture1.level = 1.2;
@@ -175,20 +175,20 @@ const Home = (props) => {
 
     // text
 
-		const dynamicTexture = new DynamicTexture("customTextTexture", { width: 256, height: 128 }, scene);
-		var font = "40px monospace";
+    const dynamicTexture = new DynamicTexture("customTextTexture", { width: 320, height: 64 }, scene);
+    var font = "bold 32px roboto";
     if (presenter && presenter != "") {
-      dynamicTexture.drawText(`Presented by ${presenter}`, 0, 10, font, "black", "transparent", false, true);
+      dynamicTexture.drawText(`Presented by ${presenter}`, 5, 45, font, "black", "transparent", false, true);
     }
-		else {
-			dynamicTexture.drawText(` `, 0, 10, font, "black", "transparent", false, true);
-		}
-		const tvScreenMaterial = scene.getMaterialByName("Presentor Placehodler")
-		// tvScreenMaterial.emissiveColor = new Color3(1, 1, 1);
-		// tvScreenMaterial.ambientColor = new Color3(1, 1, 1);
-		tvScreenMaterial.albedoTexture = dynamicTexture; // Assign the dynamic texture
-		tvScreenMaterial.opacityTexture = dynamicTexture;
-		
+    else {
+      dynamicTexture.drawText(` `, 5, 45, font, "black", "transparent", false, true);
+    }
+    const tvScreenMaterial = scene.getMaterialByName("Presentor Placehodler")
+    // tvScreenMaterial.emissiveColor = new Color3(1, 1, 1);
+    // tvScreenMaterial.ambientColor = new Color3(1, 1, 1);
+    tvScreenMaterial.albedoTexture = dynamicTexture; // Assign the dynamic texture
+    tvScreenMaterial.opacityTexture = dynamicTexture;
+
     // useEffect(() => {
     InitializeGoogleAnalytics();
     TrackGoogleAnalyticsTiming("Model Loading", "Main Model", endTime - startTime, "Story Process 3D");
@@ -199,28 +199,28 @@ const Home = (props) => {
 
     // setSubModelsLoading(true);
     const timer = setTimeout(async () => {
-			const t_startTime = performance.now();
-			const Tradeshow = await SceneLoader.ImportMeshAsync('', tradeshow, '', scene);
-			Tradeshow.meshes[0].name = 'tradeshow';
-			scene.getMeshByName('tradeshow').setEnabled(false);
+      const t_startTime = performance.now();
+      const Tradeshow = await SceneLoader.ImportMeshAsync('', tradeshow, '', scene);
+      Tradeshow.meshes[0].name = 'tradeshow';
+      scene.getMeshByName('tradeshow').setEnabled(false);
 
-			const textLogo1 = await fetch(`${address}${company}1.png`)
-			const imageURL1 = URL.createObjectURL(await textLogo1.blob());
-			const imageTexture1 = new Texture(imageURL1, scene);
-			imageTexture1.vScale = -1;
-			// imageTexture1.level = 1.2;
-			const tvScreenMaterial1 = scene.getMaterialByName("Company Logo 1")
-			tvScreenMaterial1.albedoTexture = imageTexture1; // Assign the dynamic texture
-			tvScreenMaterial1.opacityTexture = imageTexture1; // Assign the dynamic texture
+      const textLogo1 = await fetch(`${address}${company}1.png`)
+      const imageURL1 = URL.createObjectURL(await textLogo1.blob());
+      const imageTexture1 = new Texture(imageURL1, scene);
+      imageTexture1.vScale = -1;
+      // imageTexture1.level = 1.2;
+      const tvScreenMaterial1 = scene.getMaterialByName("Company Logo 1")
+      tvScreenMaterial1.albedoTexture = imageTexture1; // Assign the dynamic texture
+      tvScreenMaterial1.opacityTexture = imageTexture1; // Assign the dynamic texture
 
-			const textLogo2 = await fetch(`${address}${company}2.png`)
-			const imageURL2 = URL.createObjectURL(await textLogo2.blob());
-			const imageTexture2 = new Texture(imageURL2, scene);
-			imageTexture2.vScale = -1;
-			// imageTexture2.level = 1.2;
-			const tvScreenMaterial2 = scene.getMaterialByName("Company Logo 2")
-			tvScreenMaterial2.albedoTexture = imageTexture2; // Assign the dynamic texture
-			tvScreenMaterial2.opacityTexture = imageTexture2; // Assign the dynamic texture
+      const textLogo2 = await fetch(`${address}${company}2.png`)
+      const imageURL2 = URL.createObjectURL(await textLogo2.blob());
+      const imageTexture2 = new Texture(imageURL2, scene);
+      imageTexture2.vScale = -1;
+      // imageTexture2.level = 1.2;
+      const tvScreenMaterial2 = scene.getMaterialByName("Company Logo 2")
+      tvScreenMaterial2.albedoTexture = imageTexture2; // Assign the dynamic texture
+      tvScreenMaterial2.opacityTexture = imageTexture2; // Assign the dynamic texture
 
       const t_endTime = performance.now();
       // useEffect(() => {
@@ -427,73 +427,73 @@ const Home = (props) => {
     movingCamera.setTarget(scene.activeCamera.target.clone());
     scene.activeCamera = movingCamera;
 
-		if (i == 6) {
-			setSubModelsLoading(true);
-			const crCamera = new ArcRotateCamera(
-				`cr-camera`,
-				0,
-				1.2,
-				300,
-				new Vector3(-2.98, 0, 5.35),
-				scene
-			);
-			scene.activeCamera = crCamera;
-			crCamera.detachControl(canvas);
-			crCamera.attachControl(canvas, true);
-			crCamera.lowerBetaLimit = 0;
-			crCamera.upperBetaLimit = 1.57;
-			crCamera.lowerRadiusLimit = 10;
-			crCamera.angularSensibilityX = 5000;
-			crCamera.angularSensibilityY = 5000;
-			crCamera.inputs.addMouseWheel();
-			// arcRotateCamera.inputs.addPointers();
-			crCamera.wheelPrecision = 20;
+    if (i == 6) {
+      setSubModelsLoading(true);
+      const crCamera = new ArcRotateCamera(
+        `cr-camera`,
+        0,
+        1.2,
+        300,
+        new Vector3(-2.98, 0, 5.35),
+        scene
+      );
+      scene.activeCamera = crCamera;
+      crCamera.detachControl(canvas);
+      crCamera.attachControl(canvas, true);
+      crCamera.lowerBetaLimit = 0;
+      crCamera.upperBetaLimit = 1.57;
+      crCamera.lowerRadiusLimit = 10;
+      crCamera.angularSensibilityX = 5000;
+      crCamera.angularSensibilityY = 5000;
+      crCamera.inputs.addMouseWheel();
+      // arcRotateCamera.inputs.addPointers();
+      crCamera.wheelPrecision = 20;
 
-			scene.getMeshByName('factory-model').setEnabled(false);
-			scene.getMeshByName('clientText').setEnabled(false);
-			while (!scene.getMeshByName('tradeshow')) {
+      scene.getMeshByName('factory-model').setEnabled(false);
+      scene.getMeshByName('clientText').setEnabled(false);
+      while (!scene.getMeshByName('tradeshow')) {
 
-			}
-			showHotspots(scene, "");
-			await scene.getMeshByName('tradeshow').setEnabled(true);
+      }
+      showHotspots(scene, "");
+      await scene.getMeshByName('tradeshow').setEnabled(true);
 
-			const timeline = gsap.timeline();
-			timeline.to(crCamera, {
-				radius: 300,
-				duration: 1,
-				ease: "power1.out",
-				onComplete: () => {
-					setSubModelsLoading(false);
-				}
-			}).to(crCamera, {
-				radius: 28,
-				duration: 0.5,
-				ease: "power1.out",
-			}).to(crCamera, {
-				alpha: 2.43,
-				duration: 3,
-				ease: "power1.out",
-				onComplete: () => {
-					showHotspots(scene, "tradeShows");
-				}
-			});
-			timeline.play();
+      const timeline = gsap.timeline();
+      timeline.to(crCamera, {
+        radius: 300,
+        duration: 1,
+        ease: "power1.out",
+        onComplete: () => {
+          setSubModelsLoading(false);
+        }
+      }).to(crCamera, {
+        radius: 28,
+        duration: 0.5,
+        ease: "power1.out",
+      }).to(crCamera, {
+        alpha: 2.43,
+        duration: 3,
+        ease: "power1.out",
+        onComplete: () => {
+          showHotspots(scene, "tradeShows");
+        }
+      });
+      timeline.play();
 
-			setCurrentZoomedSection(0);
-			setGlobalState("HoverId", 0);
-			return;
-		}
+      setCurrentZoomedSection(0);
+      setGlobalState("HoverId", 0);
+      return;
+    }
 
     const func = async (movingCamera, securityCamera, canvas) => {
       movingCamera.lockedTarget = null;
-			securityCamera.setTarget(finalTarget);
-			securityCamera.setPosition(finalPosition);
-			securityCamera.lowerRadiusLimit = 5;
-			securityCamera.upperRadiusLimit = 15;
-			scene.activeCamera = securityCamera;
-			securityCamera.detachControl(canvas);
-			securityCamera.attachControl(canvas, true);
-			setCurrentZoomedSection(0);
+      securityCamera.setTarget(finalTarget);
+      securityCamera.setPosition(finalPosition);
+      securityCamera.lowerRadiusLimit = 5;
+      securityCamera.upperRadiusLimit = 15;
+      scene.activeCamera = securityCamera;
+      securityCamera.detachControl(canvas);
+      securityCamera.attachControl(canvas, true);
+      setCurrentZoomedSection(0);
     };
 
 
