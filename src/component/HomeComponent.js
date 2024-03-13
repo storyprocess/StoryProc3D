@@ -107,6 +107,7 @@ function HomeComponent() {
 				onComplete: () => {
 					scene.getMeshByName('tradeshow').setEnabled(false);
 					scene.getMeshByName('factory-model').setEnabled(true);
+					scene.getMeshByName('clientText').setEnabled(true);
 					const security = scene.getCameraByName('security-camera-3');
 					security.computeWorldMatrix();
 					const initTarget = security.target.clone();

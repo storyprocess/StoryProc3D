@@ -60,6 +60,9 @@ const MainPage = (props) => {
   const gaEventTracker = useAnalyticsEventTracker("ToolBarMenu");
   const [anchorEl, setAnchorEl] = useState(null);
   const [scene, setScene] = useGlobalState("scene");
+	const queryParams = new URLSearchParams(location.search);
+  var company = queryParams.get('company');
+
   let alignItems = false;
 
   const open = anchorEl;
@@ -429,7 +432,7 @@ const MainPage = (props) => {
           // style={{ justifyContent: MainMenuIsButtons ? "center" : "end" }}
           className={`${MainMenuIsButtons ? "toolbar" : "plain-toolbar"} `}
         >
-          <ToolbarButton // Introduction button
+          {/* <ToolbarButton // Introduction button
             buttonId="btnIntroduction" //1
             selectedButton={selectedButton}
             active={"btnIntroduction" === selectedButton}
@@ -441,7 +444,7 @@ const MainPage = (props) => {
             Introduction
           </ToolbarButton>
 
-          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
+          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>} */}
           <ToolbarButton // Guided Tour button
             buttonId="btnBusinessNeeds" //1
             selectedButton={selectedButton}
@@ -660,7 +663,7 @@ const MainPage = (props) => {
             handleMenuClick={handleClick}
             MainMenuIsButtons={MainMenuIsButtons}
           >
-            Use Cases
+            {company && company != '' ? `Use Cases for ${company}` : `Use Cases`}
 
 
           </ToolbarButton>
