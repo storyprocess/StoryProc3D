@@ -60,7 +60,7 @@ const MainPage = (props) => {
   const gaEventTracker = useAnalyticsEventTracker("ToolBarMenu");
   const [anchorEl, setAnchorEl] = useState(null);
   const [scene, setScene] = useGlobalState("scene");
-	const queryParams = new URLSearchParams(location.search);
+  const queryParams = new URLSearchParams(location.search);
   var company = queryParams.get('company');
 
   let alignItems = false;
@@ -147,9 +147,9 @@ const MainPage = (props) => {
     }
   }, [toPress]);
 
-	// useEffect(() => {
-	// 	handleIntroButtonClick("btnIntroduction", "Introduction");
-	// },[]);
+  // useEffect(() => {
+  // 	handleIntroButtonClick("btnIntroduction", "Introduction");
+  // },[]);
 
   const handlePlayStory = () => {
     // ga
@@ -169,45 +169,45 @@ const MainPage = (props) => {
     }
   }, [isHomeButtonClick]);
 
-	const handleIntroButtonClick = async (buttonId, buttonName) => {
-		if (selectedButton === buttonId) {
-			// if same button clicked again, reset screen
-			resetScreen();
-			return;
-		}
-		setUseCaseMapping(false);
-		handleButtonClick(buttonId);
-		// setGlobalState("useCase", 1);
-		setGlobalState("IsTourOpen", false);
-		// handleUseCaseButtonClick("btnMyHostelStory");
-		setGlobalState("IsButtonContainer", false);
-		setGlobalState("IsHomeButtonClick", false);
-		setGlobalState("ApplicationDB", ApplicationDB);
-		setGlobalState("playUCDirectly", true);
-		if (isTourOpen) {
-			props.resetCamera();
-		}
-		Howler.stop();
-		setSelectedButton(buttonId);
-		try {
-			const apiurl = !packageApp ? `${BaseAPI}use_case_stories/1001?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_stories/1001.json`;
+  const handleIntroButtonClick = async (buttonId, buttonName) => {
+    if (selectedButton === buttonId) {
+      // if same button clicked again, reset screen
+      resetScreen();
+      return;
+    }
+    setUseCaseMapping(false);
+    handleButtonClick(buttonId);
+    // setGlobalState("useCase", 1);
+    setGlobalState("IsTourOpen", false);
+    // handleUseCaseButtonClick("btnMyHostelStory");
+    setGlobalState("IsButtonContainer", false);
+    setGlobalState("IsHomeButtonClick", false);
+    setGlobalState("ApplicationDB", ApplicationDB);
+    setGlobalState("playUCDirectly", true);
+    if (isTourOpen) {
+      props.resetCamera();
+    }
+    Howler.stop();
+    setSelectedButton(buttonId);
+    try {
+      const apiurl = !packageApp ? `${BaseAPI}use_case_stories/1001?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_stories/1001.json`;
 
-			if(extraData[9].length == 0) {
-				const response = await fetch(apiurl);
-				const data = await response.json();
-				extraData[9][0] = data;
-			}
-		} catch (error) {
-			console.error("Error fetching data:", error);
-		}
-		setSectionData(extraData[9][0]);
-		setButtonType("Use_case");
-		setGlobalState("IsButtonContainer", false);
-		setUI_Element("popuptoolbar");
-		setShowCardContainer(true);
-		setGlobalState("HoverUseCaseId", 1001);
-		return;
-	};
+      if (extraData[9].length == 0) {
+        const response = await fetch(apiurl);
+        const data = await response.json();
+        extraData[9][0] = data;
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+    setSectionData(extraData[9][0]);
+    setButtonType("Use_case");
+    setGlobalState("IsButtonContainer", false);
+    setUI_Element("popuptoolbar");
+    setShowCardContainer(true);
+    setGlobalState("HoverUseCaseId", 1001);
+    return;
+  };
 
   const handleUseCaseButtonClick = async (buttonId) => {
     setGlobalState("IsHomeButtonClick", false);
@@ -663,7 +663,7 @@ const MainPage = (props) => {
             handleMenuClick={handleClick}
             MainMenuIsButtons={MainMenuIsButtons}
           >
-            {company && company != '' ? `Use Cases for ${company}` : `Use Cases`}
+            Use Cases
 
 
           </ToolbarButton>

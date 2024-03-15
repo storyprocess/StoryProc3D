@@ -74,20 +74,20 @@ const Home = (props) => {
 
   let WelcomeData = [
     'Even great products need a great story',
-		'Tell your story powerfully with a custom 3D experience like this one',
-		'Experience it for yourself',
-		'Explore use cases in context, such as your client office above',
-		'Use "Reset" to go to the default view',
-		'Let’s see your sales storytelling in action in a client’s office'
+    'Tell your story with a CUSTOM 3D experience like this one',
+    'Experience it for yourself',
+    'Explore use cases in context, such as your client office above',
+    'Use "Reset" to go to the default view',
+    'Let’s see your sales storytelling in action in a client’s office'
   ];
 
   let WelcomeData1 = [
     'Our clients see higher sales, larger deals – even higher prices!',
-		'Create meaningful connections with clients. Engage, simplify, and grow sales.',
-		'All of the information and stories are organized and accessible from the menu.',
-		'Select any use case to get a complete overview of the use case, its significance, and the solutions available to you.',
-		'Hit "Reset" anytime to stop any running story and come back to the top level view.',
-		'You can stop the tour anytime you like using the "stop tour" button on the bottom right.'
+    'Create meaningful connections with clients. Engage, simplify, and grow sales.',
+    'All of the information and stories are organized and accessible from the menu.',
+    'Select any use case to get a complete overview of the use case, its significance, and the solutions available to you.',
+    'Hit "Reset" anytime to stop any running story and come back to the top level view.',
+    'You can stop the tour anytime you like using the "stop tour" button on the bottom right.'
   ];
 
   const handleTourStart = () => {
@@ -125,6 +125,18 @@ const Home = (props) => {
     // ga model load completed 
 
     // 
+
+
+    // useEffect(() => {
+    InitializeGoogleAnalytics();
+    TrackGoogleAnalyticsTiming("Model Loading", "Main Model", endTime - startTime, "Story Process 3D");
+    // }, []);
+    setIsLoading(false);
+    createUCGUI(scene);
+
+    // setSubModelsLoading(false);
+    setIsTitle(false);
+
     // image
     if (!client || client == "") {
       client = "Your Client";
@@ -144,7 +156,7 @@ const Home = (props) => {
     // tvScreenMaterial.opacityTexture = imageTexture; // Assign the dynamic texture
 
     const clientText = MeshBuilder.CreateText(`clientText`, `${client}`, signFont, {
-      size: 0.4,
+      size: 0.6,
       resolution: 64,
       depth: 0.1,
     },
@@ -153,7 +165,7 @@ const Home = (props) => {
     );
     clientText.position = new Vector3(-0.37, 3.05, -9.13);
     clientText.rotation = new Vector3(0, Math.PI, 0);
-
+    company = company.charAt(0).toUpperCase() + company.slice(1).toLowerCase();
     const textLogo1 = await fetch(`${address}${company}1.png`)
     const imageURL1 = URL.createObjectURL(await textLogo1.blob());
     const imageTexture1 = new Texture(imageURL1, scene);
@@ -188,16 +200,6 @@ const Home = (props) => {
     // tvScreenMaterial.ambientColor = new Color3(1, 1, 1);
     tvScreenMaterial.albedoTexture = dynamicTexture; // Assign the dynamic texture
     tvScreenMaterial.opacityTexture = dynamicTexture;
-
-    // useEffect(() => {
-    InitializeGoogleAnalytics();
-    TrackGoogleAnalyticsTiming("Model Loading", "Main Model", endTime - startTime, "Story Process 3D");
-    // }, []);
-    setIsLoading(false);
-    createUCGUI(scene);
-    
-    // setSubModelsLoading(false);
-    setIsTitle(false);
   };
 
   const createUCGUI = (scene) => {
@@ -301,7 +303,7 @@ const Home = (props) => {
   const createSectionsGUI = (scene) => {
     const advancedTexture = AdvancedDynamicTexture.CreateFullscreenUI('myUI');
 
-    sections.forEach((section) => {
+    usecases.forEach((section) => {
       createSection(section, scene, advancedTexture);
     });
   };
@@ -377,7 +379,7 @@ const Home = (props) => {
       }
     });
     let section = null;
-    sections.forEach((sect) => {
+    usecases.forEach((sect) => {
       if (sect.id == id) section = sect;
     });
 
@@ -397,46 +399,46 @@ const Home = (props) => {
 
     if (i == 6) {
       setSubModelsLoading(true);
-			if(!scene.getMeshByName('tradeshow')) {
-				const t_startTime = performance.now();
-				const Tradeshow = await SceneLoader.ImportMeshAsync('', tradeshow, '', scene);
-				Tradeshow.meshes[0].name = 'tradeshow';
-				scene.getMeshByName('tradeshow').setEnabled(false);
+      if (!scene.getMeshByName('tradeshow')) {
+        const t_startTime = performance.now();
+        const Tradeshow = await SceneLoader.ImportMeshAsync('', tradeshow, '', scene);
+        Tradeshow.meshes[0].name = 'tradeshow';
+        scene.getMeshByName('tradeshow').setEnabled(false);
 
-				const address = `${assetsLocation}${ApplicationDB}/graphics/custom/`;
-				console.log(address);
-				if (!company || company == "") {
-					company = "company";
-				}
-				const textLogo1 = await fetch(`${address}${company}1.png`)
-				const imageURL1 = URL.createObjectURL(await textLogo1.blob());
-				const imageTexture1 = new Texture(imageURL1, scene);
-				imageTexture1.vScale = -1;
-				// imageTexture1.level = 1.2;
-				const tvScreenMaterial1 = scene.getMaterialByName("Company Logo 1")
-				tvScreenMaterial1.albedoTexture = imageTexture1; // Assign the dynamic texture
-				tvScreenMaterial1.opacityTexture = imageTexture1; // Assign the dynamic texture
+        const address = `${assetsLocation}${ApplicationDB}/graphics/custom/`;
+        console.log(address);
+        if (!company || company == "") {
+          company = "company";
+        }
+        const textLogo1 = await fetch(`${address}${company}1.png`)
+        const imageURL1 = URL.createObjectURL(await textLogo1.blob());
+        const imageTexture1 = new Texture(imageURL1, scene);
+        imageTexture1.vScale = -1;
+        // imageTexture1.level = 1.2;
+        const tvScreenMaterial1 = scene.getMaterialByName("Company Logo 1")
+        tvScreenMaterial1.albedoTexture = imageTexture1; // Assign the dynamic texture
+        tvScreenMaterial1.opacityTexture = imageTexture1; // Assign the dynamic texture
 
-				const textLogo2 = await fetch(`${address}${company}2.png`)
-				const imageURL2 = URL.createObjectURL(await textLogo2.blob());
-				const imageTexture2 = new Texture(imageURL2, scene);
-				imageTexture2.vScale = -1;
-				// imageTexture2.level = 1.2;
-				const tvScreenMaterial2 = scene.getMaterialByName("Company Logo 2")
-				tvScreenMaterial2.albedoTexture = imageTexture2; // Assign the dynamic texture
-				tvScreenMaterial2.opacityTexture = imageTexture2; // Assign the dynamic texture
+        const textLogo2 = await fetch(`${address}${company}2.png`)
+        const imageURL2 = URL.createObjectURL(await textLogo2.blob());
+        const imageTexture2 = new Texture(imageURL2, scene);
+        imageTexture2.vScale = -1;
+        // imageTexture2.level = 1.2;
+        const tvScreenMaterial2 = scene.getMaterialByName("Company Logo 2")
+        tvScreenMaterial2.albedoTexture = imageTexture2; // Assign the dynamic texture
+        tvScreenMaterial2.opacityTexture = imageTexture2; // Assign the dynamic texture
 
-				const t_endTime = performance.now();
-				// useEffect(() => {
-				InitializeGoogleAnalytics();
-				TrackGoogleAnalyticsTiming("Model Loading", "Tradeshow Model", t_endTime - t_startTime, "Story Process 3D");
-			}
+        const t_endTime = performance.now();
+        // useEffect(() => {
+        InitializeGoogleAnalytics();
+        TrackGoogleAnalyticsTiming("Model Loading", "Tradeshow Model", t_endTime - t_startTime, "Story Process 3D");
+      }
       const crCamera = new ArcRotateCamera(
         `cr-camera`,
         0,
         1.2,
         300,
-        new Vector3(-2.98, 0, 5.35),
+        new Vector3(-2.98, -3.5, 5.35),
         scene
       );
       scene.activeCamera = crCamera;
@@ -458,7 +460,7 @@ const Home = (props) => {
       }
       showHotspots(scene, "");
       await scene.getMeshByName('tradeshow').setEnabled(true);
-			setSubModelsLoading(false);
+      setSubModelsLoading(false);
       const timeline = gsap.timeline();
       timeline.to(crCamera, {
         radius: 28,
@@ -536,7 +538,7 @@ const Home = (props) => {
       return;
     }
     const advancedTexture = scene.getTextureByName('myUI');
-    sections.forEach((section) => {
+    usecases.forEach((section) => {
       const securityCamera = scene.getCameraByName(`security-camera-${section.id}`);
       securityCamera.detachControl();
 
