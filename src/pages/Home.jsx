@@ -403,9 +403,8 @@ const Home = (props) => {
         scene.getMeshByName('tradeshow').setEnabled(false);
 
         const address = `${assetsLocation}${ApplicationDB}/graphics/custom/`;
-        console.log(address);
         if (!company || company == "") {
-          company = "company";
+          company = "Company";
         }
         const textLogo1 = await fetch(`${address}${company}1.png`)
         const imageURL1 = URL.createObjectURL(await textLogo1.blob());
