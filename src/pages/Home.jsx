@@ -131,7 +131,6 @@ const Home = (props) => {
     InitializeGoogleAnalytics();
     TrackGoogleAnalyticsTiming("Model Loading", "Main Model", endTime - startTime, "Story Process 3D");
     // }, []);
-    setIsLoading(false);
     createUCGUI(scene);
 
     // setSubModelsLoading(false);
@@ -186,20 +185,23 @@ const Home = (props) => {
     // tvScreenMaterial.diffuseTexture = videoTexture; // Assign the dynamic texture
 
     // text
+    const tvScreenMaterial = scene.getMaterialByName("Presentor Placehodler");
 
-    const dynamicTexture = new DynamicTexture("customTextTexture", { width: 320, height: 64 }, scene);
-    var font = "bold 32px roboto";
+    const dynamicTexture = new DynamicTexture("customTextTexture", { width: 256, height: 128 }, scene);
+    var font = "40px monospace";
     if (presenter && presenter != "") {
-      dynamicTexture.drawText(`Presented by ${presenter}`, 5, 45, font, "black", "transparent", false, true);
+      console.log("dynamic textures added");
+      dynamicTexture.drawText(`Presented by ${presenter}`, 0, 10, font, "black", "transparent", false, true);
     }
     else {
-      dynamicTexture.drawText(` `, 5, 45, font, "black", "transparent", false, true);
+      dynamicTexture.drawText(` `, 0, 10, font, "black", "transparent", false, true);
     }
-    const tvScreenMaterial = scene.getMaterialByName("Presentor Placehodler")
     // tvScreenMaterial.emissiveColor = new Color3(1, 1, 1);
     // tvScreenMaterial.ambientColor = new Color3(1, 1, 1);
     tvScreenMaterial.albedoTexture = dynamicTexture; // Assign the dynamic texture
     tvScreenMaterial.opacityTexture = dynamicTexture;
+
+    setIsLoading(false);
   };
 
   const createUCGUI = (scene) => {
@@ -410,6 +412,7 @@ const Home = (props) => {
         if (!company || company == "") {
           company = "company";
         }
+        company = company.charAt(0).toUpperCase() + company.slice(1).toLowerCase();
         const textLogo1 = await fetch(`${address}${company}1.png`)
         const imageURL1 = URL.createObjectURL(await textLogo1.blob());
         const imageTexture1 = new Texture(imageURL1, scene);
