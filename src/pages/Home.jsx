@@ -186,7 +186,7 @@ const Home = (props) => {
 		}
 
 		const presenterText = MeshBuilder.CreateText(`presenterText`, `${presenter}`, signFont, {
-      size: 0.1,
+      size: 0.13,
       resolution: 64,
       depth: 0.01,
     },
