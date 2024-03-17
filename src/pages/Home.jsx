@@ -146,15 +146,6 @@ const Home = (props) => {
     }
     const address = `${assetsLocation}${ApplicationDB}/graphics/custom/`;
 
-    // const textLogo = await fetch(`${address}${client}.png`)
-    // const imageURL = URL.createObjectURL(await textLogo.blob());
-    // const imageTexture = new Texture(imageURL, scene);
-    // imageTexture.vScale = -1;
-    // imageTexture.level = 1.2;
-    // const tvScreenMaterial = scene.getMaterialByName("Client Logo")
-    // tvScreenMaterial.albedoTexture = imageTexture; // Assign the dynamic texture
-    // tvScreenMaterial.opacityTexture = imageTexture; // Assign the dynamic texture
-
     const clientText = MeshBuilder.CreateText(`clientText`, `${client}`, signFont, {
       size: 0.6,
       resolution: 64,
@@ -165,6 +156,7 @@ const Home = (props) => {
     );
     clientText.position = new Vector3(-0.37, 3.05, -9.13);
     clientText.rotation = new Vector3(0, Math.PI, 0);
+
     company = company.charAt(0).toUpperCase() + company.slice(1).toLowerCase();
     const textLogo1 = await fetch(`${address}${company}1.png`)
     const imageURL1 = URL.createObjectURL(await textLogo1.blob());
@@ -186,20 +178,25 @@ const Home = (props) => {
     // tvScreenMaterial.diffuseTexture = videoTexture; // Assign the dynamic texture
 
     // text
+		if (presenter && presenter != "") {
+			presenter = `Presented by ${presenter}`;
+		}
+		else {
+			presenter = '   ';
+		}
 
-    const dynamicTexture = new DynamicTexture("customTextTexture", { width: 320, height: 64 }, scene);
-    var font = "bold 32px roboto";
-    if (presenter && presenter != "") {
-      dynamicTexture.drawText(`Presented by ${presenter}`, 5, 45, font, "black", "transparent", false, true);
-    }
-    else {
-      dynamicTexture.drawText(` `, 5, 45, font, "black", "transparent", false, true);
-    }
-    const tvScreenMaterial = scene.getMaterialByName("Presentor Placehodler")
-    // tvScreenMaterial.emissiveColor = new Color3(1, 1, 1);
-    // tvScreenMaterial.ambientColor = new Color3(1, 1, 1);
-    tvScreenMaterial.albedoTexture = dynamicTexture; // Assign the dynamic texture
-    tvScreenMaterial.opacityTexture = dynamicTexture;
+		const presenterText = MeshBuilder.CreateText(`presenterText`, `${presenter}`, signFont, {
+      size: 0.1,
+      resolution: 64,
+      depth: 0.01,
+    },
+      scene,
+      earcut
+    );
+		if(presenterText) {
+			presenterText.position = new Vector3(5.339, 1.372, -8.939);
+			presenterText.rotation = new Vector3(0, Math.PI, 0);
+		}
   };
 
   const createUCGUI = (scene) => {
@@ -455,6 +452,8 @@ const Home = (props) => {
 
       scene.getMeshByName('factory-model').setEnabled(false);
       scene.getMeshByName('clientText').setEnabled(false);
+      if(scene.getMeshByName('presenterText'))
+				scene.getMeshByName('presenterText').setEnabled(false);
       while (!scene.getMeshByName('tradeshow')) {
 
       }

@@ -108,6 +108,8 @@ function HomeComponent() {
 					scene.getMeshByName('tradeshow').setEnabled(false);
 					scene.getMeshByName('factory-model').setEnabled(true);
 					scene.getMeshByName('clientText').setEnabled(true);
+					if(scene.getMeshByName('presenterText')) 
+						scene.getMeshByName('presenterText').setEnabled(true);
 					const security = scene.getCameraByName('security-camera-3');
 					security.computeWorldMatrix();
 					const initTarget = security.target.clone();
