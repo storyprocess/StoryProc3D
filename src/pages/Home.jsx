@@ -131,7 +131,6 @@ const Home = (props) => {
     InitializeGoogleAnalytics();
     TrackGoogleAnalyticsTiming("Model Loading", "Main Model", endTime - startTime, "Story Process 3D");
     // }, []);
-    setIsLoading(false);
     createUCGUI(scene);
 
     // setSubModelsLoading(false);
@@ -178,14 +177,14 @@ const Home = (props) => {
     // tvScreenMaterial.diffuseTexture = videoTexture; // Assign the dynamic texture
 
     // text
-		if (presenter && presenter != "") {
-			presenter = `Presented by ${presenter}`;
-		}
-		else {
-			presenter = '   ';
-		}
+    if (presenter && presenter != "") {
+      presenter = `Presented by ${presenter}`;
+    }
+    else {
+      presenter = '   ';
+    }
 
-		const presenterText = MeshBuilder.CreateText(`presenterText`, `${presenter}`, signFont, {
+    const presenterText = MeshBuilder.CreateText(`presenterText`, `${presenter}`, signFont, {
       size: 0.13,
       resolution: 64,
       depth: 0.01,
@@ -193,10 +192,10 @@ const Home = (props) => {
       scene,
       earcut
     );
-		if(presenterText) {
-			presenterText.position = new Vector3(5.339, 1.372, -8.939);
-			presenterText.rotation = new Vector3(0, Math.PI, 0);
-		}
+    if (presenterText) {
+      presenterText.position = new Vector3(5.339, 1.372, -8.939);
+      presenterText.rotation = new Vector3(0, Math.PI, 0);
+    }
   };
 
   const createUCGUI = (scene) => {
@@ -452,8 +451,8 @@ const Home = (props) => {
 
       scene.getMeshByName('factory-model').setEnabled(false);
       scene.getMeshByName('clientText').setEnabled(false);
-      if(scene.getMeshByName('presenterText'))
-				scene.getMeshByName('presenterText').setEnabled(false);
+      if (scene.getMeshByName('presenterText'))
+        scene.getMeshByName('presenterText').setEnabled(false);
       while (!scene.getMeshByName('tradeshow')) {
 
       }
