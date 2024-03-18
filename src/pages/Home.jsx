@@ -133,7 +133,7 @@ const Home = (props) => {
     // }, []);
     createUCGUI(scene);
 
-    // setSubModelsLoading(false);
+    setIsLoading(false);
     setIsTitle(false);
 
     // image
@@ -165,16 +165,6 @@ const Home = (props) => {
     const tvScreenMaterial1 = scene.getMaterialByName("Company Logo 1")
     tvScreenMaterial1.albedoTexture = imageTexture1; // Assign the dynamic texture
     tvScreenMaterial1.opacityTexture = imageTexture1; // Assign the dynamic texture
-
-    // video
-
-    // const videoTexture = new VideoTexture("Video", Video, scene, true);
-    // // Set the video to loop
-    // videoTexture.video.autoplay = true; // Ensure autoplay is enabled
-    // videoTexture.video.loop = true; // Set the loop property to true
-
-    // const tvScreenMaterial = new StandardMaterial("tvScreenMaterial", scene);
-    // tvScreenMaterial.diffuseTexture = videoTexture; // Assign the dynamic texture
 
     // text
     if (presenter && presenter != "") {
