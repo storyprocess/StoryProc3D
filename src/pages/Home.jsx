@@ -142,7 +142,7 @@ const Home = (props) => {
       client = "Your Client";
     }
     if (!company || company == "") {
-      company = "company";
+      company = "Company";
     }
     const address = `${assetsLocation}${ApplicationDB}/graphics/custom/`;
 
@@ -406,6 +406,7 @@ const Home = (props) => {
         if (!company || company == "") {
           company = "Company";
         }
+				company = company.charAt(0).toUpperCase() + company.slice(1).toLowerCase();
         const textLogo1 = await fetch(`${address}${company}1.png`)
         const imageURL1 = URL.createObjectURL(await textLogo1.blob());
         const imageTexture1 = new Texture(imageURL1, scene);
