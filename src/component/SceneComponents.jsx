@@ -66,8 +66,10 @@ const SceneComponent = ({
 		// arcRotateCamera.inputs.attached.pointers.attachControl(canvas, false);
 		// Set panning axis
 
+		arcRotateCamera.inertia = 0.5;
+		arcRotateCamera.angularSensibility = 1000;
 		// Set panning options
-		arcRotateCamera.panningSensibility = 170; // Adjust the panning speed as needed
+		arcRotateCamera.panningSensibility = 142.7; // Adjust the panning speed as needed
 		// set limits for panning
 		arcRotateCamera.panningDistanceLimit = 80;
 		arcRotateCamera.allowUpsideDown = false;
@@ -75,8 +77,9 @@ const SceneComponent = ({
 		// arcRotateCamera._panningMouseButton = 0;
 
 		// Disable pinch zoom
-		arcRotateCamera.pinchDeltaPercentage = 0;
-
+		arcRotateCamera.pinchDeltaPercentage = 0.01;
+		arcRotateCamera.wheelDeltaPercentage = 0.01;
+		
 		// Disable double-click zoom
 		arcRotateCamera.useInputToRestoreState = false;
 
@@ -151,17 +154,18 @@ const SceneComponent = ({
 
 			const names = ["usecase", "tradeShows"];
 			names.forEach((curr) => {
+				var scalingFactor = -1;
 				for (var id = 0; id < 30; id++) {
 					if (scene.getMeshByName(`${curr}-${id}-fake-mesh`) != null && scene.activeCamera != null) {
 						var coordinates = scene.activeCamera.position;
 						var distance = Vector3.Distance(scene.getMeshByName(`${curr}-${id}-fake-mesh`).position, coordinates);
-						var scalingFactor = 0.015 * distance;
+						if(scalingFactor == -1) scalingFactor = 0.015 * distance;
 						scene.getMeshByName(`${curr}-${id}-fake-mesh`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
 					}
 					if (scene.getMeshByName(`${curr}-${id}-container`) != null && scene.activeCamera != null) {
 						var coordinates = scene.activeCamera.position;
 						var distance = Vector3.Distance(scene.getMeshByName(`${curr}-${id}-container`).position, coordinates);
-						var scalingFactor = 0.015 * distance;
+						if(scalingFactor == -1) scalingFactor = 0.015 * distance;
 						scene.getMeshByName(`${curr}-${id}-container`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
 					}
 				}
