@@ -11,7 +11,8 @@ import {
   Viewport,
   DynamicTexture,
   Texture,
-  Color3
+  Color3,
+  PBRMaterial
 } from '@babylonjs/core';
 import { InitializeGoogleAnalytics, TrackGoogleAnalyticsTiming } from '../utils/libraries/googleanalytics.tsx';
 import useWindowDimensions from '../hooks/useWindowDimensions';
@@ -40,8 +41,9 @@ import {
 import { set } from 'react-ga';
 import Welcome from '../utils/libraries/Welcome';
 import { useLocation } from "react-router-dom";
-import signFont from '../assets/Kenney Pixel_Regular.json';
+import signFont from '../assets/Red Hat Display_Bold.json';
 import earcut from 'earcut';
+import env from '../assets/renv.env';
 
 // Set the decoding configuration
 var dracoLoader = new DracoCompression();
@@ -146,15 +148,24 @@ const Home = (props) => {
     const address = `${assetsLocation}${ApplicationDB}/graphics/custom/`;
 
     const clientText = MeshBuilder.CreateText(`clientText`, `${client}`, signFont, {
-      size: 0.6,
-      resolution: 64,
-      depth: 0.1,
+      size: 0.3,
+      resolution: 80,
+      depth: 0.3,
     },
       scene,
       earcut
     );
     clientText.position = new Vector3(-0.37, 3.05, -9.13);
     clientText.rotation = new Vector3(0, Math.PI, 0);
+
+    var pbr = new PBRMaterial("pbr", scene);
+    pbr.albedoColor = new Color3(1, 1, 1);
+    pbr.metallic = 0; 
+    pbr.roughness = 1; 
+    pbr.metallicTexture = new Texture("/textures/mr.jpg", scene);
+    pbr.useRoughnessFromMetallicTextureAlpha = false;
+    pbr.useRoughnessFromMetallicTextureGreen = true;
+    pbr.useMetallnessFromMetallicTextureBlue = true;
 
     company = company.charAt(0).toUpperCase() + company.slice(1).toLowerCase();
     const textLogo1 = await fetch(`${address}${company}1.png`)
@@ -182,11 +193,24 @@ const Home = (props) => {
       scene,
       earcut
     );
+    var pbr = new PBRMaterial("pbr", scene);
     if (presenterText) {
       presenterText.position = new Vector3(5.339, 1.372, -8.939);
       presenterText.rotation = new Vector3(0, Math.PI, 0);
+      presenterText.material = pbr;
     }
+    var pbr2 = new PBRMaterial("pbr2", scene);
+    clientText.material = pbr2;
+    
+    pbr.albedoColor = new Color3(1, 1, 1);
+    pbr.metallic = 0; 
+    pbr.roughness = 1; 
+    pbr.metallicTexture = new Texture("/textures/mr.jpg", scene);
+    pbr.useRoughnessFromMetallicTextureAlpha = false;
+    pbr.useRoughnessFromMetallicTextureGreen = true;
+    pbr.useMetallnessFromMetallicTextureBlue = true;
   };
+
 
   const createUCGUI = (scene) => {
 
