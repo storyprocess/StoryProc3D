@@ -446,9 +446,9 @@ const Home = (props) => {
       const crCamera = new ArcRotateCamera(
         `cr-camera`,
         0,
-        1.2,
+        1.1,
         300,
-        new Vector3(-2.98, -3.5, 5.35),
+        new Vector3(-2.98, -2.5, 5.35),
         scene
       );
       scene.activeCamera = crCamera;
@@ -457,8 +457,11 @@ const Home = (props) => {
       crCamera.lowerBetaLimit = 0;
       crCamera.upperBetaLimit = 1.57;
       crCamera.lowerRadiusLimit = 10;
-      crCamera.angularSensibilityX = 5000;
-      crCamera.angularSensibilityY = 5000;
+			crCamera.inertia = 0.5;
+			crCamera.angularSensibility = 1000;
+			crCamera.panningSensibility = 142.7; 
+			crCamera.pinchDeltaPercentage = 0.01;
+			crCamera.wheelDeltaPercentage = 0.01;
       crCamera.inputs.addMouseWheel();
       // arcRotateCamera.inputs.addPointers();
       crCamera.wheelPrecision = 20;
@@ -475,11 +478,11 @@ const Home = (props) => {
       setSubModelsLoading(false);
       const timeline = gsap.timeline();
       timeline.to(crCamera, {
-        radius: 28,
+        radius: 23,
         duration: 0.5,
         ease: "power1.out",
       }).to(crCamera, {
-        alpha: 2.43,
+        alpha: Math.PI,
         duration: 3,
         ease: "power1.out",
         onComplete: () => {
