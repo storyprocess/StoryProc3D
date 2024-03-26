@@ -457,11 +457,11 @@ const Home = (props) => {
       crCamera.lowerBetaLimit = 0;
       crCamera.upperBetaLimit = 1.57;
       crCamera.lowerRadiusLimit = 10;
-			crCamera.inertia = 0.5;
-			crCamera.angularSensibility = 1000;
-			crCamera.panningSensibility = 142.7; 
-			crCamera.pinchDeltaPercentage = 0.01;
-			crCamera.wheelDeltaPercentage = 0.01;
+      crCamera.inertia = 0.5;
+      crCamera.angularSensibility = 1000;
+      crCamera.panningSensibility = 142.7;
+      crCamera.pinchDeltaPercentage = 0.01;
+      crCamera.wheelDeltaPercentage = 0.01;
       crCamera.inputs.addMouseWheel();
       // arcRotateCamera.inputs.addPointers();
       crCamera.wheelPrecision = 20;
