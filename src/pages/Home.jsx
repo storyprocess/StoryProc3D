@@ -75,7 +75,7 @@ const Home = (props) => {
   var presenter = queryParams.get('presenter');
 
   let WelcomeData = [
-    'Even great products need a great story',
+    'Even great products need great storytelling',
     'Tell your story with a CUSTOM 3D experience like this one',
     'Experience it for yourself',
     'Explore use cases in context, such as your client office above',
@@ -160,8 +160,8 @@ const Home = (props) => {
 
     var pbr = new PBRMaterial("pbr", scene);
     pbr.albedoColor = new Color3(1, 1, 1);
-    pbr.metallic = 0; 
-    pbr.roughness = 1; 
+    pbr.metallic = 0;
+    pbr.roughness = 1;
     pbr.metallicTexture = new Texture("/textures/mr.jpg", scene);
     pbr.useRoughnessFromMetallicTextureAlpha = false;
     pbr.useRoughnessFromMetallicTextureGreen = true;
@@ -201,10 +201,10 @@ const Home = (props) => {
     }
     var pbr2 = new PBRMaterial("pbr2", scene);
     clientText.material = pbr2;
-    
+
     pbr.albedoColor = new Color3(1, 1, 1);
-    pbr.metallic = 0; 
-    pbr.roughness = 1; 
+    pbr.metallic = 0;
+    pbr.roughness = 1;
     pbr.metallicTexture = new Texture("/textures/mr.jpg", scene);
     pbr.useRoughnessFromMetallicTextureAlpha = false;
     pbr.useRoughnessFromMetallicTextureGreen = true;
@@ -419,7 +419,7 @@ const Home = (props) => {
         if (!company || company == "") {
           company = "Company";
         }
-				company = company.charAt(0).toUpperCase() + company.slice(1).toLowerCase();
+        company = company.charAt(0).toUpperCase() + company.slice(1).toLowerCase();
         const textLogo1 = await fetch(`${address}${company}1.png`)
         const imageURL1 = URL.createObjectURL(await textLogo1.blob());
         const imageTexture1 = new Texture(imageURL1, scene);
