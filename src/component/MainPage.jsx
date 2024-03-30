@@ -281,30 +281,37 @@ const MainPage = (props) => {
   }
 
 
-  async function fetchAudio() {
-    let Vosound;
-    const audioClips = [];
-    const audio_Paths = [];
-    for (var id = 1; id <= 30; id++) {
-      const src_url = !packageApp ?
-        `${assetsLocation}${ApplicationDB}/audio/uc` + String(id) + "/" : `../../${ApplicationDB}/audio/uc` + String(id) + "/";
-      const path = src_url + "10.mp3";
-      try {
-        Vosound = new Howl({
-          src: path,
-          html5: true,
-          onpause: false,
-          preload: true,
-        });
-        audioClips.push(Vosound);
-        audio_Paths.push(path);
-      } catch {
-        audioClips.push("");
-      }
-    }
+	async function fetchAudio() {
+		const baseAPIUrl = `${BaseAPI}use_case_list/`;
+    const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
+		const response = await fetch(address);
+		const data = await response.json();
+
+		let Vosound;
+    const audioClips = new Map();
+    const audio_Paths = new Map();
+
+		data.use_case_list.forEach((uc) => {
+			const id = uc.use_case_id;
+			const src_url = !packageApp ?
+					`${assetsLocation}${ApplicationDB}/audio/uc` + String(id) + "/" : `../../${ApplicationDB}/audio/uc${id}/`;
+			const path = src_url + "10.mp3";
+			try {
+				Vosound = new Howl({
+					src: path,
+					html5: true,
+					onpause: false,
+					preload: true,
+				});
+				audioClips.set(id, Vosound);
+				audio_Paths.set(id, path);
+			} catch {
+			}
+		});
     setGlobalState("audioVO1", audioClips);
     setGlobalState("audioPathVO1", audio_Paths);
   }
+
 
   useEffect(() => {
     fetchData();

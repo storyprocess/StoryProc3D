@@ -482,7 +482,7 @@ const Home = (props) => {
         duration: 0.5,
         ease: "power1.out",
       }).to(crCamera, {
-        alpha: Math.PI,
+        alpha: 3,
         duration: 3,
         ease: "power1.out",
         onComplete: () => {

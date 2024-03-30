@@ -157,18 +157,17 @@ const SceneComponent = ({
 
 			const names = ["usecase", "tradeShows"];
 			names.forEach((curr) => {
-				var scalingFactor = -1;
 				for (var id = 0; id < 30; id++) {
 					if (scene.getMeshByName(`${curr}-${id}-fake-mesh`) != null && scene.activeCamera != null) {
 						var coordinates = scene.activeCamera.position;
 						var distance = Vector3.Distance(scene.getMeshByName(`${curr}-${id}-fake-mesh`).position, coordinates);
-						if(scalingFactor == -1) scalingFactor = 0.015 * distance;
+						var scalingFactor = 0.015 * distance;
 						scene.getMeshByName(`${curr}-${id}-fake-mesh`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
 					}
 					if (scene.getMeshByName(`${curr}-${id}-container`) != null && scene.activeCamera != null) {
 						var coordinates = scene.activeCamera.position;
 						var distance = Vector3.Distance(scene.getMeshByName(`${curr}-${id}-container`).position, coordinates);
-						if(scalingFactor == -1) scalingFactor = 0.015 * distance;
+						var scalingFactor = 0.015 * distance;
 						scene.getMeshByName(`${curr}-${id}-container`).scaling = new Vector3(scalingFactor, scalingFactor, scalingFactor);
 					}
 				}
