@@ -6,3 +6,5 @@ export const BaseAPI = "https://bubble-backend.storyproc.com/"
 export const MainMenuIsButtons = false
 export const carouselType = "1"
 export const packageApp = false
+export const TVScreenSolutions = true
+export const TRACKING_ID = "G-728XS2G376"

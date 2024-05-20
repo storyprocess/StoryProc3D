@@ -14,7 +14,6 @@ import {
   packageApp
 } from "../assets/assetsLocation";
 import { setTourState } from "../hooks/animations";
-import useAnalyticsEventTracker from "./useAnalyticsEventTracker";
 import { CSSTransition } from "react-transition-group";
 import { initialize } from "react-ga";
 
@@ -57,7 +56,6 @@ const MainPage = (props) => {
   const [isHomeButtonClick, setIsHomeButtonClick] =
     useGlobalState("IsHomeButtonClick");
   const [playAndPause, setPlayAndPause] = useGlobalState("playAndPause");
-  const gaEventTracker = useAnalyticsEventTracker("ToolBarMenu");
   const [anchorEl, setAnchorEl] = useState(null);
 	const [linkType, setLinkType] = useState(null);
   const [scene, setScene] = useGlobalState("scene");
@@ -319,7 +317,6 @@ const MainPage = (props) => {
   }, []);
 
   const handleButtonClick = async (buttonId) => {
-    gaEventTracker(buttonId);
 
     setSelectedButton(buttonId);
     setTourState(false);

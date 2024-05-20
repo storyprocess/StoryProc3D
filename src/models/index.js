@@ -1,6 +1,6 @@
 import Marker from "./marker.glb"
-import mainModel from "./combinedoffice.glb"
-import tradeshow from "./tradeshow.glb"
+import mainModel from "./combinedofficeDR.glb"
+import tradeshow from "./tradeshowDR.glb"
 
 export {
 	mainModel,

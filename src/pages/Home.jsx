@@ -44,6 +44,7 @@ import { useLocation } from "react-router-dom";
 import signFont from '../assets/Red Hat Display_Bold.json';
 import earcut from 'earcut';
 import env from '../assets/renv.env';
+import { startTransition } from 'react';
 
 // Set the decoding configuration
 var dracoLoader = new DracoCompression();
@@ -166,7 +167,7 @@ const Home = (props) => {
     pbr.useRoughnessFromMetallicTextureAlpha = false;
     pbr.useRoughnessFromMetallicTextureGreen = true;
     pbr.useMetallnessFromMetallicTextureBlue = true;
-
+		
     company = company.charAt(0).toUpperCase() + company.slice(1).toLowerCase();
     const textLogo1 = await fetch(`${address}${company}1.png`)
     const imageURL1 = URL.createObjectURL(await textLogo1.blob());
@@ -328,8 +329,6 @@ const Home = (props) => {
     fakeMesh.position = new Vector3(section.position.x, section.position.y, section.position.z);
     fakeMesh.material = new StandardMaterial('hotspot-material', scene);
     fakeMesh.isVisible = false;
-
-    const model = scene.getMeshByName('factory-model');
 
     const securityCamera = new ArcRotateCamera(
       `security-camera-${section.id}`,
@@ -635,16 +634,18 @@ const Home = (props) => {
   }, [isLoading, isWelcome])
 
   const handleNext = () => {
-    if (count === 5) {
-      setIsWelcome(false)
-      setIsLoading(false);
-      setGlobalState('IsLoading', false);
-      initialAnimation();
-      setTimeout(() => {
-        document.getElementById("tour").click()
-      }, 2000);
-    }
-    setCount(count + 1);
+		startTransition(() => {
+			if (count === 5) {
+				setIsWelcome(false)
+				setIsLoading(false);
+				setGlobalState('IsLoading', false);
+				initialAnimation();
+				setTimeout(() => {
+					document.getElementById("tour").click()
+				}, 2000);
+			}
+			setCount(count + 1);
+		});
   };
   const handlePrev = () => {
     setCount(count - 1);
