@@ -10,10 +10,8 @@ import {
 	Vector3,
 	SceneLoaderFlags,
 	FreeCamera,
-	Matrix,
-	//PointLight,
 } from '@babylonjs/core';
-
+import lightsData from "../data/lights.json";
 import styles from '../utils/styles/SceneComponent.module.css';
 
 SceneLoaderFlags.ShowLoadingScreen = false;
@@ -121,7 +119,12 @@ const SceneComponent = ({
 		//const slight = new PointLight('slight', new Vector3(-0.37, 3.05, -9.13), scene);
 
 		// Default intensity is 1. Let's dim the light a small amount
-		light.intensity = 1;
+		const lightSettings = lightsData.at(-1);
+		light.intensity = lightSettings["intensity"];
+		var rgb = light.diffuse;
+		rgb.r = lightSettings["r"];
+		rgb.g = lightSettings["g"];
+		rgb.b = lightSettings["b"];
 	};
 
 	// set up basic engine and scene
