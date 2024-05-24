@@ -117,6 +117,7 @@
 
   --bgUcStory: var(--bgDark);
   --bgUcStoryNextPrevButton: var(--bgDark);
+	--bgUcStoryHighlight: var(--bgShadow);
   --UcStoryOpacity: var(--opacityHigh);
   --UcStoryFontFamily: var(--fontFamilyRobotoMedium);
   --UcStoryFontWeight: var(--fontWeightMedium);
