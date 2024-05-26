@@ -46,6 +46,7 @@ import earcut from 'earcut';
 import env from '../assets/renv.env';
 import { startTransition } from 'react';
 import lightsData from '../data/lights.json';
+import { resetLights } from '../utils/libraries/LightUtils.jsx';
 
 // Set the decoding configuration
 var dracoLoader = new DracoCompression();
@@ -408,14 +409,7 @@ const Home = (props) => {
     scene.activeCamera = movingCamera;
 
     if (i == 6) {
-			const lightSettings = lightsData.at(-1);
-			const light = scene.getLightByName("light");
-			light.intensity = lightSettings["intensity"];
-			var rgb = light.diffuse;
-			rgb.r = lightSettings["r"];
-			rgb.g = lightSettings["g"];
-			rgb.b = lightSettings["b"];
-	
+			resetLights(scene);
       setSubModelsLoading(true);
       if (!scene.getMeshByName('tradeshow')) {
         const t_startTime = performance.now();

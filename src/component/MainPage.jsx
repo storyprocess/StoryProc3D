@@ -18,6 +18,7 @@ import { CSSTransition } from "react-transition-group";
 import { initialize } from "react-ga";
 import lightsData from "../data/lights.json";
 import { Color3, Animation } from "@babylonjs/core";
+import { resetLights } from "../utils/libraries/LightUtils";
 
 const MainPage = (props) => {
   const location = useLocation();
@@ -86,17 +87,8 @@ const MainPage = (props) => {
 
   // Set screen to initial state
   const resetScreen = () => {
-		const lightSettings = lightsData.at(-1);
-		const light = scene.getLightByName("light");
-		light.intensity = lightSettings["intensity"];
-		var rgb = light.diffuse;
-		var lightColorAnimation = new Animation("lightColorAnimation", "diffuse", 60, Animation.ANIMATIONTYPE_COLOR3, Animation.ANIMATIONLOOPMODE_CYCLE);
-		var keys = [
-			{frame: 0, value: new Color3(rgb.r, rgb.g, rgb.b)},
-			{frame: 60, value: new Color3(lightSettings["r"], lightSettings["g"], lightSettings["b"])},
-		];
-		lightColorAnimation.setKeys(keys);
-		scene.beginDirectAnimation(light, [lightColorAnimation], 0, keys[keys.length - 1].frame, false, 1);
+		resetLights(scene);
+
     setGlobalState("IsBackgroundBlur", false);
     // setGlobalState("IsButtonContainer", true);
     setTourState(false);

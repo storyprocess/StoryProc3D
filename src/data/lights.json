@@ -1,44 +1,44 @@
-[
-	{
+{
+	"default": {
+		"intensity": 1,
+		"r": 1,
+		"g": 1,
+		"b": 1
+	},
+	"optimistic": {
 		"intensity": 0.1,
 		"r": 0.6,
 		"g": 0.3,
 		"b": 0
 	},
-	{
+	"sad": {
 		"intensity": -0.2,
 		"r": -0.3,
 		"g": -0.3,
 		"b": 0
 	},
-	{
+	"hope": {
 		"intensity": 0.2,
 		"r": -0.3,
 		"g": 0,
 		"b": 0.3
 	},
-	{
+	"cheerful": {
 		"intensity": 0,
 		"r": 0,
 		"g": 0,
 		"b": 0
 	},
-	{
+	"upbeat": {
 		"intensity": 0.1,
 		"r": 0.4,
 		"g": 0.4,
 		"b": 0
 	},
-	{
-		"intensity": 0.2,
-		"r": 0.2,
-		"g": -0.1,
-		"b": -0.3
-	},
-	{
-		"intensity": 1,
-		"r": 1,
-		"g": 1,
-		"b": 1
+	"neutral": {
+		"intensity": 0,
+		"r": 0,
+		"g": 0,
+		"b": 0
 	}
-]
+}

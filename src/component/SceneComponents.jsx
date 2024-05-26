@@ -119,12 +119,12 @@ const SceneComponent = ({
 		//const slight = new PointLight('slight', new Vector3(-0.37, 3.05, -9.13), scene);
 
 		// Default intensity is 1. Let's dim the light a small amount
-		const lightSettings = lightsData.at(-1);
-		light.intensity = lightSettings["intensity"];
+		const defaultSettings = lightsData["default"];
+		light.intensity = defaultSettings["intensity"];
 		var rgb = light.diffuse;
-		rgb.r = lightSettings["r"];
-		rgb.g = lightSettings["g"];
-		rgb.b = lightSettings["b"];
+		rgb.r = defaultSettings["r"];
+		rgb.g = defaultSettings["g"];
+		rgb.b = defaultSettings["b"];
 	};
 
 	// set up basic engine and scene
