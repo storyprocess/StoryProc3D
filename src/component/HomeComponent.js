@@ -23,7 +23,7 @@ function HomeComponent() {
 	const navbuttontext = "Reset";
 	const [useCase, setUseCase] = useGlobalState("useCase");
 	const [IsLoading, setIsLoading] = useGlobalState("IsLoading");
-	const [extraData, setExtraData] = useState([[], [], [], [], [], [], [], [], [], [], [],]);
+	const [extraData, setExtraData] = useState(Array.from({ length: 17 }, () => []));
 	const [fetched, setFetched] = useState(false);
 	const [IsBackgroundBlur, setIsBackgroundBlur] = useGlobalState("IsBackgroundBlur");
 	const [scene, setScene] = useGlobalState("scene");
@@ -34,34 +34,34 @@ function HomeComponent() {
 	}, []);
 
 	async function fetchData() {
-		for (var id = 0; id < 9; id++) {
-			var baseAPIUrl;
-			var address;
-			if (id === 8) {
-				baseAPIUrl = `${BaseAPI}use_case_list/`;
-				address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`; //address for fetching sectiondata
-			} else if (id === 5 || id === 3) {
-				baseAPIUrl = `${BaseAPI}solutions`;
-				address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/solutions.json`; //address for fetching sectiondata
-			} else {
-				baseAPIUrl = `${BaseAPI}section/`;
-				address = !packageApp ? `${baseAPIUrl + id}?db=${ApplicationDB}` : `../../${ApplicationDB}/section/${id}.json`; //address for fetching sectiondata
-			}
-			// CHANGES HERE
-			try {
-				// console.log("API CALLED");
-				const response = await fetch(address); //fetch section data files for specific config id
-				const data = await response.json();
-				extraData[id - 1].push(data);
-				if (id === 8) {
-					setGlobalState("use_case_list", data);
-				}
-			} catch (error) {
-				// console.error("Error fetching data:", error);
-			}
-		}
+    for (var id = 0; id < 9; id++) {
+      var baseAPIUrl;
+      var address;
+      if (id === 8) {
+        baseAPIUrl = `${BaseAPI}use_case_list/`;
+        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`; //address for fetching sectiondata
+      } else if (id === 7) {
+        baseAPIUrl = `${BaseAPI}solutions`;
+        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/solutions.json`; //address for fetching sectiondata
+      } else {
+        baseAPIUrl = `${BaseAPI}section/`;
+        address = !packageApp ? `${baseAPIUrl + id}?db=${ApplicationDB}` : `../../${ApplicationDB}/section/${id}.json`; //address for fetching sectiondata
+      }
+      // CHANGES HERE
+      try {
+        // console.log("API CALLED");
+        const response = await fetch(address); //fetch section data files for specific config id
+        const data = await response.json();
+        extraData[id - 1].push(data);
+        if (id === 8) {
+          setGlobalState("use_case_list", data);
+        }
+      } catch (error) {
+        // console.error("Error fetching data:", error);
+      }
+    }
 		setFetched(true);
-	}
+  }
 
 	useEffect(() => {
 		setGlobalState("currentZoomedSection", String(useCase).substring(2));

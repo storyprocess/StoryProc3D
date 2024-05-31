@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
 import ToolbarButton from "../utils/libraries/ToolbarButton";
 import MenuDispensor from "../utils/libraries/MenuDispensor";
 import { useParams, useNavigate } from "react-router-dom";
@@ -15,35 +14,18 @@ import {
 } from "../assets/assetsLocation";
 import { setTourState } from "../hooks/animations";
 import { CSSTransition } from "react-transition-group";
-import { initialize } from "react-ga";
-import lightsData from "../data/lights.json";
-import { Color3, Animation } from "@babylonjs/core";
 import { resetLights } from "../utils/libraries/LightUtils";
 
 const MainPage = (props) => {
-  const location = useLocation();
   const buttonRef = useRef(null);
   const { toPress, loadID } = useParams();
-  const [extraData, setExtraData] = useState([
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-  ]);
+  const [extraData, setExtraData] = useState(props.extraData);
   const [selectedButton, setSelectedButton] = useGlobalState("selectedButton");
   const [showCardContainer, setShowCardContainer] = useState(false);
   const [sectionData, setSectionData] = useState([]);
 
   const [ui_Element, setUI_Element] = useState(null);
 
-  const [showTour, setShowTour] = useGlobalState("showTour");
   const [buttonType, setButtonType] = useState("");
 
   const [showUC, setShowUC] = useGlobalState("showUC");
@@ -75,7 +57,6 @@ const MainPage = (props) => {
   };
   const handleMenuItemClick = () => {
     setAnchorEl(null);
-    // setSelectedButton("selectedButton")
   };
   const links = new Map([
     ["needs", "btnBusinessNeeds"],
@@ -88,24 +69,16 @@ const MainPage = (props) => {
   // Set screen to initial state
   const resetScreen = () => {
 		resetLights(scene);
-
     setGlobalState("IsBackgroundBlur", false);
-    // setGlobalState("IsButtonContainer", true);
     setTourState(false);
     setSelectedButton(null);
     setShowCardContainer(false);
-    // setUseCaseMapping(false);
-    // setUI_Element(null);
     setGlobalState("useCase", 0);
     setGlobalState("solutionsId", -1);
-    // setGlobalState("IsButtonContainer", true);
-    // setGlobalState("mapped_use_case", null);
-    // setGlobalState("HoverId",0);
     setGlobalState("HoverUseCaseId", 0);
     setShowUC(false);
     setGlobalState("showDC", false);
     setGlobalState("showUC", false);
-    // props.resetCamera();
     Howler.stop();
   };
 
@@ -149,10 +122,6 @@ const MainPage = (props) => {
     }
   }, [toPress]);
 
-	// useEffect(() => {
-	// 	handleIntroButtonClick("btnIntroduction", "Introduction");
-	// },[]);
-
   const handlePlayStory = () => {
     // ga
     if (HoverId > 0) {
@@ -163,59 +132,16 @@ const MainPage = (props) => {
   }
   useEffect(() => {
     if (isHomeButtonClick) {
-      // setUI_Element("");
       setGlobalState("useCase", 0);
       setGlobalState("HoverUseCaseId", 0);
       setSelectedButton(null);
-      // setGlobalState("IsButtonContainer", false);
     }
   }, [isHomeButtonClick]);
-
-	const handleIntroButtonClick = async (buttonId, buttonName) => {
-		if (selectedButton === buttonId) {
-			// if same button clicked again, reset screen
-			resetScreen();
-			return;
-		}
-		setUseCaseMapping(false);
-		handleButtonClick(buttonId);
-		// setGlobalState("useCase", 1);
-		setGlobalState("IsTourOpen", false);
-		// handleUseCaseButtonClick("btnMyHostelStory");
-		setGlobalState("IsButtonContainer", false);
-		setGlobalState("IsHomeButtonClick", false);
-		setGlobalState("ApplicationDB", ApplicationDB);
-		setGlobalState("playUCDirectly", true);
-		if (isTourOpen) {
-			props.resetCamera();
-		}
-		Howler.stop();
-		setSelectedButton(buttonId);
-		try {
-			const apiurl = !packageApp ? `${BaseAPI}use_case_stories/1001?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_stories/1001.json`;
-
-			if (extraData[9].length == 0) {
-				const response = await fetch(apiurl);
-				const data = await response.json();
-				extraData[9][0] = data;
-			}
-		} catch (error) {
-			console.error("Error fetching data:", error);
-		}
-		setSectionData(extraData[9][0]);
-		setButtonType("Use_case");
-		setGlobalState("IsButtonContainer", false);
-		setUI_Element("popuptoolbar");
-		setShowCardContainer(true);
-		setGlobalState("HoverUseCaseId", 1001);
-		return;
-	};
 
   const handleUseCaseButtonClick = async (buttonId) => {
     setGlobalState("IsHomeButtonClick", false);
     setGlobalState("ApplicationDB", ApplicationDB);
     if (isTourOpen) {
-      // document.getElementById("close-btn").click();
       props.resetCamera();
     }
     Howler.stop();
@@ -230,7 +156,6 @@ const MainPage = (props) => {
       const baseAPIUrl = !packageApp ? `${BaseAPI}use_case_list/?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
       const id = buttonId.at(-1);
       const address = baseAPIUrl; //address for fetching sectiondata
-      // const address = baseAPIUrl + id;//address for fetching sectiondata
       const response = await fetch(address); //fetch section data files for specific config id
       const data = await response.json();
 
@@ -253,36 +178,6 @@ const MainPage = (props) => {
     }
     return;
   };
-
-  async function fetchData() {
-    for (var id = 0; id < 9; id++) {
-      var baseAPIUrl;
-      var address;
-      if (id === 8) {
-        baseAPIUrl = `${BaseAPI}use_case_list/`;
-        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`; //address for fetching sectiondata
-      } else if (id === 7) {
-        baseAPIUrl = `${BaseAPI}solutions`;
-        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/solutions.json`; //address for fetching sectiondata
-      } else {
-        baseAPIUrl = `${BaseAPI}section/`;
-        address = !packageApp ? `${baseAPIUrl + id}?db=${ApplicationDB}` : `../../${ApplicationDB}/section/${id}.json`; //address for fetching sectiondata
-      }
-      // CHANGES HERE
-      try {
-        // console.log("API CALLED");
-        const response = await fetch(address); //fetch section data files for specific config id
-        const data = await response.json();
-        extraData[id - 1].push(data);
-        if (id === 8) {
-          setGlobalState("use_case_list", data);
-        }
-      } catch (error) {
-        // console.error("Error fetching data:", error);
-      }
-    }
-  }
-
 
 	async function fetchAudio() {
 		const baseAPIUrl = `${BaseAPI}use_case_list/`;
@@ -317,7 +212,6 @@ const MainPage = (props) => {
 
 
   useEffect(() => {
-    fetchData();
     fetchAudio();
   }, []);
 
@@ -333,7 +227,6 @@ const MainPage = (props) => {
     setGlobalState("ApplicationDB", ApplicationDB);
     if (isTourOpen) {
       setGlobalState("UCTourId", 0);
-      // document.getElementById("close-btn").click();
       props.resetCamera();
     }
     Howler.stop();
@@ -365,7 +258,6 @@ const MainPage = (props) => {
     setGlobalState("HoverId", 0);
     setGlobalState("HoverUseCaseId", 0);
     Howler.stop();
-    // document.getElementById("close-btn").click();
     props.resetCamera();
 		resetScreen();
   };
@@ -438,22 +330,8 @@ const MainPage = (props) => {
 
 
         <div
-          // style={{ justifyContent: MainMenuIsButtons ? "center" : "end" }}
           className={`${MainMenuIsButtons ? "toolbar" : "plain-toolbar"} `}
         >
-          {/* <ToolbarButton // Introduction button
-            buttonId="btnIntroduction" //1
-            selectedButton={selectedButton}
-            active={"btnIntroduction" === selectedButton}
-            buttonName="Introduction"
-            handleButtonClick={(buttonId, buttonName) => {handleIntroButtonClick(buttonId, buttonName)}}
-						handleMenuClick={() => {}}
-						MainMenuIsButtons = {MainMenuIsButtons}
-          >
-            Introduction
-          </ToolbarButton>
-
-          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>} */}
 					<ToolbarButton
             buttonId="btnSalesChallenges"
             active={"btnSalesChallenges" === selectedButton}
@@ -478,7 +356,6 @@ const MainPage = (props) => {
                 const address = !packageApp ? `${baseAPIUrl + "2"}?db=${ApplicationDB}` : `../../${ApplicationDB}/section/2.json`; //address for fetching sectiondata
                 // CHANGES HERE
                 try {
-                  // console.log("API CALLED");
                   const response = await fetch(address); //fetch section data files for specific config id
                   const data = await response.json();
                   extraData[1].push(data);
@@ -564,7 +441,6 @@ const MainPage = (props) => {
                 const address = !packageApp ? `${baseAPIUrl + "4"}?db=${ApplicationDB}` : `../../${ApplicationDB}/section/4.json`; //address for fetching sectiondata
                 // CHANGES HERE
                 try {
-                  // console.log("API CALLED");
                   const response = await fetch(address); //fetch section data files for specific config id
                   const data = await response.json();
                   extraData[3].push(data);
@@ -599,7 +475,6 @@ const MainPage = (props) => {
               }
               setShowCardContainer(true);
               setUseCaseMapping(false);
-              // handleButtonClick(buttonId);
               setGlobalState("useCase", 0);
               setGlobalState("HoverUseCaseId", 0);
               setGlobalState("IsTourOpen", false);
@@ -610,7 +485,6 @@ const MainPage = (props) => {
                 const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/solutions.json`; //address for fetching sectiondata
                 // CHANGES HERE
                 try {
-                  // console.log("API CALLED");
                   const response = await fetch(address); //fetch section data files for specific config id
                   const data = await response.json();
                   extraData[6].push(data);
@@ -693,10 +567,6 @@ const MainPage = (props) => {
         </div>
       </div>
 
-
-      {/* Display elements if clicked */}
-
-      {/* Cards or DVS tab */}
       <MenuDispensor
         buttonType={buttonType}
         sectionData={sectionData}
@@ -713,8 +583,6 @@ const MainPage = (props) => {
 				link_type={linkType}
       />
 
-      {/* UseCases/Guided Tour tab */}
-      {/* {showTour && fetched && <UseCase steps={stepData} useCaseID={5} />} */}
     </div>
   );
 };
