@@ -208,6 +208,28 @@ const MainPage = (props) => {
 		});
     setGlobalState("audioVO1", audioClips);
     setGlobalState("audioPathVO1", audio_Paths);
+
+    const audioClips2 = new Map();
+    const audio_Paths2 = new Map();
+    data.use_case_list.forEach((uc) => {
+      const id = uc.use_case_id;
+      const src_url = !packageApp ?
+        `${assetsLocation}${ApplicationDB}/audio/uc` + String(id) + "/" : `../../${ApplicationDB}/audio/uc${id}/`;
+      const path = src_url + "11.mp3";
+      try {
+        Vosound = new Howl({
+          src: path,
+          html5: true,
+          onpause: false,
+          preload: true,
+        });
+        audioClips2.set(id, Vosound);
+        audio_Paths2.set(id, path);
+      } catch {
+      }
+    });
+    setGlobalState("audioVO2", audioClips2);
+    setGlobalState("audioPathVO2", audio_Paths2);
   }
 
 
