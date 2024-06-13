@@ -6,10 +6,10 @@ import { Howl, Howler } from 'howler';
 import audioPlayingIcon from '../assets/audioPlayingIcon.svg';
 import audioMutedIcon from '../assets/audioMutedIcon.svg';
 import audioPlayIcon from '../assets/playIcon.svg';
+import reset from '../assets/reset2.svg';
 import audioPauseIcon from '../assets/pauseIcon.svg';
 import UcaudioPlayIcon from '../assets/Group 32 (1).png';
 import { useNavigate } from 'react-router-dom';
-
 
 function Navbar() {
 
@@ -87,6 +87,7 @@ function Navbar() {
 
       {/* {ApplicationDB == "M" ?<img style={{left:'82.84%'}} id="homeButton" className='mute withclick' src={homeIcon} onClick={()=>handleHome()}></img>:''} */}
       {/* <img style={{left:'82.84%'}} id="homeButton" className='mute withclick' src={homeIcon} onClick={()=>handleHome()}></img> */}
+      <img style={{ left: '92%' }} id="playPauseButton" className='mute withclick' src={reset} onClick={() => handleReset()}></img>
       <img style={{ left: '94%' }} id="playPauseButton" className='mute withclick' src={!playAndPause ? audioPlayIcon : isTourOpen ? UcaudioPlayIcon : audioPauseIcon} onClick={playPause}></img>
       <img style={{ left: "96%" }} id="muteButton" className='mute withclick' src={muted ? audioMutedIcon : audioPlayingIcon} onClick={muteUnmute}></img>
       {/* <img id="playButton" className='playPause withclick' src={playIcon} onClick={playPauseMusic}></img> */}

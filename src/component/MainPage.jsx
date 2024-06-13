@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import ToolbarButton from "../utils/libraries/ToolbarButton";
 import MenuDispensor from "../utils/libraries/MenuDispensor";
 import { useParams, useNavigate } from "react-router-dom";
@@ -13,10 +14,12 @@ import {
   packageApp
 } from "../assets/assetsLocation";
 import { setTourState } from "../hooks/animations";
+import { startTransition } from "react";
 import { CSSTransition } from "react-transition-group";
 import { resetLights } from "../utils/libraries/LightUtils";
 
 const MainPage = (props) => {
+  const location = useLocation();
   const buttonRef = useRef(null);
   const { toPress, loadID } = useParams();
   const [extraData, setExtraData] = useState(props.extraData);
@@ -42,8 +45,9 @@ const MainPage = (props) => {
     useGlobalState("IsHomeButtonClick");
   const [playAndPause, setPlayAndPause] = useGlobalState("playAndPause");
   const [anchorEl, setAnchorEl] = useState(null);
-	const [linkType, setLinkType] = useState(null);
+  const [linkType, setLinkType] = useState(null);
   const [scene, setScene] = useGlobalState("scene");
+  const [count, setCount] = useState(0);
 
   let alignItems = false;
 
@@ -68,7 +72,10 @@ const MainPage = (props) => {
 
   // Set screen to initial state
   const resetScreen = () => {
-		resetLights(scene);
+    resetLights(scene);
+    if (ui_Element == "welcome") {
+      setUI_Element("");
+    }
     setGlobalState("IsBackgroundBlur", false);
     setTourState(false);
     setSelectedButton(null);
@@ -81,6 +88,36 @@ const MainPage = (props) => {
     setGlobalState("showUC", false);
     Howler.stop();
   };
+  const handleNext = () => {
+    startTransition(() => {
+      if (count == 5) {
+        handleSkip();
+        handleTourButtonClick("tour");
+      }
+      setCount(count + 1);
+    });
+  };
+  const handleSkip = () => {
+    setCount(0);
+    resetScreen();
+  };
+  let WelcomeData = [
+    'Even great products need great storytelling',
+    'Tell your story with a CUSTOM 3D experience like this one',
+    'Experience it for yourself',
+    'Explore use cases in context, such as your client office above',
+    'Use "Reset" to go to the default view',
+    'Let’s see your sales storytelling in action in a client’s office'
+  ];
+
+  let WelcomeData1 = [
+    'Our clients see higher sales, larger deals – even higher prices!',
+    'Create meaningful connections with clients. Engage, simplify, and grow sales.',
+    'All of the information and stories are organized and accessible from the menu.',
+    'Select any use case to get a complete overview of the use case, its significance, and the solutions available to you.',
+    'Hit "Reset" anytime to stop any running story and come back to the top level view.',
+    'You can stop the tour anytime you like using the "stop tour" button on the bottom right.'
+  ];
 
   useEffect(() => {
     if (selectedButton == "tour" && isTourOpen == false) {
@@ -179,33 +216,33 @@ const MainPage = (props) => {
     return;
   };
 
-	async function fetchAudio() {
-		const baseAPIUrl = `${BaseAPI}use_case_list/`;
+  async function fetchAudio() {
+    const baseAPIUrl = `${BaseAPI}use_case_list/`;
     const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
-		const response = await fetch(address);
-		const data = await response.json();
+    const response = await fetch(address);
+    const data = await response.json();
 
-		let Vosound;
+    let Vosound;
     const audioClips = new Map();
     const audio_Paths = new Map();
 
-		data.use_case_list.forEach((uc) => {
-			const id = uc.use_case_id;
-			const src_url = !packageApp ?
-					`${assetsLocation}${ApplicationDB}/audio/uc` + String(id) + "/" : `../../${ApplicationDB}/audio/uc${id}/`;
-			const path = src_url + "10.mp3";
-			try {
-				Vosound = new Howl({
-					src: path,
-					html5: true,
-					onpause: false,
-					preload: true,
-				});
-				audioClips.set(id, Vosound);
-				audio_Paths.set(id, path);
-			} catch {
-			}
-		});
+    data.use_case_list.forEach((uc) => {
+      const id = uc.use_case_id;
+      const src_url = !packageApp ?
+        `${assetsLocation}${ApplicationDB}/audio/uc` + String(id) + "/" : `../../${ApplicationDB}/audio/uc${id}/`;
+      const path = src_url + "10.mp3";
+      try {
+        Vosound = new Howl({
+          src: path,
+          html5: true,
+          onpause: false,
+          preload: true,
+        });
+        audioClips.set(id, Vosound);
+        audio_Paths.set(id, path);
+      } catch {
+      }
+    });
     setGlobalState("audioVO1", audioClips);
     setGlobalState("audioPathVO1", audio_Paths);
 
@@ -260,7 +297,6 @@ const MainPage = (props) => {
   };
 
   const handleResetButtonClick = () => {
-    // setUseCaseMapping(false);
     setGlobalState("IsBackgroundBlur", false);
     if (MainMenuIsButtons) {
       setIsResetClick(true)
@@ -281,7 +317,7 @@ const MainPage = (props) => {
     setGlobalState("HoverUseCaseId", 0);
     Howler.stop();
     props.resetCamera();
-		resetScreen();
+    resetScreen();
   };
 
   return (
@@ -354,7 +390,198 @@ const MainPage = (props) => {
         <div
           className={`${MainMenuIsButtons ? "toolbar" : "plain-toolbar"} `}
         >
-					<ToolbarButton
+          <ToolbarButton
+            forwardRef={buttonRef}
+            buttonId="tour"
+            id="tour"
+            selectedButton={selectedButton}
+            active={"tour" === selectedButton}
+            buttonName="Immersive Overview"
+            handleButtonClick={handleTourButtonClick}
+            handleMenuClick={() => { }}
+            MainMenuIsButtons={MainMenuIsButtons}
+          >
+            {isTourOpen ? "End Tour" : "Guided Tour"}
+          </ToolbarButton>
+          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
+          <ToolbarButton
+            buttonId="btnWelcomeCards"
+            selectedButton={selectedButton}
+            active={"btnWelcomeCards" === selectedButton}
+            buttonName="Welcome Screen"
+            handleButtonClick={async (buttonId, buttonName) => {
+              if (selectedButton === buttonId) {
+                // if same button clicked again, reset screen
+                resetScreen();
+                return;
+              }
+              setCount(0);
+              setUseCaseMapping(false);
+              handleButtonClick(buttonId);
+              // setGlobalState("useCase", 1);
+              setGlobalState("IsTourOpen", false);
+              // handleUseCaseButtonClick("btnMyHostelStory");
+              setGlobalState("IsButtonContainer", false);
+              setGlobalState("IsHomeButtonClick", false);
+              setGlobalState("ApplicationDB", ApplicationDB);
+              setGlobalState("playUCDirectly", true);
+              setGlobalState("IsBackgroundBlur", true);
+              if (isTourOpen) {
+                props.resetCamera();
+              }
+              Howler.stop();
+              setSelectedButton(buttonId);
+              setGlobalState("IsButtonContainer", false);
+              setUI_Element("welcome");
+              setShowCardContainer(true);
+              return;
+            }}
+            handleMenuClick={() => { }}
+            MainMenuIsButtons={MainMenuIsButtons}
+          >
+            Start Here
+          </ToolbarButton>
+
+          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
+
+          <ToolbarButton
+            buttonId="btnIntroduction"
+            selectedButton={selectedButton}
+            active={"btnIntroduction" === selectedButton}
+            buttonName="Introduction"
+            handleButtonClick={async (buttonId, buttonName) => {
+              if (selectedButton === buttonId) {
+                // if same button clicked again, reset screen
+                resetScreen();
+                setUI_Element(null);
+                return;
+              }
+              setUseCaseMapping(false);
+              handleButtonClick(buttonId);
+              // setGlobalState("useCase", 1);
+              setGlobalState("IsTourOpen", false);
+              // handleUseCaseButtonClick("btnMyHostelStory");
+              setGlobalState("IsButtonContainer", false);
+              setGlobalState("IsHomeButtonClick", false);
+              setGlobalState("ApplicationDB", ApplicationDB);
+              setGlobalState("playUCDirectly", true);
+              if (isTourOpen) {
+                props.resetCamera();
+              }
+              Howler.stop();
+              setSelectedButton(buttonId);
+              try {
+                const apiurl = !packageApp ? `${BaseAPI}use_case_stories_emotion/901?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_stories_emotion/901.json`;
+                if (extraData[9].length == 0) {
+                  const response = await fetch(apiurl);
+                  const data = await response.json();
+                  extraData[9][0] = data;
+                }
+              } catch (error) {
+                console.error("Error fetching data:", error);
+              }
+              setSectionData(extraData[9][0]);
+              setButtonType("Use_case");
+              setGlobalState("IsButtonContainer", false);
+              setUI_Element("popuptoolbar");
+              setShowCardContainer(true);
+              setGlobalState("HoverUseCaseId", 901);
+              return;
+            }}
+            handleMenuClick={() => { }}
+            MainMenuIsButtons={MainMenuIsButtons}
+          >
+            Introduction
+          </ToolbarButton>
+
+
+
+          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
+          <ToolbarButton // Guided Tour button
+            buttonId="btnBusinessNeeds" //1
+            selectedButton={selectedButton}
+            active={"btnBusinessNeeds" === selectedButton}
+            buttonName="Business Needs"
+            handleButtonClick={async (buttonId, buttonName) => {
+              if (selectedButton === buttonId) {
+                // if same button clicked again, reset screen
+                resetScreen();
+                return;
+              }
+              setUseCaseMapping(true);
+              setLinkType("OU");
+              handleButtonClick(buttonId);
+              setGlobalState("IsBackgroundBlur", true);
+              setGlobalState("useCase", 0);
+              setGlobalState("HoverUseCaseId", 0);
+              setGlobalState("IsTourOpen", false);
+
+              if (extraData[0][0] == null) {
+                const baseAPIUrl = `${BaseAPI}section/`;
+                const address = !packageApp ? `${baseAPIUrl + "1"}?db=${ApplicationDB}` : `../../${ApplicationDB}/section/1.json`;
+                try {
+                  const response = await fetch(address);
+                  const data = await response.json();
+                  extraData[0].push(data);
+                } catch (error) {
+                  console.log("Error fetching data:", error);
+                }
+              }
+
+              setSectionData(extraData[0][0].SectionData);
+
+              setUI_Element("cards");
+            }}
+            handleMenuClick={() => { }}
+            MainMenuIsButtons={MainMenuIsButtons}
+          >
+            Sales Goals
+          </ToolbarButton>
+          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
+          <ToolbarButton // Use Case Story Button
+            buttonId="btnUseCasesEnabled" //8
+            selectedButton={selectedButton}
+            active={"btnUseCasesEnabled" === selectedButton}
+            buttonName="Use Cases Enabled"
+            handleButtonClick={async (buttonId, buttonName) => {
+              fetchAudio();
+              if (selectedButton === buttonId) {
+                // if same button clicked again, reset screen
+                resetScreen();
+                // return;
+              }
+              setShowCardContainer(true);
+              setUseCaseMapping(false);
+              handleButtonClick(buttonId);
+              setGlobalState("IsTourOpen", false);
+              setGlobalState("IsBackgroundBlur", false);
+
+              if (extraData[7][0] == null) {
+                const baseAPIUrl = `${BaseAPI}use_case_list`;
+                const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
+                try {
+                  const response = await fetch(address);
+                  const data = await response.json();
+                  extraData[7].push(data);
+                } catch (error) {
+                  // console.error("Error fetching data:", error);
+                }
+              }
+              setSectionData(extraData[7][0].use_case_list);
+
+              setUI_Element("popuptoolbar");
+              setButtonType("Use_case");
+              setGlobalState("HoverUseCaseId", 0);
+              setGlobalState("IsButtonContainer", true);
+              setGlobalState("playUCDirectly", false);
+            }}
+            handleMenuClick={handleClick}
+            MainMenuIsButtons={MainMenuIsButtons}
+          >
+            Use Cases
+          </ToolbarButton>
+          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
+          <ToolbarButton
             buttonId="btnSalesChallenges"
             active={"btnSalesChallenges" === selectedButton}
             selectedButton={selectedButton}
@@ -365,8 +592,8 @@ const MainPage = (props) => {
                 resetScreen();
                 return;
               }
-							setUseCaseMapping(true);
-							setLinkType("CU");
+              setUseCaseMapping(true);
+              setLinkType("CU");
               handleButtonClick(buttonId);
               setGlobalState("IsBackgroundBlur", true);
               setGlobalState("useCase", 0);
@@ -397,49 +624,7 @@ const MainPage = (props) => {
           </ToolbarButton>
 
           {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
-					<ToolbarButton // Guided Tour button
-            buttonId="btnBusinessNeeds" //1
-            selectedButton={selectedButton}
-            active={"btnBusinessNeeds" === selectedButton}
-            buttonName="Business Needs"
-            handleButtonClick={async (buttonId, buttonName) => {
-              if (selectedButton === buttonId) {
-                // if same button clicked again, reset screen
-                resetScreen();
-                return;
-              }
-              setUseCaseMapping(true);
-							setLinkType("OU");
-              handleButtonClick(buttonId);
-              setGlobalState("IsBackgroundBlur", true);
-              setGlobalState("useCase", 0);
-              setGlobalState("HoverUseCaseId", 0);
-              setGlobalState("IsTourOpen", false);
 
-              if (extraData[0][0] == null) {
-                const baseAPIUrl = `${BaseAPI}section/`;
-                const address = !packageApp ? `${baseAPIUrl + "1"}?db=${ApplicationDB}` : `../../${ApplicationDB}/section/1.json`;
-                try {
-                  const response = await fetch(address);
-                  const data = await response.json();
-                  extraData[0].push(data);
-                } catch (error) {
-                  console.log("Error fetching data:", error);
-                }
-              }
-
-              setSectionData(extraData[0][0].SectionData);
-
-              setUI_Element("cards");
-            }}
-            handleMenuClick={() => { }}
-            MainMenuIsButtons={MainMenuIsButtons}
-          >
-            Sales Goals
-          </ToolbarButton>
-
-
-          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
           <ToolbarButton // DVS button
             buttonId="btnGuidingPrinciples" //4
             active={"btnGuidingPrinciples" === selectedButton}
@@ -480,7 +665,7 @@ const MainPage = (props) => {
             MainMenuIsButtons={MainMenuIsButtons}
           >
             Guiding Principles
-          </ToolbarButton>          
+          </ToolbarButton>
 
 
           {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
@@ -526,65 +711,48 @@ const MainPage = (props) => {
           >
             StoryStudio3D
           </ToolbarButton>
-
-
           {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
-          <ToolbarButton // Use Case Story Button
-            buttonId="btnUseCasesEnabled" //8
+          <ToolbarButton
+            buttonId="btnStoryPlots"
+            active={"btnStoryPlots" === selectedButton}
             selectedButton={selectedButton}
-            active={"btnUseCasesEnabled" === selectedButton}
-            buttonName="Use Cases Enabled"
+            buttonName="Story Plots"
             handleButtonClick={async (buttonId, buttonName) => {
-              fetchAudio();
               if (selectedButton === buttonId) {
                 // if same button clicked again, reset screen
                 resetScreen();
-                // return;
+                return;
               }
               setShowCardContainer(true);
               setUseCaseMapping(false);
-              handleButtonClick(buttonId);
+              setGlobalState("useCase", 0);
+              setGlobalState("HoverUseCaseId", 0);
               setGlobalState("IsTourOpen", false);
-              setGlobalState("IsBackgroundBlur", false);
-
-              if (extraData[7][0] == null) {
-                const baseAPIUrl = `${BaseAPI}use_case_list`;
-                const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
+              setGlobalState("solutionsId", "1");
+              setSelectedButton("btnStoryProcSolutions");
+              if (extraData[6][0] == null) {
+                const baseAPIUrl = `${BaseAPI}solutions`;
+                const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/solutions.json`; //address for fetching sectiondata
+                // CHANGES HERE
                 try {
-                  const response = await fetch(address);
+                  const response = await fetch(address); //fetch section data files for specific config id
                   const data = await response.json();
-                  extraData[7].push(data);
+                  extraData[6].push(data);
                 } catch (error) {
                   // console.error("Error fetching data:", error);
                 }
               }
-              setSectionData(extraData[7][0].use_case_list);
 
+              setSectionData(extraData[6][0].Solutions);
+              setButtonType("D");
+              setGlobalState("showUC", false);
               setUI_Element("popuptoolbar");
-              setButtonType("Use_case");
-              setGlobalState("HoverUseCaseId", 0);
-              setGlobalState("IsButtonContainer", true);
-              setGlobalState("playUCDirectly", false);
+              setGlobalState("IsButtonContainer", false);
             }}
             handleMenuClick={handleClick}
             MainMenuIsButtons={MainMenuIsButtons}
           >
-            Use Cases
-          </ToolbarButton>
-
-          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
-          <ToolbarButton
-            forwardRef={buttonRef}
-            buttonId="tour"
-            id="tour"
-            selectedButton={selectedButton}
-            active={"tour" === selectedButton}
-            buttonName="Immersive Overview"
-            handleButtonClick={handleTourButtonClick}
-            handleMenuClick={() => { }}
-            MainMenuIsButtons={MainMenuIsButtons}
-          >
-            {isTourOpen ? "End Tour" : "Immersive Overview"}
+            Story Plots
           </ToolbarButton>
         </div>
       </div>
@@ -600,9 +768,14 @@ const MainPage = (props) => {
         handleClose={handleClose}
         open={open}
         alignItems={alignItems}
-        handlePlayStory={handlePlayStory}
         showCardContainer={showCardContainer}
-				link_type={linkType}
+        WelcomeData={WelcomeData}
+        WelcomeData1={WelcomeData1}
+        count={count}
+        handleNext={handleNext}
+        handleSkip={handleSkip}
+        handlePlayStory={handlePlayStory}
+        link_type={linkType}
       />
 
     </div>

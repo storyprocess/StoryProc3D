@@ -96,7 +96,10 @@ const moveFirstTarget = (camera) => {
 			y: lookAt(6.9717, 2, -8.29712, 6.85724, 2, -0.614593).alpha - 2 * Math.PI,
 			duration: 0.4,
 			onComplete: () => {
+				console.log("PLAYING FIRST");
+				console.log(IsTourOpen);
 				if (IsTourOpen) {
+					console.log(sound);
 					sound.play();
 					setGlobalState("UCTourId", 1);
 					callNextTarget(camera, moveSecondTarget, sound);
@@ -132,6 +135,7 @@ const moveSecondTarget = (camera) => {
 			y: lookAt(-1.59544, 2, -3.14136, -3.42844, 2, 4.21576).alpha - 2 * Math.PI,
 			duration: 0.4,
 			onComplete: () => {
+				console.log("PLAYING");
 				if (IsTourOpen) {
 					sound.play();
 					setGlobalState("UCTourId", 2);
@@ -290,13 +294,21 @@ const moveSixthTarget = (camera) => {
 				scene
 			);
 			scene.activeCamera = crCamera;
+			console.log("working");
 			scene.getMeshByName('factory-model').setEnabled(false);
-			while (!scene.getMeshByName('tradeshow')) {
+			if (!scene.getMeshByName('tradeshow')) {
+				console.log("working");
 
 			}
+			while (!scene.getMeshByName('tradeshow')) {
+				console.log("working");
+
+			}
+			console.log("working");
 			showHotspots(scene, "");
 			await scene.getMeshByName('tradeshow').setEnabled(true);
 
+			console.log("working");
 			const timeline = gsap.timeline();
 			timeline.to(crCamera, {
 				radius: 300,
@@ -465,6 +477,7 @@ const enableCameraMovement = (camera) => {
 const startAnimations = (scene) => {
 	const freeCam = scene.getCameraByName("camera-1");
 	startTime = performance.now();
+	IsTourOpen = true;
 
 	freeCam.position = new Vector3(1.04175, 2, 5.73054);
 	// freeCam.setTarget(new Vector3(-80.13,2,-19.147));
