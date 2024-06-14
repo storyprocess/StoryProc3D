@@ -34,34 +34,50 @@ function HomeComponent() {
 	}, []);
 
 	async function fetchData() {
-    for (var id = 0; id < 9; id++) {
-      var baseAPIUrl;
-      var address;
-      if (id === 8) {
-        baseAPIUrl = `${BaseAPI}use_case_list/`;
-        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`; //address for fetching sectiondata
-      } else if (id === 7) {
-        baseAPIUrl = `${BaseAPI}solutions`;
-        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/solutions.json`; //address for fetching sectiondata
-      } else {
-        baseAPIUrl = `${BaseAPI}section/`;
-        address = !packageApp ? `${baseAPIUrl + id}?db=${ApplicationDB}` : `../../${ApplicationDB}/section/${id}.json`; //address for fetching sectiondata
-      }
-      // CHANGES HERE
-      try {
-        // console.log("API CALLED");
-        const response = await fetch(address); //fetch section data files for specific config id
-        const data = await response.json();
-        extraData[id - 1].push(data);
-        if (id === 8) {
-          setGlobalState("use_case_list", data);
-        }
-      } catch (error) {
-        // console.error("Error fetching data:", error);
-      }
-    }
+		for (var id = 0; id < 9; id++) {
+			var baseAPIUrl;
+			var address;
+			if (id === 8) {
+				baseAPIUrl = `${BaseAPI}use_case_list_segment/`;
+				address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}&startID=0` : `../../${ApplicationDB}/use_case_list.json`; //address for fetching sectiondata
+			}
+			else if (id === 5) {
+				baseAPIUrl = `${BaseAPI}use_case_list_segment/`;
+				address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}&startID=800` : `../../${ApplicationDB}/use_case_list.json`; //address for fetching sectiondata
+			} else if (id === 7) {
+				baseAPIUrl = `${BaseAPI}solutions`;
+				address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/solutions.json`; //address for fetching sectiondata
+			} else {
+				baseAPIUrl = `${BaseAPI}section/`;
+				address = !packageApp ? `${baseAPIUrl + id}?db=${ApplicationDB}` : `../../${ApplicationDB}/section/${id}.json`; //address for fetching sectiondata
+			}
+			// CHANGES HERE
+			try {
+				// console.log("API CALLED");
+				const response = await fetch(address); //fetch section data files for specific config id
+				const data = await response.json();
+				extraData[id - 1].push(data);
+				if (id === 8) {
+					setGlobalState("use_case_list", data);
+				}
+				else if (id === 5) {
+					extraData[4][0].use_case_list.push({ "use_case_id": `divider`, "short_label": "" });
+					baseAPIUrl = `${BaseAPI}use_case_list_segment`;
+					address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}&startID=700` : `../../${ApplicationDB}/use_case_list_segment/700.json`; //address for fetching sectiondata
+					const resp = await fetch(address);
+					const data = await resp.json();
+					const use_case_list = data.use_case_list;
+					use_case_list.forEach(uc => {
+						extraData[4][0].use_case_list.push(uc);
+					});
+					setGlobalState("use_case_list", data);
+				}
+			} catch (error) {
+				// console.error("Error fetching data:", error);
+			}
+		}
 		setFetched(true);
-  }
+	}
 
 	useEffect(() => {
 		setGlobalState("currentZoomedSection", String(useCase).substring(2));
@@ -108,7 +124,7 @@ function HomeComponent() {
 					scene.getMeshByName('tradeshow').setEnabled(false);
 					scene.getMeshByName('factory-model').setEnabled(true);
 					scene.getMeshByName('clientText').setEnabled(true);
-					if(scene.getMeshByName('presenterText')) 
+					if (scene.getMeshByName('presenterText'))
 						scene.getMeshByName('presenterText').setEnabled(true);
 					const security = scene.getCameraByName('security-camera-3');
 					security.computeWorldMatrix();

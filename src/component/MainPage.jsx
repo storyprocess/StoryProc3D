@@ -190,7 +190,7 @@ const MainPage = (props) => {
     }
     setSelectedButton(buttonId);
     try {
-      const baseAPIUrl = !packageApp ? `${BaseAPI}use_case_list/?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
+      const baseAPIUrl = !packageApp ? `${BaseAPI}use_case_list_segment?db=${ApplicationDB}&startID=0` : `../../${ApplicationDB}/use_case_list.json`;
       const id = buttonId.at(-1);
       const address = baseAPIUrl; //address for fetching sectiondata
       const response = await fetch(address); //fetch section data files for specific config id
@@ -217,8 +217,8 @@ const MainPage = (props) => {
   };
 
   async function fetchAudio() {
-    const baseAPIUrl = `${BaseAPI}use_case_list/`;
-    const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
+    const baseAPIUrl = `${BaseAPI}use_case_list_segment/`;
+    const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}&startID=0` : `../../${ApplicationDB}/use_case_list.json`;
     const response = await fetch(address);
     const data = await response.json();
 
@@ -544,6 +544,7 @@ const MainPage = (props) => {
             active={"btnUseCasesEnabled" === selectedButton}
             buttonName="Use Cases Enabled"
             handleButtonClick={async (buttonId, buttonName) => {
+              console.log("usecases clcked");
               fetchAudio();
               if (selectedButton === buttonId) {
                 // if same button clicked again, reset screen
@@ -557,12 +558,13 @@ const MainPage = (props) => {
               setGlobalState("IsBackgroundBlur", false);
 
               if (extraData[7][0] == null) {
-                const baseAPIUrl = `${BaseAPI}use_case_list`;
-                const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
+                const baseAPIUrl = `${BaseAPI}use_case_list_segment`;
+                const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}&startID=0` : `../../${ApplicationDB}/use_case_list_segment.json`;
                 try {
                   const response = await fetch(address);
                   const data = await response.json();
                   extraData[7].push(data);
+                  // console.log(extraData[7]);
                 } catch (error) {
                   // console.error("Error fetching data:", error);
                 }
@@ -712,42 +714,44 @@ const MainPage = (props) => {
             StoryStudio3D
           </ToolbarButton>
           {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
-          <ToolbarButton
-            buttonId="btnStoryPlots"
-            active={"btnStoryPlots" === selectedButton}
+          <ToolbarButton // Use Case Story Button
+            buttonId="btnStoryPlots" //8
             selectedButton={selectedButton}
+            active={"btnStoryPlots" === selectedButton}
             buttonName="Story Plots"
             handleButtonClick={async (buttonId, buttonName) => {
+              // console.log("usecases clcked");
+              fetchAudio();
               if (selectedButton === buttonId) {
                 // if same button clicked again, reset screen
                 resetScreen();
-                return;
+                // return;
               }
               setShowCardContainer(true);
               setUseCaseMapping(false);
-              setGlobalState("useCase", 0);
-              setGlobalState("HoverUseCaseId", 0);
+              handleButtonClick(buttonId);
               setGlobalState("IsTourOpen", false);
-              setGlobalState("solutionsId", "1");
-              setSelectedButton("btnStoryProcSolutions");
-              if (extraData[6][0] == null) {
-                const baseAPIUrl = `${BaseAPI}solutions`;
-                const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/solutions.json`; //address for fetching sectiondata
-                // CHANGES HERE
+              setGlobalState("IsBackgroundBlur", false);
+
+              if (extraData[4][0] == null) {
+                const baseAPIUrl = `${BaseAPI}use_case_list_segment`;
+                const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}&startID=800` : `../../${ApplicationDB}/use_case_list_segment.json`;
                 try {
-                  const response = await fetch(address); //fetch section data files for specific config id
+                  const response = await fetch(address);
                   const data = await response.json();
-                  extraData[6].push(data);
+                  extraData[4].push(data);
+                  // console.log(extraData[7]);
                 } catch (error) {
                   // console.error("Error fetching data:", error);
                 }
               }
+              setSectionData(extraData[4][0].use_case_list);
 
-              setSectionData(extraData[6][0].Solutions);
-              setButtonType("D");
-              setGlobalState("showUC", false);
               setUI_Element("popuptoolbar");
-              setGlobalState("IsButtonContainer", false);
+              setButtonType("Use_case");
+              setGlobalState("HoverUseCaseId", 0);
+              setGlobalState("IsButtonContainer", true);
+              setGlobalState("playUCDirectly", false);
             }}
             handleMenuClick={handleClick}
             MainMenuIsButtons={MainMenuIsButtons}
