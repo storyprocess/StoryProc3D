@@ -78,7 +78,7 @@ const SceneComponent = ({
 		// Disable pinch zoom
 		arcRotateCamera.pinchDeltaPercentage = 0.01;
 		arcRotateCamera.wheelDeltaPercentage = 0.01;
-		
+
 		// Disable double-click zoom
 		arcRotateCamera.useInputToRestoreState = false;
 
@@ -96,7 +96,7 @@ const SceneComponent = ({
 		arcRotateCamera.attachControl(canvas, true);
 
 		const movingCamera = new FreeCamera('camera-3', new Vector3(-4, 0, 0), scene);
-		movingCamera.position.copyFrom(new Vector3(30, 30, 50));
+		movingCamera.position.copyFrom(new Vector3(-5, 11.793495, 25));
 		movingCamera.setTarget(arcRotateCamera.target.clone());
 		scene.activeCamera = movingCamera;
 	};

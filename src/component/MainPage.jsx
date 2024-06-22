@@ -217,8 +217,8 @@ const MainPage = (props) => {
   };
 
   async function fetchAudio() {
-    const baseAPIUrl = `${BaseAPI}use_case_list_segment/`;
-    const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}&startID=0` : `../../${ApplicationDB}/use_case_list.json`;
+    const baseAPIUrl = `${BaseAPI}use_case_list/`;
+    const address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
     const response = await fetch(address);
     const data = await response.json();
 
@@ -231,6 +231,7 @@ const MainPage = (props) => {
       const src_url = !packageApp ?
         `${assetsLocation}${ApplicationDB}/audio/uc` + String(id) + "/" : `../../${ApplicationDB}/audio/uc${id}/`;
       const path = src_url + "10.mp3";
+      console.log(src_url);
       try {
         Vosound = new Howl({
           src: path,
@@ -240,7 +241,8 @@ const MainPage = (props) => {
         });
         audioClips.set(id, Vosound);
         audio_Paths.set(id, path);
-      } catch {
+      } catch (error) {
+        console.log(error);
       }
     });
     setGlobalState("audioVO1", audioClips);
@@ -390,20 +392,6 @@ const MainPage = (props) => {
         <div
           className={`${MainMenuIsButtons ? "toolbar" : "plain-toolbar"} `}
         >
-          <ToolbarButton
-            forwardRef={buttonRef}
-            buttonId="tour"
-            id="tour"
-            selectedButton={selectedButton}
-            active={"tour" === selectedButton}
-            buttonName="Immersive Overview"
-            handleButtonClick={handleTourButtonClick}
-            handleMenuClick={() => { }}
-            MainMenuIsButtons={MainMenuIsButtons}
-          >
-            {isTourOpen ? "End Tour" : "Guided Tour"}
-          </ToolbarButton>
-          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
           <ToolbarButton
             buttonId="btnWelcomeCards"
             selectedButton={selectedButton}
@@ -622,7 +610,7 @@ const MainPage = (props) => {
             handleMenuClick={() => { }}
             MainMenuIsButtons={MainMenuIsButtons}
           >
-            Growth Challenges
+            Challenges
           </ToolbarButton>
 
           {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
@@ -756,7 +744,21 @@ const MainPage = (props) => {
             handleMenuClick={handleClick}
             MainMenuIsButtons={MainMenuIsButtons}
           >
-            Story Plots
+            Solutions
+          </ToolbarButton>
+          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
+          <ToolbarButton
+            forwardRef={buttonRef}
+            buttonId="tour"
+            id="tour"
+            selectedButton={selectedButton}
+            active={"tour" === selectedButton}
+            buttonName="Immersive Overview"
+            handleButtonClick={handleTourButtonClick}
+            handleMenuClick={() => { }}
+            MainMenuIsButtons={MainMenuIsButtons}
+          >
+            {isTourOpen ? "End Tour" : "Guided Tour"}
           </ToolbarButton>
         </div>
       </div>
