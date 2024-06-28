@@ -135,6 +135,26 @@
   --UcStoryBlocksContentLineHeight: var(--contentLineHeight);
   --UcStoryBlocksContentFontColor: var(--fontWhite);
 
+  --bgUcGTStory: var(--bgDark);
+  --bgUcGTStoryNextPrevButton: var(--bgDark);
+	--bgUcGTStoryHighlight: var(--bgShadow);
+  --UcGTStoryOpacity: var(--opacityHigh);
+  --UcGTStoryFontFamily: var(--fontFamilyRobotoMedium);
+  --UcGTStoryFontWeight: var(--fontWeightMedium);
+  --UcGTStoryFontSize: calc(0.8335vw + 1.481svh);
+  --UcGTStoryFontColor: var(--fontWhite);
+
+  --bgUcGTStoryBlocks: var(--bgMedium);
+  --UcGTStoryBlocksFontFamily: var(--fontFamilyRobotoBold);
+  --UcGTStoryBlocksFontWeight: var(--fontWeightRegular);
+  --UcGTStoryBlocksFontSize: calc(0.66vw + 1.2svh);
+
+  --UcGTStoryBlocksContentFontFamily: var(--fontFamily1);
+  --UcGTStoryBlocksContentFontWeight: var(--fontWeightRegular);
+  --UcGTStoryBlocksContentFontSize: calc(0.5vw + 0.9svh);
+  --UcGTStoryBlocksContentLineHeight: var(--contentLineHeight);
+  --UcGTStoryBlocksContentFontColor: var(--fontWhite);
+
   --bgSpinner: var(--bgDark);
 
 }

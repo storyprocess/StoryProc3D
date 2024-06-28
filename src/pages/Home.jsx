@@ -586,11 +586,20 @@ const Home = (props) => {
   const handleFetchSectionData = async () => {
     const baseAPIUrl = `${BaseAPI}section/`;
     // const id = buttonId.at(-1);
-    const address = !packageApp ? `${baseAPIUrl + 10}?db=${ApplicationDB}` : `../../${ApplicationDB}/section/8.json`; //address for fetching sectiondata
+    const address = !packageApp ? `${baseAPIUrl + 1}?db=${ApplicationDB}` : `../../${ApplicationDB}/section/8.json`; //address for fetching sectiondata
     const response = await fetch(address); //fetch section data files for specific config id
     const data = await response.json();
     setSectionData(data?.SectionData);
   };
+
+  useEffect(() => {
+    console.log("uCTourId:", uCTourId);
+    console.log("sectionData:", sectionData);
+    if (sectionData) {
+      const matchingItem = sectionData.find(item => Number(item.seq) === uCTourId);
+      console.log("Matching item:", matchingItem);
+    }
+  }, [uCTourId, sectionData]);
 
   const initialAnimation = () => {
     const cam2 = scene.getCameraByName('camera-2');
@@ -690,11 +699,11 @@ const Home = (props) => {
                 return (
                   <>
                     {item.seq == uCTourId ? (
-                      <div className="Tour-box-wrap" key={index}>
-                        <div className="Tour-box-title">{item.short_label}</div>
-                        <div className="Tour-box-content">
+                      <div className="Guided-Tour-box-wrap" key={index}>
+                        <div className="Guided-Tour-box-title">{item.short_label}</div>
+                        <div className="Guided-Tour-box-content">
                           <div key={index}>
-                            <div className="content-description">
+                            <div className="Guided-content-description">
                               {item.long_desc}
                             </div>
                           </div>

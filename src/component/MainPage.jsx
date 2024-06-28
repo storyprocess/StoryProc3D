@@ -2,8 +2,26 @@ import React, { useState, useEffect, useRef } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import ToolbarButton from "../utils/libraries/ToolbarButton";
 import MenuDispensor from "../utils/libraries/MenuDispensor";
+import { spiralAnimation, rotateToTarget, linearAnimation } from '../utils/libraries/CameraUtils';
 import { useParams, useNavigate } from "react-router-dom";
 import { setGlobalState, useGlobalState } from "../utils/state";
+import usecases from '../data/usecases.json';
+import uctradeshow from '../data/tradeshow.json';
+import { InitializeGoogleAnalytics, TrackGoogleAnalyticsTiming } from '../utils/libraries/googleanalytics.tsx';
+import {
+  Vector3,
+  SceneLoader,
+  Viewport,
+  ArcRotateCamera,
+  Texture,
+  Matrix
+} from '@babylonjs/core';
+import {
+  mainModel,
+  Marker,
+  tradeshow
+} from '../models';
+import { gsap } from 'gsap';
 import { Howler, Howl } from "howler";
 import "../utils/css/mainPage.css";
 import {
@@ -26,11 +44,18 @@ const MainPage = (props) => {
   const [selectedButton, setSelectedButton] = useGlobalState("selectedButton");
   const [showCardContainer, setShowCardContainer] = useState(false);
   const [sectionData, setSectionData] = useState([]);
-
+  const [currentZoomedSection, setCurrentZoomedSection] = useGlobalState("currentZoomedSection");
   const [ui_Element, setUI_Element] = useState(null);
-
+  var guidedTourOpen = false;
+  const [IsGuidedTourOpen, setGuidedTourOpen] = useState(false);
+  const [uCTourId, setUCTourId] = useGlobalState('UCTourId');
+  const [UcGuidedTour, setUcGuidedTour] = useGlobalState("UcGuidedTour");
+  const [currentSound, setCurrentSound] = useState(null);
+  const queryParams = new URLSearchParams(location.search);
+  var company = queryParams.get('company');
+  var client = queryParams.get('client');
+  var presenter = queryParams.get('presenter');
   const [buttonType, setButtonType] = useState("");
-
   const [showUC, setShowUC] = useGlobalState("showUC");
   const [useCase, setUseCase] = useGlobalState("useCase");
 
@@ -126,6 +151,9 @@ const MainPage = (props) => {
   }, [isTourOpen]);
 
   const handleTourButtonClick = (buttonId) => {
+    if (!playAndPause) {
+      setGlobalState("playAndPause", true)
+    }
     setGlobalState("IsBackgroundBlur", false);
     if (selectedButton === buttonId) {
       if (isTourOpen) {
@@ -148,6 +176,15 @@ const MainPage = (props) => {
       Howler.stop();
     }
   };
+
+  useEffect(() => {
+    if (currentSound == null) return;
+    if (!playAndPause) {
+      currentSound.pause();
+    } else {
+      currentSound.play();
+    }
+  }, [playAndPause]);
 
   useEffect(() => {
     if (toPress != null) {
@@ -231,7 +268,7 @@ const MainPage = (props) => {
       const src_url = !packageApp ?
         `${assetsLocation}${ApplicationDB}/audio/uc` + String(id) + "/" : `../../${ApplicationDB}/audio/uc${id}/`;
       const path = src_url + "10.mp3";
-      console.log(src_url);
+      // console.log(src_url);
       try {
         Vosound = new Howl({
           src: path,
@@ -275,7 +312,29 @@ const MainPage = (props) => {
   useEffect(() => {
     fetchAudio();
   }, []);
-
+  const lookAt = (xCoordinate, yCoordinate, zCoordinate, cameraX, cameraY, cameraZ) => {
+    // Calculate the vector from the camera position to the target point
+    let direction = new Vector3(xCoordinate - cameraX, yCoordinate - cameraY, zCoordinate - cameraZ);
+  
+    // Calculate the alpha angle (rotation around the vertical axis)
+    let alpha = Math.atan2(direction.x, direction.z);
+    let rotation = alpha - cameraY;
+    if (Math.abs(rotation) > Math.abs(rotation - 2 * Math.PI)) rotation = rotation - 2 * Math.PI;
+    if (Math.abs(rotation) > Math.abs(rotation + 2 * Math.PI)) rotation = rotation + 2 * Math.PI;
+    alpha = rotation + cameraY;
+  
+    // Calculate the beta angle (elevation from the horizontal plane)
+    let distance = Math.sqrt(direction.x * direction.x + direction.z * direction.z);
+    let beta = Math.atan2(direction.y, distance);
+  
+    if (Math.abs(beta) > Math.abs(beta + 2 * Math.PI))
+      beta = beta + 2 * Math.PI;
+    // // Convert angles to the range expected by ArcRotateCamera
+    // alpha = alpha < 0 ? alpha : alpha;
+    // beta = beta < 0 ? beta + 2 * Math.PI : beta;
+    return { alpha, beta }
+  }
+  
   const handleButtonClick = async (buttonId) => {
 
     setSelectedButton(buttonId);
@@ -321,6 +380,328 @@ const MainPage = (props) => {
     props.resetCamera();
     resetScreen();
   };
+  
+  const numToButtonId = new Map([
+    ["1", "GuidedTourIntro"],
+    ["2", "btnSalesChallenges"],
+    ["3", "btnGuidingPrinciples"],
+    ["4", "btnStoryProcSolutions"],
+    ["5", "btnUseCasesEnabled0"],
+    ["6", "btnUseCasesEnabled1"],
+    ["7", "btnUseCasesEnabled2"],
+    ["8", "btnUseCasesEnabled3"],
+    ["9", "btnUseCasesEnabled4"],
+    ["10", "btnUseCasesEnabled5"],
+    ["11", "btnUseCasesEnabled6"],
+    ["12", "btnStoryPlots0"],
+    ["13", "btnStoryPlots7"],
+    ["14", "btnStoryPlots1"],
+    ["15", "Outro"]
+  ]);
+
+  var step = 0;
+
+
+  useEffect(() => {
+    console.log(UcGuidedTour, guidedTourOpen, IsGuidedTourOpen);
+    if (UcGuidedTour > 6 && IsGuidedTourOpen == true) {
+      setTimeout(() => {
+        step = UcGuidedTour;
+        console.log("useEffect", step, UcGuidedTour);
+        playGuidedTour();
+      }, 300);
+    }
+  }, [UcGuidedTour, guidedTourOpen]);
+
+  const loadTradeshowModel = async () => {
+    if (!scene.getMeshByName('tradeshow')) {
+      const t_startTime = performance.now();
+      const Tradeshow = await SceneLoader.ImportMeshAsync('', tradeshow, '', scene);
+      Tradeshow.meshes[0].name = 'tradeshow';
+      scene.getMeshByName('tradeshow').setEnabled(false);
+  
+      const address = `${assetsLocation}${ApplicationDB}/graphics/custom/`;
+      let companyName = company ? company.charAt(0).toUpperCase() + company.slice(1).toLowerCase() : "Company";
+  
+      const loadImageTexture = async (logoNumber) => {
+        const textLogo = await fetch(`${address}${companyName}${logoNumber}.png`);
+        const imageURL = URL.createObjectURL(await textLogo.blob());
+        const imageTexture = new Texture(imageURL, scene);
+        imageTexture.vScale = -1;
+        const tvScreenMaterial = scene.getMaterialByName(`Company Logo ${logoNumber}`);
+        tvScreenMaterial.albedoTexture = imageTexture;
+        tvScreenMaterial.opacityTexture = imageTexture;
+      };
+  
+      await loadImageTexture(1);
+      await loadImageTexture(2);
+  
+      const t_endTime = performance.now();
+      InitializeGoogleAnalytics();
+      TrackGoogleAnalyticsTiming("Model Loading", "Tradeshow Model", t_endTime - t_startTime, "Story Process 3D");
+    }
+  };
+
+  const playGuidedTour = async () => {
+    console.log(guidedTourOpen, step, IsGuidedTourOpen);
+    loadTradeshowModel();
+    if (step == 15){
+      setGlobalState("IsBackgroundBlur", false);
+    }
+    if (step == 16) {
+      setSelectedButton(null);
+      setGlobalState("showDC", false);
+      setGlobalState("IsBackgroundBlur", false);
+      return;
+    }
+    if (step == 2 || step == 3 || step == 4) {
+      setGlobalState("IsBackgroundBlur", false);
+      props.resetCamera();
+      setSelectedButton(numToButtonId.get(`${step}`));
+      document.getElementById(numToButtonId.get(`${step}`)).click();
+    }
+    if (numToButtonId.get(`${step}`) && numToButtonId.get(`${step}`).includes("btnStoryPlots")) {
+      await props.resetCamera();
+      
+      const button = numToButtonId.get(`${step}`);
+      const id = button.charAt(button.length - 1);
+      console.log(step, id);
+      document.getElementById("btnStoryPlots").click();
+      if (id != "0") {
+          const idd = Number(id);
+          // document.getElementById("btnStoryPlots").click();
+          setTimeout(() => {
+              try {
+                  document.getElementsByClassName("MuiButtonBase-root")[idd - 1].click();
+                  setGlobalState("IsBackgroundBlur", true);
+              } catch (error) {
+                  document.getElementById("btnStoryPlots").click();
+                  console.log(step, idd);
+                  setTimeout(() => {
+                      document.getElementsByClassName("MuiButtonBase-root")[idd - 1].click();
+                      setGlobalState("IsBackgroundBlur", true);
+                  }, 400);
+              }
+          }, 1000);
+          // if(id == "3") props.resetCamera();
+          return;
+      }
+  }
+    if (numToButtonId.get(`${step}`) && numToButtonId.get(`${step}`).includes("btnUseCasesEnabled")) {
+      const button = numToButtonId.get(`${step}`);
+      const prefix = "btnUseCasesEnabled";
+      var id = button.substring(prefix.length);
+      if (!isNaN(id) && !isNaN(parseFloat(id))) {
+        id = Number(id); // Convert to number if it's purely numerical
+      }
+      var num_id = id;
+      if (id != 0 && id != 6) {
+
+        let useCase = null;
+        usecases.forEach((uc) => {
+          if ((uc.id) == id) {
+            useCase = uc;
+          }
+        });
+        // setIsBoxVisible(true);
+        const canvas = document.getElementsByClassName("main-canvas")[0];
+        const movingCamera = scene.getCameraByName('camera-3');
+        const securityCamera = scene.getCameraByName(`security-camera-${id}`);
+
+        const finalTarget = new Vector3(useCase.position.x, useCase.position.y, useCase.position.z);
+        const finalPosition = new Vector3(useCase.cameraPosition.x, useCase.cameraPosition.y, useCase.cameraPosition.z);
+        movingCamera.position.copyFrom(scene.activeCamera.position);
+        movingCamera.setTarget(scene.activeCamera.target.clone());
+        scene.activeCamera = movingCamera;
+
+        const func = async (movingCamera, securityCamera, canvas) => {
+          movingCamera.lockedTarget = null;
+          securityCamera.setTarget(finalTarget);
+          securityCamera.setPosition(finalPosition);
+          // securityCamera.lowerRadiusLimit = 40;
+          // securityCamera.upperRadiusLimit = 70;
+          scene.activeCamera = securityCamera;
+          securityCamera.detachControl(canvas);
+          // securityCamera.attachControl(canvas, true);
+
+          // setCurrentZoomedSection(0);
+
+          const pos = Vector3.Project(
+            new Vector3(useCase.position.x, useCase.position.y, useCase.position.z),
+            Matrix.Identity(), // world matrix
+            scene.getTransformMatrix(), // transform matrix
+            new Viewport(0, 0, canvas.width, canvas.height)
+          );
+
+          var baseAPIUrl;
+          var address;
+          baseAPIUrl = `${BaseAPI}use_case_list/`;
+          address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
+
+          const response = await fetch(address); //fetch section data files for specific config id
+          const data = await response.json();
+          var short_label;
+          console.log(id, num_id);
+          data.use_case_list.forEach((uc) => {
+            if ((id) == uc.use_case_id) {
+              short_label = uc.short_label;
+            }
+          });
+          setUCTourId(num_id);
+          setHoverId(id);
+          setHoverLabel(short_label);
+          setGlobalState("clientXPosition1", pos.x);
+          setGlobalState("clientYPosition1", pos.y);
+          setGlobalState("UCTourId", num_id);
+          console.log(uCTourId, HoverId);
+        };
+
+        await rotateToTarget(scene, finalTarget, movingCamera, 1.2, linearAnimation, scene, finalTarget, movingCamera.position, finalPosition, 1, func, movingCamera, securityCamera, canvas);
+      }
+      else if (id == 6){
+        setCurrentZoomedSection(id);
+
+        await new Promise(resolve => setTimeout(resolve, 3500));
+        let useCase = null;
+        uctradeshow.forEach((uc) => {
+          if ((uc.id) == id) {
+            useCase = uc;
+          }
+        });
+        console.log(useCase);
+        const canvas = document.getElementsByClassName("main-canvas")[0];
+        console.log(useCase.position.x, useCase.position.y, useCase.position.z);
+        const pos = Vector3.Project(
+          new Vector3(useCase.position.x, useCase.position.y, useCase.position.z),
+          Matrix.Identity(), // world matrix
+          scene.getTransformMatrix(), // transform matrix
+          new Viewport(0, 0, canvas.width, canvas.height)
+        );
+
+        var baseAPIUrl;
+        var address;
+        baseAPIUrl = `${BaseAPI}use_case_list/`;
+        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
+
+        const response = await fetch(address); //fetch section data files for specific config id
+        const data = await response.json();
+        var short_label;
+        console.log(id, num_id);
+        data.use_case_list.forEach((uc) => {
+          if ((id) == uc.use_case_id) {
+            short_label = uc.short_label;
+          }
+        });
+        setUCTourId(num_id);
+        setHoverId(id);
+        setHoverLabel(short_label);
+        setGlobalState("clientXPosition1", pos.x);
+        setGlobalState("clientYPosition1", pos.y);
+        setGlobalState("UCTourId", num_id);
+        console.log(uCTourId, HoverId);
+      }
+  }
+  const sound = new Howl({
+    src: !packageApp ? `${assetsLocation}${ApplicationDB}/audio/gt/${step}.mp3` : `../../${ApplicationDB}/audio/gt/${step}.mp3`,
+    html5: true,
+    loop: false,
+    onload: () => {
+      console.log("Sound has been loaded successfully.");
+    },
+    onloaderror: (id, error) => {
+      console.error("Failed to load the sound:", id, error);
+    },
+    onplayerror: (id, error) => {
+      console.error("Failed to play the sound:", id, error);
+    },
+    onplay: () => {
+      console.log(step, "Sound is playing");
+    },
+    onend: () => {
+      console.log("Sound has stopped");
+    },
+    onpause: () => {
+      console.log("Sound is paused");
+    }
+  });
+  
+    console.log(sound);
+    setCurrentSound(sound);
+    await sound.play();
+
+    // if (step == 12){
+    //   console.log("step" , step);
+    // }
+    console.log(uCTourId, HoverId);
+    sound.on("end", async function () {
+      // if (step == 12){
+      //   console.log("step" , step);
+      // }
+      setCurrentSound(null);
+
+      if (step == 16) {
+        // await document.getElementById("btnPartnerSolutions").click();
+        // resetScreen();
+        // handleClose();
+        setGlobalState("showDC", false);
+        setSelectedButton("btnGuidedTour");
+        // step = 0;
+        // playGuidedTour();
+        return;
+      }
+      else if (step == 4){
+        document.getElementById("btnStoryProcSolutions").click();
+        ++step;
+      playGuidedTour();
+      }
+      else if (step == 15){
+        ++step;
+      playGuidedTour();
+      }
+      else if (numToButtonId.get(`${step}`) && numToButtonId.get(`${step}`).includes("btnUseCasesEnabled")) {
+        // console.log(uCTourId, HoverId, HoverLabel);
+        setGlobalState("HoverId", 0);
+        setHoverLabel("");
+        setGlobalState("UCTourId", 0);
+        ++step;
+        playGuidedTour();
+      }
+      else if (numToButtonId.get(`${step + 1}`).includes("btnStoryPlots")) {
+        const button = numToButtonId.get(`${step + 1}`);
+        const id = button.charAt(button.length - 1);
+        console.log(step, id);
+        if (id == "0") {
+            document.getElementById("btnStoryPlots").click();
+            ++step;
+            playGuidedTour();
+        }
+        else if (id != "0") {
+            const idd = Number(id);
+            document.getElementsByClassName("MuiButtonBase-root")[0].click();
+            // setTimeout(() => {
+            // 		try {
+            // 				document.getElementsByClassName("MuiButtonBase-root")[idd - 1].click();
+            // 		} catch (error) {
+            // 				document.getElementById("btnUseCasesEnabled").click();
+
+            // 				setTimeout(() => {
+            // 						document.getElementsByClassName("MuiButtonBase-root")[idd - 1].click();
+            // 				}, 400);
+            // 		}
+            // }, 1000);x
+            console.log("SET");
+            setGlobalState("UcGuidedTour", 13);
+            console.log(UcGuidedTour);
+        }
+    }
+    else
+    {
+      // setAnchorEl(null);  
+      ++step;
+      playGuidedTour();
+    }
+    });
+  };
 
   return (
     <div>
@@ -337,12 +718,12 @@ const MainPage = (props) => {
             <hr style={{ marginTop: "5%" }} className="card-divider"></hr>
           </div>
           <div className="button-group" >
-            {(isTourOpen || useCase !== 0) ? "" :
+            {/* {(isTourOpen || useCase !== 0) ? "" :
               (scene && scene.activeCamera.name.includes("security") == false && scene.activeCamera.name.includes("cr-camera") == false) ?
                 <div className="zoom-in" onClick={() => setGlobalState("currentZoomedSection", HoverId)}>Zoom-in</div>
                 :
                 <div className="zoom-in" onClick={() => props.resetCamera()}>Zoom-out</div>
-            }
+            } */}
             <div className="learn-more" onClick={() => handlePlayStory()}>{useCase !== 0 ? "End Story" : "Learn More"}</div>
           </div>
         </div>
@@ -354,6 +735,7 @@ const MainPage = (props) => {
           <ToolbarButton
             forwardRef={buttonRef}
             id="reset"
+            reset = {true}
             buttonId="reset"
             selectedButton={selectedButton}
             active={"reset" === selectedButton}
@@ -386,17 +768,16 @@ const MainPage = (props) => {
 
             Reset
           </ToolbarButton>
-        </div>
 
 
-        <div
-          className={`${MainMenuIsButtons ? "toolbar" : "plain-toolbar"} `}
-        >
+
+          {MainMenuIsButtons ? "" : <div className='plain-reset-divider'></div>}
           <ToolbarButton
             buttonId="btnWelcomeCards"
             selectedButton={selectedButton}
             active={"btnWelcomeCards" === selectedButton}
             buttonName="Welcome Screen"
+            reset = {true}
             handleButtonClick={async (buttonId, buttonName) => {
               if (selectedButton === buttonId) {
                 // if same button clicked again, reset screen
@@ -427,16 +808,21 @@ const MainPage = (props) => {
             handleMenuClick={() => { }}
             MainMenuIsButtons={MainMenuIsButtons}
           >
-            Start Here
+            How to Use
           </ToolbarButton>
+        </div>
 
-          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
+
+        <div
+          className={`${MainMenuIsButtons ? "toolbar" : "plain-toolbar"} `}
+        >
 
           <ToolbarButton
             buttonId="btnIntroduction"
             selectedButton={selectedButton}
             active={"btnIntroduction" === selectedButton}
             buttonName="Introduction"
+            reset = {false}
             handleButtonClick={async (buttonId, buttonName) => {
               if (selectedButton === buttonId) {
                 // if same button clicked again, reset screen
@@ -488,6 +874,7 @@ const MainPage = (props) => {
           <ToolbarButton // Guided Tour button
             buttonId="btnBusinessNeeds" //1
             selectedButton={selectedButton}
+            reset = {false}
             active={"btnBusinessNeeds" === selectedButton}
             buttonName="Business Needs"
             handleButtonClick={async (buttonId, buttonName) => {
@@ -529,6 +916,7 @@ const MainPage = (props) => {
           <ToolbarButton // Use Case Story Button
             buttonId="btnUseCasesEnabled" //8
             selectedButton={selectedButton}
+            reset = {false}
             active={"btnUseCasesEnabled" === selectedButton}
             buttonName="Use Cases Enabled"
             handleButtonClick={async (buttonId, buttonName) => {
@@ -575,6 +963,7 @@ const MainPage = (props) => {
             buttonId="btnSalesChallenges"
             active={"btnSalesChallenges" === selectedButton}
             selectedButton={selectedButton}
+            reset = {false}
             buttonName="Sales Challenges"
             handleButtonClick={async (buttonId, buttonName) => {
               if (selectedButton === buttonId) {
@@ -617,6 +1006,7 @@ const MainPage = (props) => {
 
           <ToolbarButton // DVS button
             buttonId="btnGuidingPrinciples" //4
+            reset = {false}
             active={"btnGuidingPrinciples" === selectedButton}
             selectedButton={selectedButton}
             buttonName="Guiding Principles"
@@ -663,6 +1053,7 @@ const MainPage = (props) => {
             buttonId="btnStoryProcSolutions"
             active={"btnStoryProcSolutions" === selectedButton}
             selectedButton={selectedButton}
+            reset = {false}
             buttonName="StoryProc Solutions"
             handleButtonClick={async (buttonId, buttonName) => {
               if (selectedButton === buttonId) {
@@ -704,6 +1095,7 @@ const MainPage = (props) => {
           {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
           <ToolbarButton // Use Case Story Button
             buttonId="btnStoryPlots" //8
+            reset = {false}
             selectedButton={selectedButton}
             active={"btnStoryPlots" === selectedButton}
             buttonName="Story Plots"
@@ -744,21 +1136,40 @@ const MainPage = (props) => {
             handleMenuClick={handleClick}
             MainMenuIsButtons={MainMenuIsButtons}
           >
-            Solutions
+            Story Plots
           </ToolbarButton>
           {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
-          <ToolbarButton
-            forwardRef={buttonRef}
-            buttonId="tour"
-            id="tour"
+          <ToolbarButton  // Guided Tour button
+            buttonId="btnGuidedTour"
+            id="btnGuidedTour"
+            reset = {false}
             selectedButton={selectedButton}
-            active={"tour" === selectedButton}
-            buttonName="Immersive Overview"
-            handleButtonClick={handleTourButtonClick}
+            active={"btnGuidedTour" === selectedButton}
+            buttonName="Guided Tour"
+            handleButtonClick={async (buttonId, buttonName) => {
+              if (selectedButton === buttonId) {
+                // if same button clicked again, reset screen
+                resetScreen();
+                return;
+              }
+              guidedTourOpen = true;
+              console.log(guidedTourOpen);
+              await setGuidedTourOpen(true);
+              handleButtonClick(buttonId);
+              startTransition(async () => {
+                await setGlobalState("IsGuidedTourOpen", true);
+              });
+              console.log("IsGuidedTourOpen", IsGuidedTourOpen, "guidedTourOpen", guidedTourOpen);
+              setGlobalState("IsBackgroundBlur", false);
+              setGlobalState("useCase", 0);
+              setGlobalState("HoverUseCaseId", 0);
+              step = 1;
+              playGuidedTour();
+            }}
             handleMenuClick={() => { }}
             MainMenuIsButtons={MainMenuIsButtons}
           >
-            {isTourOpen ? "End Tour" : "Guided Tour"}
+            Guided Tour
           </ToolbarButton>
         </div>
       </div>
@@ -782,6 +1193,7 @@ const MainPage = (props) => {
         handleSkip={handleSkip}
         handlePlayStory={handlePlayStory}
         link_type={linkType}
+        IsGuidedTourOpen={IsGuidedTourOpen}
       />
 
     </div>
