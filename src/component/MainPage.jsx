@@ -39,6 +39,7 @@ import { resetLights } from "../utils/libraries/LightUtils";
 const MainPage = (props) => {
   const location = useLocation();
   const buttonRef = useRef(null);
+  const [highlightCurrentCard, sethighlightCurrentCard] = useGlobalState("highlightCurrentCard");
   const { toPress, loadID } = useParams();
   const [extraData, setExtraData] = useState(props.extraData);
   const [selectedButton, setSelectedButton] = useGlobalState("selectedButton");
@@ -58,8 +59,8 @@ const MainPage = (props) => {
   const [buttonType, setButtonType] = useState("");
   const [showUC, setShowUC] = useGlobalState("showUC");
   const [useCase, setUseCase] = useGlobalState("useCase");
-
-  const [isResetClick, setIsResetClick] = useState(false);
+  const [playUCDirectly, setPlayUCDirectly] = useGlobalState("playUCDirectly");
+  const [isResetClick, setIsResetClick] = useState(false);  
   const [useCaseMapping, setUseCaseMapping] = useState(false);
   const [HoverId, setHoverId] = useGlobalState("HoverId");
   const [HoverLabel, setHoverLabel] = useGlobalState("HoverLabel");
@@ -106,6 +107,7 @@ const MainPage = (props) => {
     setSelectedButton(null);
     setShowCardContainer(false);
     setGlobalState("useCase", 0);
+    setIsTourOpen(false);
     setGlobalState("solutionsId", -1);
     setGlobalState("HoverUseCaseId", 0);
     setShowUC(false);
@@ -160,7 +162,8 @@ const MainPage = (props) => {
         setTourState(false);
         Howler.stop();
         setGlobalState("UCTourId", 0);
-        setGlobalState("IsTourOpen", false);
+        // setGlobalState("IsTourOpen", false);
+
         // document.getElementById("close-btn").click();
         props.resetCamera();
       } // if same button clicked again, reset screen
@@ -215,9 +218,6 @@ const MainPage = (props) => {
   const handleUseCaseButtonClick = async (buttonId) => {
     setGlobalState("IsHomeButtonClick", false);
     setGlobalState("ApplicationDB", ApplicationDB);
-    if (isTourOpen) {
-      props.resetCamera();
-    }
     Howler.stop();
     setUI_Element("");
     if (selectedButton === buttonId) {
@@ -345,10 +345,6 @@ const MainPage = (props) => {
     setGlobalState("IsAutoPlay", false);
     setGlobalState("IsHomeButtonClick", false);
     setGlobalState("ApplicationDB", ApplicationDB);
-    if (isTourOpen) {
-      setGlobalState("UCTourId", 0);
-      props.resetCamera();
-    }
     Howler.stop();
     setUI_Element("");
 
@@ -372,6 +368,7 @@ const MainPage = (props) => {
     setGlobalState("showDC", false);
     setGlobalState("showUC", false);
     setGlobalState("IsTourOpen", false);
+    setGlobalState("playUCDirectly", false);
     setGlobalState("UCTourId", 0);
     setGlobalState("IsHomeButtonClick", true);
     setGlobalState("HoverId", 0);
@@ -383,28 +380,42 @@ const MainPage = (props) => {
   
   const numToButtonId = new Map([
     ["1", "GuidedTourIntro"],
-    ["2", "btnSalesChallenges"],
-    ["3", "btnGuidingPrinciples"],
-    ["4", "btnStoryProcSolutions"],
-    ["5", "btnUseCasesEnabled0"],
-    ["6", "btnUseCasesEnabled1"],
-    ["7", "btnUseCasesEnabled2"],
-    ["8", "btnUseCasesEnabled3"],
-    ["9", "btnUseCasesEnabled4"],
-    ["10", "btnUseCasesEnabled5"],
-    ["11", "btnUseCasesEnabled6"],
-    ["12", "btnStoryPlots0"],
-    ["13", "btnStoryPlots7"],
-    ["14", "btnStoryPlots1"],
-    ["15", "Outro"]
+    ["2", "btnIntroduction"],
+    ["3", "btnUseCasesEnabled0"],
+    ["4", "btnUseCasesEnabled1"],
+    ["5", "btnUseCasesEnabled2"],
+    ["6", "btnUseCasesEnabled3"],
+    ["7", "btnUseCasesEnabled4"],
+    ["8", "btnUseCasesEnabled5"],
+    ["9", "btnUseCasesEnabled6"],
+    ["10", "btnSalesChallenges0"],
+    ["11", "btnSalesChallenges1"],
+    ["12", "btnSalesChallenges2"],
+    ["13", "btnSalesChallenges3"],
+    ["14", "btnSalesChallenges4"],
+    ["15", "btnSalesChallenges5"],
+    ["16", "btnSalesChallenges6"],
+    ["17", "btnGuidingPrinciples0"],
+    ["18", "btnGuidingPrinciples1"],
+    ["19", "btnGuidingPrinciples2"],
+    ["20", "btnGuidingPrinciples3"],
+    ["21", "btnGuidingPrinciples4"],
+    ["22", "btnGuidingPrinciples5"],
+    ["23", "btnGuidingPrinciples6"],
+    ["24", "btnStoryProcSolutions"],
+    ["25", "btnStoryPlots0"],
+    ["26", "btnStoryPlots7"],
+    ["27", "btnStoryPlots0"],
+    ["28", "btnStoryPlots1"],
+    ["29", "Outro"]
   ]);
 
-  var step = 0;
+  var step = 1;
 
 
   useEffect(() => {
     console.log(UcGuidedTour, guidedTourOpen, IsGuidedTourOpen);
-    if (UcGuidedTour > 6 && IsGuidedTourOpen == true) {
+    if (UcGuidedTour > 1 && IsGuidedTourOpen == true) {
       setTimeout(() => {
         step = UcGuidedTour;
         console.log("useEffect", step, UcGuidedTour);
@@ -413,52 +424,66 @@ const MainPage = (props) => {
     }
   }, [UcGuidedTour, guidedTourOpen]);
 
-  const loadTradeshowModel = async () => {
-    if (!scene.getMeshByName('tradeshow')) {
-      const t_startTime = performance.now();
-      const Tradeshow = await SceneLoader.ImportMeshAsync('', tradeshow, '', scene);
-      Tradeshow.meshes[0].name = 'tradeshow';
-      scene.getMeshByName('tradeshow').setEnabled(false);
+  // const loadTradeshowModel = async () => {
+  //   if (!scene.getMeshByName('tradeshow')) {
+  //     const t_startTime = performance.now();
+  //     const Tradeshow = await SceneLoader.ImportMeshAsync('', tradeshow, '', scene);
+  //     Tradeshow.meshes[0].name = 'tradeshow';
+  //     await scene.getMeshByName('tradeshow').setEnabled(false);
   
-      const address = `${assetsLocation}${ApplicationDB}/graphics/custom/`;
-      let companyName = company ? company.charAt(0).toUpperCase() + company.slice(1).toLowerCase() : "Company";
+  //     const address = `${assetsLocation}${ApplicationDB}/graphics/custom/`;
+  //     let companyName = company ? company.charAt(0).toUpperCase() + company.slice(1).toLowerCase() : "Company";
   
-      const loadImageTexture = async (logoNumber) => {
-        const textLogo = await fetch(`${address}${companyName}${logoNumber}.png`);
-        const imageURL = URL.createObjectURL(await textLogo.blob());
-        const imageTexture = new Texture(imageURL, scene);
-        imageTexture.vScale = -1;
-        const tvScreenMaterial = scene.getMaterialByName(`Company Logo ${logoNumber}`);
-        tvScreenMaterial.albedoTexture = imageTexture;
-        tvScreenMaterial.opacityTexture = imageTexture;
-      };
+  //     const loadImageTexture = async (logoNumber) => {
+  //       const textLogo = await fetch(`${address}${companyName}${logoNumber}.png`);
+  //       const imageURL = URL.createObjectURL(await textLogo.blob());
+  //       const imageTexture = new Texture(imageURL, scene);
+  //       imageTexture.vScale = -1;
+  //       const tvScreenMaterial = scene.getMaterialByName(`Company Logo ${logoNumber}`);
+  //       tvScreenMaterial.albedoTexture = imageTexture;
+  //       tvScreenMaterial.opacityTexture = imageTexture;
+  //     };
   
-      await loadImageTexture(1);
-      await loadImageTexture(2);
+  //     await loadImageTexture(1);
+  //     await loadImageTexture(2);
   
-      const t_endTime = performance.now();
-      InitializeGoogleAnalytics();
-      TrackGoogleAnalyticsTiming("Model Loading", "Tradeshow Model", t_endTime - t_startTime, "Story Process 3D");
-    }
-  };
+  //     const t_endTime = performance.now();
+  //     InitializeGoogleAnalytics();
+  //     TrackGoogleAnalyticsTiming("Model Loading", "Tradeshow Model", t_endTime - t_startTime, "Story Process 3D");
+  //   }
+  // };
+
+  function extractStringPart(input) {
+    const match = input.match(/[a-zA-Z]+/);
+    return match ? match[0] : '';
+  }
 
   const playGuidedTour = async () => {
     console.log(guidedTourOpen, step, IsGuidedTourOpen);
-    loadTradeshowModel();
-    if (step == 15){
+    // if (step == 1)  { 
+    //   loadTradeshowModel();
+    // }
+    if (step == 29){
       setGlobalState("IsBackgroundBlur", false);
     }
-    if (step == 16) {
+    if (step == 30) {
       setSelectedButton(null);
       setGlobalState("showDC", false);
       setGlobalState("IsBackgroundBlur", false);
       return;
     }
-    if (step == 2 || step == 3 || step == 4) {
+    if (step == 10 || step == 24 || step == 17) {
       setGlobalState("IsBackgroundBlur", false);
       props.resetCamera();
-      setSelectedButton(numToButtonId.get(`${step}`));
-      document.getElementById(numToButtonId.get(`${step}`)).click();
+      setSelectedButton(extractStringPart(numToButtonId.get(`${step}`)));
+      document.getElementById(extractStringPart(numToButtonId.get(`${step}`))).click();
+    }
+    if (step>=10 && step<24){
+      const button = numToButtonId.get(`${step}`);
+      const id = Number(button.charAt(button.length - 1));
+      sethighlightCurrentCard(id);
+      setGlobalState("highlightCurrentCard", id);
+      setGlobalState("IsBackgroundBlur", true);
     }
     if (numToButtonId.get(`${step}`) && numToButtonId.get(`${step}`).includes("btnStoryPlots")) {
       await props.resetCamera();
@@ -466,7 +491,7 @@ const MainPage = (props) => {
       const button = numToButtonId.get(`${step}`);
       const id = button.charAt(button.length - 1);
       console.log(step, id);
-      document.getElementById("btnStoryPlots").click();
+      if (step == 25 || step == 27) document.getElementById("btnStoryPlots").click();
       if (id != "0") {
           const idd = Number(id);
           // document.getElementById("btnStoryPlots").click();
@@ -495,8 +520,12 @@ const MainPage = (props) => {
         id = Number(id); // Convert to number if it's purely numerical
       }
       var num_id = id;
-      if (id != 0 && id != 6) {
-
+      if (step == 3){
+        // console.log(step, id);
+        document.getElementById("btnUseCasesEnabled").click();
+      }
+      else if (id != 0) {
+        if (step == 4) document.getElementById("btnUseCasesEnabled").click();
         let useCase = null;
         usecases.forEach((uc) => {
           if ((uc.id) == id) {
@@ -558,48 +587,48 @@ const MainPage = (props) => {
 
         await rotateToTarget(scene, finalTarget, movingCamera, 1.2, linearAnimation, scene, finalTarget, movingCamera.position, finalPosition, 1, func, movingCamera, securityCamera, canvas);
       }
-      else if (id == 6){
-        setCurrentZoomedSection(id);
+      // else if (id == 6){
+      //   setCurrentZoomedSection(id);
 
-        await new Promise(resolve => setTimeout(resolve, 3500));
-        let useCase = null;
-        uctradeshow.forEach((uc) => {
-          if ((uc.id) == id) {
-            useCase = uc;
-          }
-        });
-        console.log(useCase);
-        const canvas = document.getElementsByClassName("main-canvas")[0];
-        console.log(useCase.position.x, useCase.position.y, useCase.position.z);
-        const pos = Vector3.Project(
-          new Vector3(useCase.position.x, useCase.position.y, useCase.position.z),
-          Matrix.Identity(), // world matrix
-          scene.getTransformMatrix(), // transform matrix
-          new Viewport(0, 0, canvas.width, canvas.height)
-        );
+      //   await new Promise(resolve => setTimeout(resolve, 3500));
+      //   let useCase = null;
+      //   uctradeshow.forEach((uc) => {
+      //     if ((uc.id) == id) {
+      //       useCase = uc;
+      //     }
+      //   });
+      //   console.log(useCase);
+      //   const canvas = document.getElementsByClassName("main-canvas")[0];
+      //   console.log(useCase.position.x, useCase.position.y, useCase.position.z);
+      //   const pos = Vector3.Project(
+      //     new Vector3(useCase.position.x, useCase.position.y, useCase.position.z),
+      //     Matrix.Identity(), // world matrix
+      //     scene.getTransformMatrix(), // transform matrix
+      //     new Viewport(0, 0, canvas.width, canvas.height)
+      //   );
 
-        var baseAPIUrl;
-        var address;
-        baseAPIUrl = `${BaseAPI}use_case_list/`;
-        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
+      //   var baseAPIUrl;
+      //   var address;
+      //   baseAPIUrl = `${BaseAPI}use_case_list/`;
+      //   address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
 
-        const response = await fetch(address); //fetch section data files for specific config id
-        const data = await response.json();
-        var short_label;
-        console.log(id, num_id);
-        data.use_case_list.forEach((uc) => {
-          if ((id) == uc.use_case_id) {
-            short_label = uc.short_label;
-          }
-        });
-        setUCTourId(num_id);
-        setHoverId(id);
-        setHoverLabel(short_label);
-        setGlobalState("clientXPosition1", pos.x);
-        setGlobalState("clientYPosition1", pos.y);
-        setGlobalState("UCTourId", num_id);
-        console.log(uCTourId, HoverId);
-      }
+      //   const response = await fetch(address); //fetch section data files for specific config id
+      //   const data = await response.json();
+      //   var short_label;
+      //   console.log(id, num_id);
+      //   data.use_case_list.forEach((uc) => {
+      //     if ((id) == uc.use_case_id) {
+      //       short_label = uc.short_label;
+      //     }
+      //   });
+      //   setUCTourId(num_id);
+      //   setHoverId(id);
+      //   setHoverLabel(short_label);
+      //   setGlobalState("clientXPosition1", pos.x);
+      //   setGlobalState("clientYPosition1", pos.y);
+      //   setGlobalState("UCTourId", num_id);
+      //   console.log(uCTourId, HoverId);
+      // }
   }
   const sound = new Howl({
     src: !packageApp ? `${assetsLocation}${ApplicationDB}/audio/gt/${step}.mp3` : `../../${ApplicationDB}/audio/gt/${step}.mp3`,
@@ -632,14 +661,14 @@ const MainPage = (props) => {
     // if (step == 12){
     //   console.log("step" , step);
     // }
-    console.log(uCTourId, HoverId);
+    // console.log(uCTourId, HoverId);
     sound.on("end", async function () {
       // if (step == 12){
       //   console.log("step" , step);
       // }
       setCurrentSound(null);
 
-      if (step == 16) {
+      if (step == 30) {
         // await document.getElementById("btnPartnerSolutions").click();
         // resetScreen();
         // handleClose();
@@ -649,12 +678,12 @@ const MainPage = (props) => {
         // playGuidedTour();
         return;
       }
-      else if (step == 4){
+      else if (step == 24){
         document.getElementById("btnStoryProcSolutions").click();
         ++step;
       playGuidedTour();
       }
-      else if (step == 15){
+      else if (step == 29){
         ++step;
       playGuidedTour();
       }
@@ -665,6 +694,14 @@ const MainPage = (props) => {
         setGlobalState("UCTourId", 0);
         ++step;
         playGuidedTour();
+      }
+      else if (numToButtonId.get(`${step + 1}`) && numToButtonId.get(`${step + 1}`).includes("btnIntroduction")) {
+        setTimeout(() => {
+          document.getElementById("btnIntroduction").click();
+          setGlobalState("IsBackgroundBlur", true);
+          setGlobalState("UcGuidedTour", step + 1);
+          // console.log(UcGuidedTour, HoverId);
+        }, 300);
       }
       else if (numToButtonId.get(`${step + 1}`).includes("btnStoryPlots")) {
         const button = numToButtonId.get(`${step + 1}`);
@@ -690,7 +727,7 @@ const MainPage = (props) => {
             // 		}
             // }, 1000);x
             console.log("SET");
-            setGlobalState("UcGuidedTour", 13);
+            setGlobalState("UcGuidedTour", step + 1);
             console.log(UcGuidedTour);
         }
     }
@@ -788,7 +825,8 @@ const MainPage = (props) => {
               setUseCaseMapping(false);
               handleButtonClick(buttonId);
               // setGlobalState("useCase", 1);
-              setGlobalState("IsTourOpen", false);
+              // setGlobalState("IsTourOpen", false);
+              setGlobalState("IsGuidedTourOpen", false);
               // handleUseCaseButtonClick("btnMyHostelStory");
               setGlobalState("IsButtonContainer", false);
               setGlobalState("IsHomeButtonClick", false);
@@ -816,7 +854,47 @@ const MainPage = (props) => {
         <div
           className={`${MainMenuIsButtons ? "toolbar" : "plain-toolbar"} `}
         >
-
+          <ToolbarButton  // Guided Tour button
+            buttonId="btnGuidedTour"
+            id="btnGuidedTour"
+            reset = {false}
+            selectedButton={selectedButton}
+            active={"btnGuidedTour" === selectedButton}
+            buttonName="Guided Tour"
+            handleButtonClick={async (buttonId, buttonName) => {
+              if (selectedButton === buttonId) {
+                // if same button clicked again, reset screen
+                resetScreen();
+                return;
+              }
+              if (isTourOpen == false){
+                setIsTourOpen(true);
+              }
+              else if (isTourOpen == true){
+                resetScreen();
+                setGlobalState("IsGuidedTourOpen", false);
+                return;
+              }
+              guidedTourOpen = true;
+              console.log(guidedTourOpen);
+              await setGuidedTourOpen(true);
+              handleButtonClick(buttonId);
+              startTransition(async () => {
+                await setGlobalState("IsGuidedTourOpen", true);
+              });
+              console.log("IsGuidedTourOpen", IsGuidedTourOpen, "guidedTourOpen", guidedTourOpen);
+              setGlobalState("IsBackgroundBlur", false);
+              setGlobalState("useCase", 0);
+              setGlobalState("HoverUseCaseId", 0);
+              step = 1;
+              playGuidedTour();
+            }}
+            handleMenuClick={() => { }}
+            MainMenuIsButtons={MainMenuIsButtons}
+          >
+            {isTourOpen? "End Tour": "Guided Tour"}
+          </ToolbarButton>
+          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
           <ToolbarButton
             buttonId="btnIntroduction"
             selectedButton={selectedButton}
@@ -827,21 +905,19 @@ const MainPage = (props) => {
               if (selectedButton === buttonId) {
                 // if same button clicked again, reset screen
                 resetScreen();
+                setGlobalState("playUCDirectly", false);
                 setUI_Element(null);
                 return;
               }
               setUseCaseMapping(false);
               handleButtonClick(buttonId);
               // setGlobalState("useCase", 1);
-              setGlobalState("IsTourOpen", false);
               // handleUseCaseButtonClick("btnMyHostelStory");
               setGlobalState("IsButtonContainer", false);
               setGlobalState("IsHomeButtonClick", false);
               setGlobalState("ApplicationDB", ApplicationDB);
               setGlobalState("playUCDirectly", true);
-              if (isTourOpen) {
-                props.resetCamera();
-              }
+
               Howler.stop();
               setSelectedButton(buttonId);
               try {
@@ -871,6 +947,7 @@ const MainPage = (props) => {
 
 
           {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
+          
           <ToolbarButton // Guided Tour button
             buttonId="btnBusinessNeeds" //1
             selectedButton={selectedButton}
@@ -889,7 +966,7 @@ const MainPage = (props) => {
               setGlobalState("IsBackgroundBlur", true);
               setGlobalState("useCase", 0);
               setGlobalState("HoverUseCaseId", 0);
-              setGlobalState("IsTourOpen", false);
+
 
               if (extraData[0][0] == null) {
                 const baseAPIUrl = `${BaseAPI}section/`;
@@ -930,7 +1007,6 @@ const MainPage = (props) => {
               setShowCardContainer(true);
               setUseCaseMapping(false);
               handleButtonClick(buttonId);
-              setGlobalState("IsTourOpen", false);
               setGlobalState("IsBackgroundBlur", false);
 
               if (extraData[7][0] == null) {
@@ -977,7 +1053,6 @@ const MainPage = (props) => {
               setGlobalState("IsBackgroundBlur", true);
               setGlobalState("useCase", 0);
               setGlobalState("HoverUseCaseId", 0);
-              setGlobalState("IsTourOpen", false);
 
               if (extraData[1][0] == null) {
                 const baseAPIUrl = `${BaseAPI}section/`;
@@ -1021,7 +1096,6 @@ const MainPage = (props) => {
               setGlobalState("IsBackgroundBlur", true);
               setGlobalState("useCase", 0);
               setGlobalState("HoverUseCaseId", 0);
-              setGlobalState("IsTourOpen", false);
 
               if (extraData[3][0] == null) {
                 const baseAPIUrl = `${BaseAPI}section/`;
@@ -1065,7 +1139,6 @@ const MainPage = (props) => {
               setUseCaseMapping(false);
               setGlobalState("useCase", 0);
               setGlobalState("HoverUseCaseId", 0);
-              setGlobalState("IsTourOpen", false);
               setGlobalState("solutionsId", "1");
               setSelectedButton("btnStoryProcSolutions");
               if (extraData[6][0] == null) {
@@ -1110,7 +1183,6 @@ const MainPage = (props) => {
               setShowCardContainer(true);
               setUseCaseMapping(false);
               handleButtonClick(buttonId);
-              setGlobalState("IsTourOpen", false);
               setGlobalState("IsBackgroundBlur", false);
 
               if (extraData[4][0] == null) {
@@ -1137,39 +1209,6 @@ const MainPage = (props) => {
             MainMenuIsButtons={MainMenuIsButtons}
           >
             Story Plots
-          </ToolbarButton>
-          {MainMenuIsButtons ? "" : <div className='plain-divider'></div>}
-          <ToolbarButton  // Guided Tour button
-            buttonId="btnGuidedTour"
-            id="btnGuidedTour"
-            reset = {false}
-            selectedButton={selectedButton}
-            active={"btnGuidedTour" === selectedButton}
-            buttonName="Guided Tour"
-            handleButtonClick={async (buttonId, buttonName) => {
-              if (selectedButton === buttonId) {
-                // if same button clicked again, reset screen
-                resetScreen();
-                return;
-              }
-              guidedTourOpen = true;
-              console.log(guidedTourOpen);
-              await setGuidedTourOpen(true);
-              handleButtonClick(buttonId);
-              startTransition(async () => {
-                await setGlobalState("IsGuidedTourOpen", true);
-              });
-              console.log("IsGuidedTourOpen", IsGuidedTourOpen, "guidedTourOpen", guidedTourOpen);
-              setGlobalState("IsBackgroundBlur", false);
-              setGlobalState("useCase", 0);
-              setGlobalState("HoverUseCaseId", 0);
-              step = 1;
-              playGuidedTour();
-            }}
-            handleMenuClick={() => { }}
-            MainMenuIsButtons={MainMenuIsButtons}
-          >
-            Guided Tour
           </ToolbarButton>
         </div>
       </div>

@@ -100,20 +100,6 @@ const Home = (props) => {
     spiralAnimation(scene, new Vector3(-0.762211, 2, 3.51571), scene.getCameraByName('camera-2').position, new Vector3(0.851, 2, 5.982), 1000, 1, (s) => { startAnimations(s) }, scene);
   };
 
-  let startTime = 0, endTime = 0;
-  useEffect(() => {
-    if (isTourOpen) {
-      startTime = performance.now();
-      handleTourStart();
-    }
-    if (!isTourOpen) {
-      endTime = performance.now();
-      InitializeGoogleAnalytics();
-      TrackGoogleAnalyticsTiming("Immersive Tour", "Tour track", endTime - startTime, "Story Process 3D");
-    }
-
-  }, [isTourOpen]);
-
   const loadModels = async (scene) => {
     setIsLoading(true);
     setGlobalState('IsLoading', true);
@@ -586,7 +572,7 @@ const Home = (props) => {
   const handleFetchSectionData = async () => {
     const baseAPIUrl = `${BaseAPI}section/`;
     // const id = buttonId.at(-1);
-    const address = !packageApp ? `${baseAPIUrl + 1}?db=${ApplicationDB}` : `../../${ApplicationDB}/section/8.json`; //address for fetching sectiondata
+    const address = !packageApp ? `${baseAPIUrl + 8}?db=${ApplicationDB}` : `../../${ApplicationDB}/section/8.json`; //address for fetching sectiondata
     const response = await fetch(address); //fetch section data files for specific config id
     const data = await response.json();
     setSectionData(data?.SectionData);
