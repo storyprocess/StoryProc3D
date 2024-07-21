@@ -74,6 +74,8 @@ const MainPage = (props) => {
   const [linkType, setLinkType] = useState(null);
   const [scene, setScene] = useGlobalState("scene");
   const [count, setCount] = useState(0);
+  const allHoverData = useRef([]);
+  const showAllHover = useRef([]);
 
   let alignItems = false;
 
@@ -411,6 +413,44 @@ const MainPage = (props) => {
   ]);
 
   var step = 1;
+  //added function
+  const generateAllBoxesData = async () => {
+    const promises = usecases.map(async (useCase) => {
+        const id = useCase.id;
+        const canvas = document.getElementsByClassName("main-canvas")[0];
+        const pos = Vector3.Project(
+            new Vector3(useCase.position.x, useCase.position.y, useCase.position.z),
+            Matrix.Identity(), // world matrix
+            scene.getTransformMatrix(), // transform matrix
+            new Viewport(0, 0, canvas.width, canvas.height)
+        );
+
+        var baseAPIUrl;
+        var address;
+        baseAPIUrl = `${BaseAPI}use_case_list/`;
+        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
+
+        const response = await fetch(address); // Fetch section data files for specific config id
+        const data = await response.json();
+
+        let short_label;
+        data.use_case_list.forEach((uc) => {
+            if (id === uc.use_case_id) {
+                short_label = uc.short_label;
+            }
+        });
+
+        return {
+            id: id,
+            label: short_label,
+            x: pos.x,
+            y: pos.y
+        };
+    });
+
+    const resolvedData = await Promise.all(promises);
+    return resolvedData;
+};
 
 
   useEffect(() => {
@@ -522,7 +562,12 @@ const MainPage = (props) => {
       var num_id = id;
       if (step == 3){
         // console.log(step, id);
+        const data = await generateAllBoxesData();
+        allHoverData.current = data;
         document.getElementById("btnUseCasesEnabled").click();
+        setGlobalState("IsTourOpen", true);
+        showAllHover.current = true;
+        console.log(showAllHover.current ,allHoverData.current);
       }
       else if (id != 0) {
         if (step == 4) document.getElementById("btnUseCasesEnabled").click();
@@ -666,6 +711,9 @@ const MainPage = (props) => {
       // if (step == 12){
       //   console.log("step" , step);
       // }
+      if (step == 3) {
+        showAllHover.current = false;
+      }
       setCurrentSound(null);
 
       if (step == 30) {
@@ -742,9 +790,21 @@ const MainPage = (props) => {
 
   return (
     <div>
-      <CSSTransition
-        in={HoverId > 0}
-        timeout={300} // Duration of the animation in milliseconds
+      {showAllHover.current
+        ? allHoverData.current.map((item) => (
+            <div style={{ top: item.y, left: item.x, position: 'absolute' }} className="hot-spot-subMenu">
+                <div>
+                    <div className="hover-label-text">{item.label}</div>
+                    <hr style={{ marginTop: "5%" }} className="card-divider"></hr>
+                </div>
+                <div className="button-group">
+                    <div className="learn-more" onClick={() => handlePlayStory()}>Learn More</div>
+                </div>
+            </div>
+        ))
+      :<CSSTransition
+        in={((HoverId) > 0)}
+        timeout={50} // Duration of the animation in milliseconds
         classNames="animationHover" // Your CSS class for animations
         unmountOnExit
         mountOnEnter
@@ -756,7 +816,7 @@ const MainPage = (props) => {
           </div>
           <div className="button-group" >
             {/* {(isTourOpen || useCase !== 0) ? "" :
-              (scene && scene.activeCamera.name.includes("security") == false && scene.activeCamera.name.includes("cr-camera") == false) ?
+              scene.activeCamera.name.includes("security") == false ?
                 <div className="zoom-in" onClick={() => setGlobalState("currentZoomedSection", HoverId)}>Zoom-in</div>
                 :
                 <div className="zoom-in" onClick={() => props.resetCamera()}>Zoom-out</div>
@@ -765,7 +825,7 @@ const MainPage = (props) => {
           </div>
         </div>
       </CSSTransition>
-
+      }
       <div style={{ display: 'flex' }}>
 
         <div className={`${MainMenuIsButtons ? "toolbar reset-toolbar" : "plain-reset-toolbar"} `} >
