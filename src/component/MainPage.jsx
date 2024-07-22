@@ -75,7 +75,7 @@ const MainPage = (props) => {
   const [scene, setScene] = useGlobalState("scene");
   const [count, setCount] = useState(0);
   const allHoverData = useRef([]);
-  const showAllHover = useRef([]);
+  const showAllHover = useRef(false);
 
   let alignItems = false;
 
