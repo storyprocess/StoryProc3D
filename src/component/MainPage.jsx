@@ -569,7 +569,7 @@ const MainPage = (props) => {
         showAllHover.current = true;
         console.log(showAllHover.current ,allHoverData.current);
       }
-      else if (id != 0) {
+      else if (id!==6) {
         if (step == 4) document.getElementById("btnUseCasesEnabled").click();
         let useCase = null;
         usecases.forEach((uc) => {
@@ -632,48 +632,111 @@ const MainPage = (props) => {
 
         await rotateToTarget(scene, finalTarget, movingCamera, 1.2, linearAnimation, scene, finalTarget, movingCamera.position, finalPosition, 1, func, movingCamera, securityCamera, canvas);
       }
-      // else if (id == 6){
-      //   setCurrentZoomedSection(id);
+      else if (id==6 && !scene.getMeshByName('tradeshow')) {
+        if (step == 4) document.getElementById("btnUseCasesEnabled").click();
+        let useCase = null;
+        usecases.forEach((uc) => {
+          if ((uc.id) == id) {
+            useCase = uc;
+          }
+        });
+        // setIsBoxVisible(true);
+        const canvas = document.getElementsByClassName("main-canvas")[0];
+        const movingCamera = scene.getCameraByName('camera-3');
+        const securityCamera = scene.getCameraByName(`security-camera-${id}`);
 
-      //   await new Promise(resolve => setTimeout(resolve, 3500));
-      //   let useCase = null;
-      //   uctradeshow.forEach((uc) => {
-      //     if ((uc.id) == id) {
-      //       useCase = uc;
-      //     }
-      //   });
-      //   console.log(useCase);
-      //   const canvas = document.getElementsByClassName("main-canvas")[0];
-      //   console.log(useCase.position.x, useCase.position.y, useCase.position.z);
-      //   const pos = Vector3.Project(
-      //     new Vector3(useCase.position.x, useCase.position.y, useCase.position.z),
-      //     Matrix.Identity(), // world matrix
-      //     scene.getTransformMatrix(), // transform matrix
-      //     new Viewport(0, 0, canvas.width, canvas.height)
-      //   );
+        const finalTarget = new Vector3(useCase.position.x, useCase.position.y, useCase.position.z);
+        const finalPosition = new Vector3(useCase.cameraPosition.x, useCase.cameraPosition.y, useCase.cameraPosition.z);
+        movingCamera.position.copyFrom(scene.activeCamera.position);
+        movingCamera.setTarget(scene.activeCamera.target.clone());
+        scene.activeCamera = movingCamera;
 
-      //   var baseAPIUrl;
-      //   var address;
-      //   baseAPIUrl = `${BaseAPI}use_case_list/`;
-      //   address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
+        const func = async (movingCamera, securityCamera, canvas) => {
+          movingCamera.lockedTarget = null;
+          securityCamera.setTarget(finalTarget);
+          securityCamera.setPosition(finalPosition);
+          // securityCamera.lowerRadiusLimit = 40;
+          // securityCamera.upperRadiusLimit = 70;
+          scene.activeCamera = securityCamera;
+          securityCamera.detachControl(canvas);
+          // securityCamera.attachControl(canvas, true);
 
-      //   const response = await fetch(address); //fetch section data files for specific config id
-      //   const data = await response.json();
-      //   var short_label;
-      //   console.log(id, num_id);
-      //   data.use_case_list.forEach((uc) => {
-      //     if ((id) == uc.use_case_id) {
-      //       short_label = uc.short_label;
-      //     }
-      //   });
-      //   setUCTourId(num_id);
-      //   setHoverId(id);
-      //   setHoverLabel(short_label);
-      //   setGlobalState("clientXPosition1", pos.x);
-      //   setGlobalState("clientYPosition1", pos.y);
-      //   setGlobalState("UCTourId", num_id);
-      //   console.log(uCTourId, HoverId);
-      // }
+          // setCurrentZoomedSection(0);
+
+          const pos = Vector3.Project(
+            new Vector3(useCase.position.x, useCase.position.y, useCase.position.z),
+            Matrix.Identity(), // world matrix
+            scene.getTransformMatrix(), // transform matrix
+            new Viewport(0, 0, canvas.width, canvas.height)
+          );
+
+          var baseAPIUrl;
+          var address;
+          baseAPIUrl = `${BaseAPI}use_case_list/`;
+          address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
+
+          const response = await fetch(address); //fetch section data files for specific config id
+          const data = await response.json();
+          var short_label;
+          console.log(id, num_id);
+          data.use_case_list.forEach((uc) => {
+            if ((id) == uc.use_case_id) {
+              short_label = uc.short_label;
+            }
+          });
+          setUCTourId(num_id);
+          setHoverId(id);
+          setHoverLabel(short_label);
+          setGlobalState("clientXPosition1", pos.x);
+          setGlobalState("clientYPosition1", pos.y);
+          setGlobalState("UCTourId", num_id);
+          console.log(uCTourId, HoverId);
+        };
+
+        await rotateToTarget(scene, finalTarget, movingCamera, 1.2, linearAnimation, scene, finalTarget, movingCamera.position, finalPosition, 1, func, movingCamera, securityCamera, canvas);
+      }
+      else if (id == 6){
+        setCurrentZoomedSection(id);
+
+        await new Promise(resolve => setTimeout(resolve, 3500));
+        let useCase = null;
+        uctradeshow.forEach((uc) => {
+          if ((uc.id) == id) {
+            useCase = uc;
+          }
+        });
+        console.log(useCase);
+        const canvas = document.getElementsByClassName("main-canvas")[0];
+        console.log(useCase.position.x, useCase.position.y, useCase.position.z);
+        const pos = Vector3.Project(
+          new Vector3(useCase.position.x, useCase.position.y, useCase.position.z),
+          Matrix.Identity(), // world matrix
+          scene.getTransformMatrix(), // transform matrix
+          new Viewport(0, 0, canvas.width, canvas.height)
+        );
+
+        var baseAPIUrl;
+        var address;
+        baseAPIUrl = `${BaseAPI}use_case_list/`;
+        address = !packageApp ? `${baseAPIUrl}?db=${ApplicationDB}` : `../../${ApplicationDB}/use_case_list.json`;
+
+        const response = await fetch(address); //fetch section data files for specific config id
+        const data = await response.json();
+        var short_label;
+        console.log(id, num_id);
+        data.use_case_list.forEach((uc) => {
+          if ((id) == uc.use_case_id) {
+            short_label = uc.short_label;
+          }
+        });
+        setUCTourId(num_id);
+        setHoverId(id);
+        setHoverLabel(short_label);
+        setGlobalState("clientXPosition1", pos.x);
+        setGlobalState("clientYPosition1", pos.y);
+        setGlobalState("UCTourId", num_id);
+        console.log(uCTourId, HoverId);
+      }
   }
   const sound = new Howl({
     src: !packageApp ? `${assetsLocation}${ApplicationDB}/audio/gt/${step}.mp3` : `../../${ApplicationDB}/audio/gt/${step}.mp3`,
