@@ -131,21 +131,21 @@ const MainPage = (props) => {
     resetScreen();
   };
   let WelcomeData = [
-    'Even great products need great storytelling',
-    'Tell your story with a CUSTOM 3D experience like this one',
+    'Enterprise sales is about great conversations',
+    'The ideal sales aid facilitates a fruitful conversation',
     'Experience it for yourself',
     'Explore use cases in context, such as your client office above',
     'Use "Reset" to go to the default view',
-    'Let’s see your sales storytelling in action in a client’s office'
+    'Let’s see the platform in action, how it helps start and nurture great conversations'
   ];
 
   let WelcomeData1 = [
-    'Our clients see higher sales, larger deals – even higher prices!',
-    'Create meaningful connections with clients. Engage, simplify, and grow sales.',
+    'Great Sales conversations lead to discovery of priorities and mutual value, align on approach, and build trust and confidence.',
+    'Conversations are non-linear, but presentation tools are linear. What would a great discussion enabler look like?',
     'All of the information and stories are organized and accessible from the menu.',
     'Select any use case to get a complete overview of the use case, its significance, and the solutions available to you.',
-    'Hit "Reset" anytime to stop any running story and come back to the top level view.',
-    'You can stop the tour anytime you like using the "stop tour" button on the bottom right.'
+    'Hit "Reset" anytime to stop any running story and come back to the top-level view.',
+    'Help client gain understanding and confidence, and help sales reps, including new hires, supplement their product knowledge.'
   ];
 
   useEffect(() => {
