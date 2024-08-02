@@ -30,6 +30,7 @@ import '@babylonjs/inspector'; // Injects a local ES6 version of the inspector t
 import { AdvancedDynamicTexture, Rectangle } from '@babylonjs/gui';
 import { startAnimations, moveCameraOnClose } from '../hooks/animations';
 import { setGlobalState, useGlobalState } from '../utils/state';
+import { setIsUseCaseStoryOpen, getIsUseCaseStoryOpen } from '../utils/state/globalRef.js';
 import { Howler } from 'howler';
 import { BaseAPI, ApplicationDB, assetsLocation, packageApp } from '../assets/assetsLocation';
 import { spiralAnimation, rotateToTarget, linearAnimation } from '../utils/libraries/CameraUtils';
@@ -65,6 +66,7 @@ const Home = (props) => {
   const [isTourOpen, setIsTourOpen] = useGlobalState('IsTourOpen');
   const [uCTourId, setUCTourId] = useGlobalState('UCTourId');
   const [sectionData, setSectionData] = useState();
+  const [isUseCaseStoryOpen, setisUseCaseStoryOpen] = useGlobalState("isUseCaseStoryOpen");
   const [count, setCount] = useState(0);
   const [isWelcome, setIsWelcome] = useState(true);
   const [currentZoomedSection, setCurrentZoomedSection] = useGlobalState("currentZoomedSection");
@@ -249,7 +251,7 @@ const Home = (props) => {
     document.addEventListener("mousemove", function (event) {
       MouseXPosition = event.clientX;
       MouseYPosition = event.clientY;
-      if (MouseXPosition > clientXPosition + width * 0.17 || MouseXPosition < clientXPosition - width * 0.02 || MouseYPosition < clientYPosition - height * 0.17 || MouseYPosition > clientYPosition + height * 0.02) {
+      if (!getIsUseCaseStoryOpen() && (MouseXPosition > clientXPosition + width * 0.17 || MouseXPosition < clientXPosition - width * 0.02 || MouseYPosition < clientYPosition - height * 0.17 || MouseYPosition > clientYPosition + height * 0.02)) {
         clientXPosition = -20;
         clientYPosition = -20;
         setGlobalState("HoverId", 0);
@@ -290,7 +292,9 @@ const Home = (props) => {
 
     container.onPointerOutObservable.add(() => {
       // setGlobalState("HoverLabel", "");
-      setGlobalState("HoverId", 0);
+      if (!getIsUseCaseStoryOpen()){
+        setGlobalState("HoverId", 0);
+      }
       // setGlobalState("clientXPosition1", -20);
       // setGlobalState("clientYPosition1", -20);
       // clientXPosition = -20
@@ -639,7 +643,7 @@ const Home = (props) => {
 				setGlobalState('IsLoading', false);
 				initialAnimation();
 				setTimeout(() => {
-					document.getElementById("tour").click()
+					document.getElementById("btnGuidedTour").click()
 				}, 2000);
 			}
 			setCount(count + 1);

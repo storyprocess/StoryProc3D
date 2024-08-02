@@ -23,6 +23,7 @@ import {
 } from '../models';
 import { gsap } from 'gsap';
 import { Howler, Howl } from "howler";
+import { setIsUseCaseStoryOpen, getIsUseCaseStoryOpen } from '../utils/state/globalRef.js';
 import "../utils/css/mainPage.css";
 import {
   BaseAPI,
@@ -104,24 +105,28 @@ const MainPage = (props) => {
     if (ui_Element == "welcome") {
       setUI_Element("");
     }
-    setGlobalState("IsBackgroundBlur", false);
-    setTourState(false);
-    setSelectedButton(null);
-    setShowCardContainer(false);
-    setGlobalState("useCase", 0);
-    setIsTourOpen(false);
-    setGlobalState("solutionsId", -1);
-    setGlobalState("HoverUseCaseId", 0);
-    setShowUC(false);
-    setGlobalState("showDC", false);
-    setGlobalState("showUC", false);
-    Howler.stop();
+    if (selectedButton) {
+      setGlobalState("IsBackgroundBlur", false);
+      setTourState(false);
+      setSelectedButton(null);
+      setShowCardContainer(false);
+      setGlobalState("useCase", 0);
+      setIsTourOpen(false);
+      setGlobalState("solutionsId", -1);
+      setGlobalState("HoverUseCaseId", 0);
+      setShowUC(false);
+      setGlobalState("showDC", false);
+      setGlobalState("showUC", false);
+      Howler.stop();
+    }
   };
+  
   const handleNext = () => {
     startTransition(() => {
       if (count == 5) {
         handleSkip();
-        handleTourButtonClick("tour");
+        // handleTourButtonClick("tour");
+        document.getElementById("btnGuidedTour").click();
       }
       setCount(count + 1);
     });
@@ -363,7 +368,9 @@ const MainPage = (props) => {
     setTimeout(() => {
       setIsResetClick(false)
     }, 1000);
+    resetLights(scene);
     setTourState(false);
+    setIsUseCaseStoryOpen(false);
     setSelectedButton(null);
     setShowCardContainer(false);
     setGlobalState("solutionsId", -1);
@@ -455,7 +462,7 @@ const MainPage = (props) => {
 
   useEffect(() => {
     console.log(UcGuidedTour, guidedTourOpen, IsGuidedTourOpen);
-    if (UcGuidedTour > 1 && IsGuidedTourOpen == true) {
+    if (UcGuidedTour > step+1 && IsGuidedTourOpen == true) {
       setTimeout(() => {
         step = UcGuidedTour;
         console.log("useEffect", step, UcGuidedTour);
@@ -532,25 +539,25 @@ const MainPage = (props) => {
       const id = button.charAt(button.length - 1);
       console.log(step, id);
       if (step == 25 || step == 27) document.getElementById("btnStoryPlots").click();
-      if (id != "0") {
-          const idd = Number(id);
-          // document.getElementById("btnStoryPlots").click();
-          setTimeout(() => {
-              try {
-                  document.getElementsByClassName("MuiButtonBase-root")[idd - 1].click();
-                  setGlobalState("IsBackgroundBlur", true);
-              } catch (error) {
-                  document.getElementById("btnStoryPlots").click();
-                  console.log(step, idd);
-                  setTimeout(() => {
-                      document.getElementsByClassName("MuiButtonBase-root")[idd - 1].click();
-                      setGlobalState("IsBackgroundBlur", true);
-                  }, 400);
-              }
-          }, 1000);
-          // if(id == "3") props.resetCamera();
-          return;
-      }
+      // if (id != "0") {
+      //     const idd = Number(id);
+      //     // document.getElementById("btnStoryPlots").click();
+      //     setTimeout(() => {
+      //         try {
+      //             document.getElementsByClassName("MuiButtonBase-root")[idd - 1].click();
+      //             setGlobalState("IsBackgroundBlur", true);
+      //         } catch (error) {
+      //             document.getElementById("btnStoryPlots").click();
+      //             console.log(step, idd);
+      //             setTimeout(() => {
+      //                 document.getElementsByClassName("MuiButtonBase-root")[idd - 1].click();
+      //                 setGlobalState("IsBackgroundBlur", true);
+      //             }, 400);
+      //         }
+      //     }, 1000);
+      //     // if(id == "3") props.resetCamera();
+      //     return;
+      // }
   }
     if (numToButtonId.get(`${step}`) && numToButtonId.get(`${step}`).includes("btnUseCasesEnabled")) {
       const button = numToButtonId.get(`${step}`);
@@ -825,7 +832,7 @@ const MainPage = (props) => {
         }
         else if (id != "0") {
             const idd = Number(id);
-            document.getElementsByClassName("MuiButtonBase-root")[0].click();
+            document.getElementsByClassName("MuiButtonBase-root")[idd-1].click();
             // setTimeout(() => {
             // 		try {
             // 				document.getElementsByClassName("MuiButtonBase-root")[idd - 1].click();
@@ -838,6 +845,7 @@ const MainPage = (props) => {
             // 		}
             // }, 1000);x
             console.log("SET");
+            console.log(step)
             setGlobalState("UcGuidedTour", step + 1);
             console.log(UcGuidedTour);
         }
